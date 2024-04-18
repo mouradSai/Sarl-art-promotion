@@ -3,7 +3,7 @@ function App() {
   return (
     <div className="App">
         <BrowserRouter>
-        <h1>HITLER</h1>
+        <h1>its a joke</h1>
         </BrowserRouter>
     </div>
   );
