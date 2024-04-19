@@ -1,5 +1,5 @@
 import {useState} from "react";
-import styles from "./styles.module.css";
+import './App.css'
 import Header from 	"./Header"
 import Home from 	"./Home"
 import Sidebar from  "./Sidebar"
