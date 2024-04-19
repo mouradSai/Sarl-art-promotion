@@ -1,11 +1,33 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-const slientSchema =mongoose.Schema(
-{
-    
-}
-);
-
-export const provider = mongoose.model('provider', {
-
+const providerSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    address: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    number: {
+        type: Number, 
+        required: true,
+    },
+    comment: {
+        type: String,
+        required: false,
+    },
+    IsActive: {
+        type: Boolean, // Changed 'boolean' to 'Boolean'
+        required: false,
+    },
+}, {
+    timestamps: true,
 });
+
+const Provider = mongoose.model('provider', providerSchema);
+module.exports = Provider;
