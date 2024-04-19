@@ -18,7 +18,7 @@ const Main = () => {
     return (
         <div className={"main_container"}>
             <nav className={"navbar"}>
-                <h1>fakebook</h1>
+                <h1>fakebookabc</h1>
                 <button className={"white_btn"} onClick={handleLogout}> logout</button>
             </nav>
 
