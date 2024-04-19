@@ -1,0 +1,11 @@
+const mongoose = require('mongoose');
+
+const OrderSchema = mongoose.Schema({
+  Identifier: { type: String, required: true },
+  Description: { type: String, required: false },
+  ProviderID: [{ type: Schema.Types.ObjectId, ref: 'Provider' }],
+  Comment:{ type: String, required: false },
+  Date: { type: Date, required: true },
+});
+
+module.exports = mongoose.model('Order', OrderSchema);

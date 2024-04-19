@@ -1,0 +1,14 @@
+const mongoose = require('mongoose');
+
+const LotSchema = mongoose.Schema({
+  LotCode: { type: String, required: true },
+  ItemID: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
+  OrderID: [{ type: Schema.Types.ObjectId, ref: 'Order' }],
+  LocationID: [{ type: Schema.Types.ObjectId, ref: 'Location' }],
+  Description: { type: String, required: false },
+  Comment:{ type: String, required: false },
+  Quantity :{ type: Number, required: false },
+  ExpiryDate: { type: Date, required: true },
+});
+
+module.exports = mongoose.model('Lot', LotSchema);

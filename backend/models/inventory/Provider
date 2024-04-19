@@ -1,0 +1,12 @@
+const mongoose = require('mongoose');
+
+const ProviderSchema = mongoose.Schema({
+  Name: { type: String, required: true },
+  Description: { type: String, required: false },
+  Adresse: { type: String, required: true },
+  PhoneNumber: { type: String, required: true },
+  Comment:{ type: String, required: false },
+  IsActive:{ type: Boolean, required: true },
+});
+
+module.exports = mongoose.model('Provider', ProviderSchema);
