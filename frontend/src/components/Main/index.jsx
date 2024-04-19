@@ -1,5 +1,8 @@
+import {useState} from "react";
 import styles from "./styles.module.css";
 import Header from 	"./Header"
+import Home from 	"./Home"
+import Sidebar from  "./Sidebar"
 
 
 const Main = () => {
@@ -16,7 +19,9 @@ const Main = () => {
 			</nav>
 
 			<div className="grid-container">
-
+				<Header/>
+				<Sidebar/>
+				<Home/>
 
 			</div>
 
