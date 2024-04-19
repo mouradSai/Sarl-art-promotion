@@ -1,19 +1,6 @@
-import React, { useState } from 'react'; // Importez useState de React
-import "./App.css";
-import Header from 	"./Header"
-import Sidebar from "./Sidebar";
-import Home from "./Home";
+import React from 'react'
 
-
-
-
-
-const Main = () => {
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        window.location.reload();
-    };
-
+function index() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
     const [selectedContent, setSelectedContent] = useState("home"); // État pour stocker le contenu sélectionné
@@ -26,24 +13,18 @@ const Main = () => {
         setSelectedContent(content); // Mettre à jour le contenu sélectionné
     };
 
+  return (
 
-    return (
-        <div className={"main_container"}>
-            
 
+        <div className={"main_container"}>          
             <div className="grid-container">
                 <Header OpenSidebar={OpenSidebar}/>
                 <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
-                <Home/>
+                <h1>Page Fournisseurs</h1>
             </div>
         </div>
-    );
-};
 
-export default Main;
+  )
+}
 
-
-
-
-
-
+export default index
