@@ -8,8 +8,8 @@ const providersRoute = require ("./routes/providersRoute");
 const express = require("express");
 const cors = require("cors");
 const app = express();
-
 app.use(express.json());
+
 
 app.get('/', (req, res) => {
     console.log(req)
@@ -21,7 +21,11 @@ app.use('/providers', providersRoute);
 connection();
 
 // middlewares
-app.use(cors());
+app.use(cors({
+    origin:'http://localhost:3000',
+    methods:['GET','POST','PUT','DELETE'],
+    allowedHeaders:['Content-Type'],
+}));
 
 
 // routes
