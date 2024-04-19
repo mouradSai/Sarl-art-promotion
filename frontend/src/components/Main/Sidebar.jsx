@@ -22,22 +22,22 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
             </li>
             <li className='sidebar-list-item'>
                 <a href="">
-                    <BsFillArchiveFill className='icon'/> Products
+                    <BsFillArchiveFill className='icon'/> Produits
                 </a>
             </li>
             <li className='sidebar-list-item'>
                 <a href="">
-                    <BsFillGrid3X3GapFill className='icon'/> Categories
+                    <BsFillGrid3X3GapFill className='icon'/> Fournisseurs
                 </a>
             </li>
             <li className='sidebar-list-item'>
                 <a href="">
-                    <BsPeopleFill className='icon'/> Customers
+                    <BsPeopleFill className='icon'/> Clients
                 </a>
             </li>
             <li className='sidebar-list-item'>
                 <a href="">
-                    <BsListCheck className='icon'/> Inventory
+                    <BsListCheck className='icon'/> Inventaires
                 </a>
             </li>
             <li className='sidebar-list-item'>
@@ -45,11 +45,7 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
                     <BsMenuButtonWideFill className='icon'/> Reports
                 </a>
             </li>
-            <li className='sidebar-list-item'>
-                <a href="">
-                    <BsFillGearFill className='icon'/> Setting
-                </a>
-            </li>
+
         </ul>
     </aside>
   )
