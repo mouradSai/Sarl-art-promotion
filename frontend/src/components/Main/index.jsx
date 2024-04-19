@@ -11,7 +11,6 @@ const Main = () => {
 			<nav className={styles.navbar}>
 				<h1>fakebook</h1>
 				<button className={styles.white_btn} onClick={handleLogout}>
-					Logout
 				</button>
 			</nav>
 		</div>
