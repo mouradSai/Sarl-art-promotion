@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; // Importez useState de React
-import styles from "./App.css";
+import "./App.css";
 import Header from 	"./Header"
 import Sidebar from "./Sidebar";
 import Home from "./Home";
