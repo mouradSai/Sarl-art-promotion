@@ -22,7 +22,7 @@ const providerSchema = mongoose.Schema({
         required: false,
     },
     IsActive: {
-        type: Boolean, // Changed 'boolean' to 'Boolean'
+        type: Boolean, 
         required: false,
     },
 }, {

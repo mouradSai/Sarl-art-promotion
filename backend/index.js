@@ -2,7 +2,6 @@ require("dotenv").config();
 const connection = require("./db");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
-const Provider = require ("./models/provider");
 const providersRoute = require ("./routes/providersRoute");
 
 const express = require("express");
@@ -16,7 +15,6 @@ app.get('/', (req, res) => {
     return res.status(234).send('bonjour ')
 });
 
-app.use('/providers', providersRoute);
 // database connection
 connection();
 
@@ -29,6 +27,7 @@ app.use(cors({
 
 
 // routes
+app.use('/providers', providersRoute);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 

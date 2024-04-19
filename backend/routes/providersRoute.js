@@ -50,7 +50,7 @@ router.get('/' , async (request ,response) =>{
 });
 
 
-//Route for get all providers from database
+//Route for get provider from database
 router.get('/:id' , async (request ,response) =>{
     try {
         const {id} =request.params;
