@@ -1,9 +1,12 @@
 import React from 'react'
-
 import 
- {BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify}
- from 'react-icons/bs'
-
+ { BsSearch, BsJustify}
+ from 'react-icons/bs';
+ import { CiLogout } from "react-icons/ci";
+ const handleLogout = () => {
+  localStorage.removeItem("token");
+  window.location.reload();
+};
 function Header({OpenSidebar}) {
   return (
     <header className='header'>
@@ -14,9 +17,10 @@ function Header({OpenSidebar}) {
             <BsSearch  className='icon'/>
         </div>
         <div className='header-right'>
-            <BsFillBellFill className='icon'/>
-            <BsFillEnvelopeFill className='icon'/>
-            <BsPersonCircle className='icon'/>
+
+            
+            <button className={"white_btn"} onClick={handleLogout}> <CiLogout className='icon'/>logout</button>
+
         </div>
     </header>
   )
