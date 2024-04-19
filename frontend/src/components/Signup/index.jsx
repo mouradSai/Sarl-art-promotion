@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import logo from '../../assets/logo.png';
 
 const Signup = () => {
 	const [data, setData] = useState({
@@ -39,6 +40,7 @@ const Signup = () => {
 		<div className={styles.signup_container}>
 			<div className={styles.signup_form_container}>
 				<div className={styles.left}>
+
 					<h1>Bienvenue</h1>
 					<Link to="/login">
 						<button type="button" className={styles.white_btn}>
@@ -48,6 +50,8 @@ const Signup = () => {
 				</div>
 				<div className={styles.right}>
 					<form className={styles.form_container} onSubmit={handleSubmit}>
+					<img src={logo} alt="Logo" className={styles.logo} />
+
 						<h1>Créer un compte</h1>
 						<input
 							type="text"
