@@ -9,7 +9,7 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive": ""}>
         <div className='sidebar-title'>
             <div className='sidebar-brand'>
-                <BsCart3  className='icon_header'/> SHOP
+                <BsCart3  className='icon_header'/> Sarl Art Promotion
             </div>
             <span className='icon close_icon' onClick={OpenSidebar}>X</span>
         </div>
