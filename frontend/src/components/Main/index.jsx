@@ -2,7 +2,7 @@ import React, { useState } from 'react'; // Importez useState de React
 import "./App.css";
 import Header from 	"./Header"
 import Sidebar from "./Sidebar";
-import Home from "./Home";
+import Home from './Home';
 
 
 
