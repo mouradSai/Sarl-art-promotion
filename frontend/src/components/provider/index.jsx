@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react'; // Importez useState de React
 import ReactDOM from 'react-dom';
 import CRUDTable, { Fields, Field, CreateForm, UpdateForm, DeleteForm } from 'react-crud-table';
 import "./Appprovider.css"
+
+
+import Header from 	"../Main/Header"
+import Sidebar from "../Main/Sidebar";
+
 
 // Fonction pour le rendu de la zone de texte
 const DescriptionRenderer = ({ field }) => <textarea {...field} />;
@@ -90,8 +95,32 @@ const styles = {
   container: { margin: 'auto', width: 'fit-content' },
 };
 
+
+
+
+
+
+const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+
+const [selectedContent, setSelectedContent] = useState("home"); // État pour stocker le contenu sélectionné
+
+const OpenSidebar = () => {
+    setOpenSidebarToggle(!openSidebarToggle);
+};
+
+const handleSidebarItemClick = (content) => {
+    setSelectedContent(content); // Mettre à jour le contenu sélectionné
+};
+
+
+
+
 const Provider = () => (
   <div style={styles.container}>
+
+    <Header OpenSidebar={OpenSidebar}/>
+    <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
+
     <CRUDTable
       caption="Providers"
       fetchItems={payload => service.fetchItems(payload)}

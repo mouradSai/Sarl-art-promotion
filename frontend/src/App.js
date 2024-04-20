@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Main from "./components/Main";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import Provider from "./components/provider/provider";
+import Provider from "./components/Provider";
 function App() {
 	const user = localStorage.getItem("token");
 
@@ -12,7 +12,7 @@ function App() {
 			<Route path="/signup" exact element={<Signup />} />
 			<Route path="/login" exact element={<Login />} />
 			<Route path="/" element={<Navigate replace to="/login" />} />
-			<Route path="/provider" element={<Provider />}/>
+			<Route path="/Provider" element={<Provider />}/>
 
 		</Routes>
 	);
