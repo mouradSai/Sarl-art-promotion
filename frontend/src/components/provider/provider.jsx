@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import CRUDTable, { Fields, Field, CreateForm, UpdateForm, DeleteForm } from 'react-crud-table';
 import "./Appprovider.css"
 
+
+
 // Fonction pour le rendu de la zone de texte
 const DescriptionRenderer = ({ field }) => <textarea {...field} />;
 
@@ -92,6 +94,7 @@ const styles = {
 
 const Provider = () => (
   <div style={styles.container}>
+
     <CRUDTable
       caption="Providers"
       fetchItems={payload => service.fetchItems(payload)}
@@ -200,7 +203,7 @@ const Provider = () => (
 );
 
 ReactDOM.render(
-  <Provider />,
+  <Provider/>,
   document.getElementById('root')
 );
 
