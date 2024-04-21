@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Appprovider.css';
 
 function Provider() {
     const [providers, setProviders] = useState([]);
@@ -40,24 +41,24 @@ function Provider() {
         event.preventDefault();
         // Vérification que tous les champs obligatoires sont remplis
         if (!formData.name || !formData.address || !formData.description || !formData.number || !formData.comment) {
-            setResponseMessage('Please fill in all required fields.');
+            alert('Please fill in all required fields.');
             return;
         }
         try {
             const response = await axios.post('http://localhost:8080/providers', formData);
             if (response.status === 201) {
-                setResponseMessage('Provider added successfully.');
+                alert('Provider added successfully.');
                 fetchProviders();
                 resetFormData();
             } else {
-                setResponseMessage(response.data.message || 'An error occurred.');
+                alert(response.data.message || 'An error occurred.');
             }
         } catch (error) {
             console.error('Error:', error);
             if (error.response) {
-                setResponseMessage(error.response.data.message || 'An error occurred.');
+                alert(error.response.data.message || 'An error occurred.');
             } else {
-                setResponseMessage('An error occurred. Please try again later.');
+                alert('An error occurred. Please try again later.');
             }
         }
     };
@@ -66,14 +67,14 @@ function Provider() {
         try {
             const response = await axios.delete(`http://localhost:8080/providers/${id}`);
             if (response.status === 200) {
-                setResponseMessage('Provider deleted successfully.');
+                alert('Provider deleted successfully.');
                 fetchProviders();
             } else {
-                setResponseMessage(response.data.message);
+                alert(response.data.message);
             }
         } catch (error) {
             console.error('Error:', error);
-            setResponseMessage('An error occurred. Please try again later.');
+            alert('An error occurred. Please try again later.');
         }
     };
 
@@ -84,23 +85,22 @@ function Provider() {
     };
 
     const handleEditSubmit = async (event) => {
-      event.preventDefault();
-      try {
-          const response = await axios.put(`http://localhost:8080/providers/${editProviderId}`, formData);
-          if (response.status && response.status === 200) {
-              setResponseMessage('Provider updated successfully.');
-              fetchProviders();
-              setEditProviderId('');
-              resetFormData();
-          } else {
-              setResponseMessage(response.data.message || 'An error occurred.');
-          }
-      } catch (error) {
-          console.error('Error:', error);
-          setResponseMessage('An error occurred. Please try again later.');
-      }
-  };
-  
+        event.preventDefault();
+        try {
+            const response = await axios.put(`http://localhost:8080/providers/${editProviderId}`, formData);
+            if (response.status && response.status === 200) {
+                alert('Provider updated successfully.');
+                fetchProviders();
+                setEditProviderId('');
+                resetFormData();
+            } else {
+                alert(response.data.message || 'An error occurred.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        }
+    };
 
     const resetFormData = () => {
         setFormData({
