@@ -4,6 +4,7 @@ import './Appprovider.css';
 import Sidebar from '../Main/Sidebar';
 
 
+
 function App() {
     const [providers, setProviders] = useState([]);
     const [formData, setFormData] = useState({
@@ -14,9 +15,9 @@ function App() {
         comment: '',
         isActive: true
     });
-    const [responseMessage, setResponseMessage] = useState('');
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [editProviderId, setEditProviderId] = useState('');
+    const [selectedProvider, setSelectedProvider] = useState(null);
 
     useEffect(() => {
         fetchProviders();
@@ -28,6 +29,7 @@ function App() {
             setProviders(response.data.data);
         } catch (error) {
             console.error('Error:', error);
+            showAlert('An error occurred while fetching providers. Please try again later.');
         }
     };
 
@@ -43,24 +45,25 @@ function App() {
         event.preventDefault();
         // Vérification que tous les champs obligatoires sont remplis
         if (!formData.name || !formData.address || !formData.description || !formData.number || !formData.comment) {
-            alert('Please fill in all required fields.');
+            showAlert('Please fill in all required fields.');
             return;
         }
         try {
             const response = await axios.post('http://localhost:8080/providers', formData);
             if (response.status === 201) {
-                alert('Provider added successfully.');
+                showAlert('Provider added successfully.');
                 fetchProviders();
                 resetFormData();
+                setShowCreateForm(false);
             } else {
-                alert(response.data.message || 'An error occurred.');
+                showAlert(response.data.message || 'An error occurred.');
             }
         } catch (error) {
             console.error('Error:', error);
             if (error.response) {
-                alert(error.response.data.message || 'An error occurred.');
+                showAlert(error.response.data.message || 'An error occurred.');
             } else {
-                alert('An error occurred. Please try again later.');
+                showAlert('An error occurred. Please try again later.');
             }
         }
     };
@@ -69,21 +72,25 @@ function App() {
         try {
             const response = await axios.delete(`http://localhost:8080/providers/${id}`);
             if (response.status === 200) {
-                alert('Provider deleted successfully.');
+                showAlert('Provider deleted successfully.');
                 fetchProviders();
             } else {
-                alert(response.data.message);
+                showAlert(response.data.message || 'An error occurred while deleting provider.');
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred. Please try again later.');
+            showAlert('An error occurred. Please try again later.');
         }
     };
 
     const handleEdit = (provider) => {
-        setShowCreateForm(false);
         setEditProviderId(provider._id);
         setFormData({ ...provider });
+        setShowCreateForm(true);
+    };
+
+    const handleView = (provider) => {
+        setSelectedProvider(provider);
     };
 
     const handleEditSubmit = async (event) => {
@@ -91,16 +98,17 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/providers/${editProviderId}`, formData);
             if (response.status && response.status === 200) {
-                alert('Provider updated successfully.');
+                showAlert('Provider updated successfully.');
                 fetchProviders();
                 setEditProviderId('');
                 resetFormData();
+                setShowCreateForm(false);
             } else {
-                alert(response.data.message || 'An error occurred.');
+                showAlert(response.data.message || 'An error occurred while updating provider.');
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred. Please try again later.');
+            showAlert('An error occurred. Please try again later.');
         }
     };
 
@@ -115,77 +123,99 @@ function App() {
         });
     };
 
+    const showAlert = (message) => {
+        alert(message);
+    };
+
     return (
+
         <div className="grid-container">
-                       
-            <Sidebar />
+                             <Sidebar />
+        <div className="container">
+
             <h1>Providers</h1>
-            {!showCreateForm && (
-                <div>
-                    <h2>Add New Provider</h2>
-                    <button onClick={() => setShowCreateForm(true)}>Create</button>
-                </div>
-            )}
+            <div className="actions">
+                <button onClick={() => setShowCreateForm(true)}>Create</button>
+            </div>
             {showCreateForm && (
-                <div>
-                    <h2>Create New Provider</h2>
-                    <form onSubmit={handleSubmit}>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                        <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
-                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                        <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
-                        <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
-                        <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
-
-                        <button type="submit">Save</button>
-                    </form>
-                    <button onClick={() => setShowCreateForm(false)}>Cancel</button>
+                <div className="popup">
+                    <div className="popup-content">
+                        <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
+                        <h2>Create New Provider</h2>
+                        <form onSubmit={handleSubmit}>
+                            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+                            <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+                            <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
+                            <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
+                            <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
+                            <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
+                            <button type="submit">Save</button>
+                            <button onClick={() => setShowCreateForm(false)}>Cancel</button>
+                        </form>
+                    </div>
                 </div>
             )}
-            {responseMessage && <div>{responseMessage}</div>}
-            <h2>Providers List</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Description</th>
-                        <th>Number</th>
-                        <th>Comment</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {providers.map(provider => (
-                        <tr key={provider._id}>
-                            <td>{provider.name}</td>
-                            <td>{provider.address}</td>
-                            <td>{provider.description}</td>
-                            <td>{provider.number}</td>
-                            <td>{provider.comment}</td>
-                            <td>
-                                <button onClick={() => handleEdit(provider)}>Edit</button>
-                                <button onClick={() => handleDelete(provider._id)}>Delete</button>
-                            </td>
+            {providers.length > 0 && (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Description</th>
+                            <th>Number</th>
+                            <th>Action</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            {editProviderId && (
-                <div>
-                    <h2>Edit Provider</h2>
-                    <form onSubmit={handleEditSubmit}>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                        <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
-                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                        <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
-                        <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
-                        <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
-
-                        <button type="submit">Save</button>
-                    </form>
+                    </thead>
+                    <tbody>
+                        {providers.map(provider => (
+                            <tr key={provider._id}>
+                                <td>{provider.name}</td>
+                                <td>{provider.address}</td>
+                                <td>{provider.description}</td>
+                                <td>{provider.number}</td>
+                                <td>
+                                    <button onClick={() => handleView(provider)}>View</button>
+                                    <button onClick={() => handleEdit(provider)}>Edit</button>
+                                    <button onClick={() => handleDelete(provider._id)}>Delete</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+            {selectedProvider && (
+                <div className="popup">
+                    <div className="popup-content">
+                        <span className="close-button" onClick={() => setSelectedProvider(null)}>&times;</span>
+                        <h2>Provider Details</h2>
+                        <p>Name: {selectedProvider.name}</p>
+                        <p>Address: {selectedProvider.address}</p>
+                        <p>Description: {selectedProvider.description}</p>
+                        <p>Number: {selectedProvider.number}</p>
+                        <p>Comment: {selectedProvider.comment}</p>
+                        <button onClick={() => setSelectedProvider(null)}>Cancel</button>
+                    </div>
                 </div>
             )}
+            {editProviderId && (
+                <div className="popup">
+                    <div className="popup-content">
+                        <span className="close-button" onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>&times;</span>
+                        <h2>Edit Provider</h2>
+                        <form onSubmit={handleEditSubmit}>
+                            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+                            <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+                            <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
+                            <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
+                            <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
+                            <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
+                            <button type="submit">Save</button>
+                            <button onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
         </div>
     );
 }
