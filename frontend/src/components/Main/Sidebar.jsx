@@ -20,22 +20,22 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
 
         <ul className='sidebar-list'>
             <li className='sidebar-list-item'>
-                <Link to = "">
+                <Link to = "/">
                     <BsGrid1X2Fill className='icon'/> Accueil
                 </Link >
             </li>
             <li className='sidebar-list-item'>
-                    <Link to = "./Products">
+                    <Link to = "/Products">
                         <BsFillArchiveFill className='icon' /> Produits
                     </Link >
                 </li>
             <li className='sidebar-list-item'>
-                <Link to = "./Provider">
+                <Link to = "/Provider">
                     <BsFillGrid3X3GapFill className='icon'/> Fournisseurs
                 </Link >
             </li>
             <li className='sidebar-list-item'>
-                <Link to = "./Customers">
+                <Link to = "/Customers">
                     <BsPeopleFill className='icon'/> Clients
                 </Link > 
             </li>

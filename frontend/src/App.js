@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import { useState } from "react";
 import Provider from "./components/Provider"
 import Customers from "./components/Customers";
+import Products from "./components/Products";
 
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
 			<Route path="/" element={<Navigate replace to="/login" />} />
 			<Route path="/Provider" element={<Provider />}/>
 			<Route path="/Customers" element={<Customers />}/>
+			<Route path="/Products" element={<Products />}/>
+
 
 		</Routes>
 	);
