@@ -3,7 +3,7 @@ import Main from "./components/Main";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { useState } from "react";
-import Provider from "./components/Provider";
+import Provider from "./components/Provider"
 import Customers from "./components/Customers";
 
 
