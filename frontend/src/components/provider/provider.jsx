@@ -12,7 +12,8 @@ function App() {
         isActive: true
     });
     const [responseMessage, setResponseMessage] = useState('');
-    const [showForm, setShowForm] = useState(false);
+    const [showCreateForm, setShowCreateForm] = useState(false);
+    const [editProviderId, setEditProviderId] = useState('');
 
     useEffect(() => {
         fetchProviders();
@@ -36,28 +37,27 @@ function App() {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8080/providers', formData);
-            if (response.status === 201) {
-                setResponseMessage('Provider added successfully.');
-                fetchProviders();
-                setFormData({
-                    name: '',
-                    address: '',
-                    description: '',
-                    number: '',
-                    comment: '',
-                    isActive: true
-                });
-            } else {
-                setResponseMessage(response.data.message);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            setResponseMessage('An error occurred. Please try again later.');
-        }
-    };
+      event.preventDefault();
+      try {
+          const response = await axios.post('http://localhost:8080/providers', formData);
+          if (response.status === 201) {
+              setResponseMessage('Provider added successfully.');
+              fetchProviders();
+              resetFormData();
+          } else {
+              setResponseMessage(response.data.message || 'An error occurred.');
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          if (error.response) {
+              setResponseMessage(error.response.data.message || 'An error occurred.');
+          } else {
+              setResponseMessage('An error occurred. Please try again later.');
+          }
+      }
+  };
+  
+  
 
     const handleDelete = async (id) => {
         try {
@@ -75,25 +75,64 @@ function App() {
     };
 
     const handleEdit = (provider) => {
-        setFormData(provider);
+        setShowCreateForm(false);
+        setEditProviderId(provider._id);
+        setFormData({ ...provider });
+    };
+
+    const handleEditSubmit = async (event) => {
+      event.preventDefault();
+      try {
+          const response = await axios.put(`http://localhost:8080/providers/${editProviderId}`, formData);
+          if (response.status === 200) {
+              setResponseMessage('Provider updated successfully.');
+              fetchProviders();
+              setEditProviderId('');
+              resetFormData();
+          } else {
+              setResponseMessage(response.data.message);
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          setResponseMessage('An error occurred. Please try again later.');
+      }
+  };
+  
+
+    const resetFormData = () => {
+        setFormData({
+            name: '',
+            address: '',
+            description: '',
+            number: '',
+            comment: '',
+            isActive: true
+        });
     };
 
     return (
         <div>
             <h1>Providers</h1>
-            {!showForm && (
+            {!showCreateForm && (
                 <div>
                     <h2>Add New Provider</h2>
-                    <button onClick={() => setShowForm(true)}>Create</button>
+                    <button onClick={() => setShowCreateForm(true)}>Create</button>
                 </div>
             )}
-            {showForm && (
+            {showCreateForm && (
                 <div>
                     <h2>Create New Provider</h2>
                     <form onSubmit={handleSubmit}>
-                        {/* Form inputs here */}
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+                        <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
+                        <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
+                        <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
+                        <input type="boolean" name="isActive" value={formData.isActive} onChange={handleChange} placeholder="isActive" />
+
+                        <button type="submit">Save</button>
                     </form>
-                    <button onClick={() => setShowForm(false)}>Cancel</button>
+                    <button onClick={() => setShowCreateForm(false)}>Cancel</button>
                 </div>
             )}
             {responseMessage && <div>{responseMessage}</div>}
@@ -104,6 +143,7 @@ function App() {
                         <th>Name</th>
                         <th>Address</th>
                         <th>Description</th>
+                        <th>Number</th>
                         <th>Comment</th>
                         <th>Action</th>
                     </tr>
@@ -114,6 +154,7 @@ function App() {
                             <td>{provider.name}</td>
                             <td>{provider.address}</td>
                             <td>{provider.description}</td>
+                            <td>{provider.number}</td>
                             <td>{provider.comment}</td>
                             <td>
                                 <button onClick={() => handleEdit(provider)}>Edit</button>
@@ -123,6 +164,19 @@ function App() {
                     ))}
                 </tbody>
             </table>
+            {editProviderId && (
+                <div>
+                    <h2>Edit Provider</h2>
+                    <form onSubmit={handleEditSubmit}>
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+                        <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
+                        <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
+                        <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
+                        <button type="submit">Save</button>
+                    </form>
+                </div>
+            )}
         </div>
     );
 }
