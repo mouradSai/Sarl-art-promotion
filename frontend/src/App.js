@@ -2,7 +2,6 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Main from "./components/Main";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import Provider from "./components/provider/provider";
 import { useState } from "react";
 import Provider from "./components/Provider";
 import Customers from "./components/Customers";
