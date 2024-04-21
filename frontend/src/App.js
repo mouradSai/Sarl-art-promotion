@@ -7,6 +7,7 @@ import Provider from "./components/Provider"
 import Customers from "./components/Customers";
 import Products from "./components/Products";
 
+import Provider from "./components/provider/provider";
 
 function App() {
 	const user = localStorage.getItem("token");

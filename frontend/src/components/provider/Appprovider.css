@@ -1,23 +1,19 @@
-/* Appprovider.css */
-/* Appprovider.css */
-
 /* Conteneur principal */
 .container {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 30px;
 }
 
-/* Style pour le titre principal */
-.container h1 {
+/* Style pour les titres */
+h1 {
   font-size: 32px;
   margin-bottom: 30px;
   color: #ffffff; /* Couleur de texte sombre */
   text-align: center;
 }
 
-/* Style pour les titres de section */
-.container h2 {
+h2 {
   font-size: 28px;
   margin-bottom: 20px;
   color: #007bff; /* Couleur de texte bleue */
@@ -27,9 +23,8 @@
 .create-button {
   text-align: right;
 }
-
 /* Style pour les boutons */
-.container button {
+button {
   background-color: #007bff; /* Bleu */
   color: #fff; /* Texte blanc */
   padding: 12px 24px;
@@ -37,11 +32,13 @@
   border-radius: 6px;
   cursor: pointer;
   margin-bottom: 20px;
+  margin-right: 10px; /* Ajout d'un espace entre les boutons */
   transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
 }
 
-.container button:hover {
-  background-color: #0056b3; /* Bleu plus foncé au survol */
+/* Style pour les boutons d'action dans le tableau */
+.action-buttons button {
+  margin-right: 8px; /* Réduit l'espace entre les boutons d'action */
 }
 
 /* Style pour les popups */
@@ -65,95 +62,6 @@ form {
 input[type="text"],
 input[type="boolean"] {
   width: calc(100% - 24px); /* Largeur du champ moins le padding */
-  padding: 12px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-sizing: border-box; /* Inclure la largeur du bord et du padding dans la largeur totale */
-}
-
-/* Style pour le tableau */
-table {
-  width: ;
-  border-collapse: collapse;
-  margin-bottom: 30px;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-}
-
-th {
-  background-color: #f2f2f2; /* Couleur de fond pour les en-têtes de colonne */
-}
-
-/* Style pour les boutons d'action dans le tableau */
-.action-buttons button {
-  margin-right: 8px;
-}
-
-.action-buttons button.edit {
-  background-color: #28a745; /* Vert */
-}
-
-.action-buttons button.delete {
-  background-color: #dc3545; /* Rouge */
-}
-
-/* Style pour le titre principal */
-h1 {
-  font-size: 28px;
-  margin-bottom: 30px;
-  color: #333; /* Couleur de texte sombre */
-}
-
-/* Style pour les titres de section */
-h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #007bff; /* Couleur de texte bleue */
-}
-
-/* Style pour les boutons */
-button {
-  background-color: #007bff; /* Bleu */
-  color: #fff; /* Texte blanc */
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-right: 15px;
-  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
-}
-
-button:hover {
-  background-color: #0056b3; /* Bleu plus foncé au survol */
-}
-
-/* Style pour les popups */
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #f9f9f9;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Ombre légère */
-}
-
-/* Style pour les formulaires */
-form {
-  max-width: 450px; /* Largeur maximale */
-  margin: 0 auto; /* Centrage horizontal */
-  margin-bottom: 30px;
-}
-
-input[type="text"],
-input[type="boolean"] {
-  width: 100%;
   padding: 12px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
