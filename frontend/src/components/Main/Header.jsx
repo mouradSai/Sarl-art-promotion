@@ -1,12 +1,14 @@
-import React from 'react'
-import 
- { BsSearch, BsJustify}
- from 'react-icons/bs';
+import {React} from 'react'
+import { BsSearch, BsJustify} from 'react-icons/bs';
  import { CiLogout } from "react-icons/ci";
+
+ 
  const handleLogout = () => {
   localStorage.removeItem("token");
   window.location.reload();
 };
+
+
 function Header({OpenSidebar}) {
   return (
     <header className='header'>

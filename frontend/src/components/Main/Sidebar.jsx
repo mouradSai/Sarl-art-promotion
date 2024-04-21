@@ -1,7 +1,6 @@
-import React from 'react';
-import {BsCart3, BsGrid1X2Fill, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, 
-  BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
-  import { Link } from 'react-router-dom';
+import {React  }from 'react';
+import {BsCart3,BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
+import { Link } from 'react-router-dom';
   
 function Sidebar({ openSidebarToggle, OpenSidebar }) {
   return (
@@ -15,9 +14,9 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
 
       <ul className='sidebar-list'>
         <li className='sidebar-list-item'>
-          <a href="#dashboard">
-            <BsGrid1X2Fill className='icon'/> Dashboard
-          </a>
+        <Link to="/provider">
+            <BsFillArchiveFill className='icon'/> Providers
+          </Link>
         </li>
         <li className='sidebar-list-item'>
         <Link to="/provider">

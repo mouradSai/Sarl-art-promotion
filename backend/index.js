@@ -3,6 +3,7 @@ const connection = require("./db");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const providersRoute = require ("./routes/providersRoute");
+const clientsRoute = require ("./routes/clientsRoute");
 
 const express = require("express");
 const cors = require("cors");
@@ -27,9 +28,11 @@ app.use(cors({
 
 
 // routes
-app.use('/providers', providersRoute);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use('/providers', providersRoute);
+app.use('/clients', clientsRoute);
+
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
