@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function App() {
+function Provider() {
     const [providers, setProviders] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
@@ -186,5 +186,5 @@ function App() {
     );
 }
 
-export default App;
+export default Provider;
 
