@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appprovider.css';
+import Sidebar from '../Main/Sidebar';
+
 
 function Provider() {
     const [providers, setProviders] = useState([]);
@@ -114,7 +116,8 @@ function Provider() {
     };
 
     return (
-        <div>
+        <div className="grid-container">                  
+            <Sidebar />
             <h1>Providers</h1>
             {!showCreateForm && (
                 <div>
