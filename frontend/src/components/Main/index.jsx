@@ -14,9 +14,8 @@ const Main = () => {
         window.location.reload();
     };
 
-    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
-    const [selectedContent, setSelectedContent] = useState("home"); // État pour stocker le contenu sélectionné
+    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
     const OpenSidebar = () => {
         setOpenSidebarToggle(!openSidebarToggle);
