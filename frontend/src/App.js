@@ -3,7 +3,7 @@ import Main from "./components/Main";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Provider from "./components/Provider";
-import Customer from "./components/Customer";
+import Customers from "./components/Customers";
 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
 			<Route path="/login" exact element={<Login />} />
 			<Route path="/" element={<Navigate replace to="/login" />} />
 			<Route path="/Provider" element={<Provider />}/>
-			<Route path="/Customer" element={<Customer />}/>
+			<Route path="/Customer" element={<Customers />}/>
 
 		</Routes>
 	);
