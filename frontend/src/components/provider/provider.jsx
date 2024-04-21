@@ -37,27 +37,30 @@ function App() {
     };
 
     const handleSubmit = async (event) => {
-      event.preventDefault();
-      try {
-          const response = await axios.post('http://localhost:8080/providers', formData);
-          if (response.status === 201) {
-              setResponseMessage('Provider added successfully.');
-              fetchProviders();
-              resetFormData();
-          } else {
-              setResponseMessage(response.data.message || 'An error occurred.');
-          }
-      } catch (error) {
-          console.error('Error:', error);
-          if (error.response) {
-              setResponseMessage(error.response.data.message || 'An error occurred.');
-          } else {
-              setResponseMessage('An error occurred. Please try again later.');
-          }
-      }
-  };
-  
-  
+        event.preventDefault();
+        // Vérification que tous les champs obligatoires sont remplis
+        if (!formData.name || !formData.address || !formData.description || !formData.number || !formData.comment) {
+            setResponseMessage('Please fill in all required fields.');
+            return;
+        }
+        try {
+            const response = await axios.post('http://localhost:8080/providers', formData);
+            if (response.status === 201) {
+                setResponseMessage('Provider added successfully.');
+                fetchProviders();
+                resetFormData();
+            } else {
+                setResponseMessage(response.data.message || 'An error occurred.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            if (error.response) {
+                setResponseMessage(error.response.data.message || 'An error occurred.');
+            } else {
+                setResponseMessage('An error occurred. Please try again later.');
+            }
+        }
+    };
 
     const handleDelete = async (id) => {
         try {
@@ -84,13 +87,13 @@ function App() {
       event.preventDefault();
       try {
           const response = await axios.put(`http://localhost:8080/providers/${editProviderId}`, formData);
-          if (response.status === 200) {
+          if (response.status && response.status === 200) {
               setResponseMessage('Provider updated successfully.');
               fetchProviders();
               setEditProviderId('');
               resetFormData();
           } else {
-              setResponseMessage(response.data.message);
+              setResponseMessage(response.data.message || 'An error occurred.');
           }
       } catch (error) {
           console.error('Error:', error);
@@ -128,7 +131,7 @@ function App() {
                         <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                         <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
                         <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
-                        <input type="boolean" name="isActive" value={formData.isActive} onChange={handleChange} placeholder="isActive" />
+                        <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
 
                         <button type="submit">Save</button>
                     </form>
@@ -173,6 +176,8 @@ function App() {
                         <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                         <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
                         <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
+                        <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
+
                         <button type="submit">Save</button>
                     </form>
                 </div>
