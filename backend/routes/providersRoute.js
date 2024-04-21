@@ -25,7 +25,7 @@ router.post('/', async (request, response) => {
             description: request.body.description,
             number: request.body.number,
             comment: request.body.comment,
-            IsActive: request.body.IsActi, // Typo here, should be IsActive
+            IsActive: request.body.IsActive, // Typo here, should be IsActive
         }
         const provider = await Provider.create(newProvider);
         return response.status(201).send(provider);
