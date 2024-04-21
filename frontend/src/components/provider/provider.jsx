@@ -1,8 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appprovider.css';
-
+import Sidebar from '../Main/Sidebar';
+import Header from 	"../Main/Header"
 function App() {
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        window.location.reload();
+    };
+
+
+
+  const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+
+  const OpenSidebar = () => {
+    setOpenSidebarToggle(!openSidebarToggle);
+  };
+  
+  const handleSidebarItemClick = (content) => {
+      setSelectedContent(content); // Mettre à jour le contenu sélectionné
+  };
+
     const [providers, setProviders] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
@@ -125,10 +143,15 @@ function App() {
     };
 
     return (
+        <div className="grid-container">
+      <Header OpenSidebar={OpenSidebar}/>
+      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
+      {/* Ajoute ici le contenu  */}
+    
         <div className="container">
             <h1>Providers</h1>
             <div className="actions">
-                <button onClick={() => setShowCreateForm(true)}>Create</button>
+                <button  className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
             </div>
             {showCreateForm && (
                 <div className="popup">
@@ -142,8 +165,8 @@ function App() {
                             <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
                             <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
                             <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
-                            <button type="submit">Save</button>
-                            <button onClick={() => setShowCreateForm(false)}>Cancel</button>
+                            <button className="create-button" type="submit">Save</button>
+                            <button  className ='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
                         </form>
                     </div>
                 </div>
@@ -167,9 +190,9 @@ function App() {
                                 <td>{provider.description}</td>
                                 <td>{provider.number}</td>
                                 <td>
-                                    <button onClick={() => handleView(provider)}>View</button>
-                                    <button onClick={() => handleEdit(provider)}>Edit</button>
-                                    <button onClick={() => handleDelete(provider._id)}>Delete</button>
+                                    <button  className='view-button' onClick={() => handleView(provider)}>View</button>
+                                    <button   className='edit-button' onClick={() => handleEdit(provider)}>Edit</button>
+                                    <button  className ='delet-button' onClick={() => handleDelete(provider._id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -186,7 +209,7 @@ function App() {
                         <p>Description: {selectedProvider.description}</p>
                         <p>Number: {selectedProvider.number}</p>
                         <p>Comment: {selectedProvider.comment}</p>
-                        <button onClick={() => setSelectedProvider(null)}>Cancel</button>
+                        <button  className ='delet-button' onClick={() => setSelectedProvider(null)}>Cancel</button>
                     </div>
                 </div>
             )}
@@ -202,12 +225,14 @@ function App() {
                             <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
                             <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
                             <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
-                            <button type="submit">Save</button>
-                            <button onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>Cancel</button>
+                            <button className="create-button" type="submit">Save</button>
+                            <button   className ='delet-button' onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>Cancel</button>
                         </form>
                     </div>
                 </div>
             )}
+            
+        </div>
         </div>
     );
 }

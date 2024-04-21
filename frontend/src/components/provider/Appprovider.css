@@ -1,15 +1,14 @@
 /* Conteneur principal */
 .container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 30px;
+  max-width: 1200px; /* Utilisation d'une largeur maximale en pourcentage */
+  margin: 0 40px;
 }
 
 /* Style pour les titres */
 h1 {
   font-size: 32px;
   margin-bottom: 30px;
-  color: #010101; /* Couleur de texte sombre */
+  color: #ffffff; /* Couleur de texte sombre */
   text-align: center;
 }
 
@@ -20,12 +19,10 @@ h2 {
 }
 
 /* Bouton "Create" aligné à droite */
-.create-button {
-  text-align: right;
-}
+
 /* Style pour les boutons */
-button {
-  background-color: #007bff; /* Bleu */
+.create-button  {
+  background-color: #1835c5; /* Bleu */
   color: #fff; /* Texte blanc */
   padding: 12px 24px;
   border: none;
@@ -35,10 +32,44 @@ button {
   margin-right: 10px; /* Ajout d'un espace entre les boutons */
   transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
 }
-
+.view-button  {
+  background-color: #ff7411; /* Bleu */
+  color: #fff; /* Texte blanc */
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-right: 10px; /* Ajout d'un espace entre les boutons */
+  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
+}
+.delet-button  {
+  background-color: #d42424; /* Bleu */
+  color: #fff; /* Texte blanc */
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-right: 10px; /* Ajout d'un espace entre les boutons */
+  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
+}
+.edit-button  {
+  background-color: #35b014; /* Bleu */
+  color: #fff; /* Texte blanc */
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-right: 10px; /* Ajout d'un espace entre les boutons */
+  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
+}
 /* Style pour les boutons d'action dans le tableau */
 .action-buttons button {
   margin-right: 8px; /* Réduit l'espace entre les boutons d'action */
+  background-color: #192cd9; /* Bleu */
+
 }
 
 /* Style pour les popups */
