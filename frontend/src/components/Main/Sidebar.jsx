@@ -20,12 +20,12 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           </Link>
         </li>
         <li className='sidebar-list-item'>
-          <a href="">
+          <a href="#buy">
             <BsMenuButtonWideFill className='icon'/> Achats
           </a>
         </li>
         <li className='sidebar-list-item'>
-          <a href="">
+          <a href="#sell">
             <BsFillGrid3X3GapFill className='icon'/> Ventes
           </a>
         </li>
@@ -45,7 +45,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           </Link>
         </li>
         <li className='sidebar-list-item'>
-          <a href="#">
+          <a href="#settings">
             <BsFillGearFill className='icon'/> Options
           </a>
         </li>
