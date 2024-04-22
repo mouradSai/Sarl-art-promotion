@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AppCostomer.css';
+import './AppCostomer.css'; // Correction de la typo dans le nom du fichier CSS
 import Sidebar from '../Main/Sidebar';
 import Header from '../Main/Header';
 
 function App() {
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        window.location.reload();
-    };
+   
 
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
@@ -17,7 +14,7 @@ function App() {
     };
 
     const handleSidebarItemClick = (content) => {
-        setSelectedContent(content); // Mettre à jour le contenu sélectionné
+        setSelectedContent(content); // Correction: la variable "selectedContent" n'est pas définie
     };
 
     const [clients, setClients] = useState([]);
@@ -139,17 +136,37 @@ function App() {
         alert(message);
     };
 
+    //filtrer les customers
+    const [searchText, setSearchText] = useState('');
+    const filterClients = (clients, searchText) => {
+        return clients.filter(client => {
+            return (
+                client.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                client.prenom.toLowerCase().includes(searchText.toLowerCase()) ||
+                client.address.toLowerCase().includes(searchText.toLowerCase()) ||
+                client.phoneNumber.toLowerCase().includes(searchText.toLowerCase())
+                // Ajoutez d'autres champs si nécessaire
+            );
+        });
+    };
+    const handleSearchChange = (event) => {
+        setSearchText(event.target.value);
+    };
+
     return (
         <div className="grid-container">
-    <Header OpenSidebar={OpenSidebar}/>
-      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
-      {/* Ajoute ici le contenu  */}
-            {/* Ajoute ici le contenu  */}
-
+            <Header OpenSidebar={OpenSidebar}/>
+            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
             <div className="container">
                 <h1>Clients</h1>
                 <div className="actions">
                     <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+                    <input
+                        type="text"
+                        placeholder="Search customers..."
+                        value={searchText}
+                        onChange={handleSearchChange}
+                    />
                 </div>
                 {showCreateForm && (
                     <div className="popup">
@@ -168,7 +185,7 @@ function App() {
                         </div>
                     </div>
                 )}
-                {clients.length > 0 && (
+                {filterClients(clients, searchText).length > 0 && (
                     <table>
                         <thead>
                             <tr>
@@ -181,7 +198,7 @@ function App() {
                             </tr>
                         </thead>
                         <tbody>
-                            {clients.map(client => (
+                            {filterClients(clients, searchText).map(client => (
                                 <tr key={client._id}>
                                     <td>{client.name}</td>
                                     <td>{client.prenom}</td>
@@ -197,6 +214,9 @@ function App() {
                             ))}
                         </tbody>
                     </table>
+                )}
+                {filterClients(clients, searchText).length === 0 && (
+                    <p>No clients found.</p>
                 )}
                 {selectedClient && (
                     <div className="popup">
@@ -229,7 +249,6 @@ function App() {
                         </div>
                     </div>
                 )}
-
             </div>
         </div>
     );

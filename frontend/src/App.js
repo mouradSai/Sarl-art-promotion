@@ -3,7 +3,8 @@ import Main from "./components/Main";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Provider from "./components/provider/provider";
-import Customer from"./components/customers/customer"
+import Customer from"./components/customers/customer";
+import Product from "./components/Products/product";
 
 function App() {
 	const user = localStorage.getItem("token");
@@ -16,6 +17,8 @@ function App() {
 			<Route path="/" element={<Navigate replace to="/login" />} />
 			<Route path="/provider" element={<Provider />}/>
 			<Route path="/customer" element={<Customer />}/>
+			<Route path="/product" element={<Product />}/>
+
 
 
 		</Routes>

@@ -13,31 +13,27 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       </div>
 
       <ul className='sidebar-list'>
+      <li className='sidebar-list-item'>
+        <Link to="/">
+            <BsFillArchiveFill className='icon'/> Dashbord
+          </Link>
+        </li>
         <li className='sidebar-list-item'>
         <Link to="/provider">
-            <BsFillArchiveFill className='icon'/> Providers
+            <BsPeopleFill className='icon'/> Providers
           </Link>
         </li>
         <li className='sidebar-list-item'>
         <Link to="/customer">
-            <BsFillArchiveFill className='icon'/> costumers
+            <BsPeopleFill className='icon'/> costumers
           </Link>
         </li>
         <li className='sidebar-list-item'>
-          <a href="#categories">
-            <BsFillGrid3X3GapFill className='icon'/> Categories
-          </a>
+        <Link to="/product">
+            <BsFillGrid3X3GapFill className='icon'/> products
+          </Link>
         </li>
-        <li className='sidebar-list-item'>
-          <a href="#customers">
-            <BsPeopleFill className='icon'/> Customers
-          </a>
-        </li>
-        <li className='sidebar-list-item'>
-          <a href="#inventory">
-            <BsListCheck className='icon'/> Inventory
-          </a>
-        </li>
+       
         <li className='sidebar-list-item'>
           <a href="#reports">
             <BsMenuButtonWideFill className='icon'/> Reports
@@ -48,6 +44,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <BsFillGearFill className='icon'/> Setting
           </a>
         </li>
+        
       </ul>
     </aside>
   )
