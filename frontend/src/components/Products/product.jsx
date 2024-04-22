@@ -172,12 +172,9 @@ function App() {
                                 <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category" />
                                 <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
                                 <select name="unit" value={formData.unit} onChange={handleChange}>
-                                    <option value="">Select Unit</option>
-                                    <option value="kg">kg</option>
-                                    <option value="g">g</option>
-                                    <option value="L">L</option>
-                                    <option value="ml">ml</option>
-                                    <option value="unit">unit</option>
+                                    <option value="">Selectionné Unité</option>
+                                    <option value="kg">KG</option>
+                                    <option value="g">L</option>
                                 </select>
                                 <button className="create-button" type="submit">Save</button>
                                 <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
@@ -189,11 +186,11 @@ function App() {
                     <table>
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>Nom</th>
                                 <th>Description</th>
-                                <th>Category</th>
-                                <th>Quantity</th>
-                                <th>Unit</th>
+                                <th>Categorie</th>
+                                <th>Quantité</th>
+                                <th>Unité</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -206,9 +203,9 @@ function App() {
                                     <td>{product.quantity}</td>
                                     <td>{product.unit}</td>
                                     <td>
-                                        <button className='view-button' onClick={() => handleView(product)}>View</button>
-                                        <button className='edit-button' onClick={() => handleEdit(product)}>Edit</button>
-                                        <button className='delet-button' onClick={() => handleDelete(product._id)}>Delete</button>
+                                        <button className='view-button' onClick={() => handleView(product)}>Voir</button>
+                                        <button className='edit-button' onClick={() => handleEdit(product)}>Modifier</button>
+                                        <button className='delet-button' onClick={() => handleDelete(product._id)}>Supprimer</button>
                                     </td>
                                 </tr>
                             ))}

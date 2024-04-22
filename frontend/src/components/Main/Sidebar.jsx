@@ -20,7 +20,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           </Link>
         </li>
         <li className='sidebar-list-item'>
-          <a href="#buy">
+          <a href="/buy">
             <BsMenuButtonWideFill className='icon'/> Achats
           </a>
         </li>

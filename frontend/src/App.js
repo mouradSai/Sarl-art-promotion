@@ -5,6 +5,10 @@ import Login from "./components/Login";
 import Provider from "./components/provider/provider";
 import Customer from"./components/customers/customer";
 import Product from "./components/Products/product";
+import Buy from "./components/buy/buy";
+
+
+
 
 function App() {
 	const user = localStorage.getItem("token");
@@ -18,6 +22,7 @@ function App() {
 			<Route path="/provider" element={<Provider />}/>
 			<Route path="/customer" element={<Customer />}/>
 			<Route path="/product" element={<Product />}/>
+			<Route path="/buy" element={<Buy />}/>
 
 
 
