@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Appprovider.css';
 import Sidebar from '../Main/Sidebar';
-import Header from 	"../Main/Header"
+import Header from '../Main/Header';
+
 function App() {
     const handleLogout = () => {
         localStorage.removeItem("token");
         window.location.reload();
     };
 
+    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
-
-  const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
-
-  const OpenSidebar = () => {
-    setOpenSidebarToggle(!openSidebarToggle);
-  };
-  
-  const handleSidebarItemClick = (content) => {
-      setSelectedContent(content); // Mettre à jour le contenu sélectionné
-  };
+    const OpenSidebar = () => {
+        setOpenSidebarToggle(!openSidebarToggle);
+    };
 
     const [providers, setProviders] = useState([]);
     const [formData, setFormData] = useState({
@@ -33,6 +27,7 @@ function App() {
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [editProviderId, setEditProviderId] = useState('');
     const [selectedProvider, setSelectedProvider] = useState(null);
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         fetchProviders();
@@ -142,97 +137,112 @@ function App() {
         alert(message);
     };
 
+    const filterProviders = (providers, searchText) => {
+        return providers.filter(provider => {
+            return provider.name.toLowerCase().includes(searchText.toLowerCase());
+        });
+    };
+
+    const handleSearchChange = (event) => {
+        setSearchText(event.target.value);
+    };
+
+    const filteredProviders = filterProviders(providers, searchText);
+
     return (
         <div className="grid-container">
-      <Header OpenSidebar={OpenSidebar}/>
-      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
-      {/* Ajoute ici le contenu  */}
-    
-        <div className="container">
-            <h1>Providers</h1>
-            <div className="actions">
-                <button  className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
-            </div>
-            {showCreateForm && (
-                <div className="popup">
-                    <div className="popup-content">
-                        <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
-                        <h2>Create New Provider</h2>
-                        <form onSubmit={handleSubmit}>
-                            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                            <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
-                            <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                            <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
-                            <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
-                            <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
-                            <button className="create-button" type="submit">Save</button>
-                            <button  className ='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
-                        </form>
-                    </div>
+            <Header OpenSidebar={OpenSidebar}/>
+            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
+            <div className="container">
+                <h1>Providers</h1>
+                <div className="actions">
+                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+                    <input
+                        type="text"
+                        placeholder="Search providers..."
+                        value={searchText}
+                        onChange={handleSearchChange}
+                    />
                 </div>
-            )}
-            {providers.length > 0 && (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Description</th>
-                            <th>Number</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {providers.map(provider => (
-                            <tr key={provider._id}>
-                                <td>{provider.name}</td>
-                                <td>{provider.address}</td>
-                                <td>{provider.description}</td>
-                                <td>{provider.number}</td>
-                                <td>
-                                    <button  className='view-button' onClick={() => handleView(provider)}>View</button>
-                                    <button   className='edit-button' onClick={() => handleEdit(provider)}>Edit</button>
-                                    <button  className ='delet-button' onClick={() => handleDelete(provider._id)}>Delete</button>
-                                </td>
+                {showCreateForm && (
+                    <div className="popup">
+                        <div className="popup-content">
+                            <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
+                            <h2>Create New Provider</h2>
+                            <form onSubmit={handleSubmit}>
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+                                <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+                                <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
+                                <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
+                                <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
+                                <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
+                                <button className="create-button" type="submit">Save</button>
+                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                )}
+                {filteredProviders.length > 0 && (
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Description</th>
+                                <th>Number</th>
+                                <th>Action</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
-            {selectedProvider && (
-                <div className="popup">
-                    <div className="popup-content">
-                        <span className="close-button" onClick={() => setSelectedProvider(null)}>&times;</span>
-                        <h2>Provider Details</h2>
-                        <p>Name: {selectedProvider.name}</p>
-                        <p>Address: {selectedProvider.address}</p>
-                        <p>Description: {selectedProvider.description}</p>
-                        <p>Number: {selectedProvider.number}</p>
-                        <p>Comment: {selectedProvider.comment}</p>
-                        <button  className ='delet-button' onClick={() => setSelectedProvider(null)}>Cancel</button>
+                        </thead>
+                        <tbody>
+                            {filteredProviders.map(provider => (
+                                <tr key={provider._id}>
+                                    <td>{provider.name}</td>
+                                    <td>{provider.address}</td>
+                                    <td>{provider.description}</td>
+                                    <td>{provider.number}</td>
+                                    <td>
+                                        <button className='view-button' onClick={() => handleView(provider)}>View</button>
+                                        <button className='edit-button' onClick={() => handleEdit(provider)}>Edit</button>
+                                        <button className='delet-button' onClick={() => handleDelete(provider._id)}>Delete</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+                {selectedProvider && (
+                    <div className="popup">
+                        <div className="popup-content">
+                            <span className="close-button" onClick={() => setSelectedProvider(null)}>&times;</span>
+                            <h2>Provider Details</h2>
+                            <p>Name: {selectedProvider.name}</p>
+                            <p>Address: {selectedProvider.address}</p>
+                            <p>Description: {selectedProvider.description}</p>
+                            <p>Number: {selectedProvider.number}</p>
+                            <p>Comment: {selectedProvider.comment}</p>
+                            <button className='delet-button' onClick={() => setSelectedProvider(null)}>Cancel</button>
+                        </div>
                     </div>
-                </div>
-            )}
-            {editProviderId && (
-                <div className="popup">
-                    <div className="popup-content">
-                        <span className="close-button" onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>&times;</span>
-                        <h2>Edit Provider</h2>
-                        <form onSubmit={handleEditSubmit}>
-                            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                            <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
-                            <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                            <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
-                            <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
-                            <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
-                            <button className="create-button" type="submit">Save</button>
-                            <button   className ='delet-button' onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>Cancel</button>
-                        </form>
+                )}
+                {editProviderId && (
+                    <div className="popup">
+                        <div className="popup-content">
+                            <span className="close-button" onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>&times;</span>
+                            <h2>Edit Provider</h2>
+                            <form onSubmit={handleEditSubmit}>
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+                                <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+                                <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
+                                <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
+                                <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
+                                <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
+                                <button className="create-button" type="submit">Save</button>
+                                <button className='delet-button' onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>Cancel</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            )}
-            
-        </div>
+                )}
+            </div>
         </div>
     );
 }

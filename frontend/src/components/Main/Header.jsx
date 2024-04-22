@@ -21,7 +21,7 @@ function Header({OpenSidebar}) {
         <div className='header-right'>
 
             
-            <button className={"white_btn"} onClick={handleLogout}> <CiLogout className='icon'/>logout</button>
+            <button className={"white_btn"} onClick={handleLogout} > <CiLogout className='icon'/>logout</button>
 
         </div>
     </header>
