@@ -20,46 +20,5 @@
   border: 1px solid #ccc;
   border-radius: 6px;
 }
-.title-all {
-  position: relative;
-  font-family: 'Libre Franklin', sans-serif;
-  font-size: 52px;
-  font-weight: 700;
-  margin-bottom: 30px;
-  color: #151515; /* Couleur de texte sombre */
-  text-align: center;
-  z-index: 1; /* Ensure title is above the lines */
-}
 
-.title-all::before,
-.title-all::after,
-.title-all::between {
-  content: '';
-  position: absolute;
-  top: 50%;
-  height: 3px; /* Increase thickness of the lines */
-  background-color: white; /* Change color to white */
-  z-index: 0; /* Push lines behind the title */
-}
 
-.title-all::before {
-  left: 0;
-  width: calc(50% - 200px); /* Adjusted width to create space from the title */
-  transform: translateX(-100%); /* Move the left line outside */
-}
-
-.title-all::after {
-  right: 0;
-  width: calc(50% - 200px); /* Adjusted width to create space from the title */
-  transform: translateX(100%); /* Move the right line outside */
-}
-
-.title-all::between {
-  left: 50%;
-  width: 100px; /* Adjusted width of the white space */
-  transform: translateX(-50%);
-}
-
-.container {
-  position: relative; /* Ensure container provides a reference for absolute positioning */
-}
