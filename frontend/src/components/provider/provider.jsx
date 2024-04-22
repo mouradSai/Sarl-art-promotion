@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from '../Main/Sidebar';
 import Header from '../Main/Header';
-
+import './Appprovider.css';
 function App() {
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -28,6 +28,8 @@ function App() {
     const [editProviderId, setEditProviderId] = useState('');
     const [selectedProvider, setSelectedProvider] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const providersPerPage = 5; // Nombre de fournisseurs à afficher par page
 
     useEffect(() => {
         fetchProviders();
@@ -53,7 +55,6 @@ function App() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Vérification que tous les champs obligatoires sont remplis
         if (!formData.name || !formData.address || !formData.description || !formData.number || !formData.comment) {
             showAlert('Please fill in all required fields.');
             return;
@@ -147,7 +148,9 @@ function App() {
         setSearchText(event.target.value);
     };
 
-    const filteredProviders = filterProviders(providers, searchText);
+    const indexOfLastProvider = currentPage * providersPerPage;
+    const indexOfFirstProvider = indexOfLastProvider - providersPerPage;
+    const filteredProviders = filterProviders(providers, searchText).slice(indexOfFirstProvider, indexOfLastProvider);
 
     return (
         <div className="grid-container">
@@ -156,13 +159,14 @@ function App() {
             <div className="container">
                 <h1>Providers</h1>
                 <div className="actions">
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
-                    <input
+                <input
                         type="text"
                         placeholder="Search providers..."
                         value={searchText}
                         onChange={handleSearchChange}
                     />
+                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+                   
                 </div>
                 {showCreateForm && (
                     <div className="popup">
@@ -183,32 +187,42 @@ function App() {
                     </div>
                 )}
                 {filteredProviders.length > 0 && (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Address</th>
-                                <th>Description</th>
-                                <th>Number</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredProviders.map(provider => (
-                                <tr key={provider._id}>
-                                    <td>{provider.name}</td>
-                                    <td>{provider.address}</td>
-                                    <td>{provider.description}</td>
-                                    <td>{provider.number}</td>
-                                    <td>
-                                        <button className='view-button' onClick={() => handleView(provider)}>View</button>
-                                        <button className='edit-button' onClick={() => handleEdit(provider)}>Edit</button>
-                                        <button className='delet-button' onClick={() => handleDelete(provider._id)}>Delete</button>
-                                    </td>
+                    <>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Description</th>
+                                    <th>Number</th>
+                                    <th>Action</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {filteredProviders.map(provider => (
+                                    <tr key={provider._id}>
+                                        <td>{provider.name}</td>
+                                        <td>{provider.address}</td>
+                                        <td>{provider.description}</td>
+                                        <td>{provider.number}</td>
+                                        <td>
+                                            <button className='view-button' onClick={() => handleView(provider)}>View</button>
+                                            <button className='edit-button' onClick={() => handleEdit(provider)}>Edit</button>
+                                            <button className='action-button delete-button' onClick={() => handleDelete(provider._id)}>Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="pagination">
+                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
+                            <span>{currentPage}</span>
+                            <button disabled={filteredProviders.length < providersPerPage} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                        </div>
+                    </>
+                )}
+                {filteredProviders.length === 0 && (
+                    <p>No providers found.</p>
                 )}
                 {selectedProvider && (
                     <div className="popup">

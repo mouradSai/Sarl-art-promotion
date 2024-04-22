@@ -5,8 +5,6 @@ import Sidebar from '../Main/Sidebar';
 import Header from '../Main/Header';
 
 function App() {
-   
-
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
     const OpenSidebar = () => {
@@ -28,6 +26,9 @@ function App() {
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [editClientId, setEditClientId] = useState('');
     const [selectedClient, setSelectedClient] = useState(null);
+    const [searchText, setSearchText] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const clientsPerPage = 5; // Nombre de clients à afficher par page
 
     useEffect(() => {
         fetchClients();
@@ -53,7 +54,6 @@ function App() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Vérification que tous les champs obligatoires sont remplis
         if (!formData.name || !formData.prenom || !formData.address || !formData.phoneNumber) {
             showAlert('Please fill in all required fields.');
             return;
@@ -136,19 +136,21 @@ function App() {
         alert(message);
     };
 
-    //filtrer les customers
-    const [searchText, setSearchText] = useState('');
     const filterClients = (clients, searchText) => {
-        return clients.filter(client => {
+        const filteredClients = clients.filter(client => {
             return (
                 client.name.toLowerCase().includes(searchText.toLowerCase()) ||
                 client.prenom.toLowerCase().includes(searchText.toLowerCase()) ||
                 client.address.toLowerCase().includes(searchText.toLowerCase()) ||
                 client.phoneNumber.toLowerCase().includes(searchText.toLowerCase())
-                // Ajoutez d'autres champs si nécessaire
             );
         });
+
+        const indexOfLastClient = currentPage * clientsPerPage;
+        const indexOfFirstClient = indexOfLastClient - clientsPerPage;
+        return filteredClients.slice(indexOfFirstClient, indexOfLastClient);
     };
+
     const handleSearchChange = (event) => {
         setSearchText(event.target.value);
     };
@@ -160,13 +162,14 @@ function App() {
             <div className="container">
                 <h1>Clients</h1>
                 <div className="actions">
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
-                    <input
+                <input
                         type="text"
                         placeholder="Search customers..."
                         value={searchText}
                         onChange={handleSearchChange}
                     />
+                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+                   
                 </div>
                 {showCreateForm && (
                     <div className="popup">
@@ -186,34 +189,41 @@ function App() {
                     </div>
                 )}
                 {filterClients(clients, searchText).length > 0 && (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Prenom</th>
-                                <th>Address</th>
-                                <th>Description</th>
-                                <th>Phone Number</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filterClients(clients, searchText).map(client => (
-                                <tr key={client._id}>
-                                    <td>{client.name}</td>
-                                    <td>{client.prenom}</td>
-                                    <td>{client.address}</td>
-                                    <td>{client.description}</td>
-                                    <td>{client.phoneNumber}</td>
-                                    <td>
-                                        <button className='view-button' onClick={() => handleView(client)}>View</button>
-                                        <button className='edit-button' onClick={() => handleEdit(client)}>Edit</button>
-                                        <button className='delet-button' onClick={() => handleDelete(client._id)}>Delete</button>
-                                    </td>
+                    <>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Prenom</th>
+                                    <th>Address</th>
+                                    <th>Description</th>
+                                    <th>Phone Number</th>
+                                    <th>Action</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {filterClients(clients, searchText).map(client => (
+                                    <tr key={client._id}>
+                                        <td>{client.name}</td>
+                                        <td>{client.prenom}</td>
+                                        <td>{client.address}</td>
+                                        <td>{client.description}</td>
+                                        <td>{client.phoneNumber}</td>
+                                        <td>
+                                            <button className='view-button' onClick={() => handleView(client)}>View</button>
+                                            <button className='edit-button' onClick={() => handleEdit(client)}>Edit</button>
+                                            <button className='action-button delete-button' onClick={() => handleDelete(client._id)}>Delete</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="pagination">
+                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
+                            <span>{currentPage}</span>
+                            <button disabled={currentPage === Math.ceil(clients.length / clientsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                        </div>
+                    </>
                 )}
                 {filterClients(clients, searchText).length === 0 && (
                     <p>No clients found.</p>

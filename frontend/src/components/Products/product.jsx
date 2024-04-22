@@ -27,6 +27,8 @@ function App() {
     const [editProductId, setEditProductId] = useState('');
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [searchText, setSearchText] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 5; // Nombre de produits à afficher par page
 
     useEffect(() => {
         fetchProducts();
@@ -133,11 +135,16 @@ function App() {
     const showAlert = (message) => {
         alert(message);
     };
-//filter les produit 
+
+    // Modifiez la fonction filterProducts pour inclure la pagination
     const filterProducts = (products, searchText) => {
-        return products.filter(product => {
+        const filtered = products.filter(product => {
             return product.name.toLowerCase().includes(searchText.toLowerCase());
         });
+
+        const indexOfLastProduct = currentPage * productsPerPage;
+        const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+        return filtered.slice(indexOfFirstProduct, indexOfLastProduct);
     };
 
     const handleSearchChange = (event) => {
@@ -153,14 +160,16 @@ function App() {
             <div className="container">
                 <h1>Products</h1>
                 <div className="actions">
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
-                </div>
                 <input
                     type="text"
                     placeholder="Search products..."
                     value={searchText}
                     onChange={handleSearchChange}
                 />
+                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+            
+                 </div>
+
                 {showCreateForm && (
                     <div className="popup">
                         <div className="popup-content">
@@ -203,14 +212,21 @@ function App() {
                                     <td>{product.quantity}</td>
                                     <td>{product.unit}</td>
                                     <td>
-                                        <button className='view-button' onClick={() => handleView(product)}>Voir</button>
-                                        <button className='edit-button' onClick={() => handleEdit(product)}>Modifier</button>
-                                        <button className='delet-button' onClick={() => handleDelete(product._id)}>Supprimer</button>
+                                        <button className='view-button' onClick={() => handleView(product)}>View</button>
+                                        <button className='edit-button' onClick={() => handleEdit(product)}>Edit</button>
+                                        <button className='action-button delete-button' onClick={() => handleDelete(product._id)}>Delete</button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+                )}
+                {filteredProducts.length > 0 && (
+                    <div className="pagination">
+                        <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
+                        <span>{currentPage}</span>
+                        <button disabled={currentPage === Math.ceil(products.length / productsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                    </div>
                 )}
                 {selectedProduct && (
                     <div className="popup">
