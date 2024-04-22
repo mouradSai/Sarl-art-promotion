@@ -1,7 +1,7 @@
 /* Conteneur principal */
 .container {
-  max-width: 1200px; /* Utilisation d'une largeur maximale en pourcentage */
-  margin: 0 40px;
+  max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
+  margin: 0 auto; /* Centrage horizontal */
 }
 
 /* Style pour les titres */
@@ -18,59 +18,58 @@ h2 {
   color: #007bff; /* Couleur de texte bleue */
 }
 
-/* Bouton "Create" aligné à droite */
-
 /* Style pour les boutons */
-.create-button  {
-  background-color: #1835c5; /* Bleu */
-  color: #fff; /* Texte blanc */
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.actions {
+  display: flex;
+  justify-content: center; /* Alignement des boutons au centre */
   margin-bottom: 20px;
-  margin-right: 10px; /* Ajout d'un espace entre les boutons */
-  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
+  
 }
-.view-button  {
-  background-color: #ff7411; /* Bleu */
-  color: #fff; /* Texte blanc */
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  margin-right: 10px; /* Ajout d'un espace entre les boutons */
-  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
-}
-.delet-button  {
-  background-color: #d42424; /* Bleu */
-  color: #fff; /* Texte blanc */
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  margin-right: 10px; /* Ajout d'un espace entre les boutons */
-  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
-}
-.edit-button  {
-  background-color: #35b014; /* Bleu */
-  color: #fff; /* Texte blanc */
-  padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  margin-right: 10px; /* Ajout d'un espace entre les boutons */
-  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
-}
-/* Style pour les boutons d'action dans le tableau */
-.action-buttons button {
-  margin-right: 8px; /* Réduit l'espace entre les boutons d'action */
-  background-color: #192cd9; /* Bleu */
 
+.create-button,
+.view-button,
+.delete-button,
+.edit-button {
+  background-color: #1835c5; /* Bleu par défaut */
+  color: #fff; /* Texte blanc */
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px; /* Ajout d'un espace entre les boutons */
+  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
 }
+
+.view-button {
+  background-color: #ff7411; /* Orange */
+}
+
+.delete-button {
+  background-color: #d42424; /* Rouge */
+}
+
+.edit-button {
+  background-color: #35b014; /* Vert */
+}
+
+/* Style pour les boutons "Delete" et "Cancel" de la popup */
+.popup button.delet-button,
+.popup button.cancel-button {
+  background-color: #d42424; /* Rouge pour le bouton "Delete" */
+  color: #fff; /* Texte blanc */
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px; /* Ajout d'un espacement entre les boutons */
+  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
+}
+
+.popup button.delet-button:hover,
+.popup button.cancel-button:hover {
+  background-color: #b30000; /* Rouge plus foncé au survol */
+}
+
 
 /* Style pour les popups */
 .popup {
@@ -102,44 +101,59 @@ input[type="boolean"] {
 
 /* Style pour le tableau */
 table {
-  width: 100%;
+  width: 1000px;
   border-collapse: collapse;
   margin-bottom: 30px;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
+  padding: 6px;
+  text-align: center;
 }
 
 th {
-  background-color: #f2f2f2; /* Couleur de fond pour les en-têtes de colonne */
+  background-color: #e4e4e4; /* Couleur de fond pour les en-têtes de colonne */
 }
 
-/* Style pour les boutons d'action dans le tableau */
-.action-buttons button {
-  margin-right: 8px;
-}
-
-.action-buttons button.edit {
-  background-color: #8f8f8f; /* Vert */
-}
-
-.action-buttons button.delete {
-  background-color: #dc3545; /* Rouge */
-}
 
 /* Style pour la croix de fermeture */
 .popup .close-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 24px;
+  font-size: 30px;
   color: #333; /* Couleur de texte sombre */
   cursor: pointer;
 }
 
 .popup .close-button:hover {
   color: #555; /* Changement de couleur au survol */
+}
+
+/* Style pour la pagination */
+.pagination {
+  display: flex;
+  justify-content: center; /* Alignement des boutons de pagination au centre */
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #007bff; /* Bleu */
+  color: #fff; /* Texte blanc */
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0 4px; /* Espacement entre les boutons de pagination */
+  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
+}
+
+.pagination button:hover {
+  background-color: #0056b3; /* Bleu plus foncé au survol */
+}
+
+.pagination button:disabled {
+  background-color: #ddd; /* Gris pour les boutons désactivés */
+  cursor: not-allowed; /* Curseur non disponible pour les boutons désactivés */
 }
