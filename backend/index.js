@@ -4,6 +4,8 @@ const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const providersRoute = require ("./routes/providersRoute");
 const clientsRoute = require ("./routes/clientsRoute");
+const productsRoute = require ("./routes/productsRoute");
+
 
 const express = require("express");
 const cors = require("cors");
@@ -32,6 +34,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use('/providers', providersRoute);
 app.use('/clients', clientsRoute);
+app.use('/products', productsRoute);
 
 
 const port = process.env.PORT || 8080;

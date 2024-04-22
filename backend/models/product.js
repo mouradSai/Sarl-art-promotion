@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
-const clientSchema = mongoose.Schema({
+const productSchema = mongoose.Schema({
     name: {
-        type: String,
-        required: true,
-    },
-    prenom: {
         type: String,
         required: true,
     },
@@ -13,18 +9,20 @@ const clientSchema = mongoose.Schema({
         type: String,
         required: false,
     },
-    address: {
+    category: {
         type: String,
         required: true,
     },
-    phoneNumber: {
-        type: String,
+  
+    quantity: {
+        type: Number,
         required: true,
+        default: 0,
     },
   
 }, {
     timestamps: true,
 });
 
-const Client = mongoose.model('Client', clientSchema);
-module.exports = Client;
+const Product = mongoose.model('Product', productSchema);
+module.exports = Product;

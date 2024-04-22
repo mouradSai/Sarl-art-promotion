@@ -19,8 +19,8 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           </Link>
         </li>
         <li className='sidebar-list-item'>
-        <Link to="/provider">
-            <BsFillArchiveFill className='icon'/> Providers
+        <Link to="/customer">
+            <BsFillArchiveFill className='icon'/> costumers
           </Link>
         </li>
         <li className='sidebar-list-item'>
