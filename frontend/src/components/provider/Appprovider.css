@@ -1,8 +1,9 @@
 /* Conteneur principal */
 .container {
-  max-width: 1000px;
+  max-width: auto ;
   margin: 0 auto;
   padding: 30px;
+  margin-left: 100px;
 }
 
 /* Style pour les titres */
