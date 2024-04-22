@@ -157,7 +157,7 @@ function App() {
             <Header OpenSidebar={OpenSidebar}/>
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
             <div className="container">
-                <h1>Providers</h1>
+                <h1 className="title-all" >Fourniseurs</h1>
                 <div className="actions">
                 <input
                         type="text"
