@@ -37,37 +37,38 @@ const OrderForm = () => {
   return (
 
     <div className="order-form-container">
-          {/* <Header OpenSidebar={OpenSidebar}/>
-          <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/> */}
-        <h1 className="form-title">Commande</h1>
-      <form onSubmit={handleSubmit}>        
+                  {/* <Header OpenSidebar={OpenSidebar}/>
+                  <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/> */}
+                <h1 className="form-title">Commande</h1>
+              <form onSubmit={handleSubmit}>        
 
-      <div className="form-group">
-      <div className="customer-date-container">
-        <div>
-          <label htmlFor="customer">Customer:</label>
-          <select id="customer" value={customer} onChange={(e) => setCustomer(e.target.value)}>
-            <option value="">Select Customer</option>
-            <option value="Customer 1">Customer 1</option>
-            <option value="Customer 2">Customer 2</option>
+              <div className="form-group">
+              <div className="customer-date-container">
+                <div>
+                  <label htmlFor="customer">Customer:</label>
+                  <select id="customer" value={customer} onChange={(e) => setCustomer(e.target.value)}>
+                    <option value="">Select Customer</option>
+                    <option value="Customer 1">Customer 1</option>
+                    <option value="Customer 2">Customer 2</option>
 
-          </select>
+                  </select>
+                </div>
+              <div>
+              <label htmlFor="date">Date:</label>
+              <input
+                type="date"
+                id="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </div>
+          </div>
         </div>
-       <div>
-      <label htmlFor="date">Date:</label>
-      <input
-        type="date"
-        id="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-      />
-    </div>
-  </div>
-</div>
 
 
 
         <div className="form-group">
+          <div className="others-container"> 
           <label htmlFor="product">Product:</label>
           <select id="product" value={product} onChange={(e) => setProduct(e.target.value)}>
             <option value="">Select Product</option>
@@ -104,6 +105,7 @@ const OrderForm = () => {
           />
           <label htmlFor="subtotal">Subtotal:</label>
           <input type="text" id="subtotal" value={subtotal} readOnly />
+        </div>
         </div>
         <button type="submit">Submit</button>
       </form>

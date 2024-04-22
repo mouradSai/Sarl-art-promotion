@@ -5,7 +5,7 @@
 
 
 .order-form-container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     border: 3px solid #ccc; /* Thicker border */
@@ -16,14 +16,24 @@
   }
 
   .form-title {
-    font-size: 34px; /* Adjust the font size as needed */
-    margin-bottom: 30px; /* Add space between the title and the form content */
-    color: black;
+    background-color: rgb(164, 23, 23);
+    position: relative;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #ffffff; /* Couleur de texte sombre */
+    text-align: center;
   }
 
   .customer-date-container {
     display: flex;
     justify-content: space-between;
+  }
+  .others-container{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px ;
   }
   
   .customer-date-container > div {
@@ -32,7 +42,10 @@
   }
 
 
+
+
   .form-group {
+    display: row;
     margin-bottom: 15px;
   }
   
@@ -91,3 +104,7 @@
     background-color: #0056b3;
   }
   
+  .input-row {
+    display: inline-block;
+    margin-right: 10px; /* Adjust margin as needed */
+  }
