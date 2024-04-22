@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;800&display=swap');
 
-
-
-
 /* Conteneur principal */
 .container {
   max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
@@ -110,6 +107,7 @@ form {
   max-width: 450px; /* Largeur maximale */
   margin: 0 auto; /* Centrage horizontal */
 }
+
 input[type="text"],
 input[type="boolean"] {
   width: calc(100% - 20px); /* Largeur du champ moins le padding */
@@ -137,7 +135,7 @@ input[type="boolean"]:focus {
 }
 /* Style pour le tableau */
 table {
-  width: 100%; /* Largeur du tableau à 100% pour s'adapter à la largeur du conteneur */
+  width: 1000px; /* Largeur du tableau à 100% pour s'adapter à la largeur du conteneur */
   border-collapse: collapse;
   margin-bottom: 30px;
   font-family: Arial, sans-serif; /* Police de caractères */
@@ -145,7 +143,7 @@ table {
 
 th, td {
   border: 1px solid #ccc; /* Bordure plus légère */
-  padding: 10px; /* Plus de rembourrage pour un aspect plus spacieux */
+  padding: 4px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
   text-align: center;
 }
 
@@ -163,6 +161,7 @@ tr:nth-child(even) {
 tr:hover {
   background-color: #f5f5f5; /* Couleur de fond au survol */
 }
+
 
 
 /* Style pour la croix de fermeture */
@@ -205,3 +204,61 @@ tr:hover {
   background-color: #ddd; /* Gris pour les boutons désactivés */
   cursor: not-allowed; /* Curseur non disponible pour les boutons désactivés */
 }
+
+
+
+
+/* Conteneur principal */
+.container {
+  max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
+  margin: 0 auto; /* Centrage horizontal */
+}
+
+/* Style pour les titres */
+h1 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #000000; /* Couleur de texte sombre */
+  text-align: center;
+}
+.title-all {
+  position: relative;
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #151515; /* Couleur de texte sombre */
+  text-align: center;
+  z-index: 1; /* Ensure title is above the lines */
+}
+
+.title-all::before,
+.title-all::after,
+.title-all::between {
+  content: '';
+  position: absolute;
+  top: 50%;
+  height: 3px; /* Increase thickness of the lines */
+  background-color: white; /* Change color to white */
+  z-index: 0; /* Push lines behind the title */
+}
+
+.title-all::before {
+  left: 0;
+  width: calc(50% - 100px); /* Adjusted width to create space from the title */
+  transform: translateX(-100%); /* Move the left line outside */
+}
+
+.title-all::after {
+  right: 0;
+  width: calc(50% - 100px); /* Adjusted width to create space from the title */
+  transform: translateX(100%); /* Move the right line outside */
+}
+
+.title-all::between {
+  left: 50%;
+  width: 50px; /* Adjusted width of the white space */
+  transform: translateX(-50%);
+}
+
+
