@@ -150,7 +150,7 @@ th {
 }
 
 .pagination button:hover {
-  background-color: #0056b3; /* Bleu plus foncé au survol */
+  background-color: #2785e9; /* Bleu plus foncé au survol */
 }
 
 .pagination button:disabled {
