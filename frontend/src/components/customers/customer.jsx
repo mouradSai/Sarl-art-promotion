@@ -160,7 +160,7 @@ function App() {
             <Header OpenSidebar={OpenSidebar}/>
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
             <div className="container">
-                <h1>Clients</h1>
+                <h1 className="title-all">Clients</h1>
                 <div className="actions">
                 <input
                         type="text"
