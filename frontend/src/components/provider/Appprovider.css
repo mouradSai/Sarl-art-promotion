@@ -1,55 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;800&display=swap');
 
-
-
-
 /* Conteneur principal */
 .container {
   max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
   margin: 0 auto; /* Centrage horizontal */
 }
-.title-all {
-  position: relative;
-  font-family: 'Libre Franklin', sans-serif;
-  font-size: 52px;
-  font-weight: 700;
+
+/* Style pour les titres */
+h1 {
+  font-size: 32px;
   margin-bottom: 30px;
-  color: #151515; /* Couleur de texte sombre */
+  color: #ffffff; /* Couleur de texte sombre */
   text-align: center;
-  z-index: 1; /* Ensure title is above the lines */
-}
-
-.title-all::before,
-.title-all::after,
-.title-all::between {
-  content: '';
-  position: absolute;
-  top: 50%;
-  height: 3px; /* Increase thickness of the lines */
-  background-color: white; /* Change color to white */
-  z-index: 0; /* Push lines behind the title */
-}
-
-.title-all::before {
-  left: 0;
-  width: calc(50% - 200px); /* Adjusted width to create space from the title */
-  transform: translateX(-100%); /* Move the left line outside */
-}
-
-.title-all::after {
-  right: 0;
-  width: calc(50% - 200px); /* Adjusted width to create space from the title */
-  transform: translateX(100%); /* Move the right line outside */
-}
-
-.title-all::between {
-  left: 50%;
-  width: 100px; /* Adjusted width of the white space */
-  transform: translateX(-50%);
-}
-
-.container {
-  position: relative; /* Ensure container provides a reference for absolute positioning */
 }
 
 h2 {
@@ -141,6 +103,7 @@ form {
   max-width: 450px; /* Largeur maximale */
   margin: 0 auto; /* Centrage horizontal */
 }
+
 input[type="text"],
 input[type="boolean"] {
   width: calc(100% - 20px); /* Largeur du champ moins le padding */
@@ -168,20 +131,33 @@ input[type="boolean"]:focus {
 }
 /* Style pour le tableau */
 table {
-  width: 1000px;
+  width: 1000px; /* Largeur du tableau à 100% pour s'adapter à la largeur du conteneur */
   border-collapse: collapse;
   margin-bottom: 30px;
+  font-family: Arial, sans-serif; /* Police de caractères */
 }
 
 th, td {
-  border: 1px solid #ddd;
-  padding: 6px;
+  border: 1px solid #ccc; /* Bordure plus légère */
+  padding: 4px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
   text-align: center;
 }
 
 th {
-  background-color: #e4e4e4; /* Couleur de fond pour les en-têtes de colonne */
+  background-color: #f0f0f0; /* Couleur de fond pour les en-têtes de colonne */
+  color: #333; /* Couleur du texte pour les en-têtes de colonne */
 }
+
+/* Style pour les cellules de données alternées */
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Couleur de fond pour les lignes paires */
+}
+
+/* Style pour les survols de lignes */
+tr:hover {
+  background-color: #f5f5f5; /* Couleur de fond au survol */
+}
+
 
 
 /* Style pour la croix de fermeture */
@@ -224,3 +200,61 @@ th {
   background-color: #ddd; /* Gris pour les boutons désactivés */
   cursor: not-allowed; /* Curseur non disponible pour les boutons désactivés */
 }
+
+
+
+
+/* Conteneur principal */
+.container {
+  max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
+  margin: 0 auto; /* Centrage horizontal */
+}
+
+/* Style pour les titres */
+h1 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #000000; /* Couleur de texte sombre */
+  text-align: center;
+}
+.title-all {
+  position: relative;
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #151515; /* Couleur de texte sombre */
+  text-align: center;
+  z-index: 1; /* Ensure title is above the lines */
+}
+
+.title-all::before,
+.title-all::after,
+.title-all::between {
+  content: '';
+  position: absolute;
+  top: 50%;
+  height: 3px; /* Increase thickness of the lines */
+  background-color: white; /* Change color to white */
+  z-index: 0; /* Push lines behind the title */
+}
+
+.title-all::before {
+  left: 0;
+  width: calc(50% - 100px); /* Adjusted width to create space from the title */
+  transform: translateX(-100%); /* Move the left line outside */
+}
+
+.title-all::after {
+  right: 0;
+  width: calc(50% - 100px); /* Adjusted width to create space from the title */
+  transform: translateX(100%); /* Move the right line outside */
+}
+
+.title-all::between {
+  left: 50%;
+  width: 50px; /* Adjusted width of the white space */
+  transform: translateX(-50%);
+}
+
+
