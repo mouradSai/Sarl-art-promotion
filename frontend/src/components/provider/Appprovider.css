@@ -21,9 +21,22 @@ h2 {
 /* Style pour les boutons */
 .actions {
   display: flex;
-  justify-content: center; /* Alignement des boutons au centre */
+  justify-content: center; 
+  align-items: center;/* Alignement des boutons au centre */
   margin-bottom: 20px;
-  
+  top: 20px; /* Position verticale fixe par rapport au haut de la page */
+  left: 20px;
+}
+
+
+.actions .create-button {
+  margin-left: 10px; /* Marge à gauche pour l'espace entre l'input et le bouton */
+}
+
+.actions input[type="text"] {
+
+  width: 200px; /* Largeur de l'input de recherche */
+  margin-right: 70%; /* Marge à droite pour l'espace entre l'input et le bouton */
 }
 
 .create-button,

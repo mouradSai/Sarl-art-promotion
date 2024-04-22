@@ -160,14 +160,16 @@ function App() {
             <div className="container">
                 <h1>Products</h1>
                 <div className="actions">
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
-                </div>
                 <input
                     type="text"
                     placeholder="Search products..."
                     value={searchText}
                     onChange={handleSearchChange}
                 />
+                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+            
+                 </div>
+
                 {showCreateForm && (
                     <div className="popup">
                         <div className="popup-content">
