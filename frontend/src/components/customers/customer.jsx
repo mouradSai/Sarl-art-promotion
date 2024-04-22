@@ -197,7 +197,7 @@ function App() {
                                     <th>Prenom</th>
                                     <th>Address</th>
                                     <th>Description</th>
-                                    <th>Phone Number</th>
+                                    <th> Number</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
