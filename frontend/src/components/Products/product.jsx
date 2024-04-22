@@ -28,7 +28,7 @@ function App() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 5; // Nombre de produits à afficher par page
+    const productsPerPage = 8; // Nombre de produits à afficher par page
 
     useEffect(() => {
         fetchProducts();

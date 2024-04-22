@@ -28,7 +28,7 @@ function App() {
     const [selectedClient, setSelectedClient] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const clientsPerPage = 5; // Nombre de clients à afficher par page
+    const clientsPerPage = 8; // Nombre de clients à afficher par page
 
     useEffect(() => {
         fetchClients();
