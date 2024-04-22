@@ -141,32 +141,58 @@ form {
   max-width: 450px; /* Largeur maximale */
   margin: 0 auto; /* Centrage horizontal */
 }
-
 input[type="text"],
 input[type="boolean"] {
-  width: calc(100% - 24px); /* Largeur du champ moins le padding */
-  padding: 12px;
+  width: calc(100% - 20px); /* Largeur du champ moins le padding */
+  padding: 10px;
   margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   box-sizing: border-box; /* Inclure la largeur du bord et du padding dans la largeur totale */
+  transition: border-color 0.3s ease; /* Animation de transition pour la couleur de la bordure */
+  font-size: 16px;
 }
 
+/* Style au survol */
+input[type="text"]:hover,
+input[type="boolean"]:hover {
+  border-color: #aaa;
+}
+
+/* Style lorsqu'il est en focus */
+input[type="text"]:focus,
+input[type="boolean"]:focus {
+  border-color: #555;
+  outline: none; /* Supprimer l'outline par défaut */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Ajouter une ombre pour indiquer le focus */
+}
 /* Style pour le tableau */
 table {
-  width: 1000px;
+  width: 100%; /* Largeur du tableau à 100% pour s'adapter à la largeur du conteneur */
   border-collapse: collapse;
   margin-bottom: 30px;
+  font-family: Arial, sans-serif; /* Police de caractères */
 }
 
 th, td {
-  border: 1px solid #ddd;
-  padding: 6px;
+  border: 1px solid #ccc; /* Bordure plus légère */
+  padding: 10px; /* Plus de rembourrage pour un aspect plus spacieux */
   text-align: center;
 }
 
 th {
-  background-color: #e4e4e4; /* Couleur de fond pour les en-têtes de colonne */
+  background-color: #f0f0f0; /* Couleur de fond pour les en-têtes de colonne */
+  color: #333; /* Couleur du texte pour les en-têtes de colonne */
+}
+
+/* Style pour les cellules de données alternées */
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Couleur de fond pour les lignes paires */
+}
+
+/* Style pour les survols de lignes */
+tr:hover {
+  background-color: #f5f5f5; /* Couleur de fond au survol */
 }
 
 

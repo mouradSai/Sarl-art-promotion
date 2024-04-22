@@ -29,7 +29,7 @@ function App() {
     const [selectedProvider, setSelectedProvider] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const providersPerPage = 5; // Nombre de fournisseurs à afficher par page
+    const providersPerPage = 8; // Nombre de fournisseurs à afficher par page
 
     useEffect(() => {
         fetchProviders();
