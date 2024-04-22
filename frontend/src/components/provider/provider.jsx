@@ -140,7 +140,13 @@ function App() {
 
     const filterProviders = (providers, searchText) => {
         return providers.filter(provider => {
-            return provider.name.toLowerCase().includes(searchText.toLowerCase());
+            return (
+                provider.name.toLowerCase().includes(searchText.toLowerCase())||
+                provider.address.toLowerCase().includes(searchText.toLowerCase())||
+                provider.description.toLowerCase().includes(searchText.toLowerCase())
+
+        );
+           
         });
     };
 
