@@ -1,5 +1,5 @@
 import {React  }from 'react';
-import {BsCart3,BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
+import {BsCart3,BsFillArchiveFill, BsFillGrid3X3GapFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import blackLogo from '../../assets/art-black.png';
   
@@ -13,7 +13,6 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         </div>
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>
       </div>
-
       <ul className='sidebar-list'>
       <li className='sidebar-list-item'>
         <Link to="/">
@@ -21,28 +20,32 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           </Link>
         </li>
         <li className='sidebar-list-item'>
+          <a href="">
+            <BsMenuButtonWideFill className='icon'/> Achats
+          </a>
+        </li>
+        <li className='sidebar-list-item'>
+          <a href="">
+            <BsFillGrid3X3GapFill className='icon'/> Ventes
+          </a>
+        </li>
+        <li className='sidebar-list-item'>
         <Link to="/provider">
-            <BsPeopleFill className='icon'/> Providers
+            <BsPeopleFill className='icon'/> Fournisseurs
           </Link>
         </li>
         <li className='sidebar-list-item'>
         <Link to="/customer">
-            <BsPeopleFill className='icon'/> costumers
+            <BsPeopleFill className='icon'/> Clients
           </Link>
         </li>
         <li className='sidebar-list-item'>
         <Link to="/product">
-            <BsFillGrid3X3GapFill className='icon'/> products
+            <BsBox2Fill className='icon'/> Produits
           </Link>
         </li>
-       
         <li className='sidebar-list-item'>
-          <a href="#reports">
-            <BsMenuButtonWideFill className='icon'/> Reports
-          </a>
-        </li>
-        <li className='sidebar-list-item'>
-          <a href="#settings">
+          <a href="#">
             <BsFillGearFill className='icon'/> Options
           </a>
         </li>

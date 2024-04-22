@@ -1,6 +1,6 @@
 import {React} from 'react'
 import { BsSearch, BsJustify} from 'react-icons/bs';
- import { CiLogout } from "react-icons/ci";
+import { RiLogoutCircleFill } from "react-icons/ri";
 
  
  const handleLogout = () => {
@@ -15,13 +15,11 @@ function Header({OpenSidebar}) {
         <div className='menu-icon'>
             <BsJustify className='icon' onClick={OpenSidebar}/>
         </div>
-        <div className='header-left'>
-            <BsSearch  className='icon'/>
-        </div>
+
         <div className='header-right'>
 
             
-            <button className={"white_btn"} onClick={handleLogout} > <CiLogout className='icon'/>logout</button>
+            <button className={"white_btn"} onClick={handleLogout} > <RiLogoutCircleFill className='icon'/>logout</button>
 
         </div>
     </header>

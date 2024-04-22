@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;800&display=swap');
+
+
 .navbar {
 	width: 100%;
 	height: 70px;
@@ -48,7 +51,7 @@ body {
   }
   
   .close_icon {
-    color: red;
+    color: white;
     margin-left: 30px;
     margin-top: 10px;
     cursor: pointer;
@@ -91,6 +94,8 @@ body {
   
   .menu-icon {
     display: none;
+    font-size: 40px; 
+    cursor: pointer; 
   }
   /* End Header  */
   
@@ -98,7 +103,7 @@ body {
   #sidebar {
     grid-area: sidebar;
     height: 100%;
-    background-color: #b61217;
+    background-color: #C12D2D;
     overflow-y: auto;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
@@ -120,8 +125,11 @@ body {
     display: flex;
     padding: 15px 30px 0px 30px;
     margin-bottom: 30px;
+    
   }
   .sidebar-name {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
     margin-top: 20px;
     margin-bottom: 20px;
   }
@@ -149,8 +157,10 @@ body {
   }
   
   .sidebar-list-item {
+    font-family: 'Libre Franklin', sans-serif;
     padding: 20px 20px 20px 20px;
     font-size: 18px;
+    font-weight: 600;
   }
   
   .sidebar-list-item:hover {
@@ -160,7 +170,7 @@ body {
   
   .sidebar-list-item > a {
     text-decoration: none;
-        color: #ffffff;
+    color: #ffffff;
   }
   
   .sidebar-responsive {
