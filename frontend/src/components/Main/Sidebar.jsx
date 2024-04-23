@@ -45,6 +45,11 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           </Link>
         </li>
         <li className='sidebar-list-item'>
+        <Link to="/historiqueachat">
+            <BsPeopleFill className='icon'/> Historique
+          </Link>
+        </li>
+        <li className='sidebar-list-item'>
           <a href="#settings">
             <BsFillGearFill className='icon'/> Options
           </a>
