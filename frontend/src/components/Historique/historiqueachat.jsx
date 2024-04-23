@@ -29,7 +29,7 @@ function App() {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 8; // Nombre de commandes à afficher par page
+    const ordersPerPage = 3; // Nombre de commandes à afficher par page
 
     useEffect(() => {
         fetchOrders();
