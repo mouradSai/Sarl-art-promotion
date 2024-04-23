@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth");
 const providersRoute = require ("./routes/providersRoute");
 const clientsRoute = require ("./routes/clientsRoute");
 const productsRoute = require ("./routes/productsRoute");
+const ordersRoute =require ("./routes/ordersRoute");
 
 
 const express = require("express");
@@ -35,8 +36,10 @@ app.use("/api/auth", authRoutes);
 app.use('/providers', providersRoute);
 app.use('/clients', clientsRoute);
 app.use('/products', productsRoute);
+app.use('/orders',ordersRoute);
 
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
+
 

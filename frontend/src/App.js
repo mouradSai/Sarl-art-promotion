@@ -6,6 +6,7 @@ import Provider from "./components/provider/provider";
 import Customer from"./components/customers/customer";
 import Product from "./components/Products/product";
 import Buy from "./components/buy/buy";
+import Historiqueachat from "./components/Historique/historiqueachat";
 
 
 
@@ -23,6 +24,7 @@ function App() {
 			<Route path="/customer" element={<Customer />}/>
 			<Route path="/product" element={<Product />}/>
 			<Route path="/buy" element={<Buy />}/>
+			<Route path="/historiqueachat" element={<Historiqueachat />}/>
 
 
 
