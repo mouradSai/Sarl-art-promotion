@@ -24,10 +24,6 @@ const OrderForm = () => {
     setOpenSidebarToggle(!openSidebarToggle);
   };
 
-  const handleSidebarItemClick = (content) => {
-    setSelectedContent(content);
-  };
-
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:8080/products');
@@ -53,22 +49,21 @@ const OrderForm = () => {
     fetchProviders();
   }, []);
 
+  useEffect(() => {
+    // Calcul du sous-total chaque fois que quantity ou unitPrice changent
+    setSubtotal(quantity * unitPrice);
+  }, [quantity, unitPrice]);
+
   const showAlert = (message) => {
     alert(message);
   };
 
-  const calculateSubtotal = () => {
-    setSubtotal(quantity * unitPrice);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const saveOrder = async () => {
     if (!provider || !date || !product || !description || !quantity || !unitPrice) {
       showAlert('Please fill in all required fields.');
       return;
     }
-
-    const order = {
+    const formData = {
       provider,
       date,
       product,
@@ -77,21 +72,20 @@ const OrderForm = () => {
       unitPrice,
       subtotal
     };
-
-    // Vérifier si le fournisseur est déjà dans les commandes
-    const existingOrderWithSameProvider = orders.find((ord) => ord.provider === provider);
-    if (existingOrderWithSameProvider) {
-      showAlert('You cannot add another order with a different provider.');
-      return;
-    }
-
     try {
-      const response = await axios.post('http://localhost:8080/orders', order);
+      const response = await axios.post('http://localhost:8080/orders', formData);
       if (response.status === 201) {
         showAlert('Order created successfully.');
-        setOrders([...orders, order]);
-        setTotal(total + subtotal);
-        // Clear form fields after submission
+        setOrders([...orders, formData]);
+        setTotal(total + formData.subtotal);
+        // Mettre à jour la quantité du produit
+        const updatedProducts = products.map(prod => {
+          if (prod._id === product) {
+            return { ...prod, quantity: prod.quantity - quantity };
+          }
+          return prod;
+        });
+        setProducts(updatedProducts);
         resetFormFields();
         setProviderLocked(true);
       } else {
@@ -116,7 +110,7 @@ const OrderForm = () => {
   return (
     <div className="grid-container">
       <Header OpenSidebar={OpenSidebar} />
-      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick} />
+      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
       <div className="order-form-container" id="orderFormContainer">
         <h1 className="form-title">Commande d'Achat</h1>
         <div className="form-row">
@@ -168,7 +162,7 @@ const OrderForm = () => {
           </div>
           <div className="form-group">
             <label htmlFor="subtotal">Total:</label>
-            <input type="text" id="subtotal" value={subtotal} onChange={(e) => setSubtotal(e.target.value)} />
+            <input type="text" id="subtotal" value={subtotal} readOnly />
           </div>
         </div>
         <div className="order-table-container">
@@ -203,7 +197,7 @@ const OrderForm = () => {
           <p>Total: {total}</p>
         </div>
         <div className="form-group">
-          <button type="button" className="save-button" onClick={handleSubmit}>Enregistrer</button>
+          <button type="button" className="save-button" onClick={saveOrder}>Enregistrer</button>
           <ReactToPrint
             trigger={() => <button type="button" className="print-button">Imprimer</button>}
             content={() => document.getElementById('orderFormContainer')}

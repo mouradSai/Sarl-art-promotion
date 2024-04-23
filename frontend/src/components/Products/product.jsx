@@ -183,7 +183,10 @@ function App() {
                                 <select name="unit" value={formData.unit} onChange={handleChange}>
                                     <option value="">Selectionné Unité</option>
                                     <option value="kg">KG</option>
-                                    <option value="g">L</option>
+                                    <option value="g">g</option>
+                                    <option value="L">L</option>
+                                    <option value="ml">ml</option>
+                                    <option value="unit">unit</option>
                                 </select>
                                 <button className="create-button" type="submit">Save</button>
                                 <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
