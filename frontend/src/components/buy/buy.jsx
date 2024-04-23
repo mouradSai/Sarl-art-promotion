@@ -1,7 +1,24 @@
 import React, { useState } from 'react';
 import './Appbuy.css';
+import Sidebar from '../Main/Sidebar';
+import Header from '../Main/Header';
+
+
+
 
 const OrderForm = () => {
+
+  // const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+
+  // const OpenSidebar = () => {
+  //     setOpenSidebarToggle(!openSidebarToggle);
+  // };
+
+  // const handleSidebarItemClick = (content) => {
+  //     setSelectedContent(content); // Correction: la variable "selectedContent" n'est pas définie
+  // };
+
+
   const [customer, setCustomer] = useState('');
   const [date, setDate] = useState('');
   const [product, setProduct] = useState('');
@@ -61,6 +78,9 @@ const OrderForm = () => {
 
   return (
     <div className="order-form-container">
+       {/* <div className="grid-container"> */}
+       {/* <Header OpenSidebar={OpenSidebar}/>
+       <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/> */}
       <h1 className="form-title">Commande d'Achat</h1>
       <div className="form-row">
         <div className="form-group">
@@ -132,6 +152,7 @@ const OrderForm = () => {
       <button type="button" className="save-button">Enregistrer</button>
       <button type="button" className="print-button">Imprimer</button>
     </div>
+    // </div>
   );
 };
 
