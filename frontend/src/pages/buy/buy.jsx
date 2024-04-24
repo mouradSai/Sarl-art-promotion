@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appbuy.css';
-import Sidebar from '../Main/Sidebar';
-import Header from '../Main/Header';
+import Sidebar from '../../components/Main/Sidebar';
+import Header from '../../components/Main/Header';
 import ReactToPrint from 'react-to-print';
-import CustomAlert from '../costumeAlert/costumeAlert'; // Import du composant CustomAlert
+import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 
 
