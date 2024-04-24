@@ -1,10 +1,10 @@
-// Frontend
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appbuy.css';
 import Sidebar from '../Main/Sidebar';
 import Header from '../Main/Header';
 import ReactToPrint from 'react-to-print';
+import CustomAlert from '../costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 const OrderForm = () => {
   const [providerId, setProviderId] = useState('');
@@ -22,19 +22,19 @@ const OrderForm = () => {
   const [products, setProducts] = useState([]);
   const [providers, setProviders] = useState([]);
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+  const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
 
   const openSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
   };
- 
-  
+
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:8080/products');
       setProducts(response.data.data);
     } catch (error) {
       console.error('Error:', error);
-      showAlert('An error occurred while fetching products. Please try again later.');
+      showAlert('Une erreur s\'est produite lors de la récupération des produits. Veuillez réessayer plus tard.', 'error');
     }
   };
 
@@ -44,7 +44,7 @@ const OrderForm = () => {
       setProviders(response.data.data);
     } catch (error) {
       console.error('Error:', error);
-      showAlert('An error occurred while fetching providers. Please try again later.');
+      showAlert('Une erreur s\'est produite lors de la récupération des fournisseurs. Veuillez réessayer plus tard.', 'error');
     }
   };
 
@@ -57,13 +57,13 @@ const OrderForm = () => {
     setSubtotal(quantity * unitPrice);
   }, [quantity, unitPrice]);
 
-  const showAlert = (message) => {
-    alert(message);
+  const showAlert = (message, type) => {
+    setAlert({ message, type });
   };
 
   const saveOrder = async () => {
     if (!providerName || !date || !productName || !description || !quantity || !unitPrice) {
-      showAlert('Please fill in all required fields.');
+      showAlert('Veuillez remplir tous les champs requis.', 'error');
       return;
     }
     const formData = {
@@ -80,7 +80,7 @@ const OrderForm = () => {
     try {
       const response = await axios.post('http://localhost:8080/orders', formData);
       if (response.status === 201) {
-        showAlert('Order created successfully.');
+        showAlert('Commande créée avec succès.', 'success');
         setOrders([...orders, formData]);
         setTotal(total + formData.subtotal);
         const updatedProducts = products.map((prod) => {
@@ -90,14 +90,15 @@ const OrderForm = () => {
           return prod;
         });
         setProducts(updatedProducts);
-        resetFormFields();
         setProviderLocked(true);
+        // Ne réinitialisez pas les champs du formulaire ici
+        // resetFormFields();
       } else {
-        showAlert(response.data.message || 'An error occurred while creating the order.');
+        showAlert(response.data.message || 'Une erreur s\'est produite lors de la création de la commande.', 'error');
       }
     } catch (error) {
       console.error('Error:', error);
-      showAlert('An error occurred while creating the order. Please try again later.');
+      showAlert('Une erreur s\'est produite lors de la création de la commande. Veuillez réessayer plus tard.', 'error');
     }
   };
 
@@ -116,13 +117,7 @@ const OrderForm = () => {
   return (
     <div className="grid-container">
       <Header openSidebar={openSidebar} />
-
-
       <Sidebar openSidebarToggle={openSidebarToggle} openSidebar={openSidebar} />
-
-
-
-
       <div className="order-form-container" id="orderFormContainer">
         <h1 className="form-title">Commande d'Achat</h1>
         <div className="form-row">
@@ -231,6 +226,8 @@ const OrderForm = () => {
             content={() => document.getElementById('orderFormContainer')}
           />
         </div>
+        {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
+
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import axios from 'axios';
 import './AppCostomer.css'; // Correction de la typo dans le nom du fichier CSS
 import Sidebar from '../Main/Sidebar';
 import Header from '../Main/Header';
+import CustomAlert from '../costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -28,6 +29,8 @@ function App() {
     const [selectedClient, setSelectedClient] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
+
     const clientsPerPage = 8; // Nombre de clients à afficher par page
 
     useEffect(() => {
@@ -43,7 +46,10 @@ function App() {
             showAlert('An error occurred while fetching clients. Please try again later.');
         }
     };
-
+    const showAlert = (message, type) => {
+        setAlert({ message, type });
+      };
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({
@@ -132,9 +138,6 @@ function App() {
         });
     };
 
-    const showAlert = (message) => {
-        alert(message);
-    };
 
     const filterClients = (clients, searchText) => {
         const filteredClients = clients.filter(client => {
@@ -259,6 +262,8 @@ function App() {
                         </div>
                     </div>
                 )}
+                        {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
+
             </div>
         </div>
     );

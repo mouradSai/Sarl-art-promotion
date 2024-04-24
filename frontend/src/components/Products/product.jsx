@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Appproducts.css';
 import Sidebar from '../Main/Sidebar';
 import Header from '../Main/Header';
+import CustomAlert from '../costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
     const handleLogout = () => {
@@ -28,8 +29,11 @@ function App() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [alert, setAlert] = useState(null); 
     const productsPerPage = 8; // Nombre de produits à afficher par page
-
+    const showAlert = (message, type) => {
+        setAlert({ message, type });
+      };
     useEffect(() => {
         fetchProducts();
     }, []);
@@ -132,10 +136,7 @@ function App() {
         });
     };
 
-    const showAlert = (message) => {
-        alert(message);
-    };
-
+ 
     // Modifiez la fonction filterProducts pour inclure la pagination
     const filterProducts = (products, searchText) => {
         const filtered = products.filter(product => {
@@ -269,6 +270,8 @@ function App() {
                         </div>
                     </div>
                 )}
+              {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
+
             </div>
         </div>
     );
