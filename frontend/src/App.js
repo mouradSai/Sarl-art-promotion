@@ -1,12 +1,17 @@
 import { Route, Routes, Navigate } from "react-router-dom";
+
+//components imports 
 import Index from "./components/Main/index";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import Provider from "./components/provider/provider";
-import Customer from"./components/customers/customer";
-import Product from "./components/Products/product";
-import Buy from "./components/buy/buy";
-import Historiqueachat from "./components/Historique/historiqueachat";
+
+
+//pages imports 
+import Product from "./pages/Products/product";
+import Customer from"./pages/customers/customer";
+import Provider from "./pages/provider/provider";
+import Buy from "./pages/buy/buy";
+import Historiqueachat from "./pages/Historique/historiqueachat";
 
 
 

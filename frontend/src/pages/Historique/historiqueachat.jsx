@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from '../Main/Sidebar';
-import Header from '../Main/Header';
+import Sidebar from '../../components/Main/Sidebar';
+import Header from '../../components/Main/Header';
 
 function App() {
     const handleLogout = () => {

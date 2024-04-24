@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appproducts.css';
-import Sidebar from '../Main/Sidebar';
-import Header from '../Main/Header';
-import CustomAlert from '../costumeAlert/costumeAlert'; // Import du composant CustomAlert
+import Sidebar from '../../components/Main/Sidebar';
+import Header from '../../components/Main/Header';
+import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
     const handleLogout = () => {
