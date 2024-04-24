@@ -65,7 +65,7 @@ function Home() {
               
                 <div className='card'>
                     <div className='card-inner'>
-                        <h3>Providers</h3>
+                        <h3>PROVIDERS</h3>
                         <BsPeopleFill className='card_icon'/>
                     </div>
                     <h1>{providersCount}</h1>
@@ -79,7 +79,7 @@ function Home() {
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
-                        <h3>Orders</h3>
+                        <h3>ORDERS</h3>
                         <BsFillBellFill className='card_icon'/>
                     </div>
                     <h1>{ordersCount}</h1>
