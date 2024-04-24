@@ -3,6 +3,8 @@ import axios from 'axios';
 import Sidebar from '../Main/Sidebar';
 import Header from '../Main/Header';
 import './Appprovider.css';
+import CustomAlert from '../costumeAlert/costumeAlert'; // Import du composant CustomAlert
+
 function App() {
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -29,8 +31,11 @@ function App() {
     const [selectedProvider, setSelectedProvider] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [alert, setAlert] = useState(null); 
     const providersPerPage = 8; // Nombre de fournisseurs à afficher par page
-
+    const showAlert = (message, type) => {
+        setAlert({ message, type });
+      };
     useEffect(() => {
         fetchProviders();
     }, []);
@@ -134,10 +139,7 @@ function App() {
         });
     };
 
-    const showAlert = (message) => {
-        alert(message);
-    };
-
+ 
     const filterProviders = (providers, searchText) => {
         return providers.filter(provider => {
             return (
@@ -262,6 +264,8 @@ function App() {
                         </div>
                     </div>
                 )}
+             {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
+
             </div>
         </div>
     );

@@ -4,13 +4,16 @@ import './Appbuy.css';
 import Sidebar from '../Main/Sidebar';
 import Header from '../Main/Header';
 import ReactToPrint from 'react-to-print';
+import CustomAlert from '../costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 
 
 const OrderForm = () => {
-  const [provider, setProvider] = useState('');
+  const [providerId, setProviderId] = useState('');
+  const [providerName, setProviderName] = useState('');
   const [date, setDate] = useState('');
-  const [product, setProduct] = useState('');
+  const [productId, setProductId] = useState('');
+  const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [unitPrice, setUnitPrice] = useState(0);
@@ -21,13 +24,10 @@ const OrderForm = () => {
   const [products, setProducts] = useState([]);
   const [providers, setProviders] = useState([]);
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+  const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
 
-  const OpenSidebar = () => {
+  const openSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
-  };
-
-  const handleSidebarItemClick = (content) => {
-    setSelectedContent(content);
   };
 
   const fetchProducts = async () => {
@@ -36,7 +36,7 @@ const OrderForm = () => {
       setProducts(response.data.data);
     } catch (error) {
       console.error('Error:', error);
-      showAlert('An error occurred while fetching products. Please try again later.');
+      showAlert('Une erreur s\'est produite lors de la récupération des produits. Veuillez réessayer plus tard.', 'error');
     }
   };
 
@@ -46,7 +46,7 @@ const OrderForm = () => {
       setProviders(response.data.data);
     } catch (error) {
       console.error('Error:', error);
-      showAlert('An error occurred while fetching providers. Please try again later.');
+      showAlert('Une erreur s\'est produite lors de la récupération des fournisseurs. Veuillez réessayer plus tard.', 'error');
     }
   };
 
@@ -55,60 +55,61 @@ const OrderForm = () => {
     fetchProviders();
   }, []);
 
-  const showAlert = (message) => {
-    alert(message);
-  };
-
-  const calculateSubtotal = () => {
+  useEffect(() => {
     setSubtotal(quantity * unitPrice);
+  }, [quantity, unitPrice]);
+
+  const showAlert = (message, type) => {
+    setAlert({ message, type });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!provider || !date || !product || !description || !quantity || !unitPrice) {
-      showAlert('Please fill in all required fields.');
+  const saveOrder = async () => {
+    if (!providerName || !date || !productName || !description || !quantity || !unitPrice) {
+      showAlert('Veuillez remplir tous les champs requis.', 'error');
       return;
     }
-
-    const order = {
-      provider,
+    const formData = {
+      provider: providerId,
+      nameprovider: providerName,
       date,
-      product,
+      product: productId,
+      nameproduct: productName,
       description,
       quantity,
       unitPrice,
       subtotal
     };
-
-    // Vérifier si le fournisseur est déjà dans les commandes
-    const existingOrderWithSameProvider = orders.find((ord) => ord.provider === provider);
-    if (existingOrderWithSameProvider) {
-      showAlert('You cannot add another order with a different provider.');
-      return;
-    }
-
     try {
-      const response = await axios.post('http://localhost:8080/orders', order);
+      const response = await axios.post('http://localhost:8080/orders', formData);
       if (response.status === 201) {
-        showAlert('Order created successfully.');
-        setOrders([...orders, order]);
-        setTotal(total + subtotal);
-        // Clear form fields after submission
-        resetFormFields();
+        showAlert('Commande créée avec succès.', 'success');
+        setOrders([...orders, formData]);
+        setTotal(total + formData.subtotal);
+        const updatedProducts = products.map((prod) => {
+          if (prod._id === productId) {
+            return { ...prod, quantity: prod.quantity - parseInt(quantity) };
+          }
+          return prod;
+        });
+        setProducts(updatedProducts);
         setProviderLocked(true);
+        // Ne réinitialisez pas les champs du formulaire ici
+        // resetFormFields();
       } else {
-        showAlert(response.data.message || 'An error occurred while creating the order.');
+        showAlert(response.data.message || 'Une erreur s\'est produite lors de la création de la commande.', 'error');
       }
     } catch (error) {
       console.error('Error:', error);
-      showAlert('An error occurred while creating the order. Please try again later.');
+      showAlert('Une erreur s\'est produite lors de la création de la commande. Veuillez réessayer plus tard.', 'error');
     }
   };
 
   const resetFormFields = () => {
-    setProvider('');
+    setProviderId('');
+    setProviderName('');
     setDate('');
-    setProduct('');
+    setProductId('');
+    setProductName('');
     setDescription('');
     setQuantity(0);
     setUnitPrice(0);
@@ -117,18 +118,20 @@ const OrderForm = () => {
 
   return (
     <div className="grid-container">
-      <Header OpenSidebar={OpenSidebar} />
-      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick} />
+      <Header openSidebar={openSidebar} />
+      <Sidebar openSidebarToggle={openSidebarToggle} openSidebar={openSidebar} />
       <div className="order-form-container" id="orderFormContainer">
         <h1 className="form-title">Commande d'Achat</h1>
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="provider">Fournisseur ID:</label>
+            <label htmlFor="provider">Fournisseur:</label>
             <select
               id="provider"
-              value={provider}
+              value={providerId}
               onChange={(e) => {
-                setProvider(e.target.value);
+                const selectedProvider = providers.find((prov) => prov._id === e.target.value);
+                setProviderId(e.target.value);
+                setProviderName(selectedProvider.name);
                 if (!providerLocked) {
                   setProviderLocked(true);
                 }
@@ -137,9 +140,10 @@ const OrderForm = () => {
             >
               <option value="">Sélectionner le fournisseur</option>
               {providers.map((prov) => (
-                <option key={prov.id} value={prov._id}>{prov._id}</option>
+                <option key={prov._id} value={prov._id}>{prov.name}</option>
               ))}
             </select>
+            {providerId && <p>Selected Provider ID: {providerId}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="date">Date:</label>
@@ -148,13 +152,22 @@ const OrderForm = () => {
         </div>
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="product">Produit ID:</label>
-            <select id="product" value={product} onChange={(e) => setProduct(e.target.value)}>
+            <label htmlFor="product">Produit:</label>
+            <select
+              id="product"
+              value={productId}
+              onChange={(e) => {
+                const selectedProduct = products.find((prod) => prod._id === e.target.value);
+                setProductId(e.target.value);
+                setProductName(selectedProduct.name);
+              }}
+            >
               <option value="">Sélectionner le produit</option>
               {products.map((prod) => (
-                <option key={prod.id} value={prod._id}>{prod._id}</option>
+                <option key={prod._id} value={prod._id}>{prod.name}</option>
               ))}
             </select>
+            {productId && <p>Selected Product ID: {productId}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="description">Description:</label>
@@ -170,7 +183,7 @@ const OrderForm = () => {
           </div>
           <div className="form-group">
             <label htmlFor="subtotal">Total:</label>
-            <input type="text" id="subtotal" value={subtotal} onChange={(e) => setSubtotal(e.target.value)} />
+            <input type="text" id="subtotal" value={subtotal} readOnly />
           </div>
         </div>
         <div className="order-table-container">
@@ -178,8 +191,10 @@ const OrderForm = () => {
             <thead>
               <tr>
                 <th>Fournisseur ID</th>
+                <th>Fournisseur</th>
                 <th>Date</th>
                 <th>Produit ID</th>
+                <th>Produit</th>
                 <th>Description</th>
                 <th>Quantité</th>
                 <th>Prix unitaire</th>
@@ -190,8 +205,10 @@ const OrderForm = () => {
               {orders.map((order, index) => (
                 <tr key={index}>
                   <td>{order.provider}</td>
+                  <td>{order.nameprovider}</td>
                   <td>{order.date}</td>
                   <td>{order.product}</td>
+                  <td>{order.nameproduct}</td>
                   <td>{order.description}</td>
                   <td>{order.quantity}</td>
                   <td>{order.unitPrice}</td>
@@ -205,12 +222,14 @@ const OrderForm = () => {
           <p>Total: {total}</p>
         </div>
         <div className="form-group">
-          <button type="button" className="save-button" onClick={handleSubmit}>Enregistrer</button>
+          <button type="button" className="save-button" onClick={saveOrder}>Enregistrer</button>
           <ReactToPrint
             trigger={() => <button type="button" className="print-button">Imprimer</button>}
             content={() => document.getElementById('orderFormContainer')}
           />
         </div>
+        {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
+
       </div>
     </div>
     // </div>
