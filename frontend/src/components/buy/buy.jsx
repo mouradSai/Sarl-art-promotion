@@ -1,3 +1,4 @@
+// Frontend
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appbuy.css';
@@ -6,9 +7,11 @@ import Header from '../Main/Header';
 import ReactToPrint from 'react-to-print';
 
 const OrderForm = () => {
-  const [provider, setProvider] = useState('');
+  const [providerId, setProviderId] = useState('');
+  const [providerName, setProviderName] = useState('');
   const [date, setDate] = useState('');
-  const [product, setProduct] = useState('');
+  const [productId, setProductId] = useState('');
+  const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [unitPrice, setUnitPrice] = useState(0);
@@ -20,10 +23,11 @@ const OrderForm = () => {
   const [providers, setProviders] = useState([]);
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
-  const OpenSidebar = () => {
+  const openSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
   };
-
+ 
+  
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:8080/products');
@@ -50,7 +54,6 @@ const OrderForm = () => {
   }, []);
 
   useEffect(() => {
-    // Calcul du sous-total chaque fois que quantity ou unitPrice changent
     setSubtotal(quantity * unitPrice);
   }, [quantity, unitPrice]);
 
@@ -59,14 +62,16 @@ const OrderForm = () => {
   };
 
   const saveOrder = async () => {
-    if (!provider || !date || !product || !description || !quantity || !unitPrice) {
+    if (!providerName || !date || !productName || !description || !quantity || !unitPrice) {
       showAlert('Please fill in all required fields.');
       return;
     }
     const formData = {
-      provider,
+      provider: providerId,
+      nameprovider: providerName,
       date,
-      product,
+      product: productId,
+      nameproduct: productName,
       description,
       quantity,
       unitPrice,
@@ -78,10 +83,9 @@ const OrderForm = () => {
         showAlert('Order created successfully.');
         setOrders([...orders, formData]);
         setTotal(total + formData.subtotal);
-        // Mettre à jour la quantité du produit
-        const updatedProducts = products.map(prod => {
-          if (prod._id === product) {
-            return { ...prod, quantity: prod.quantity - quantity };
+        const updatedProducts = products.map((prod) => {
+          if (prod._id === productId) {
+            return { ...prod, quantity: prod.quantity - parseInt(quantity) };
           }
           return prod;
         });
@@ -98,9 +102,11 @@ const OrderForm = () => {
   };
 
   const resetFormFields = () => {
-    setProvider('');
+    setProviderId('');
+    setProviderName('');
     setDate('');
-    setProduct('');
+    setProductId('');
+    setProductName('');
     setDescription('');
     setQuantity(0);
     setUnitPrice(0);
@@ -109,18 +115,26 @@ const OrderForm = () => {
 
   return (
     <div className="grid-container">
-      <Header OpenSidebar={OpenSidebar} />
-      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
+      <Header openSidebar={openSidebar} />
+
+
+      <Sidebar openSidebarToggle={openSidebarToggle} openSidebar={openSidebar} />
+
+
+
+
       <div className="order-form-container" id="orderFormContainer">
         <h1 className="form-title">Commande d'Achat</h1>
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="provider">Fournisseur ID:</label>
+            <label htmlFor="provider">Fournisseur:</label>
             <select
               id="provider"
-              value={provider}
+              value={providerId}
               onChange={(e) => {
-                setProvider(e.target.value);
+                const selectedProvider = providers.find((prov) => prov._id === e.target.value);
+                setProviderId(e.target.value);
+                setProviderName(selectedProvider.name);
                 if (!providerLocked) {
                   setProviderLocked(true);
                 }
@@ -129,9 +143,10 @@ const OrderForm = () => {
             >
               <option value="">Sélectionner le fournisseur</option>
               {providers.map((prov) => (
-                <option key={prov.id} value={prov._id}>{prov._id}</option>
+                <option key={prov._id} value={prov._id}>{prov.name}</option>
               ))}
             </select>
+            {providerId && <p>Selected Provider ID: {providerId}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="date">Date:</label>
@@ -140,13 +155,22 @@ const OrderForm = () => {
         </div>
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="product">Produit ID:</label>
-            <select id="product" value={product} onChange={(e) => setProduct(e.target.value)}>
+            <label htmlFor="product">Produit:</label>
+            <select
+              id="product"
+              value={productId}
+              onChange={(e) => {
+                const selectedProduct = products.find((prod) => prod._id === e.target.value);
+                setProductId(e.target.value);
+                setProductName(selectedProduct.name);
+              }}
+            >
               <option value="">Sélectionner le produit</option>
               {products.map((prod) => (
-                <option key={prod.id} value={prod._id}>{prod._id}</option>
+                <option key={prod._id} value={prod._id}>{prod.name}</option>
               ))}
             </select>
+            {productId && <p>Selected Product ID: {productId}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="description">Description:</label>
@@ -170,8 +194,10 @@ const OrderForm = () => {
             <thead>
               <tr>
                 <th>Fournisseur ID</th>
+                <th>Fournisseur</th>
                 <th>Date</th>
                 <th>Produit ID</th>
+                <th>Produit</th>
                 <th>Description</th>
                 <th>Quantité</th>
                 <th>Prix unitaire</th>
@@ -182,8 +208,10 @@ const OrderForm = () => {
               {orders.map((order, index) => (
                 <tr key={index}>
                   <td>{order.provider}</td>
+                  <td>{order.nameprovider}</td>
                   <td>{order.date}</td>
                   <td>{order.product}</td>
+                  <td>{order.nameproduct}</td>
                   <td>{order.description}</td>
                   <td>{order.quantity}</td>
                   <td>{order.unitPrice}</td>
