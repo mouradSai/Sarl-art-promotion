@@ -217,14 +217,14 @@ const OrderForm = () => {
                   <td>{order.description}</td>
                   <td>{order.quantity}</td>
                   <td>{order.unitPrice}</td>
-                  <td>{order.subtotal}</td>
+                  <td>{order.subtotal},00 DA</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <div className="total-container">
-          <p>Total: {total}</p>
+          <p>Total: {total} ,00 DA</p>
         </div>
         <div className="form-group">
           <button type="button" className="save-button" onClick={saveOrder}>Enregistrer</button>

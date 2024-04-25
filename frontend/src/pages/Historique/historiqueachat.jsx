@@ -100,8 +100,14 @@ function App() {
         setShowCreateForm(true);
     };
 
-    const handleView = (order) => {
-        setSelectedOrder(order);
+    const handleView = async (order) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/orders/${order._id}`);
+            setSelectedOrder(response.data);
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred. Please try again later.');
+        }
     };
 
     const handleEditSubmit = async (event) => {
@@ -141,7 +147,7 @@ function App() {
 
     const filterOrders = (orders, searchText) => {
         const filtered = orders.filter(order => {
-            return order.provider.toLowerCase().includes(searchText.toLowerCase());
+            return order.nameprovider.toLowerCase().includes(searchText.toLowerCase());
         });
 
         const indexOfLastOrder = currentPage * ordersPerPage;
@@ -196,8 +202,10 @@ function App() {
                         <thead>
                             <tr>
                                 <th>Provider</th>
+                                <th>Provider ID</th>
                                 <th>Date</th>
                                 <th>Product</th>
+                                <th>Product ID</th>
                                 <th>Description</th>
                                 <th>Quantity</th>
                                 <th>Unit Price</th>
@@ -208,13 +216,15 @@ function App() {
                         <tbody>
                             {filteredOrders.map(order => (
                                 <tr key={order._id}>
+                                    <td>{order.nameprovider}</td>
                                     <td>{order.provider}</td>
                                     <td>{order.date}</td>
+                                    <td>{order.nameproduct}</td>
                                     <td>{order.product}</td>
                                     <td>{order.description}</td>
                                     <td>{order.quantity}</td>
                                     <td>{order.unitPrice}</td>
-                                    <td>{order.subtotal}</td>
+                                    <td>{order.subtotal},00 DA</td>
                                     <td>
                                         <button className='view-button' onClick={() => handleView(order)}>View</button>
                                         <button className='edit-button' onClick={() => handleEdit(order)}>Edit</button>
@@ -239,8 +249,16 @@ function App() {
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedOrder(null)}>&times;</span>
                             <h2>Order Details</h2>
-                            {/* Affichez les détails de la commande ici */}
-                            <button className='delete-button' onClick={() => setSelectedOrder(null)}>Cancel</button>
+                            <p><strong>Provider:</strong> {selectedOrder.nameprovider}</p>
+                            <p><strong>Provider ID:</strong> {selectedOrder.provider}</p>
+                            <p><strong>Date:</strong> {selectedOrder.date}</p>
+                            <p><strong>Product:</strong> {selectedOrder.nameproduct}</p>
+                            <p><strong>Product ID:</strong> {selectedOrder.product}</p>
+                            <p><strong>Description:</strong> {selectedOrder.description}</p>
+                            <p><strong>Quantity:</strong> {selectedOrder.quantity}</p>
+                            <p><strong>Unit Price:</strong> {selectedOrder.unitPrice}</p>
+                            <p><strong>Subtotal:</strong> {selectedOrder.subtotal},00 DA</p>
+                            <button className='delete-button' onClick={() => setSelectedOrder(null)}>Close</button>
                         </div>
                     </div>
                 )}
