@@ -71,12 +71,29 @@ function App() {
         }
     };
 
+    const calculateSubtotal = (quantity, unitPrice) => {
+        return quantity * unitPrice;
+    };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        if (name === 'quantity' || name === 'unitPrice') {
+            const newFormData = {
+                ...formData,
+                [name]: value
+            };
+            if (newFormData.quantity && newFormData.unitPrice) {
+                newFormData.subtotal = calculateSubtotal(newFormData.quantity, newFormData.unitPrice);
+            } else {
+                newFormData.subtotal = 0; // Réinitialiser le subtotal si l'un des champs est vide
+            }
+            setFormData(newFormData);
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
     };
 
     const handleProviderChange = (event) => {
@@ -356,4 +373,4 @@ function App() {
 }
 
 export default App;
-/*fdefekfbdnkdlev,de,            last version                         ************************/
+/*deedfdnednfenf efefjfefe last version **********************sddddcd/c/c/f/vf/v/f/vr/v/r/vr//rv/rrrr**r*vrvrvrvrvrv****////
