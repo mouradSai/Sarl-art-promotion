@@ -12,7 +12,8 @@ import Customer from"./pages/customers/customer";
 import Provider from "./pages/provider/provider";
 import Buy from "./pages/buy/buy";
 import Sell from "./pages/sell/sell"
-import Historiqueachat from "./pages/Historique/historiqueachat";
+import Historiqueachat from "./pages/Historique/historiqueAchat/historiqueachat";
+import Historiquevente from "./pages/Historique/historiquevente/historiquevente";
 import Historique from "./pages/Historique/historique"
 
 
@@ -32,6 +33,7 @@ function App() {
 			<Route path="/buy" element={<Buy />}/>
 			<Route path="/sell" element={<Sell />}/>
 			<Route path="/historiqueachat" element={<Historiqueachat />}/>
+			<Route path="/historiquevente" element={<Historiquevente />}/>
 			<Route path="/historique" element={<Historique />}/>
 
 

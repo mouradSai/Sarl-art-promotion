@@ -7,6 +7,8 @@ function Home() {
     const [providersCount, setProvidersCount] = useState(0);
     const [customersCount, setCustomersCount] = useState(0);
     const [ordersachatCount,setOrdersachatCount] = useState(0);
+    const [ordersventeCount,setOrderventeCount] = useState(0);
+
 
     useEffect(() => {
         const fetchCounts = async () => {
@@ -25,10 +27,14 @@ function Home() {
                 const customersResponse = await fetch('http://localhost:8080/clients');
                 const customersData = await customersResponse.json();
                 setCustomersCount(customersData.count);
-                // Fetching products count
+                // Fetching ordersachat count
                 const ordersachatResponse = await fetch('http://localhost:8080/orders');
                 const ordersachatData = await ordersachatResponse.json();
                 setOrdersachatCount(ordersachatData.count);
+                // Fetching ordersvent count
+                const ordersventeResponse = await fetch('http://localhost:8080/sells');
+                const ordersventeData = await ordersventeResponse.json();
+                setOrderventeCount(ordersventeData.count);
   
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -79,10 +85,17 @@ function Home() {
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
-                        <h3>ORDERS</h3>
+                        <h3>ORDERS d'Achat</h3>
                         <BsFillBellFill className='card_icon'/>
                     </div>
                     <h1>{ordersachatCount}</h1>
+                </div>
+                <div className='card'>
+                    <div className='card-inner'>
+                        <h3>ORDERS de vente</h3>
+                        <BsFillBellFill className='card_icon'/>
+                    </div>
+                    <h1>{ordersventeCount}</h1>
                 </div>
             </div>
 

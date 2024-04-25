@@ -33,7 +33,7 @@ function App() {
                     </Link>
 
                     {/* Deuxième tableau cliquable */}
-                    <Link to="/historiquedevent" className="link-no-underline">
+                    <Link to="/historiquevente" className="link-no-underline">
                         <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique de vente */ }}>
                             <h2>Historique de Vente</h2>
                             <p>Consultez l'historique de vos ventes précédentes dans cet espace.</p>

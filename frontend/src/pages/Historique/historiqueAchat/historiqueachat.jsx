@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from '../../components/Main/Sidebar';
-import Header from '../../components/Main/Header';
+import Sidebar from '../../../components/Main/Sidebar';
+import Header from '../../../components/Main/Header';
 
 function App() {
     const handleLogout = () => {
@@ -72,9 +72,13 @@ function App() {
     };
 
     const calculateSubtotal = (quantity, unitPrice) => {
-        return quantity * unitPrice;
+        let total = quantity * unitPrice;
+        if (total < 0) {
+            total *= -1;
+        }
+        return total;
     };
-
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         if (name === 'quantity' || name === 'unitPrice') {
@@ -123,6 +127,11 @@ function App() {
             return;
         }
         try {
+            const productResponse = await axios.get(`http://localhost:8080/products/${formData.product}`);
+            const currentQuantity = productResponse.data.quantity;
+            const newQuantity = currentQuantity + parseInt(formData.quantity, 10);
+            await axios.put(`http://localhost:8080/products/${formData.product}`, { quantity: newQuantity });
+
             const response = await axios.post('http://localhost:8080/orders', formData);
             if (response.status === 201) {
                 showAlert('Order added successfully.');
@@ -176,6 +185,11 @@ function App() {
     const handleEditSubmit = async (event) => {
         event.preventDefault();
         try {
+            const productResponse = await axios.get(`http://localhost:8080/products/${formData.product}`);
+            const currentQuantity = productResponse.data.quantity;
+            const newQuantity = currentQuantity + parseInt(formData.quantity, 10);
+            await axios.put(`http://localhost:8080/products/${formData.product}`, { quantity: newQuantity });
+
             const response = await axios.put(`http://localhost:8080/orders/${editOrderId}`, formData);
             if (response.status && response.status === 200) {
                 showAlert('Order updated successfully.');
@@ -373,4 +387,5 @@ function App() {
 }
 
 export default App;
-/*deedfdnednfenf efefjfefe last version **********************sddddcd/c/c/f/vf/v/f/vr/v/r/vr//rv/rrrr**r*vrvrvrvrvrv****////
+/*********************************rgregrgrgregernjgerg  the last version eifjrfrfjrofjifefoefj**********************
+ * *****************************///*/
