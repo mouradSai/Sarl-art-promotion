@@ -15,10 +15,14 @@ function App() {
     };
 
     const [orders, setOrders] = useState([]);
+    const [providers, setProviders] = useState([]);
+    const [products, setProducts] = useState([]);
     const [formData, setFormData] = useState({
         provider: '',
-        date: '',
+        nameprovider: '', // Added nameprovider field
         product: '',
+        nameproduct: '', // Added nameproduct field
+        date: '',
         description: '',
         quantity: 0,
         unitPrice: 0,
@@ -33,6 +37,8 @@ function App() {
 
     useEffect(() => {
         fetchOrders();
+        fetchProviders();
+        fetchProducts();
     }, []);
 
     const fetchOrders = async () => {
@@ -45,11 +51,51 @@ function App() {
         }
     };
 
+    const fetchProviders = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/providers');
+            setProviders(response.data.data);
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred while fetching providers. Please try again later.');
+        }
+    };
+
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/products');
+            setProducts(response.data.data);
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred while fetching products. Please try again later.');
+        }
+    };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value
+        });
+    };
+
+    const handleProviderChange = (event) => {
+        const { value } = event.target;
+        const selectedProvider = providers.find(provider => provider.name === value);
+        setFormData({
+            ...formData,
+            provider: selectedProvider ? selectedProvider._id : '',
+            nameprovider: value
+        });
+    };
+
+    const handleProductChange = (event) => {
+        const { value } = event.target;
+        const selectedProduct = products.find(product => product.name === value);
+        setFormData({
+            ...formData,
+            product: selectedProduct ? selectedProduct._id : '',
+            nameproduct: value
         });
     };
 
@@ -132,8 +178,10 @@ function App() {
     const resetFormData = () => {
         setFormData({
             provider: '',
-            date: '',
+            nameprovider: '',
             product: '',
+            nameproduct: '',
+            date: '',
             description: '',
             quantity: 0,
             unitPrice: 0,
@@ -183,9 +231,19 @@ function App() {
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
                             <h2>Create New Order</h2>
                             <form onSubmit={handleSubmit}>
-                                <input type="text" name="provider" value={formData.provider} onChange={handleChange} placeholder="Provider" />
+                                <select name="provider" value={formData.nameprovider} onChange={handleProviderChange}>
+                                    <option value="">Select Provider</option>
+                                    {providers.map(provider => (
+                                        <option key={provider._id} value={provider.name}>{provider.name}</option>
+                                    ))}
+                                </select>
                                 <input type="date" name="date" value={formData.date} onChange={handleChange} placeholder="Date" />
-                                <input type="text" name="product" value={formData.product} onChange={handleChange} placeholder="Product" />
+                                <select name="product" value={formData.nameproduct} onChange={handleProductChange}>
+                                    <option value="">Select Product</option>
+                                    {products.map(product => (
+                                        <option key={product._id} value={product.name}>{product.name}</option>
+                                    ))}
+                                </select>
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
                                 <input type="number" name="unitPrice" value={formData.unitPrice} onChange={handleChange} placeholder="Unit Price" />
@@ -202,10 +260,10 @@ function App() {
                         <thead>
                             <tr>
                                 <th>Provider</th>
-                                <th>Provider ID</th>
+                                <th>Name</th>
                                 <th>Date</th>
                                 <th>Product</th>
-                                <th>Product ID</th>
+                                <th>Name</th>
                                 <th>Description</th>
                                 <th>Quantity</th>
                                 <th>Unit Price</th>
@@ -250,10 +308,10 @@ function App() {
                             <span className="close-button" onClick={() => setSelectedOrder(null)}>&times;</span>
                             <h2>Order Details</h2>
                             <p><strong>Provider:</strong> {selectedOrder.nameprovider}</p>
-                            <p><strong>Provider ID:</strong> {selectedOrder.provider}</p>
+                            <p><strong>ID provider:</strong> {selectedOrder.provider}</p>
                             <p><strong>Date:</strong> {selectedOrder.date}</p>
                             <p><strong>Product:</strong> {selectedOrder.nameproduct}</p>
-                            <p><strong>Product ID:</strong> {selectedOrder.product}</p>
+                            <p><strong>ID product:</strong> {selectedOrder.product}</p>
                             <p><strong>Description:</strong> {selectedOrder.description}</p>
                             <p><strong>Quantity:</strong> {selectedOrder.quantity}</p>
                             <p><strong>Unit Price:</strong> {selectedOrder.unitPrice}</p>
@@ -269,9 +327,19 @@ function App() {
                             <span className="close-button" onClick={() => {setEditOrderId(''); resetFormData(); setShowCreateForm(false);}}>&times;</span>
                             <h2>Edit Order</h2>
                             <form onSubmit={handleEditSubmit}>
-                                <input type="text" name="provider" value={formData.provider} onChange={handleChange} placeholder="Provider" />
+                                <select name="provider" value={formData.nameprovider} onChange={handleProviderChange}>
+                                    <option value="">Select Provider</option>
+                                    {providers.map(provider => (
+                                        <option key={provider._id} value={provider.name}>{provider.name}</option>
+                                    ))}
+                                </select>
                                 <input type="date" name="date" value={formData.date} onChange={handleChange} placeholder="Date" />
-                                <input type="text" name="product" value={formData.product} onChange={handleChange} placeholder="Product" />
+                                <select name="product" value={formData.nameproduct} onChange={handleProductChange}>
+                                    <option value="">Select Product</option>
+                                    {products.map(product => (
+                                        <option key={product._id} value={product.name}>{product.name}</option>
+                                    ))}
+                                </select>
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
                                 <input type="number" name="unitPrice" value={formData.unitPrice} onChange={handleChange} placeholder="Unit Price" />
@@ -288,3 +356,4 @@ function App() {
 }
 
 export default App;
+/*fdefekfbdnkdlev,de,            last version                         ************************/
