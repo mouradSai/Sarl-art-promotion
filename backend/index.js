@@ -6,7 +6,7 @@ const providersRoute = require ("./routes/providersRoute");
 const clientsRoute = require ("./routes/clientsRoute");
 const productsRoute = require ("./routes/productsRoute");
 const ordersRoute =require ("./routes/ordersRoute");
-
+const orderssellRoute=require("./routes/orderssellRoute");
 
 const express = require("express");
 const cors = require("cors");
@@ -37,6 +37,7 @@ app.use('/providers', providersRoute);
 app.use('/clients', clientsRoute);
 app.use('/products', productsRoute);
 app.use('/orders',ordersRoute);
+app.use('/sells',orderssellRoute);
 
 
 const port = process.env.PORT || 8080;

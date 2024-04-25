@@ -11,6 +11,7 @@ import Product from "./pages/Products/product";
 import Customer from"./pages/customers/customer";
 import Provider from "./pages/provider/provider";
 import Buy from "./pages/buy/buy";
+import Sell from "./pages/sell/sell"
 import Historiqueachat from "./pages/Historique/historiqueachat";
 
 
@@ -29,6 +30,7 @@ function App() {
 			<Route path="/customer" element={<Customer />}/>
 			<Route path="/product" element={<Product />}/>
 			<Route path="/buy" element={<Buy />}/>
+			<Route path="/sell" element={<Sell />}/>
 			<Route path="/historiqueachat" element={<Historiqueachat />}/>
 
 

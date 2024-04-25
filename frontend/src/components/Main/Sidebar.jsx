@@ -25,7 +25,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           </a>
         </li>
         <li className='sidebar-list-item'>
-          <a href="#sell">
+          <a href="/sell">
             <BsFillGrid3X3GapFill className='icon'/> Ventes
           </a>
         </li>
