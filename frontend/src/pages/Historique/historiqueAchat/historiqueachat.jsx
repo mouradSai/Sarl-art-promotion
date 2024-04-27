@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from '../../components/Main/Sidebar';
-import Header from '../../components/Main/Header';
+import Sidebar from '../../../components/Main/Sidebar';
+import Header from '../../../components/Main/Header';
 
 function App() {
     const handleLogout = () => {
@@ -15,10 +15,14 @@ function App() {
     };
 
     const [orders, setOrders] = useState([]);
+    const [providers, setProviders] = useState([]);
+    const [products, setProducts] = useState([]);
     const [formData, setFormData] = useState({
         provider: '',
-        date: '',
+        nameprovider: '', // Added nameprovider field
         product: '',
+        nameproduct: '', // Added nameproduct field
+        date: '',
         description: '',
         quantity: 0,
         unitPrice: 0,
@@ -33,6 +37,8 @@ function App() {
 
     useEffect(() => {
         fetchOrders();
+        fetchProviders();
+        fetchProducts();
     }, []);
 
     const fetchOrders = async () => {
@@ -45,11 +51,72 @@ function App() {
         }
     };
 
+    const fetchProviders = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/providers');
+            setProviders(response.data.data);
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred while fetching providers. Please try again later.');
+        }
+    };
+
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/products');
+            setProducts(response.data.data);
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred while fetching products. Please try again later.');
+        }
+    };
+
+    const calculateSubtotal = (quantity, unitPrice) => {
+        let total = quantity * unitPrice;
+        if (total < 0) {
+            total *= -1;
+        }
+        return total;
+    };
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
+        if (name === 'quantity' || name === 'unitPrice') {
+            const newFormData = {
+                ...formData,
+                [name]: value
+            };
+            if (newFormData.quantity && newFormData.unitPrice) {
+                newFormData.subtotal = calculateSubtotal(newFormData.quantity, newFormData.unitPrice);
+            } else {
+                newFormData.subtotal = 0; // Réinitialiser le subtotal si l'un des champs est vide
+            }
+            setFormData(newFormData);
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
+    };
+
+    const handleProviderChange = (event) => {
+        const { value } = event.target;
+        const selectedProvider = providers.find(provider => provider.name === value);
         setFormData({
             ...formData,
-            [name]: value
+            provider: selectedProvider ? selectedProvider._id : '',
+            nameprovider: value
+        });
+    };
+
+    const handleProductChange = (event) => {
+        const { value } = event.target;
+        const selectedProduct = products.find(product => product.name === value);
+        setFormData({
+            ...formData,
+            product: selectedProduct ? selectedProduct._id : '',
+            nameproduct: value
         });
     };
 
@@ -60,6 +127,11 @@ function App() {
             return;
         }
         try {
+            const productResponse = await axios.get(`http://localhost:8080/products/${formData.product}`);
+            const currentQuantity = productResponse.data.quantity;
+            const newQuantity = currentQuantity + parseInt(formData.quantity, 10);
+            await axios.put(`http://localhost:8080/products/${formData.product}`, { quantity: newQuantity });
+
             const response = await axios.post('http://localhost:8080/orders', formData);
             if (response.status === 201) {
                 showAlert('Order added successfully.');
@@ -100,13 +172,24 @@ function App() {
         setShowCreateForm(true);
     };
 
-    const handleView = (order) => {
-        setSelectedOrder(order);
+    const handleView = async (order) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/orders/${order._id}`);
+            setSelectedOrder(response.data);
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred. Please try again later.');
+        }
     };
 
     const handleEditSubmit = async (event) => {
         event.preventDefault();
         try {
+            const productResponse = await axios.get(`http://localhost:8080/products/${formData.product}`);
+            const currentQuantity = productResponse.data.quantity;
+            const newQuantity = currentQuantity + parseInt(formData.quantity, 10);
+            await axios.put(`http://localhost:8080/products/${formData.product}`, { quantity: newQuantity });
+
             const response = await axios.put(`http://localhost:8080/orders/${editOrderId}`, formData);
             if (response.status && response.status === 200) {
                 showAlert('Order updated successfully.');
@@ -126,8 +209,10 @@ function App() {
     const resetFormData = () => {
         setFormData({
             provider: '',
-            date: '',
+            nameprovider: '',
             product: '',
+            nameproduct: '',
+            date: '',
             description: '',
             quantity: 0,
             unitPrice: 0,
@@ -141,7 +226,7 @@ function App() {
 
     const filterOrders = (orders, searchText) => {
         const filtered = orders.filter(order => {
-            return order.provider.toLowerCase().includes(searchText.toLowerCase());
+            return order.nameprovider.toLowerCase().includes(searchText.toLowerCase());
         });
 
         const indexOfLastOrder = currentPage * ordersPerPage;
@@ -177,9 +262,19 @@ function App() {
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
                             <h2>Create New Order</h2>
                             <form onSubmit={handleSubmit}>
-                                <input type="text" name="provider" value={formData.provider} onChange={handleChange} placeholder="Provider" />
+                                <select name="provider" value={formData.nameprovider} onChange={handleProviderChange}>
+                                    <option value="">Select Provider</option>
+                                    {providers.map(provider => (
+                                        <option key={provider._id} value={provider.name}>{provider.name}</option>
+                                    ))}
+                                </select>
                                 <input type="date" name="date" value={formData.date} onChange={handleChange} placeholder="Date" />
-                                <input type="text" name="product" value={formData.product} onChange={handleChange} placeholder="Product" />
+                                <select name="product" value={formData.nameproduct} onChange={handleProductChange}>
+                                    <option value="">Select Product</option>
+                                    {products.map(product => (
+                                        <option key={product._id} value={product.name}>{product.name}</option>
+                                    ))}
+                                </select>
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
                                 <input type="number" name="unitPrice" value={formData.unitPrice} onChange={handleChange} placeholder="Unit Price" />
@@ -196,8 +291,10 @@ function App() {
                         <thead>
                             <tr>
                                 <th>Provider</th>
+                                <th>Name</th>
                                 <th>Date</th>
                                 <th>Product</th>
+                                <th>Name</th>
                                 <th>Description</th>
                                 <th>Quantity</th>
                                 <th>Unit Price</th>
@@ -208,13 +305,15 @@ function App() {
                         <tbody>
                             {filteredOrders.map(order => (
                                 <tr key={order._id}>
+                                    <td>{order.nameprovider}</td>
                                     <td>{order.provider}</td>
                                     <td>{order.date}</td>
+                                    <td>{order.nameproduct}</td>
                                     <td>{order.product}</td>
                                     <td>{order.description}</td>
                                     <td>{order.quantity}</td>
                                     <td>{order.unitPrice}</td>
-                                    <td>{order.subtotal}</td>
+                                    <td>{order.subtotal},00 DA</td>
                                     <td>
                                         <button className='view-button' onClick={() => handleView(order)}>View</button>
                                         <button className='edit-button' onClick={() => handleEdit(order)}>Edit</button>
@@ -239,8 +338,16 @@ function App() {
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedOrder(null)}>&times;</span>
                             <h2>Order Details</h2>
-                            {/* Affichez les détails de la commande ici */}
-                            <button className='delete-button' onClick={() => setSelectedOrder(null)}>Cancel</button>
+                            <p><strong>Provider:</strong> {selectedOrder.nameprovider}</p>
+                            <p><strong>ID provider:</strong> {selectedOrder.provider}</p>
+                            <p><strong>Date:</strong> {selectedOrder.date}</p>
+                            <p><strong>Product:</strong> {selectedOrder.nameproduct}</p>
+                            <p><strong>ID product:</strong> {selectedOrder.product}</p>
+                            <p><strong>Description:</strong> {selectedOrder.description}</p>
+                            <p><strong>Quantity:</strong> {selectedOrder.quantity}</p>
+                            <p><strong>Unit Price:</strong> {selectedOrder.unitPrice}</p>
+                            <p><strong>Subtotal:</strong> {selectedOrder.subtotal},00 DA</p>
+                            <button className='delete-button' onClick={() => setSelectedOrder(null)}>Close</button>
                         </div>
                     </div>
                 )}
@@ -251,9 +358,19 @@ function App() {
                             <span className="close-button" onClick={() => {setEditOrderId(''); resetFormData(); setShowCreateForm(false);}}>&times;</span>
                             <h2>Edit Order</h2>
                             <form onSubmit={handleEditSubmit}>
-                                <input type="text" name="provider" value={formData.provider} onChange={handleChange} placeholder="Provider" />
+                                <select name="provider" value={formData.nameprovider} onChange={handleProviderChange}>
+                                    <option value="">Select Provider</option>
+                                    {providers.map(provider => (
+                                        <option key={provider._id} value={provider.name}>{provider.name}</option>
+                                    ))}
+                                </select>
                                 <input type="date" name="date" value={formData.date} onChange={handleChange} placeholder="Date" />
-                                <input type="text" name="product" value={formData.product} onChange={handleChange} placeholder="Product" />
+                                <select name="product" value={formData.nameproduct} onChange={handleProductChange}>
+                                    <option value="">Select Product</option>
+                                    {products.map(product => (
+                                        <option key={product._id} value={product.name}>{product.name}</option>
+                                    ))}
+                                </select>
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
                                 <input type="number" name="unitPrice" value={formData.unitPrice} onChange={handleChange} placeholder="Unit Price" />
@@ -270,3 +387,5 @@ function App() {
 }
 
 export default App;
+/*********************************rgregrgrgregernjgerg  the last version eifjrfrfjrofjifefoefj**********************
+ * *****************************///*/
