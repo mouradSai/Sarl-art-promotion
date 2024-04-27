@@ -136,12 +136,12 @@ const OrderForm = () => {
                   setProviderLocked(true);
                 }
               }}
-              disabled={providerLocked}
-            >
+              disabled={providerLocked}>
               <option value="">Sélectionner le fournisseur</option>
               {providers.map((prov) => (
                 <option key={prov._id} value={prov._id}>{prov.name}</option>
               ))}
+
             </select>
             {providerId && <p>Selected Provider ID: {providerId}</p>}
           </div>
