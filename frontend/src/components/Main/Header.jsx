@@ -16,12 +16,12 @@ function Header({OpenSidebar}) {
             <BsJustify className='icon-header' onClick={OpenSidebar}/>
         </div>
 
-        <div className='header-right'>
+        <div className='header-right'></div>
 
-            
+        
             <button className={"white_btn"} onClick={handleLogout} > <RiLogoutBoxFill className='icon-head'/>Logout</button>
 
-        </div>
+          
     </header>
   )
 }
