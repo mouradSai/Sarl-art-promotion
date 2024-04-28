@@ -1,14 +1,14 @@
 import {React  }from 'react';
 import {BsCart3,BsFillArchiveFill, BsFillGrid3X3GapFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import blackLogo from '../../assets/art-black.png';
+import logowhite from '../../assets/logo-white.png';
   
 function Sidebar({ openSidebarToggle, OpenSidebar }) {
   return (
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
         <div className='sidebar-brand'>
-        <img src={blackLogo} alt='Logo' className='sidebar-logo' />
+        <img src={logowhite} alt='Logo' className='sidebar-logo' />
           <div className="sidebar-name">Sarl Art Groupe</div>
         </div>
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>

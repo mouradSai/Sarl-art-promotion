@@ -1,30 +1,33 @@
 const express = require("express");
-const Product = require ("../models/product"); // Importe le modèle de produit
+const Product = require("../models/product");
 
 const router = express.Router();
 
-// Route pour ajouter un nouveau produit
+// Route pour créer un nouveau produit
 router.post('/', async (request, response) => {
     try {
         if (
             !request.body.name ||
-            !request.body.description ||
             !request.body.category ||
+            !request.body.entrepot ||
             !request.body.quantity ||
             !request.body.unit
         ) {
             return response.status(400).send({
-                message: 'Send all required fields: name, description, category, quantity, unit',
+                message: 'Veuillez fournir tous les champs requis : name, category, entrepot, quantity, unit',
             });
         }
 
         const newProduct = {
             name: request.body.name,
-            description: request.body.description,
             category: request.body.category,
+            entrepot: request.body.entrepot,
             quantity: request.body.quantity,
             unit: request.body.unit,
+            description: request.body.description,
+            IsActive: request.body.IsActive || true,
         };
+
         const product = await Product.create(newProduct);
         return response.status(201).send(product);
 
@@ -34,7 +37,7 @@ router.post('/', async (request, response) => {
     }
 });
 
-// Route pour obtenir tous les produits depuis la base de données
+// Route pour obtenir tous les produits de la base de données
 router.get('/', async (request, response) => {
     try {
         const products = await Product.find({});
@@ -48,7 +51,7 @@ router.get('/', async (request, response) => {
     }
 });
 
-// Route pour obtenir un produit depuis la base de données
+// Route pour obtenir un produit spécifique de la base de données
 router.get('/:id', async (request, response) => {
     try {
         const { id } = request.params;
@@ -64,11 +67,12 @@ router.get('/:id', async (request, response) => {
 router.put('/:id', async (request, response) => {
     try {
         const { id } = request.params;
-        const result = await Product.findByIdAndUpdate(id, request.body);
+        const updatedProduct = request.body;
+        const result = await Product.findByIdAndUpdate(id, updatedProduct);
         if (!result) {
-            return response.status(404).json({ message: 'Product not found' });
+            return response.status(404).json({ message: 'Produit non trouvé' });
         }
-        return response.status(200).send({ message: 'Product updated successfully' });
+        return response.status(200).send({ message: 'Produit mis à jour avec succès' });
     } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });
@@ -81,9 +85,9 @@ router.delete('/:id', async (request, response) => {
         const { id } = request.params;
         const result = await Product.findByIdAndDelete(id);
         if (!result) {
-            return response.status(404).json({ message: 'Product not found' });
+            return response.status(404).json({ message: 'Produit non trouvé' });
         }
-        return response.status(200).send({ message: 'Product deleted successfully' });
+        return response.status(200).send({ message: 'Produit supprimé avec succès' });
     } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });

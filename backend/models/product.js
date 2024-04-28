@@ -5,23 +5,36 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    description: {
-        type: String,
-        required: false,
-    },
+    
     category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId, // Clé étrangère vers le modèle Categorie
+        ref: 'Categorie', // Référence au modèle Categorie
         required: true,
     },
+    entrepot: {
+        type: mongoose.Schema.Types.ObjectId, // Clé étrangère vers le modèle Entrepot
+        ref: 'Entrepot', // Référence au modèle Entrepot
+        required: true,
+    },
+    
     quantity: {
         type: Number,
         required: true,
         default: 0,
     },
-    unit: { // Ajout du champ "unit"
+    unit: {
         type: String,
         required: true,
-        enum: ['kg', 'g', 'L', 'ml', 'unit'] // Définis les unités possibles
+        enum: ['kg', 'g', 'L', 'ml', 'unit']
+    },
+    description: {
+        type: String,
+        required: false,
+    },
+   
+    IsActive: {
+        type: Boolean, 
+        default: true
     }
 }, {
     timestamps: true,
