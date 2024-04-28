@@ -79,6 +79,13 @@ body {
   /* Styles pour la sidebar */
 }
 
+.sidebar-link{
+  text-decoration: none;
+  color: white;
+  
+}
+
+
 .header {
   grid-area: header;
   /* Styles pour le navbar */
@@ -262,13 +269,7 @@ body {
     height: 300px;
   }
 
-  
 
-
-
-
-
-  
   .menu-icon {
     display: flex;
     align-items: center;
