@@ -11,11 +11,19 @@ const productSchema = mongoose.Schema({
         ref: 'Categorie', // Référence au modèle Categorie
         required: true,
     },
+    namecategory:{
+        type:String,
+        require:false
+      },
     entrepot: {
         type: mongoose.Schema.Types.ObjectId, // Clé étrangère vers le modèle Entrepot
         ref: 'Entrepot', // Référence au modèle Entrepot
         required: true,
     },
+    nameentrepot:{
+        type:String,
+        require:false
+      },
     
     quantity: {
         type: Number,

@@ -1,40 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Appproducts.css'; // Correction de la typo dans le nom du fichier CSS
+import './Appproducts.css';
 import Sidebar from '../../components/Main/Sidebar';
 import Header from '../../components/Main/Header';
-import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
+import CustomAlert from '../../components/costumeAlert/costumeAlert';
 
 function App() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
-
-    const OpenSidebar = () => {
-        setOpenSidebarToggle(!openSidebarToggle);
-    };
-
-    const handleSidebarItemClick = (content) => {
-        setSelectedContent(content); // Correction: la variable "selectedContent" n'est pas définie
-    };
-
     const [products, setProducts] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         category: '',
+        namecategory: '',
         entrepot: '',
-        quantity: '',
-        unit: '',
+        nameentrepot: '',
+        quantity: 0,
+        unit: 'kg',
         description: '',
-        IsActive: true // Nouvelle propriété IsActive avec valeur par défaut true
+        IsActive: true
     });
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [editProductId, setEditProductId] = useState('');
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showActiveOnly, setShowActiveOnly] = useState(false); // Ajout de l'état pour filtrer les produits actifs
-    const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
+    const [showActiveOnly, setShowActiveOnly] = useState(false);
+    const [alert, setAlert] = useState(null);
 
-    const productsPerPage = 8; // Nombre de produits à afficher par page
+    const productsPerPage = 8;
 
     useEffect(() => {
         fetchProducts();
@@ -49,7 +42,7 @@ function App() {
             showAlert('An error occurred while fetching products. Please try again later.');
         }
     };
-    
+
     const showAlert = (message, type) => {
         setAlert({ message, type });
     };
@@ -64,7 +57,7 @@ function App() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!formData.name || !formData.category || !formData.entrepot || !formData.quantity || !formData.unit) {
+        if (!formData.name || !formData.category || !formData.entrepot || !formData.quantity) {
             showAlert('Please fill in all required fields.');
             return;
         }
@@ -151,11 +144,13 @@ function App() {
         setFormData({
             name: '',
             category: '',
+            namecategory: '',
             entrepot: '',
-            quantity: '',
-            unit: '',
+            nameentrepot: '',
+            quantity: 0,
+            unit: 'kg',
             description: '',
-            IsActive: true // Réinitialisation de IsActive à true
+            IsActive: true
         });
     };
 
@@ -163,8 +158,8 @@ function App() {
         let filteredProducts = products.filter(product => {
             return (
                 product.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                product.description.toLowerCase().includes(searchText.toLowerCase()) ||
-                product.quantity.toString().includes(searchText.toLowerCase())
+                product.namecategory.toLowerCase().includes(searchText.toLowerCase()) ||
+                product.nameentrepot.toLowerCase().includes(searchText.toLowerCase())
             );
         });
 
@@ -185,13 +180,10 @@ function App() {
         setShowActiveOnly(!showActiveOnly);
     };
 
-    // Déclaration des options d'unités
-    const unitOptions = ['kg', 'g', 'L', 'ml', 'unit'];
-
     return (
         <div className="grid-container">
-            <Header OpenSidebar={OpenSidebar}/>
-            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
+            <Header setOpenSidebarToggle={setOpenSidebarToggle} />
+            <Sidebar openSidebarToggle={openSidebarToggle} />
             <div className="container">
                 <h1 className="title-all">Products</h1>
                 <div className="actions">
@@ -218,17 +210,21 @@ function App() {
                             <h2>Create New Product</h2>
                             <form onSubmit={handleSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category" />
-                                <input type="text" name="entrepot" value={formData.entrepot} onChange={handleChange} placeholder="Entrepot" />
-                                <input type="text" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
+                                <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category ID" />
+                                <input type="text" name="namecategory" value={formData.namecategory} onChange={handleChange} placeholder="Category Name" />
+                                <input type="text" name="entrepot" value={formData.entrepot} onChange={handleChange} placeholder="Entrepot ID" />
+                                <input type="text" name="nameentrepot" value={formData.nameentrepot} onChange={handleChange} placeholder="Entrepot Name" />
+                                <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
                                 <select name="unit" value={formData.unit} onChange={handleChange}>
-                                    {unitOptions.map((unit, index) => (
-                                        <option key={index} value={unit}>{unit}</option>
-                                    ))}
+                                    <option value="kg">kg</option>
+                                    <option value="g">g</option>
+                                    <option value="L">L</option>
+                                    <option value="ml">ml</option>
+                                    <option value="unit">unit</option>
                                 </select>
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <button className="create-button" type="submit">Save</button>
-                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
                             </form>
                         </div>
                     </div>
@@ -240,11 +236,13 @@ function App() {
                                 <tr>
                                     <th>Name</th>
                                     <th>Category</th>
+                                    <th>Category Name</th>
                                     <th>Entrepot</th>
+                                    <th>Entrepot Name</th>
                                     <th>Quantity</th>
                                     <th>Unit</th>
                                     <th>Description</th>
-                                    <th>Active</th> {/* Ajout de la colonne "Active" */}
+                                    <th>Active</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -253,11 +251,13 @@ function App() {
                                     <tr key={product._id}>
                                         <td>{product.name}</td>
                                         <td>{product.category}</td>
+                                        <td>{product.namecategory}</td>
                                         <td>{product.entrepot}</td>
+                                        <td>{product.nameentrepot}</td>
                                         <td>{product.quantity}</td>
                                         <td>{product.unit}</td>
                                         <td>{product.description}</td>
-                                        <td>{product.IsActive ? 'Yes' : 'No'}</td> {/* Affichage de la propriété IsActive */}
+                                        <td>{product.IsActive ? 'Yes' : 'No'}</td>
                                         <td>
                                             <button className='view-button' onClick={() => handleView(product)}>View</button>
                                             <button className='edit-button' onClick={() => handleEdit(product)}>Edit</button>
@@ -284,11 +284,13 @@ function App() {
                             <h2>Product Details</h2>
                             <p>Name: {selectedProduct.name}</p>
                             <p>Category: {selectedProduct.category}</p>
+                            <p>Category Name: {selectedProduct.namecategory}</p>
                             <p>Entrepot: {selectedProduct.entrepot}</p>
+                            <p>Entrepot Name: {selectedProduct.nameentrepot}</p>
                             <p>Quantity: {selectedProduct.quantity}</p>
                             <p>Unit: {selectedProduct.unit}</p>
                             <p>Description: {selectedProduct.description}</p>
-                            <button className='delete-button' onClick={() => setSelectedProduct(null)}>Cancel</button>
+                            <button className='delet-button' onClick={() => setSelectedProduct(null)}>Cancel</button>
                         </div>
                     </div>
                 )}
@@ -299,17 +301,21 @@ function App() {
                             <h2>Edit Product</h2>
                             <form onSubmit={handleEditSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category" />
-                                <input type="text" name="entrepot" value={formData.entrepot} onChange={handleChange} placeholder="Entrepot" />
-                                <input type="text" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
+                                <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category ID" />
+                                <input type="text" name="namecategory" value={formData.namecategory} onChange={handleChange} placeholder="Category Name" />
+                                <input type="text" name="entrepot" value={formData.entrepot} onChange={handleChange} placeholder="Entrepot ID" />
+                                <input type="text" name="nameentrepot" value={formData.nameentrepot} onChange={handleChange} placeholder="Entrepot Name" />
+                                <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
                                 <select name="unit" value={formData.unit} onChange={handleChange}>
-                                    {unitOptions.map((unit, index) => (
-                                        <option key={index} value={unit}>{unit}</option>
-                                    ))}
+                                    <option value="kg">kg</option>
+                                    <option value="g">g</option>
+                                    <option value="L">L</option>
+                                    <option value="ml">ml</option>
+                                    <option value="unit">unit</option>
                                 </select>
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <button className="create-button" type="submit">Save</button>
-                                <button className='delete-button' onClick={() => { setEditProductId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
+                                <button className='delet-button' onClick={() => { setEditProductId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
                             </form>
                         </div>
                     </div>
@@ -321,3 +327,4 @@ function App() {
 }
 
 export default App;
+/**********last version *//////////////////////////// /*/

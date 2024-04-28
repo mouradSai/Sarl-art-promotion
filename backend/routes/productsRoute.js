@@ -9,19 +9,23 @@ router.post('/', async (request, response) => {
         if (
             !request.body.name ||
             !request.body.category ||
+            !request.body.namecategory ||
             !request.body.entrepot ||
+            !request.body.nameentrepot ||
             !request.body.quantity ||
             !request.body.unit
         ) {
             return response.status(400).send({
-                message: 'Veuillez fournir tous les champs requis : name, category, entrepot, quantity, unit',
+                message: 'Veuillez fournir tous les champs requis : name, category, namecategory, entrepot, nameentrepot, quantity, unit',
             });
         }
 
         const newProduct = {
             name: request.body.name,
-            category: request.body.category,
-            entrepot: request.body.entrepot,
+            category: request.body.category, // Remplir avec l'ID de la catégorie
+            namecategory: request.body.namecategory,
+            entrepot: request.body.entrepot, // Remplir avec l'ID de l'entrepôt
+            nameentrepot: request.body.nameentrepot,
             quantity: request.body.quantity,
             unit: request.body.unit,
             description: request.body.description,
@@ -32,7 +36,7 @@ router.post('/', async (request, response) => {
         return response.status(201).send(product);
 
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -46,7 +50,7 @@ router.get('/', async (request, response) => {
             data: products
         });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -58,7 +62,7 @@ router.get('/:id', async (request, response) => {
         const product = await Product.findById(id);
         return response.status(200).json(product);
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -74,7 +78,7 @@ router.put('/:id', async (request, response) => {
         }
         return response.status(200).send({ message: 'Produit mis à jour avec succès' });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -89,7 +93,7 @@ router.delete('/:id', async (request, response) => {
         }
         return response.status(200).send({ message: 'Produit supprimé avec succès' });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
