@@ -229,11 +229,11 @@ function App() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>NOM</th>
                                     <th>Prenom</th>
-                                    <th>Address</th>
+                                    <th>Adresse</th>
                                     <th>Description</th>
-                                    <th>Number</th>
+                                    <th>Num Tel</th>
                                     <th>Active</th> {/* Ajout de la colonne "Active" */}
                                     <th>Action</th>
                                 </tr>
