@@ -22,13 +22,15 @@ function App() {
         prenom: '',
         description: '',
         address: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        IsActive: true // Nouvelle propriété IsActive avec valeur par défaut true
     });
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [editClientId, setEditClientId] = useState('');
     const [selectedClient, setSelectedClient] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [showActiveOnly, setShowActiveOnly] = useState(false); // Ajout de l'état pour filtrer les clients actifs
     const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
 
     const clientsPerPage = 8; // Nombre de clients à afficher par page
@@ -46,10 +48,11 @@ function App() {
             showAlert('An error occurred while fetching clients. Please try again later.');
         }
     };
+    
     const showAlert = (message, type) => {
         setAlert({ message, type });
-      };
-    
+    };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({
@@ -99,6 +102,21 @@ function App() {
         }
     };
 
+    const toggleActiveStatus = async (id, isActive) => {
+        try {
+            const response = await axios.put(`http://localhost:8080/clients/${id}`, { IsActive: !isActive });
+            if (response.status === 200) {
+                showAlert(`Client ${isActive ? 'deactivated' : 'activated'} successfully.`);
+                fetchClients();
+            } else {
+                showAlert(response.data.message || 'An error occurred while updating client status.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred. Please try again later.');
+        }
+    };
+
     const handleEdit = (client) => {
         setEditClientId(client._id);
         setFormData({ ...client });
@@ -134,13 +152,13 @@ function App() {
             prenom: '',
             description: '',
             address: '',
-            phoneNumber: ''
+            phoneNumber: '',
+            IsActive: true // Réinitialisation de IsActive à true
         });
     };
 
-
     const filterClients = (clients, searchText) => {
-        const filteredClients = clients.filter(client => {
+        let filteredClients = clients.filter(client => {
             return (
                 client.name.toLowerCase().includes(searchText.toLowerCase()) ||
                 client.prenom.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -148,6 +166,10 @@ function App() {
                 client.phoneNumber.toLowerCase().includes(searchText.toLowerCase())
             );
         });
+
+        if (showActiveOnly) {
+            filteredClients = filteredClients.filter(client => client.IsActive);
+        }
 
         const indexOfLastClient = currentPage * clientsPerPage;
         const indexOfFirstClient = indexOfLastClient - clientsPerPage;
@@ -158,6 +180,10 @@ function App() {
         setSearchText(event.target.value);
     };
 
+    const handleFilterChange = () => {
+        setShowActiveOnly(!showActiveOnly);
+    };
+
     return (
         <div className="grid-container">
             <Header OpenSidebar={OpenSidebar}/>
@@ -165,14 +191,21 @@ function App() {
             <div className="container">
                 <h1 className="title-all">Clients</h1>
                 <div className="actions">
-                <input
+                    <input
                         type="text"
                         placeholder="Search customers..."
                         value={searchText}
                         onChange={handleSearchChange}
                     />
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={showActiveOnly}
+                            onChange={handleFilterChange}
+                        />
+                        Show Active Only
+                    </label>
                     <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
-                   
                 </div>
                 {showCreateForm && (
                     <div className="popup">
@@ -200,7 +233,8 @@ function App() {
                                     <th>Prenom</th>
                                     <th>Address</th>
                                     <th>Description</th>
-                                    <th> Number</th>
+                                    <th>Number</th>
+                                    <th>Active</th> {/* Ajout de la colonne "Active" */}
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -212,10 +246,11 @@ function App() {
                                         <td>{client.address}</td>
                                         <td>{client.description}</td>
                                         <td>{client.phoneNumber}</td>
+                                        <td>{client.IsActive ? 'Yes' : 'No'}</td> {/* Affichage de la propriété IsActive */}
                                         <td>
                                             <button className='view-button' onClick={() => handleView(client)}>View</button>
                                             <button className='edit-button' onClick={() => handleEdit(client)}>Edit</button>
-                                            <button className='action-button delete-button' onClick={() => handleDelete(client._id)}>Delete</button>
+                                            <button className='delete-button' onClick={() => toggleActiveStatus(client._id, client.IsActive)}>{client.IsActive ? 'Disable' : 'Enable'}</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -262,8 +297,7 @@ function App() {
                         </div>
                     </div>
                 )}
-                        {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
-
+                {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>
         </div>
     );

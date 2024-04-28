@@ -50,8 +50,8 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           </Link>
         </li>
         <li className='sidebar-list-item'>
-        <Link to="/historiqueachat">
-            <BsPeopleFill className='icon'/> Historique
+        <Link to="/categorie">
+            <BsPeopleFill className='icon'/> Categorie
           </Link>
         </li>
        
