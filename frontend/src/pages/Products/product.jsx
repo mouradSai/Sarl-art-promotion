@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appproducts.css';
 import Sidebar from '../../components/Main/Sidebar';
+import HeaderProduct from '../../components/Headers/HeaderProduct';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
