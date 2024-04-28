@@ -15,36 +15,43 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>
       </div>
       <ul className='sidebar-list'>
+
+      <Link to="/" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-        <Link to="/">
             <BsFillGrid1X2Fill className='icon'/> Dashbord
-          </Link>
         </li>
+      </Link>
+
+      <Link to="/buy" className="sidebar-link"> 
         <li className='sidebar-list-item'>
-          <a href="/buy">
             <BsCashStack className='icon'/> Achats
-          </a>
         </li>
+      </Link>
+
+      <Link to="/sell" className="sidebar-link"> 
         <li className='sidebar-list-item'>
-          <a href="/sell">
             <FaMoneyBillTransfer className='icon'/> Ventes
-          </a>
         </li>
+        </Link>
+
+        <Link to="/provider" className="sidebar-link">
         <li className='sidebar-list-item'>
-        <Link to="/provider">
             <BsPersonFill className='icon'/> Fournisseurs
-          </Link>
         </li>
+        </Link>
+
+        <Link to="/customer" className="sidebar-link">
         <li className='sidebar-list-item'>
-        <Link to="/customer">
             <BsPeopleFill className='icon'/> Clients
-          </Link>
         </li>
+        </Link>
+
+        <Link to="/product" className="sidebar-link">
         <li className='sidebar-list-item'>
-        <Link to="/product">
             <BsBox2Fill className='icon'/> Produits
-          </Link>
         </li>
+        </Link>
+
         <Link to="/historique" className="sidebar-link">
         <li className='sidebar-list-item'>
             <BsFileBarGraphFill  className='icon'/> Historique
