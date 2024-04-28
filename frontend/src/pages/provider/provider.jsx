@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Appprovider.css'; // Correction de la typo dans le nom du fichier CSS
 import Sidebar from '../../components/Main/Sidebar';
 import Header from '../../components/Main/Header';
-import './Appprovider.css';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        window.location.reload();
-    };
-
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
     const OpenSidebar = () => {
         setOpenSidebarToggle(!openSidebarToggle);
+    };
+
+    const handleSidebarItemClick = (content) => {
+        setSelectedContent(content); // Correction: la variable "selectedContent" n'est pas définie
     };
 
     const [providers, setProviders] = useState([]);
@@ -24,18 +23,18 @@ function App() {
         description: '',
         number: '',
         comment: '',
-        isActive: true
+        IsActive: true // Nouvelle propriété IsActive avec valeur par défaut true
     });
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [editProviderId, setEditProviderId] = useState('');
     const [selectedProvider, setSelectedProvider] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [alert, setAlert] = useState(null); 
+    const [showActiveOnly, setShowActiveOnly] = useState(false); // Ajout de l'état pour filtrer les fournisseurs actifs
+    const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
+
     const providersPerPage = 8; // Nombre de fournisseurs à afficher par page
-    const showAlert = (message, type) => {
-        setAlert({ message, type });
-      };
+
     useEffect(() => {
         fetchProviders();
     }, []);
@@ -49,6 +48,10 @@ function App() {
             showAlert('An error occurred while fetching providers. Please try again later.');
         }
     };
+    
+    const showAlert = (message, type) => {
+        setAlert({ message, type });
+    };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -60,7 +63,7 @@ function App() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!formData.name || !formData.address || !formData.description || !formData.number || !formData.comment) {
+        if (!formData.name || !formData.address || !formData.description || !formData.number) {
             showAlert('Please fill in all required fields.');
             return;
         }
@@ -92,6 +95,21 @@ function App() {
                 fetchProviders();
             } else {
                 showAlert(response.data.message || 'An error occurred while deleting provider.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred. Please try again later.');
+        }
+    };
+
+    const toggleActiveStatus = async (id, isActive) => {
+        try {
+            const response = await axios.put(`http://localhost:8080/providers/${id}`, { IsActive: !isActive });
+            if (response.status === 200) {
+                showAlert(`Provider ${isActive ? 'deactivated' : 'activated'} successfully.`);
+                fetchProviders();
+            } else {
+                showAlert(response.data.message || 'An error occurred while updating provider status.');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -135,46 +153,59 @@ function App() {
             description: '',
             number: '',
             comment: '',
-            isActive: true
+            IsActive: true // Réinitialisation de IsActive à true
         });
     };
 
- 
     const filterProviders = (providers, searchText) => {
-        return providers.filter(provider => {
+        let filteredProviders = providers.filter(provider => {
             return (
-                provider.name.toLowerCase().includes(searchText.toLowerCase())||
-                provider.address.toLowerCase().includes(searchText.toLowerCase())||
-                provider.description.toLowerCase().includes(searchText.toLowerCase())
-
-        );
-           
+                provider.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                provider.address.toLowerCase().includes(searchText.toLowerCase()) ||
+                provider.description.toLowerCase().includes(searchText.toLowerCase()) ||
+                provider.number.toString().includes(searchText.toLowerCase())
+            );
         });
+
+        if (showActiveOnly) {
+            filteredProviders = filteredProviders.filter(provider => provider.IsActive);
+        }
+
+        const indexOfLastProvider = currentPage * providersPerPage;
+        const indexOfFirstProvider = indexOfLastProvider - providersPerPage;
+        return filteredProviders.slice(indexOfFirstProvider, indexOfLastProvider);
     };
 
     const handleSearchChange = (event) => {
         setSearchText(event.target.value);
     };
 
-    const indexOfLastProvider = currentPage * providersPerPage;
-    const indexOfFirstProvider = indexOfLastProvider - providersPerPage;
-    const filteredProviders = filterProviders(providers, searchText).slice(indexOfFirstProvider, indexOfLastProvider);
+    const handleFilterChange = () => {
+        setShowActiveOnly(!showActiveOnly);
+    };
 
     return (
         <div className="grid-container">
             <Header OpenSidebar={OpenSidebar}/>
-            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
+            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
             <div className="container">
-                <h1 className="title-all" >Fourniseurs</h1>
+                <h1 className="title-all">Providers</h1>
                 <div className="actions">
-                <input
+                    <input
                         type="text"
                         placeholder="Search providers..."
                         value={searchText}
                         onChange={handleSearchChange}
                     />
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={showActiveOnly}
+                            onChange={handleFilterChange}
+                        />
+                        Show Active Only
+                    </label>
                     <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
-                   
                 </div>
                 {showCreateForm && (
                     <div className="popup">
@@ -187,14 +218,13 @@ function App() {
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
                                 <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
-                                <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
                                 <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
                             </form>
                         </div>
                     </div>
                 )}
-                {filteredProviders.length > 0 && (
+                {filterProviders(providers, searchText).length > 0 && (
                     <>
                         <table>
                             <thead>
@@ -203,20 +233,22 @@ function App() {
                                     <th>Address</th>
                                     <th>Description</th>
                                     <th>Number</th>
+                                    <th>Active</th> {/* Ajout de la colonne "Active" */}
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredProviders.map(provider => (
+                                {filterProviders(providers, searchText).map(provider => (
                                     <tr key={provider._id}>
                                         <td>{provider.name}</td>
                                         <td>{provider.address}</td>
                                         <td>{provider.description}</td>
                                         <td>{provider.number}</td>
+                                        <td>{provider.IsActive ? 'Yes' : 'No'}</td> {/* Affichage de la propriété IsActive */}
                                         <td>
                                             <button className='view-button' onClick={() => handleView(provider)}>View</button>
                                             <button className='edit-button' onClick={() => handleEdit(provider)}>Edit</button>
-                                            <button className='action-button delete-button' onClick={() => handleDelete(provider._id)}>Delete</button>
+                                            <button className='delete-button' onClick={() => toggleActiveStatus(provider._id, provider.IsActive)}>{provider.IsActive ? 'Disable' : 'Enable'}</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -225,11 +257,11 @@ function App() {
                         <div className="pagination">
                             <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
                             <span>{currentPage}</span>
-                            <button disabled={filteredProviders.length < providersPerPage} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                            <button disabled={currentPage === Math.ceil(providers.length / providersPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
                         </div>
                     </>
                 )}
-                {filteredProviders.length === 0 && (
+                {filterProviders(providers, searchText).length === 0 && (
                     <p>No providers found.</p>
                 )}
                 {selectedProvider && (
@@ -241,15 +273,14 @@ function App() {
                             <p>Address: {selectedProvider.address}</p>
                             <p>Description: {selectedProvider.description}</p>
                             <p>Number: {selectedProvider.number}</p>
-                            <p>Comment: {selectedProvider.comment}</p>
-                            <button className='delet-button' onClick={() => setSelectedProvider(null)}>Cancel</button>
+                            <button className='delete-button' onClick={() => setSelectedProvider(null)}>Cancel</button>
                         </div>
                     </div>
                 )}
                 {editProviderId && (
                     <div className="popup">
                         <div className="popup-content">
-                            <span className="close-button" onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>&times;</span>
+                            <span className="close-button" onClick={() => { setEditProviderId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
                             <h2>Edit Provider</h2>
                             <form onSubmit={handleEditSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
@@ -257,15 +288,13 @@ function App() {
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
                                 <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
-                                <input type="Boolean" name="IsActive" value={formData.IsActive} onChange={handleChange} placeholder="IsActive" />
                                 <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => {setEditProviderId(''); resetFormData(); setShowCreateForm(false);}}>Cancel</button>
+                                <button className='delete-button' onClick={() => { setEditProviderId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
                             </form>
                         </div>
                     </div>
                 )}
-             {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
-
+                {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>
         </div>
     );

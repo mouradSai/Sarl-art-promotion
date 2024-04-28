@@ -23,8 +23,9 @@ const providerSchema = mongoose.Schema({
     },
     IsActive: {
         type: Boolean, 
-        required: false,
-    },
+        default: true
+    }
+   
 }, {
     timestamps: true,
 });
