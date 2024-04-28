@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from '../../components/Main/Sidebar';
 import Header from '../../components/Main/Header';
-import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
+import CustomAlert from '../../components/costumeAlert/costumeAlert';
 
 function App() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -14,35 +14,34 @@ function App() {
     };
 
     const handleSidebarItemClick = (content) => {
-        setSelectedContent(content); // Correction: la variable "selectedContent" n'est pas définie
+        setSelectedContent(content);
     };
 
-    const [categories, setCategories] = useState([]);
+    const [entrepots, setEntrepots] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
-        description: '',
         IsActive: true
     });
     const [showCreateForm, setShowCreateForm] = useState(false);
-    const [editCategoryId, setEditCategoryId] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [editEntrepotId, setEditEntrepotId] = useState('');
+    const [selectedEntrepot, setSelectedEntrepot] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
+    const [alert, setAlert] = useState(null);
 
-    const categoriesPerPage = 8; // Nombre de catégories à afficher par page
+    const entrepotsPerPage = 8;
 
     useEffect(() => {
-        fetchCategories();
+        fetchEntrepots();
     }, []);
 
-    const fetchCategories = async () => {
+    const fetchEntrepots = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/categories');
-            setCategories(response.data.data);
+            const response = await axios.get('http://localhost:8080/entrepots');
+            setEntrepots(response.data.data);
         } catch (error) {
             console.error('Error:', error);
-            showAlert('An error occurred while fetching categories. Please try again later.');
+            showAlert('An error occurred while fetching entrepots. Please try again later.');
         }
     };
 
@@ -61,14 +60,14 @@ function App() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!formData.name) {
-            showAlert('Please enter a category name.');
+            showAlert('Please enter an entrepot name.');
             return;
         }
         try {
-            const response = await axios.post('http://localhost:8080/categories', formData);
+            const response = await axios.post('http://localhost:8080/entrepots', formData);
             if (response.status === 201) {
-                showAlert('Category added successfully.');
-                fetchCategories();
+                showAlert('Entrepot added successfully.');
+                fetchEntrepots();
                 resetFormData();
                 setShowCreateForm(false);
             } else {
@@ -87,12 +86,12 @@ function App() {
     const handleDelete = async (id, isActive) => {
         try {
             const newStatus = !isActive;
-            const response = await axios.put(`http://localhost:8080/categories/${id}`, { IsActive: newStatus });
+            const response = await axios.put(`http://localhost:8080/entrepots/${id}`, { IsActive: newStatus });
             if (response.status === 200) {
-                showAlert(`Category ${newStatus ? 'enabled' : 'disabled'} successfully.`);
-                fetchCategories();
+                showAlert(`Entrepot ${newStatus ? 'enabled' : 'disabled'} successfully.`);
+                fetchEntrepots();
             } else {
-                showAlert(response.data.message || 'An error occurred while updating category status.');
+                showAlert(response.data.message || 'An error occurred while updating entrepot status.');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -100,28 +99,28 @@ function App() {
         }
     };
 
-    const handleEdit = (category) => {
-        setEditCategoryId(category._id);
-        setFormData({ ...category });
+    const handleEdit = (entrepot) => {
+        setEditEntrepotId(entrepot._id);
+        setFormData({ ...entrepot });
         setShowCreateForm(true);
     };
 
-    const handleView = (category) => {
-        setSelectedCategory(category);
+    const handleView = (entrepot) => {
+        setSelectedEntrepot(entrepot);
     };
 
     const handleEditSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:8080/categories/${editCategoryId}`, formData);
+            const response = await axios.put(`http://localhost:8080/entrepots/${editEntrepotId}`, formData);
             if (response.status && response.status === 200) {
-                showAlert('Category updated successfully.');
-                fetchCategories();
-                setEditCategoryId('');
+                showAlert('Entrepot updated successfully.');
+                fetchEntrepots();
+                setEditEntrepotId('');
                 resetFormData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred while updating category.');
+                showAlert(response.data.message || 'An error occurred while updating entrepot.');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -132,26 +131,24 @@ function App() {
     const resetFormData = () => {
         setFormData({
             name: '',
-            description: '',
             IsActive: true
         });
     };
 
-    const filterCategories = (categories, searchText) => {
-        let filteredCategories = categories.filter(category => {
+    const filterEntrepots = (entrepots, searchText) => {
+        let filteredEntrepots = entrepots.filter(entrepot => {
             return (
-                category.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                (category.description && category.description.toLowerCase().includes(searchText.toLowerCase()))
+                entrepot.name.toLowerCase().includes(searchText.toLowerCase())
             );
         });
 
         if (showOnlyActive) {
-            filteredCategories = filteredCategories.filter(category => category.IsActive);
+            filteredEntrepots = filteredEntrepots.filter(entrepot => entrepot.IsActive);
         }
 
-        const indexOfLastCategory = currentPage * categoriesPerPage;
-        const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
-        return filteredCategories.slice(indexOfFirstCategory, indexOfLastCategory);
+        const indexOfLastEntrepot = currentPage * entrepotsPerPage;
+        const indexOfFirstEntrepot = indexOfLastEntrepot - entrepotsPerPage;
+        return filteredEntrepots.slice(indexOfFirstEntrepot, indexOfLastEntrepot);
     };
 
     const handleSearchChange = (event) => {
@@ -167,11 +164,11 @@ function App() {
             <Header OpenSidebar={OpenSidebar}/>
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
             <div className="container">
-                <h1 className="title-all">Categories</h1>
+                <h1 className="title-all">Entrepots</h1>
                 <div className="actions">
                     <input
                         type="text"
-                        placeholder="Search categories..."
+                        placeholder="Search entrepots..."
                         value={searchText}
                         onChange={handleSearchChange}
                     />
@@ -189,38 +186,35 @@ function App() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
-                            <h2>Create New Category</h2>
+                            <h2>Create New Entrepot</h2>
                             <form onSubmit={handleSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <button className="create-button" type="submit">Save</button>
                                 <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
                             </form>
                         </div>
                     </div>
                 )}
-                {filterCategories(categories, searchText).length > 0 && (
+                {filterEntrepots(entrepots, searchText).length > 0 && (
                     <>
                         <table>
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Description</th>
                                     <th>Active</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {filterCategories(categories, searchText).map(category => (
-                                    <tr key={category._id}>
-                                        <td>{category.name}</td>
-                                        <td>{category.description}</td>
-                                        <td>{category.IsActive ? 'Yes' : 'No'}</td>
+                                {filterEntrepots(entrepots, searchText).map(entrepot => (
+                                    <tr key={entrepot._id}>
+                                        <td>{entrepot.name}</td>
+                                        <td>{entrepot.IsActive ? 'Yes' : 'No'}</td>
                                         <td>
-                                            <button className='view-button' onClick={() => handleView(category)}>View</button>
-                                            <button className='edit-button' onClick={() => handleEdit(category)}>Edit</button>
-                                            <button className='action-button delete-button' onClick={() => handleDelete(category._id, category.IsActive)}>
-                                                {category.IsActive ? 'Disable' : 'Enable'}
+                                            <button className='view-button' onClick={() => handleView(entrepot)}>View</button>
+                                            <button className='edit-button' onClick={() => handleEdit(entrepot)}>Edit</button>
+                                            <button className='action-button delete-button' onClick={() => handleDelete(entrepot._id, entrepot.IsActive)}>
+                                                {entrepot.IsActive ? 'Disable' : 'Enable'}
                                             </button>
                                         </td>
                                     </tr>
@@ -230,35 +224,33 @@ function App() {
                         <div className="pagination">
                             <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
                             <span>{currentPage}</span>
-                            <button disabled={currentPage === Math.ceil(categories.length / categoriesPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                            <button disabled={currentPage === Math.ceil(entrepots.length / entrepotsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
                         </div>
                     </>
                 )}
-                {filterCategories(categories, searchText).length === 0 && (
-                    <p>No categories found.</p>
+                {filterEntrepots(entrepots, searchText).length === 0 && (
+                    <p>No entrepots found.</p>
                 )}
-                {selectedCategory && (
+                {selectedEntrepot && (
                     <div className="popup">
                         <div className="popup-content">
-                            <span className="close-button" onClick={() => setSelectedCategory(null)}>&times;</span>
-                            <h2>Category Details</h2>
-                            <p>Name: {selectedCategory.name}</p>
-                            <p>Description: {selectedCategory.description}</p>
-                            <p>Active: {selectedCategory.IsActive ? 'Yes' : 'No'}</p>
-                            <button className='delet-button' onClick={() => setSelectedCategory(null)}>Cancel</button>
+                            <span className="close-button" onClick={() => setSelectedEntrepot(null)}>&times;</span>
+                            <h2>Entrepot Details</h2>
+                            <p>Name: {selectedEntrepot.name}</p>
+                            <p>Active: {selectedEntrepot.IsActive ? 'Yes' : 'No'}</p>
+                            <button className='delet-button' onClick={() => setSelectedEntrepot(null)}>Cancel</button>
                         </div>
                     </div>
                 )}
-                {editCategoryId && (
+                {editEntrepotId && (
                     <div className="popup">
                         <div className="popup-content">
-                            <span className="close-button" onClick={() => { setEditCategoryId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
-                            <h2>Edit Category</h2>
+                            <span className="close-button" onClick={() => { setEditEntrepotId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
+                            <h2>Edit Entrepot</h2>
                             <form onSubmit={handleEditSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => { setEditCategoryId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
+                                <button className='delet-button' onClick={() => { setEditEntrepotId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
                             </form>
                         </div>
                     </div>
@@ -270,4 +262,4 @@ function App() {
 }
 
 export default App;
-/*last version *////////////////
+////*last version

@@ -8,6 +8,7 @@ const productsRoute = require ("./routes/productsRoute");
 const ordersRoute =require ("./routes/ordersRoute");
 const orderssellRoute=require("./routes/orderssellRoute");
 const categoriesRoute =require ("./routes/categoriesRoute")
+const entrepotsRoute = require ("./routes/entrepotsRoute")
 
 const express = require("express");
 const cors = require("cors");
@@ -38,9 +39,10 @@ app.use('/providers', providersRoute);
 app.use('/clients', clientsRoute);
 app.use('/products', productsRoute);
 app.use('/orders',ordersRoute);
+app.use('/commandedetaillee',ordersRoute);
 app.use('/sells',orderssellRoute);
 app.use('/categories',categoriesRoute);
-
+app.use('/entrepots',entrepotsRoute);
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));

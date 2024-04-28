@@ -16,7 +16,7 @@ import Historiqueachat from "./pages/Historique/historiqueAchat/historiqueachat"
 import Historiquevente from "./pages/Historique/historiquevente/historiquevente";
 import Historique from "./pages/Historique/historique"
 import Categorie from "./pages/categorie/categorie";
-
+import Entrepot from "./pages/entrepots/entrepot";
 
 
 function App() {
@@ -37,6 +37,7 @@ function App() {
 			<Route path="/historiquevente" element={<Historiquevente />}/>
 			<Route path="/historique" element={<Historique />}/>
 			<Route path="/categorie" element={<Categorie />}/>
+			<Route path="/entrepot" element={<Entrepot />}/>
 
 
 

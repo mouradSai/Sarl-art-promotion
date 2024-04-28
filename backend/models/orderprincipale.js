@@ -10,7 +10,7 @@ const orderprincipaleSchema = new mongoose.Schema({
         required:true
       },
       total:{
-        type:Integer,
+        type:Number,
        required:true,
        default :0 
     },
