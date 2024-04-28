@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appproducts.css';
 import Sidebar from '../../components/Main/Sidebar';
-import Header from '../../components/Main/Header';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
@@ -156,7 +155,7 @@ function App() {
 
     return (
         <div className="grid-container">
-            <Header OpenSidebar={OpenSidebar}/>
+            <HeaderProduct OpenSidebar={OpenSidebar}/>
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
             <div className="container">
                 <h1 className="title-all">Produits</h1>
