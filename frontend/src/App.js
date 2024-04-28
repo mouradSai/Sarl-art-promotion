@@ -15,6 +15,7 @@ import Sell from "./pages/sell/sell"
 import Historiqueachat from "./pages/Historique/historiqueAchat/historiqueachat";
 import Historiquevente from "./pages/Historique/historiquevente/historiquevente";
 import Historique from "./pages/Historique/historique"
+import Categorie from "./pages/categorie/categorie";
 
 
 
@@ -35,6 +36,7 @@ function App() {
 			<Route path="/historiqueachat" element={<Historiqueachat />}/>
 			<Route path="/historiquevente" element={<Historiquevente />}/>
 			<Route path="/historique" element={<Historique />}/>
+			<Route path="/categorie" element={<Categorie />}/>
 
 
 

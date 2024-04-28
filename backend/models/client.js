@@ -21,7 +21,10 @@ const clientSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-  
+    IsActive: {
+        type: Boolean, 
+        default: true
+    }
 }, {
     timestamps: true,
 });

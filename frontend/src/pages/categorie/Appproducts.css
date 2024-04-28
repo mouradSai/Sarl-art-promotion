@@ -1,0 +1,22 @@
+
+
+
+
+
+/* Style pour le select de la popup */
+.popup select {
+  width: calc(100% - 24px); /* Largeur du select moins le padding */
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Style pour le champ number de la popup */
+.popup input[type="number"] {
+  width: calc(100% - 24px); /* Largeur du champ moins le padding */
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
