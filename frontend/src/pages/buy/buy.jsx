@@ -6,6 +6,8 @@ import Header from '../../components/Main/Header';
 import ReactToPrint from 'react-to-print';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
+
+
 const OrderForm = () => {
   const [providerId, setProviderId] = useState('');
   const [providerName, setProviderName] = useState('');
@@ -130,11 +132,12 @@ const OrderForm = () => {
   }, [providerId, productId, providers, products]);
 
   return (
+    
     <div className="grid-container">
       <Header openSidebar={openSidebar} />
       <Sidebar openSidebarToggle={openSidebarToggle} openSidebar={openSidebar} />
       <div className="order-form-container" id="orderFormContainer">
-        <h1 className="form-title">Commande d'Achat</h1>
+        <h1 className="form-title">Commande d'achat</h1>
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="provider">Fournisseur:</label>
@@ -147,12 +150,12 @@ const OrderForm = () => {
                   setProviderLocked(true);
                 }
               }}
-              disabled={providerLocked}
-            >
+              disabled={providerLocked}>
               <option value="">Sélectionner le fournisseur</option>
               {providers.map((prov) => (
                 <option key={prov._id} value={prov._id}>{prov.name}</option>
               ))}
+
             </select>
           </div>
           <div className="form-group">
@@ -237,6 +240,7 @@ const OrderForm = () => {
 
       </div>
     </div>
+    // </div>
   );
 };
 

@@ -6,6 +6,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 
 
+
 //pages imports 
 import Product from "./pages/Products/product";
 import Customer from"./pages/customers/customer";
@@ -17,6 +18,7 @@ import Historiquevente from "./pages/Historique/historiquevente/historiquevente"
 import Historique from "./pages/Historique/historique"
 import Categorie from "./pages/categorie/categorie";
 import Entrepot from "./pages/entrepots/entrepot";
+
 
 
 function App() {

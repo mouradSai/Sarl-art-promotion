@@ -1,8 +1,4 @@
 
-
-
-
-
 /* Style pour le select de la popup */
 .popup select {
   width: calc(100% - 24px); /* Largeur du select moins le padding */
@@ -20,3 +16,10 @@
   border: 1px solid #ccc;
   border-radius: 6px;
 }
+
+.prev-next-button{
+    margin-bottom: 30px;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+

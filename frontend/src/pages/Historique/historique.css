@@ -2,11 +2,6 @@
     text-align: center;
 }
 
-.title-all {
-    font-size: 32px;
-    margin-bottom: 20px;
-    color: #334e68; /* Bleu foncé */
-}
 
 .dashboard-grid {
     display: flex;
@@ -53,12 +48,7 @@
 .dashboard-item:hover p {
     opacity: 1; /* Afficher le texte au survol */
 }
-.title-all {
-    font-size: 32px;
-    margin-bottom: 20px;
-    color: #334e68; /* Bleu foncé */
-    text-decoration: none; /* Enlever le soulignement */
-}
+
 
 .dashboard-item h2 {
     margin-bottom: 10px;

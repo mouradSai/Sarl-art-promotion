@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from '../../components/Main/Sidebar';
-import Header from '../../components/Main/Header';
+import HeaderEntrepot from '../../components/Headers/HeaderEntrepot';
 import CustomAlert from '../../components/costumeAlert/costumeAlert';
 
 function App() {
@@ -161,7 +161,7 @@ function App() {
 
     return (
         <div className="grid-container">
-            <Header OpenSidebar={OpenSidebar}/>
+            <HeaderEntrepot OpenSidebar={OpenSidebar}/>
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
             <div className="container">
                 <h1 className="title-all">Entrepots</h1>

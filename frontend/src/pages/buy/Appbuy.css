@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;800&display=swap');
+
+
 .order-form-container {
   margin: 20px auto; /* Ajout de 'auto' pour centrer horizontalement */
   width: 1100px;
@@ -5,10 +8,15 @@
 }
 
 .form-title {
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 52px;
+  font-weight: 800;
+  color: #fff;
+  color: #060606; /* Couleur de texte sombre */
   text-align: center;
-  font-size: 45px;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
 }
+
 
 .form-row {
   display: flex;
@@ -33,7 +41,7 @@
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 4px; 
 }
 
 .order-table-container {

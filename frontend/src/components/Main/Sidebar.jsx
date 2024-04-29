@@ -1,5 +1,6 @@
 import {React  }from 'react';
-import {BsCart3,BsFillArchiveFill, BsFillGrid3X3GapFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
+import {BsFillArchiveFill,MdSpaceDashboard,BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
+import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import logowhite from '../../assets/logo-white.png';
   
@@ -14,52 +15,48 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>
       </div>
       <ul className='sidebar-list'>
+
+      <Link to="/" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-        <Link to="/">
-            <BsFillArchiveFill className='icon'/> Dashbord
-          </Link>
+            <BsFillGrid1X2Fill className='icon'/> Dashbord
         </li>
+      </Link>
+
+      <Link to="/buy" className="sidebar-link"> 
         <li className='sidebar-list-item'>
-          <a href="/buy">
-            <BsMenuButtonWideFill className='icon'/> Achats
-          </a>
+            <BsCashStack className='icon'/> Achats
         </li>
+      </Link>
+
+      <Link to="/sell" className="sidebar-link"> 
         <li className='sidebar-list-item'>
-          <a href="/sell">
-            <BsFillGrid3X3GapFill className='icon'/> Ventes
-          </a>
+            <FaMoneyBillTransfer className='icon'/> Ventes
         </li>
+        </Link>
+
+        <Link to="/provider" className="sidebar-link">
         <li className='sidebar-list-item'>
-        <Link to="/provider">
-            <BsPeopleFill className='icon'/> Fournisseurs
-          </Link>
+            <BsPersonFill className='icon'/> Fournisseurs
         </li>
+        </Link>
+
+        <Link to="/customer" className="sidebar-link">
         <li className='sidebar-list-item'>
-        <Link to="/customer">
             <BsPeopleFill className='icon'/> Clients
-          </Link>
         </li>
+        </Link>
+
+        <Link to="/product" className="sidebar-link">
         <li className='sidebar-list-item'>
-        <Link to="/product">
             <BsBox2Fill className='icon'/> Produits
-          </Link>
         </li>
+        </Link>
+
+        <Link to="/historique" className="sidebar-link">
         <li className='sidebar-list-item'>
-        <Link to="/historique">
-            <BsPeopleFill className='icon'/> Historique
-          </Link>
+            <BsFileBarGraphFill  className='icon'/> Historique
         </li>
-        <li className='sidebar-list-item'>
-        <Link to="/categorie">
-            <BsPeopleFill className='icon'/> Categorie
-          </Link>
-        </li>
-        <li className='sidebar-list-item'>
-        <Link to="/entrepot">
-            <BsPeopleFill className='icon'/> entrepots
-          </Link>
-        </li>
-       
+        </Link>
        
        
         
