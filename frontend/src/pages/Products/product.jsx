@@ -327,11 +327,25 @@ function App() {
                             <h2>Edit Product</h2>
                             <form onSubmit={handleEditSubmit}>
                                 <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="namecategory" value={productData.namecategory} onChange={handleChange} placeholder="Category" />
-                                <input type="text" name="nameentrepot" value={productData.nameentrepot} onChange={handleChange} placeholder="Entrepot" />
-                                <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantity" />
-                                <input type="text" name="unit" value={productData.unit} onChange={handleChange} placeholder="Unit" />
-                                <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
+                                <select name="namecategory" value={productData.namecategory} onChange={handleChange}>
+                                        <option value="">Select Category</option>
+                                        {categories.map((category) => (
+                                            <option key={category._id} value={category.name}>{category.name}</option>
+                                        ))}
+                                    </select>                               
+                                    <select name="nameentrepot" value={productData.nameentrepot} onChange={handleChange}>
+                                        <option value="">Select Entrepot</option>
+                                        {entrepots.map((entrepot) => (
+                                            <option key={entrepot._id} value={entrepot.name}>{entrepot.name}</option>
+                                        ))}
+                                    </select>                                
+                                    <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantity" />
+                                    <select name="unit" value={productData.unit} onChange={handleChange}>
+                                    <option value="">Select Unit</option>
+                                    {units.map((unit) => (
+                                        <option key={unit} value={unit}>{unit}</option>
+                                    ))}
+                                </select>                                    <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
                                 <button className="create-button" type="submit">Save</button>
                                 <button className='delete-button' onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>Cancel</button>
                             </form>
