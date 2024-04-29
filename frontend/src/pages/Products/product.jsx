@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Appproducts.css';
+import './Appproducts.css'; 
 import Sidebar from '../../components/Main/Sidebar';
-import HeaderProduct from '../../components/Headers/HeaderProduct';
-import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
+import Header from '../../components/Main/Header';
+import CustomAlert from '../../components/costumeAlert/costumeAlert'; 
 
 function App() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [products, setProducts] = useState([]);
-    const [formData, setFormData] = useState({
+    const [categories, setCategories] = useState([]);
+    const [entrepots, setEntrepots] = useState([]);
+    const [productData, setProductData] = useState({
         name: '',
-        category: '',
         namecategory: '',
-        entrepot: '',
         nameentrepot: '',
-        quantity: 0,
-        unit: 'kg',
+        quantity: '',
+        unit: '',
         description: '',
         IsActive: true
     });
@@ -24,13 +24,16 @@ function App() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showActiveOnly, setShowActiveOnly] = useState(false);
-    const [alert, setAlert] = useState(null);
+    const [showActiveOnly, setShowActiveOnly] = useState(false); 
+    const [alert, setAlert] = useState(null); 
+    const [units] = useState(['kg', 'g', 'L', 'ml', 'unit']);  // List of units
 
-    const productsPerPage = 8;
+    const productsPerPage = 8; 
 
     useEffect(() => {
         fetchProducts();
+        fetchCategories();
+        fetchEntrepots();
     }, []);
 
     const fetchProducts = async () => {
@@ -43,30 +46,54 @@ function App() {
         }
     };
 
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/categories');
+            setCategories(response.data.data);
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred while fetching categories. Please try again later.');
+        }
+    };
+
+    const fetchEntrepots = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/entrepots');
+            setEntrepots(response.data.data);
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('An error occurred while fetching entrepots. Please try again later.');
+        }
+    };
+
     const showAlert = (message, type) => {
         setAlert({ message, type });
     };
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData({
-            ...formData,
+        setProductData({
+            ...productData,
             [name]: value
         });
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!formData.name || !formData.category || !formData.entrepot || !formData.quantity) {
+        if (!productData.name || !productData.namecategory || !productData.nameentrepot || !productData.quantity || !productData.unit) {
             showAlert('Please fill in all required fields.');
             return;
         }
         try {
-            const response = await axios.post('http://localhost:8080/products', formData);
+            const response = await axios.post('http://localhost:8080/products', {
+                ...productData,
+                category: categories.find(cat => cat.name === productData.namecategory)?._id,
+                entrepot: entrepots.find(ent => ent.name === productData.nameentrepot)?._id
+            });
             if (response.status === 201) {
                 showAlert('Product added successfully.');
                 fetchProducts();
-                resetFormData();
+                resetProductData();
                 setShowCreateForm(false);
             } else {
                 showAlert(response.data.message || 'An error occurred.');
@@ -113,7 +140,7 @@ function App() {
 
     const handleEdit = (product) => {
         setEditProductId(product._id);
-        setFormData({ ...product });
+        setProductData({ ...product });
         setShowCreateForm(true);
     };
 
@@ -124,12 +151,12 @@ function App() {
     const handleEditSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:8080/products/${editProductId}`, formData);
+            const response = await axios.put(`http://localhost:8080/products/${editProductId}`, productData);
             if (response.status && response.status === 200) {
                 showAlert('Product updated successfully.');
                 fetchProducts();
                 setEditProductId('');
-                resetFormData();
+                resetProductData();
                 setShowCreateForm(false);
             } else {
                 showAlert(response.data.message || 'An error occurred while updating product.');
@@ -139,20 +166,18 @@ function App() {
             showAlert('An error occurred. Please try again later.');
         }
     };
-
-    const resetFormData = () => {
-        setFormData({
+    const resetProductData = () => {
+        setProductData({
             name: '',
-            category: '',
             namecategory: '',
-            entrepot: '',
             nameentrepot: '',
-            quantity: 0,
-            unit: 'kg',
+            quantity: '',
+            unit: '',
             description: '',
             IsActive: true
         });
     };
+
 
     const filterProducts = (products, searchText) => {
         let filteredProducts = products.filter(product => {
@@ -181,54 +206,61 @@ function App() {
     };
 
     return (
-        <div className="grid-container">
-            <HeaderProduct OpenSidebar={OpenSidebar}/>
-            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
-            <div className="container">
-                <h1 className="title-all">Produits</h1>
-                <div className="actions">
-                    <input
-                        type="text"
-                        placeholder="Search products..."
-                        value={searchText}
-                        onChange={handleSearchChange}
-                    />
-                    <label>
+       
+            <div className="grid-container">
+                <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)}/>
+                <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+                <div className="container">
+                    <h1 className="title-all">Products</h1>
+                    <div className="actions">
                         <input
-                            type="checkbox"
-                            checked={showActiveOnly}
-                            onChange={handleFilterChange}
+                            type="text"
+                            placeholder="Search products..."
+                            value={searchText}
+                            onChange={handleSearchChange}
                         />
-                        Show Active Only
-                    </label>
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
-                </div>
-                {showCreateForm && (
-                    <div className="popup">
-                        <div className="popup-content">
-                            <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
-                            <h2>Create New Product</h2>
-                            <form onSubmit={handleSubmit}>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category ID" />
-                                <input type="text" name="namecategory" value={formData.namecategory} onChange={handleChange} placeholder="Category Name" />
-                                <input type="text" name="entrepot" value={formData.entrepot} onChange={handleChange} placeholder="Entrepot ID" />
-                                <input type="text" name="nameentrepot" value={formData.nameentrepot} onChange={handleChange} placeholder="Entrepot Name" />
-                                <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
-                                <select name="unit" value={formData.unit} onChange={handleChange}>
-                                    <option value="kg">kg</option>
-                                    <option value="g">g</option>
-                                    <option value="L">L</option>
-                                    <option value="ml">ml</option>
-                                    <option value="unit">unit</option>
-                                </select>
-                                <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
-                            </form>
-                        </div>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={showActiveOnly}
+                                onChange={handleFilterChange}
+                            />
+                            Show Active Only
+                        </label>
+                        <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
                     </div>
-                )}
+                    {showCreateForm && (
+                        <div className="popup">
+                            <div className="popup-content">
+                                <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
+                                <h2>Create New Product</h2>
+                                <form onSubmit={handleSubmit}>
+                                    <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Name" />
+                                    <select name="namecategory" value={productData.namecategory} onChange={handleChange}>
+                                        <option value="">Select Category</option>
+                                        {categories.map((category) => (
+                                            <option key={category._id} value={category.name}>{category.name}</option>
+                                        ))}
+                                    </select>
+                                    <select name="nameentrepot" value={productData.nameentrepot} onChange={handleChange}>
+                                        <option value="">Select Entrepot</option>
+                                        {entrepots.map((entrepot) => (
+                                            <option key={entrepot._id} value={entrepot.name}>{entrepot.name}</option>
+                                        ))}
+                                    </select>
+                                    <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantity" />
+                                    <select name="unit" value={productData.unit} onChange={handleChange}>
+                                    <option value="">Select Unit</option>
+                                    {units.map((unit) => (
+                                        <option key={unit} value={unit}>{unit}</option>
+                                    ))}
+                                </select>                                    <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
+                                    <button className="create-button" type="submit">Save</button>
+                                    <button className='delete-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                    )}
                 {filterProducts(products, searchText).length > 0 && (
                     <>
                         <table>
@@ -236,9 +268,7 @@ function App() {
                                 <tr>
                                     <th>Name</th>
                                     <th>Category</th>
-                                    <th>Category Name</th>
                                     <th>Entrepot</th>
-                                    <th>Entrepot Name</th>
                                     <th>Quantity</th>
                                     <th>Unit</th>
                                     <th>Description</th>
@@ -250,9 +280,7 @@ function App() {
                                 {filterProducts(products, searchText).map(product => (
                                     <tr key={product._id}>
                                         <td>{product.name}</td>
-                                        <td>{product.category}</td>
                                         <td>{product.namecategory}</td>
-                                        <td>{product.entrepot}</td>
                                         <td>{product.nameentrepot}</td>
                                         <td>{product.quantity}</td>
                                         <td>{product.unit}</td>
@@ -270,7 +298,7 @@ function App() {
                         <div className="pagination">
                             <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
                             <span>{currentPage}</span>
-                            <button className='prev-next-button' disabled={currentPage === Math.ceil(products.length / productsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                            <button disabled={currentPage === Math.ceil(products.length / productsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
                         </div>
                     </>
                 )}
@@ -283,39 +311,29 @@ function App() {
                             <span className="close-button" onClick={() => setSelectedProduct(null)}>&times;</span>
                             <h2>Product Details</h2>
                             <p>Name: {selectedProduct.name}</p>
-                            <p>Category: {selectedProduct.category}</p>
-                            <p>Category Name: {selectedProduct.namecategory}</p>
-                            <p>Entrepot: {selectedProduct.entrepot}</p>
-                            <p>Entrepot Name: {selectedProduct.nameentrepot}</p>
+                            <p>Category: {selectedProduct.namecategory}</p>
+                            <p>Entrepot: {selectedProduct.nameentrepot}</p>
                             <p>Quantity: {selectedProduct.quantity}</p>
                             <p>Unit: {selectedProduct.unit}</p>
                             <p>Description: {selectedProduct.description}</p>
-                            <button className='delet-button' onClick={() => setSelectedProduct(null)}>Cancel</button>
+                            <button className='delete-button' onClick={() => setSelectedProduct(null)}>Cancel</button>
                         </div>
                     </div>
                 )}
                 {editProductId && (
                     <div className="popup">
                         <div className="popup-content">
-                            <span className="close-button" onClick={() => { setEditProductId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
+                            <span className="close-button" onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>&times;</span>
                             <h2>Edit Product</h2>
                             <form onSubmit={handleEditSubmit}>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category ID" />
-                                <input type="text" name="namecategory" value={formData.namecategory} onChange={handleChange} placeholder="Category Name" />
-                                <input type="text" name="entrepot" value={formData.entrepot} onChange={handleChange} placeholder="Entrepot ID" />
-                                <input type="text" name="nameentrepot" value={formData.nameentrepot} onChange={handleChange} placeholder="Entrepot Name" />
-                                <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
-                                <select name="unit" value={formData.unit} onChange={handleChange}>
-                                    <option value="kg">kg</option>
-                                    <option value="g">g</option>
-                                    <option value="L">L</option>
-                                    <option value="ml">ml</option>
-                                    <option value="unit">unit</option>
-                                </select>
-                                <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
+                                <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Name" />
+                                <input type="text" name="namecategory" value={productData.namecategory} onChange={handleChange} placeholder="Category" />
+                                <input type="text" name="nameentrepot" value={productData.nameentrepot} onChange={handleChange} placeholder="Entrepot" />
+                                <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantity" />
+                                <input type="text" name="unit" value={productData.unit} onChange={handleChange} placeholder="Unit" />
+                                <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
                                 <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => { setEditProductId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
+                                <button className='delete-button' onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>Cancel</button>
                             </form>
                         </div>
                     </div>
@@ -327,4 +345,4 @@ function App() {
 }
 
 export default App;
-/**********last version *//////////////////////////// /*/
+/*cdefbdfdhdfelv!eveve*//*cdndndvdvnekjnvkenvkde toucher pas jai galerer a la faire wlah dffnrfrfnornrer/** */
