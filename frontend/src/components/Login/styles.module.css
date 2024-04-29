@@ -97,3 +97,8 @@
 	color: white;
 	margin: 10px;
 }
+/* Ajout de styles pour le logo */
+.logo {
+    width: 100px; /* Définissez la largeur souhaitée pour le logo */
+    margin-bottom: 20px; /* Ajoutez un espacement en bas du logo */
+}
