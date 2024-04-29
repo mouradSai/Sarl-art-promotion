@@ -1,0 +1,6 @@
+ .historique {
+    width: 1100px; /* Largeur du tableau à 100% pour s'adapter à la largeur du conteneur */
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    font-family: Arial, sans-serif; /* Police de caractères */
+  }
