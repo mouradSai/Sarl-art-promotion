@@ -5,18 +5,24 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    
     category: {
-        type: mongoose.Schema.Types.ObjectId, // Clé étrangère vers le modèle Categorie
-        ref: 'Categorie', // Référence au modèle Categorie
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Categorie',
+        required: true,
+    },
+    namecategory: {
+        type: String,
         required: true,
     },
     entrepot: {
-        type: mongoose.Schema.Types.ObjectId, // Clé étrangère vers le modèle Entrepot
-        ref: 'Entrepot', // Référence au modèle Entrepot
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Entrepot',
         required: true,
     },
-    
+    nameentrepot: {
+        type: String,
+        required: true,
+    },
     quantity: {
         type: Number,
         required: true,
@@ -31,9 +37,8 @@ const productSchema = mongoose.Schema({
         type: String,
         required: false,
     },
-   
     IsActive: {
-        type: Boolean, 
+        type: Boolean,
         default: true
     }
 }, {
@@ -41,4 +46,5 @@ const productSchema = mongoose.Schema({
 });
 
 const Product = mongoose.model('Product', productSchema);
+
 module.exports = Product;

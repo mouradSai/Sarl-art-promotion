@@ -1,38 +1,60 @@
 const express = require("express");
 const Product = require("../models/product");
+const Categorie = require("../models/categorie"); // Importer le modèle de catégorie
+const Entrepot = require("../models/entrepot"); // Importer le modèle d'entrepôt
 
 const router = express.Router();
 
 // Route pour créer un nouveau produit
 router.post('/', async (request, response) => {
     try {
+        // Vérifier si tous les champs requis sont fournis
         if (
             !request.body.name ||
-            !request.body.category ||
-            !request.body.entrepot ||
+            !request.body.namecategory ||
+            !request.body.nameentrepot ||
             !request.body.quantity ||
             !request.body.unit
         ) {
             return response.status(400).send({
-                message: 'Veuillez fournir tous les champs requis : name, category, entrepot, quantity, unit',
+                message: 'Veuillez fournir tous les champs requis : name, namecategory, nameentrepot, quantity, unit',
             });
         }
 
+        // Rechercher l'ID de la catégorie en fonction du nom
+        const category = await Categorie.findOne({ name: request.body.namecategory });
+        if (!category) {
+            return response.status(400).send({ message: "Catégorie non trouvée" });
+        }
+
+        // Rechercher l'ID de l'entrepôt en fonction du nom
+        const entrepot = await Entrepot.findOne({ name: request.body.nameentrepot });
+        if (!entrepot) {
+            return response.status(400).send({ message: "Entrepôt non trouvé" });
+        }
+
+        // Créer un nouveau produit avec les IDs des catégories et des entrepôts trouvés
         const newProduct = {
             name: request.body.name,
-            category: request.body.category,
-            entrepot: request.body.entrepot,
+            category: category._id,
+            namecategory: request.body.namecategory,
+            entrepot: entrepot._id,
+            nameentrepot: request.body.nameentrepot,
             quantity: request.body.quantity,
             unit: request.body.unit,
             description: request.body.description,
             IsActive: request.body.IsActive || true,
         };
 
+        // Enregistrer le nouveau produit dans la base de données
         const product = await Product.create(newProduct);
+
+        // Répondre avec le produit créé
         return response.status(201).send(product);
 
     } catch (error) {
-        console.log(error.message);
+        // Gérer les erreurs et répondre avec un message d'erreur approprié
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -46,7 +68,7 @@ router.get('/', async (request, response) => {
             data: products
         });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -58,7 +80,7 @@ router.get('/:id', async (request, response) => {
         const product = await Product.findById(id);
         return response.status(200).json(product);
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -74,7 +96,7 @@ router.put('/:id', async (request, response) => {
         }
         return response.status(200).send({ message: 'Produit mis à jour avec succès' });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
@@ -89,7 +111,7 @@ router.delete('/:id', async (request, response) => {
         }
         return response.status(200).send({ message: 'Produit supprimé avec succès' });
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         response.status(500).send({ message: error.message });
     }
 });
