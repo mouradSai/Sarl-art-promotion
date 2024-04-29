@@ -14,12 +14,20 @@ router.post('/', async (request, response) => {
         response.status(500).send({ message: "Erreur lors de la création de la catégorie." });
     }
 });
-
-// Route pour obtenir toutes les catégories de la base de données
+// Route pour obtenir toutes les catégories de la base de données avec possibilité de filtrage par IsActive
 router.get('/', async (request, response) => {
     try {
-        const categories = await Categorie.find({});
-        const count = await Categorie.countDocuments(); // Nombre total de catégories
+        // Vérifie si le paramètre IsActive est présent dans la requête
+        const isActiveParam = request.query.IsActive;
+
+        // Définir le filtre en fonction de la valeur du paramètre IsActive
+        const filter = isActiveParam === 'true' ? { IsActive: true } : {};
+
+        // Récupérer les catégories en utilisant le filtre
+        const categories = await Categorie.find(filter);
+        const count = await Categorie.countDocuments(filter); // Nombre total de catégories en fonction du filtre
+
+        // Retourner la réponse avec les catégories filtrées
         return response.status(200).json({
             count: count,
             data: categories

@@ -14,12 +14,20 @@ router.post('/', async (req, res) => {
         res.status(500).send({ message: "Erreur lors de la création de l'entrepôt." });
     }
 });
-
-// Route pour obtenir tous les entrepôts de la base de données
+// Route pour obtenir tous les entrepôts de la base de données avec possibilité de filtrage par IsActive
 router.get('/', async (req, res) => {
     try {
-        const entrepots = await Entrepot.find({});
-        const count = await Entrepot.countDocuments(); // Nombre total d'entrepôts
+        // Vérifie si le paramètre IsActive est présent dans la requête
+        const isActiveParam = req.query.IsActive;
+
+        // Définir le filtre en fonction de la valeur du paramètre IsActive
+        const filter = isActiveParam === 'true' ? { IsActive: true } : {};
+
+        // Récupérer les entrepôts en utilisant le filtre
+        const entrepots = await Entrepot.find(filter);
+        const count = await Entrepot.countDocuments(filter); // Nombre total d'entrepôts en fonction du filtre
+
+        // Retourner la réponse avec les entrepôts filtrés
         res.status(200).json({
             count: count,
             data: entrepots
