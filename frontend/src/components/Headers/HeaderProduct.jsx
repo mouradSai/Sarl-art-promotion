@@ -35,9 +35,9 @@ function Header({ OpenSidebar }) {
 
       </div>
 
-      <button className={"white_btn-logout"} onClick={handleLogout}>
+      <button className={"white_btn_logout"} onClick={handleLogout}>
           <RiLogoutBoxFill className='icon-head' />
-          <span>Logout</span>
+          <span>Déconnexion</span>
         </button>
 
     </header>

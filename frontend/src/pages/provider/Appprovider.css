@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;800;900;&display=swap');
 
 /* Conteneur principal */
 .container {
@@ -7,16 +7,16 @@
 }
 
 .title-all {
-  background-color: rgb(164, 23, 23);
   position: relative;
   font-family: 'Libre Franklin', sans-serif;
-  font-size: 52px;
-  font-weight: 700;
-  margin-bottom: 50px;
-  color: #ffffff; /* Couleur de texte sombre */
+  font-size: 60px;
+  font-weight: 900;
+  margin-bottom: 35px;
+  color: #b31217; /* Couleur de texte sombre */
   text-align: center;
+  text-shadow: 0 4px 4px #a5a5a5, /* Shadow at the bottom */
+               0 5px 5px #a5a5a5; /* Even stronger shadow at the bottom */
 }
-
 
 h2 {
   font-size: 28px;
@@ -135,26 +135,33 @@ input[type="boolean"]:focus {
 }
 /* Style pour le tableau */
 table {
-  width: 1000px; /* Largeur du tableau à 100% pour s'adapter à la largeur du conteneur */
+  width: 1200px; /* Largeur du tableau à 100% pour s'adapter à la largeur du conteneur */
   border-collapse: collapse;
   margin-bottom: 30px;
-  font-family: Arial, sans-serif; /* Police de caractères */
+  font-family: 'Libre Franklin', sans-serif;
+  border-radius: 10px; /* Apply border-radius to top-left and top-right corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.377); /* Add shadow to the table borders */
 }
 
-th, td {
-  border: 1px solid #ccc; /* Bordure plus légère */
-  padding: 4px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
+
+td {
+  font-size: 17px;
+  padding: 15px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
   text-align: center;
 }
 
 th {
-  background-color: #f0f0f0; /* Couleur de fond pour les en-têtes de colonne */
-  color: #333; /* Couleur du texte pour les en-têtes de colonne */
+  border: 2px solid #B61217;; /* Bordure plus légère */
+  font-size: 17px;
+  padding: 20px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
+  text-align: center;
+  background-color: #B61217; /* Couleur de fond pour les en-têtes de colonne */
+  color: white; /* Couleur du texte pour les en-têtes de colonne */
 }
 
 /* Style pour les cellules de données alternées */
 tr:nth-child(even) {
-  background-color: #f9f9f9; /* Couleur de fond pour les lignes paires */
+  background-color: #d2d2d280; /* Couleur de fond pour les lignes paires */
 }
 
 /* Style pour les survols de lignes */

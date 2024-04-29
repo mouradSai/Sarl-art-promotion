@@ -193,7 +193,7 @@ function App() {
             <HeaderProduct OpenSidebar={OpenSidebar}/>
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
             <div className="container">
-                <h1 className="title-all">Products</h1>
+                <h1 className="title-all">Produits</h1>
                 <div className="actions">
                     <input
                         type="text"
@@ -270,7 +270,7 @@ function App() {
                         <div className="pagination">
                             <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
                             <span>{currentPage}</span>
-                            <button disabled={currentPage === Math.ceil(products.length / productsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                            <button className='prev-next-button' disabled={currentPage === Math.ceil(products.length / productsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
                         </div>
                     </>
                 )}

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { BsFillArchiveFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs';
+import { BsFillBellFill,BsFillArchiveFill, MdSpaceDashboard, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill } from 'react-icons/bs';
+import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { Link } from 'react-router-dom';
+
+
 
 function Home() {
     const [productsCount, setProductsCount] = useState(0);
@@ -61,42 +65,63 @@ function Home() {
             </div>
 
             <div className='main-cards'>
+
                 <div className='card'>
+                <Link to="/product" className="sidebar-link"> 
                     <div className='card-inner'>
-                        <h3>PRODUCTS</h3>
-                        <BsFillArchiveFill className='card_icon'/>
+                        <h3>Produits</h3>
+                        <BsBox2Fill className='card_icon'/>
                     </div>
                     <h1>{productsCount}</h1>
+                    </Link>
                 </div>
               
+
                 <div className='card'>
+                <Link to="/provider" className="sidebar-link"> 
                     <div className='card-inner'>
-                        <h3>PROVIDERS</h3>
-                        <BsPeopleFill className='card_icon'/>
+                        <h3>Fournisseurs</h3>
+                        <BsPersonFill className='card_icon'/>
                     </div>
                     <h1>{providersCount}</h1>
+                    </Link>
                 </div>
+
+
                 <div className='card'>
+                <Link to="/customer" className="sidebar-link"> 
                     <div className='card-inner'>
-                        <h3>CUSTOMERS</h3>
+                        <h3>Clients</h3>
                         <BsPeopleFill className='card_icon'/>
                     </div>
                     <h1>{customersCount}</h1>
+                    </Link> 
                 </div>
+
+
                 <div className='card'>
+                <Link to="/buy" className="sidebar-link"> 
                     <div className='card-inner'>
-                        <h3>ORDERS d'Achat</h3>
-                        <BsFillBellFill className='card_icon'/>
+                        <h3>Commande d'achat</h3>
+                        <BsCashStack className='card_icon'/>
                     </div>
                     <h1>{ordersachatCount}</h1>
+                    </Link>
                 </div>
+
+                
+
                 <div className='card'>
+                <Link to="/sell" className="sidebar-link"> 
                     <div className='card-inner'>
-                        <h3>ORDERS de vente</h3>
-                        <BsFillBellFill className='card_icon'/>
+                        <h3>Commande de vente</h3>
+                        <FaMoneyBillTransfer className='card_icon'/>
                     </div>
                     <h1>{ordersventeCount}</h1>
+                </Link>
                 </div>
+
+                
             </div>
 
             <div className='charts'>

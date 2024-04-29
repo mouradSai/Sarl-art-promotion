@@ -189,7 +189,7 @@ function App() {
             <Header OpenSidebar={OpenSidebar}/>
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
             <div className="container">
-                <h1 className="title-all">Providers</h1>
+                <h1 className="title-all">Fournisseurs</h1>
                 <div className="actions">
                     <input
                         type="text"
@@ -226,7 +226,7 @@ function App() {
                 )}
                 {filterProviders(providers, searchText).length > 0 && (
                     <>
-                        <table>
+                        <table className="mfwork">
                             <thead>
                                 <tr>
                                     <th>Name</th>

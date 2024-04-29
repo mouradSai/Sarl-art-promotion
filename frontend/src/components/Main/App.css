@@ -81,8 +81,7 @@ body {
 
 .sidebar-link{
   text-decoration: none;
-  color: white;
-  
+  color: #ffffff;
 }
 
 
@@ -165,9 +164,10 @@ body {
     
   }
 
-.sidebar-logo {
+  .sidebar-logo {
   margin-right: 5px
-}
+  }
+
   .sidebar-list {
     padding: 0;
     list-style-type: none;
@@ -230,6 +230,11 @@ body {
     justify-content: space-around;
     padding: 8px 15px;
     border-radius: 5px;
+    transition: transform 0.3s ease; 
+  }
+
+  .card:hover{
+    transform: scale(1.05); 
   }
   
   .card:first-child {
@@ -271,15 +276,14 @@ body {
 
 
   .menu-icon {
-    display: flex;
-    align-items: center;
+    display: none;
   }
   
   .header-right {
     display: flex;
     align-items: center;
     flex-grow: 1; /* Ajout de flex-grow pour étendre cet élément sur toute la largeur disponible */
-    justify-content: center; /* Ajout de justify-content pour centrer les éléments horizontalement */
+    justify-content: center;
   }
   
   .white_btn {
@@ -291,8 +295,11 @@ body {
     margin: 0 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-left: 60px;
+    margin-right: 40px;
   }
-  .white_btn-logout {
+
+  .white_btn_logout {
     font-family: 'Libre Franklin', sans-serif;
     font-weight: 600;
     font-size: 18px;

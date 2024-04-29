@@ -18,8 +18,8 @@ function Header({OpenSidebar}) {
 
         <div className='header-right'></div>
 
-        
-            <button className={"white_btn"} onClick={handleLogout} > <RiLogoutBoxFill className='icon-head'/>Logout</button>
+      
+        <button className={"white_btn_logout"} onClick={handleLogout} > <RiLogoutBoxFill className='icon-head'/>Déconnexion</button>
 
           
     </header>

@@ -132,11 +132,12 @@ const OrderForm = () => {
   }, [providerId, productId, providers, products]);
 
   return (
+    
     <div className="grid-container">
       <Header openSidebar={openSidebar} />
       <Sidebar openSidebarToggle={openSidebarToggle} openSidebar={openSidebar} />
       <div className="order-form-container" id="orderFormContainer">
-        <h1 className="form-title">Commande d'Achat</h1>
+        <h1 className="form-title">Commande d'achat</h1>
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="provider">Fournisseur:</label>
