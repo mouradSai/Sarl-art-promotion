@@ -36,14 +36,21 @@ h2 {
 
 
 .actions .create-button {
+  margin-left: 10px;
+}
+
+
+.actions .create-button {
   margin-left: 10px; /* Marge à gauche pour l'espace entre l'input et le bouton */
 }
 
 .actions input[type="text"] {
 
   width: 200px; /* Largeur de l'input de recherche */
-  margin-right: 70%; /* Marge à droite pour l'espace entre l'input et le bouton */
+  margin-right: 60%; /* Marge à droite pour l'espace entre l'input et le bouton */
+
 }
+
 
 .create-button,
 .view-button,
@@ -213,11 +220,94 @@ tr:hover {
 }
 
 
-
-
 /* Conteneur principal */
 .container {
   max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
   margin: 0 auto; /* Centrage horizontal */
 }
 
+
+.search-cont {
+  display: flex;
+  align-items: center;
+  border-radius: 20px; /* Bordures arrondies */
+  padding: 8px;
+  padding-right: 300px;
+}
+
+ .actions .search-icon {
+  margin-right: 8px; /* Marge à droite de l'icône */
+  size: 40px;
+}
+
+.search-cont .search-bar {
+  width: 100%;
+  border: 1px solid #585858;
+  background-color: #f5f5f548;
+  text-align: center;
+  outline: none;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 20px; /* Bordures arrondies */
+}
+
+.search-cont .search-bar::placeholder {
+  color: #75758B;
+}
+
+.search-cont .search-bar:focus {
+  border: 2px solid #007bff;
+}
+
+
+
+
+
+
+
+    /* Style for checkbox */
+    .checkbox-custom {
+      display: none; /* Hide default checkbox */
+  }
+
+  .checkbox-custom + .checkbox-label:before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #4CAF50; /* Green border */
+      border-radius: 3px;
+      margin-right: 10px;
+      vertical-align: middle;
+      transition: border-color 0.3s ease;
+      position: relative;
+  }
+
+  .checkbox-custom:checked + .checkbox-label:before {
+      background-color: #4CAF50; /* Green background */
+      border-color: #4CAF50; /* Green border */
+  }
+
+  .checkbox-custom:checked + .checkbox-label:before:after {
+      content: '\2714'; /* Unicode checkmark character */
+      display: block;
+      font-size: 16px;
+      color: #fff; /* White color */
+      line-height: 20px;
+      text-align: center;
+      vertical-align: middle;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  }
+
+  /* Style for label */
+  .checkbox-label {
+    font-family: 'Franklin Gothic Medium', sans-serif;
+      display: inline-block;
+      vertical-align: middle;
+      cursor: pointer;
+      font-size: 16px;
+      color: #6b6b6b;
+  }
