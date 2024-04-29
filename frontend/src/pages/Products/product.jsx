@@ -48,17 +48,26 @@ function App() {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/categories');
+            const response = await axios.get('http://localhost:8080/categories', {
+                params: {
+                    IsActive: true
+                }
+            });
             setCategories(response.data.data);
         } catch (error) {
             console.error('Error:', error);
             showAlert('An error occurred while fetching categories. Please try again later.');
         }
     };
+    
 
     const fetchEntrepots = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/entrepots');
+            const response = await axios.get('http://localhost:8080/entrepots',{
+                params: {
+                    IsActive: true
+                }
+            });
             setEntrepots(response.data.data);
         } catch (error) {
             console.error('Error:', error);
