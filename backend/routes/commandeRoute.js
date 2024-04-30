@@ -55,8 +55,14 @@ router.get('/', async (req, res) => {
                 model: 'Product' // Utilisez le nom exact utilisé lors de l'enregistrement du modèle
             });
 
-        res.status(200).json(commandes);
-    } catch (error) {
+          // Ajout du nombre de commandes à la réponse
+            const nombreDeCommandes = commandes.length;
+
+            // Retourne les commandes avec le nombre total
+             res.status(200).json({
+             nombreDeCommandes,
+             commandes
+   });    } catch (error) {
         console.error('Erreur lors de la récupération des commandes:', error);
         res.status(500).json({ message: 'Erreur lors de la récupération des commandes', error: error.message });
     }
