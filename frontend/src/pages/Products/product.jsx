@@ -117,7 +117,7 @@ function App() {
         }
     };
 
-    const handleDelete = async (id) => {
+ /*   const handleDelete = async (id) => {
         try {
             const response = await axios.delete(`http://localhost:8080/products/${id}`);
             if (response.status === 200) {
@@ -131,7 +131,7 @@ function App() {
             showAlert('An error occurred. Please try again later.');
         }
     };
-
+*/
     const toggleActiveStatus = async (id, isActive) => {
         try {
             const response = await axios.put(`http://localhost:8080/products/${id}`, { IsActive: !isActive });

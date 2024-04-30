@@ -8,8 +8,8 @@ const productsRoute = require ("./routes/productsRoute");
 const ordersRoute =require ("./routes/ordersRoute");
 const orderssellRoute=require("./routes/orderssellRoute");
 const categoriesRoute =require ("./routes/categoriesRoute")
-const entrepotsRoute = require ("./routes/entrepotsRoute")
-
+const entrepotsRoute = require ("./routes/entrepotsRoute");
+const commandeRoute =require("./routes/commandeRoute");
 
 const express = require("express");
 const cors = require("cors");
@@ -44,7 +44,7 @@ app.use('/commandedetaillee',ordersRoute);
 app.use('/sells',orderssellRoute);
 app.use('/categories',categoriesRoute);
 app.use('/entrepots',entrepotsRoute);
-
+app.use('/commandes',commandeRoute);
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
 

@@ -1,0 +1,100 @@
+/* App.css */
+.app-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f0f0f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-container, .order-info {
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 8px;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.product-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.product-list li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+/* App.css */
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f0f0f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 80%;
+}
+
+.popup-buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.popup button {
+    margin-right: 10px;
+}
+
+.popup button:last-child {
+    margin-right: 0;
+}
+
+.popup table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.form-container {
+    margin: 0 auto; /* Ajout pour centrer horizontalement */
+    width: 50%; /* Ajout pour limiter la largeur du formulaire */
+}
+.popup th, .popup td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.popup th {
+    background-color: #f2f2f2;
+}
+
+.popup tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+
