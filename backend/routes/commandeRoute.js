@@ -6,7 +6,7 @@ const Commande = require('../models/commande'); // Correction du nom du modèle
 // Route pour créer une commande
 router.post('/', async (req, res) => {
     try {
-        const { code_commande, provider_id,date_commande, produits } = req.body;
+        const { code_commande, provider_id,date_commande,observation, produits } = req.body;
         if (!code_commande || !provider_id ||date_commande|| produits.length === 0) {
             return res.status(400).json({ message: 'Données manquantes pour créer la commande' });
         }
@@ -14,6 +14,7 @@ router.post('/', async (req, res) => {
             code_commande,
             provider_id,
             date_commande,
+            observation,
             produits
 
         });
