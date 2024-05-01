@@ -19,6 +19,7 @@ import Historique from "./pages/Historique/historique"
 import Categorie from "./pages/categorie/categorie";
 import Entrepot from "./pages/entrepots/entrepot";
 import Orderpage from "./pages/orderPage/orderpage";
+import Orderbuypage from "./pages/orderbuyPage/orderbuypage";
 
 
 function App() {
@@ -41,6 +42,8 @@ function App() {
 			<Route path="/categorie" element={<Categorie />}/>
 			<Route path="/entrepot" element={<Entrepot />}/>
 			<Route path="/orderpage" element={<Orderpage />}/>
+			<Route path="/orderbuypage" element={<Orderbuypage />}/>
+
 
 
 

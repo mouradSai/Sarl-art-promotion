@@ -8,6 +8,7 @@ import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import 
 function App() {
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
+    const [prixUnitaire, setPrixUnitaire] = useState(''); // Ajout de l'état pour le prix unitaire
     const [codeCommande, setCodeCommande] = useState('');
     const [observation_com, setObservationCom] = useState('');
     const [providerName, setProviderName] = useState('');
@@ -52,19 +53,24 @@ function App() {
     }, []);
 
     const handleAddProduct = () => {
-        if (!productName || !quantity || !providerName || !codeCommande) {
-            showAlert('Veuillez remplir tous les champs du produit, du fournisseur et du code de commande.');
+        if (!productName || !quantity || !prixUnitaire || !providerName || !codeCommande) {
+            showAlert('Veuillez remplir tous les champs du produit, du fournisseur, du prix unitaire et du code de commande.');
             return;
         }
 
+        const totalLigne = parseInt(quantity, 10) * parseFloat(prixUnitaire); // Calcul du total de ligne
+
         const newProduct = {
             product_name: productName,
-            quantity: parseInt(quantity, 10)
+            quantity: parseInt(quantity, 10),
+            prixUnitaire: parseFloat(prixUnitaire),
+            totalLigne: totalLigne.toFixed(2) // Fixation du total de ligne à 2 décimales
         };
 
         setCommandes([...commandes, newProduct]);
         setProductName('');
         setQuantity('');
+        setPrixUnitaire('');
         
         // Désactiver la sélection du fournisseur après l'ajout du premier enregistrement
         setIsProviderDisabled(true);
@@ -77,7 +83,7 @@ function App() {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/commandes', {
+            const response = await axios.post('http://localhost:8080/commandes_achat', {
                 code_commande: codeCommande,
                 provider_name: providerName,
                 date_commande: date, // Ajouté pour correspondre au champ attendu
@@ -114,7 +120,7 @@ function App() {
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className='container'>
-                <h1>Gestion de Commande</h1>
+                <h1>Gestion de Commande d'achat </h1>
                 <div className="form-container">
                     <div>
                         <select value={providerName} onChange={(e) => setProviderName(e.target.value)} disabled={isProviderDisabled}>
@@ -134,6 +140,7 @@ function App() {
                             ))}
                         </select>
                         <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                        <input type="number" value={prixUnitaire} onChange={(e) => setPrixUnitaire(e.target.value)} placeholder="Prix Unitaire" />
                         <button onClick={handleAddProduct}>Ajouter Produit</button>
                     </div>
                     <button onClick={handleValidateOrder}>Valider</button>
@@ -151,6 +158,8 @@ function App() {
                                 <tr>
                                     <th>Produit</th>
                                     <th>Quantité</th>
+                                    <th>Prix Unitaire</th>
+                                    <th>Total Ligne</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -158,6 +167,8 @@ function App() {
                                     <tr key={index}>
                                         <td>{item.product_name}</td>
                                         <td>{item.quantity}</td>
+                                        <td>{item.prixUnitaire}</td>
+                                        <td>{item.totalLigne}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -173,6 +184,8 @@ function App() {
                             <tr>
                                 <th>Produit</th>
                                 <th>Quantité</th>
+                                <th>Prix Unitaire</th>
+                                <th>Total Ligne</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -180,6 +193,8 @@ function App() {
                                 <tr key={index}>
                                     <td>{item.product_name}</td>
                                     <td>{item.quantity}</td>
+                                    <td>{item.prixUnitaire}</td>
+                                    <td>{item.totalLigne}</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -21,9 +21,16 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <BsFillGrid1X2Fill className='icon'/> Dashbord
         </li>
       </Link>
+
       <Link to="/orderpage" className="sidebar-link">
         <li className='sidebar-list-item'>
             <BsBox2Fill className='icon'/> Commande 
+        </li>
+        </Link>
+
+        <Link to="/orderbuypage" className="sidebar-link">
+        <li className='sidebar-list-item'>
+            <BsBox2Fill className='icon'/> Commande d'achat
         </li>
         </Link>
 
