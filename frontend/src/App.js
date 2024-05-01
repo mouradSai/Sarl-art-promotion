@@ -1,9 +1,11 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 
 //components imports 
-import Index from "./components/Main/index";
+import Stock from "./components/Main/index";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import Landpage from "./components/landpage/Home";
+
 
 
 
@@ -27,7 +29,7 @@ function App() {
 
 	return (
 		<Routes>
-			{user && <Route path="/" exact element={<Index/>} />}
+			{user && <Route path="/" exact element={<Landpage/>} />}
 			<Route path="/signup" exact element={<Signup />} />
 			<Route path="/login" exact element={<Login />} />
 			<Route path="/" element={<Navigate replace to="/login" />} />
@@ -43,7 +45,9 @@ function App() {
 			<Route path="/entrepot" element={<Entrepot />}/>
 			<Route path="/orderpage" element={<Orderpage />}/>
 			<Route path="/orderbuypage" element={<Orderbuypage />}/>
+			<Route path="/stock" element={<Stock />}/>
 
+	
 
 
 

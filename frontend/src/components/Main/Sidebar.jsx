@@ -16,7 +16,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       </div>
       <ul className='sidebar-list'>
 
-      <Link to="/" className="sidebar-link"> 
+      <Link to="/stock" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsFillGrid1X2Fill className='icon'/> Dashbord
         </li>
