@@ -36,15 +36,6 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-.bloc3{
-    
-    display: flex;
-    align-content: center;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    height: 100px;
-}
 
 .product-list {
     list-style-type: none;

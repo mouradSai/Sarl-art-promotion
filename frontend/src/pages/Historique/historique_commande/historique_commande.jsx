@@ -69,8 +69,8 @@ function App() {
                                 <td>{commande.provider_id ? commande.provider_id.name : 'No provider'}</td>
                                 <td>{new Date(commande.date_commande).toISOString().slice(0, 10)}</td>
                                 <td>
-                                    <button onClick={() => handleView(commande)}>View</button>
-                                    <button onClick={() => handleDelete(commande._id)}>Delete</button>
+                                    <button className='view-button' onClick={() => handleView(commande)}>View</button>
+                                    <button  className='delete-button' onClick={() => handleDelete(commande._id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}

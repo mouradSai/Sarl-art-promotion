@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import Header from '../../components/Headers/HeaderCommande';
 import Sidebar from '../../components/Main/Sidebar';
-import Header from '../../components/Main/Header';
+//import Header from '../../components/Main/Header';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
@@ -139,8 +140,8 @@ function App() {
                 </div>
 
                     <div className='bloc3'>
-                        <button onClick={handleAddProduct}>Ajouter Produit</button>
-                         <button onClick={handleValidateOrder}>Valider</button>
+                        <button onClick={handleAddProduct}>+ Ajouter Produit</button>
+                         <button className='print-button' onClick={handleValidateOrder}>Valider</button>
                     </div>
 
                 </div>
@@ -168,8 +169,8 @@ function App() {
                                 ))}
                             </tbody>
                         </table>
-                        <button onClick={() => setShowPopup(false)}>Fermer</button>
-                        <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                        <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
+                        <button className='print-button' onClick={handleFinalizeOrder}>Finaliser la Commande</button>
                     </div>
                 )}
                 <div>
