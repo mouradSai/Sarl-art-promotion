@@ -18,6 +18,7 @@ function App() {
     const [providers, setProviders] = useState([]);
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
+    const [isProviderDisabled, setIsProviderDisabled] = useState(false); // Ajout de l'état pour désactiver la sélection du fournisseur
 
     useEffect(() => {
         const fetchProviders = async () => {
@@ -64,6 +65,9 @@ function App() {
         setCommandes([...commandes, newProduct]);
         setProductName('');
         setQuantity('');
+        
+        // Désactiver la sélection du fournisseur après l'ajout du premier enregistrement
+        setIsProviderDisabled(true);
     };
 
     const handleFinalizeOrder = async () => {
@@ -87,6 +91,9 @@ function App() {
             setObservationCom('');
             setProviderName('');
             setShowPopup(false);
+            
+            // Réactiver la sélection du fournisseur après la finalisation de la commande
+            setIsProviderDisabled(false);
         } catch (error) {
             console.error('Erreur complète:', error);
             showAlert('Erreur lors de la finalisation de la commande : ' + (error.response ? error.response.data.message : error.message));
@@ -97,9 +104,11 @@ function App() {
         setShowPopup(true);
         setDate(new Date().toISOString().slice(0, 10)); // Format de la date YYYY-MM-DD
     };
+
     const showAlert = (message, type) => {
         setAlert({ message, type });
     };
+
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
@@ -108,7 +117,7 @@ function App() {
                 <h1>Gestion de Commande</h1>
                 <div className="form-container">
                     <div>
-                        <select value={providerName} onChange={(e) => setProviderName(e.target.value)}>
+                        <select value={providerName} onChange={(e) => setProviderName(e.target.value)} disabled={isProviderDisabled}>
                             <option value="">Sélectionnez un fournisseur</option>
                             {providers.map(provider => (
                                 <option key={provider.id} value={provider.name}>{provider.name}</option>
@@ -177,11 +186,9 @@ function App() {
                     </table>
                 </div>
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
-
             </div>
         </div>
     );
 }
 
 export default App;
-/*the last version of commande panel */
