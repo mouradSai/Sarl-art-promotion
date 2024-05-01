@@ -180,14 +180,14 @@ function App() {
                                     <tr key={index}>
                                         <td>{item.product_name}</td>
                                         <td>{item.quantity}</td>
-                                        <td>{item.prixUnitaire}</td>
-                                        <td>{item.totalLigne}</td>
+                                        <td>{item.prixUnitaire}.00 DA</td>
+                                        <td>{item.totalLigne} DA</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                         <div>
-                            <h3>Total Commande Principale: {calculateTotalCommandePrincipale()}</h3>
+                            <h3>Total Commande Principale: {calculateTotalCommandePrincipale()} DA</h3>
                         </div>
                         <div className="popup-buttons">
                             <button onClick={() => setShowPopup(false)}>Fermer</button>
@@ -211,8 +211,8 @@ function App() {
                                 <tr key={index}>
                                     <td>{item.product_name}</td>
                                     <td>{item.quantity}</td>
-                                    <td>{item.prixUnitaire}</td>
-                                    <td>{item.totalLigne}</td>
+                                    <td>{item.prixUnitaire},00 DA</td>
+                                    <td>{item.totalLigne} DA</td>
                                 </tr>
                             ))}
                         </tbody>
