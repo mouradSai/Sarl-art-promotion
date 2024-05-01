@@ -116,7 +116,8 @@ function App() {
             <div className='container'>
                 <h1>Gestion de Commande</h1>
                 <div className="form-container">
-                    <div>
+                <div className='bloc'>
+                    <div className='bloc1'>
                         <select value={providerName} onChange={(e) => setProviderName(e.target.value)} disabled={isProviderDisabled}>
                             <option value="">Sélectionnez un fournisseur</option>
                             {providers.map(provider => (
@@ -126,7 +127,7 @@ function App() {
                         <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
                         <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
                     </div>
-                    <div>
+                    <div className='bloc2'>
                         <select value={productName} onChange={(e) => setProductName(e.target.value)}>
                             <option value="">Sélectionnez un produit</option>
                             {products.map(product => (
@@ -134,9 +135,14 @@ function App() {
                             ))}
                         </select>
                         <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                        </div>
+                </div>
+
+                    <div className='bloc3'>
                         <button onClick={handleAddProduct}>Ajouter Produit</button>
+                         <button onClick={handleValidateOrder}>Valider</button>
                     </div>
-                    <button onClick={handleValidateOrder}>Valider</button>
+
                 </div>
                 {showPopup && (
                     <div className="popup">

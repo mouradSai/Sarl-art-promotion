@@ -34,11 +34,11 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         </li>
         </Link>
 
-      <Link to="/buy" className="sidebar-link"> 
+     {/*<Link to="/buy" className="sidebar-link"> 
         <li className='sidebar-list-item'>
             <BsCashStack className='icon'/> Achats
         </li>
-      </Link>
+       </Link>*/}
 
       <Link to="/sell" className="sidebar-link"> 
         <li className='sidebar-list-item'>

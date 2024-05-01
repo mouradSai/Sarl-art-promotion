@@ -1,5 +1,4 @@
 /* App.css */
-
 .app-container {
     font-family: Arial, sans-serif;
     margin: 20px auto; /* Centre le conteneur */
@@ -8,38 +7,48 @@
     background: #f0f0f0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     max-width: 800px; /* Limite la largeur */
+    display: flex;
+    flex-direction: column; /* Ajout pour disposer les enfants verticalement */
+    align-items: center; /* Ajout pour centrer horizontalement */
 }
 
 .form-container {
     margin-bottom: 20px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     flex-wrap: wrap; /* Permet aux éléments de s'enrouler s'ils dépassent */
-    justify-content: space-between; /* Répartit les éléments horizontalement */
+    justify-content: center; /* Répartit les éléments horizontalement */
+    width:800px; /* Ajuste la largeur à 100% */
 }
-
-.form-container div {
+.form-container.bloc{
+  justify-content: center;
+}
+.bloc{
+    display: flex;
+    justify-content: space-around;
+}
+.bloc1,
+.bloc2,
+.bloc3 {
     margin-bottom: 10px;
-    width: calc(50% - 10px); /* Calcule la largeur à 50% moins la marge */
+    width: calc(33.33% - 10px); /* Calcule la largeur à 33.33% moins la marge */
 }
 
-.form-container div:nth-child(1),
-.form-container div:nth-child(2),
-.form-container div:nth-child(3) {
-    width: 100%; /* Ajuste la largeur des trois premiers champs à 100% */
-}
-
-.table-header th {
-    color: black;
-}
-
+select,
 input[type="text"],
-input[type="number"],
-select {
+input[type="number"] {
     padding: 8px;
     margin-right: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 100%; /* Ajuste la largeur à 100% pour les trois premiers champs */
+    width: calc(100% - 16px); /* Ajuste la largeur à 100% moins la marge */
+    margin-bottom: 8px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
 }
 
 button {
@@ -75,7 +84,6 @@ button:hover {
 }
 
 /* Popup Styles */
-
 .popup {
     position: fixed;
     top: 50%;
@@ -92,6 +100,14 @@ button:hover {
 .popup-buttons {
     margin-top: 20px;
     text-align: center;
+}
+
+.popup button {
+    margin-right: 10px;
+}
+
+.popup button:last-child {
+    margin-right: 0;
 }
 
 .popup table {

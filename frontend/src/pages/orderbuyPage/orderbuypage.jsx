@@ -8,7 +8,7 @@ import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import 
 function App() {
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [prixUnitaire, setPrixUnitaire] = useState(''); // Ajout de l'état pour le prix unitaire
+    const [prixUnitaire, setPrixUnitaire] = useState('');
     const [codeCommande, setCodeCommande] = useState('');
     const [observation_com, setObservationCom] = useState('');
     const [providerName, setProviderName] = useState('');
@@ -18,8 +18,8 @@ function App() {
     const [products, setProducts] = useState([]);
     const [providers, setProviders] = useState([]);
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
-    const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
-    const [isProviderDisabled, setIsProviderDisabled] = useState(false); // Ajout de l'état pour désactiver la sélection du fournisseur
+    const [alert, setAlert] = useState(null);
+    const [isProviderDisabled, setIsProviderDisabled] = useState(false);
 
     useEffect(() => {
         const fetchProviders = async () => {
@@ -58,21 +58,20 @@ function App() {
             return;
         }
 
-        const totalLigne = parseInt(quantity, 10) * parseFloat(prixUnitaire); // Calcul du total de ligne
+        const totalLigne = parseInt(quantity, 10) * parseFloat(prixUnitaire);
 
         const newProduct = {
             product_name: productName,
             quantity: parseInt(quantity, 10),
             prixUnitaire: parseFloat(prixUnitaire),
-            totalLigne: totalLigne.toFixed(2) // Fixation du total de ligne à 2 décimales
+            totalLigne: totalLigne.toFixed(2)
         };
 
         setCommandes([...commandes, newProduct]);
         setProductName('');
         setQuantity('');
         setPrixUnitaire('');
-        
-        // Désactiver la sélection du fournisseur après l'ajout du premier enregistrement
+
         setIsProviderDisabled(true);
     };
 
@@ -86,7 +85,7 @@ function App() {
             const response = await axios.post('http://localhost:8080/commandes_achat', {
                 code_commande: codeCommande,
                 provider_name: providerName,
-                date_commande: date, // Ajouté pour correspondre au champ attendu
+                date_commande: date,
                 observation: observation_com,
                 produits: commandes
             });
@@ -97,8 +96,7 @@ function App() {
             setObservationCom('');
             setProviderName('');
             setShowPopup(false);
-            
-            // Réactiver la sélection du fournisseur après la finalisation de la commande
+
             setIsProviderDisabled(false);
         } catch (error) {
             console.error('Erreur complète:', error);
@@ -108,11 +106,20 @@ function App() {
 
     const handleValidateOrder = () => {
         setShowPopup(true);
-        setDate(new Date().toISOString().slice(0, 10)); // Format de la date YYYY-MM-DD
+        setDate(new Date().toISOString().slice(0, 10));
     };
 
     const showAlert = (message, type) => {
         setAlert({ message, type });
+    };
+
+    // Fonction pour calculer le total de la commande principale
+    const calculateTotalCommandePrincipale = () => {
+        let totalCommandePrincipale = 0;
+        commandes.forEach(item => {
+            totalCommandePrincipale += parseFloat(item.totalLigne);
+        });
+        return totalCommandePrincipale.toFixed(2);
     };
 
     return (
@@ -122,7 +129,8 @@ function App() {
             <div className='container'>
                 <h1>Gestion de Commande d'achat </h1>
                 <div className="form-container">
-                    <div>
+                <div className='bloc'> 
+                    <div className='bloc1'> 
                         <select value={providerName} onChange={(e) => setProviderName(e.target.value)} disabled={isProviderDisabled}>
                             <option value="">Sélectionnez un fournisseur</option>
                             {providers.map(provider => (
@@ -132,7 +140,7 @@ function App() {
                         <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
                         <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
                     </div>
-                    <div>
+                    <div className='bloc2'>
                         <select value={productName} onChange={(e) => setProductName(e.target.value)}>
                             <option value="">Sélectionnez un produit</option>
                             {products.map(product => (
@@ -140,10 +148,15 @@ function App() {
                             ))}
                         </select>
                         <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                    
                         <input type="number" value={prixUnitaire} onChange={(e) => setPrixUnitaire(e.target.value)} placeholder="Prix Unitaire" />
-                        <button onClick={handleAddProduct}>Ajouter Produit</button>
                     </div>
-                    <button onClick={handleValidateOrder}>Valider</button>
+                    </div>
+
+                        <div className='bloc3'>
+                        <button onClick={handleAddProduct}>Ajouter Produit</button>
+                        <button onClick={handleValidateOrder}>Valider</button>
+                    </div>
                 </div>
                 {showPopup && (
                     <div className="popup">
@@ -173,8 +186,13 @@ function App() {
                                 ))}
                             </tbody>
                         </table>
-                        <button onClick={() => setShowPopup(false)}>Fermer</button>
-                        <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                        <div>
+                            <h3>Total Commande Principale: {calculateTotalCommandePrincipale()}</h3>
+                        </div>
+                        <div className="popup-buttons">
+                            <button onClick={() => setShowPopup(false)}>Fermer</button>
+                            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                        </div>
                     </div>
                 )}
                 <div>
@@ -207,3 +225,4 @@ function App() {
 }
 
 export default App;
+/*******the las version of order buyyy */
