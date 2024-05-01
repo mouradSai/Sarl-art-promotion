@@ -22,6 +22,7 @@ import Categorie from "./pages/categorie/categorie";
 import Entrepot from "./pages/entrepots/entrepot";
 import Orderpage from "./pages/orderPage/orderpage";
 import Orderbuypage from "./pages/orderbuyPage/orderbuypage";
+import Users from "./pages/users/users";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
 			<Route path="/orderpage" element={<Orderpage />}/>
 			<Route path="/orderbuypage" element={<Orderbuypage />}/>
 			<Route path="/stock" element={<Stock />}/>
+			<Route path="/users" element={<Users />}/>
 
 	
 
