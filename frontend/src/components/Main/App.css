@@ -255,6 +255,9 @@ body {
   .card:nth-child(5) {
     background-color: #5c16ff;
   }
+  .card:nth-child(6) {
+    background-color: #df7829;
+  }
   
   .card-inner {
     display: flex;

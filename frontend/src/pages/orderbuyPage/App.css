@@ -1,0 +1,130 @@
+/* App.css */
+.app-container {
+    font-family: Arial, sans-serif;
+    margin: 20px auto; /* Centre le conteneur */
+    padding: 20px;
+    border-radius: 8px;
+    background: #f0f0f1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 800px; /* Limite la largeur */
+    display: flex;
+    flex-direction: column; /* Ajout pour disposer les enfants verticalement */
+    align-items: center; /* Ajout pour centrer horizontalement */
+}
+
+.form-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap; /* Permet aux éléments de s'enrouler s'ils dépassent */
+    justify-content: center; /* Répartit les éléments horizontalement */
+    width:800px; /* Ajuste la largeur à 100% */
+}
+.form-container.bloc{
+  justify-content: center;
+}
+.bloc{
+    display: flex;
+    justify-content: space-around;
+}
+.bloc1,
+.bloc2,
+.bloc3 {
+    margin-bottom: 10px;
+    width: calc(33.33% - 10px); /* Calcule la largeur à 33.33% moins la marge */
+}
+
+select,
+input[type="text"],
+input[type="number"] {
+    padding: 8px;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(100% - 16px); /* Ajuste la largeur à 100% moins la marge */
+    margin-bottom: 8px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-right: 8px; /* Ajoute une marge à droite pour séparer les boutons */
+}
+
+button:last-child {
+    margin-right: 0; /* Supprime la marge à droite pour le dernier bouton */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.product-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.product-list li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Popup Styles */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f0f0f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 80%;
+}
+
+.popup-buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.popup button {
+    margin-right: 10px;
+}
+
+.popup button:last-child {
+    margin-right: 0;
+}
+
+.popup table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.popup th, .popup td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.popup th {
+    background-color: #f2f2f2;
+}
+
+.popup tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

@@ -1,5 +1,5 @@
 import {React  }from 'react';
-import {BsFillArchiveFill,MdSpaceDashboard,BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
+import {BsFillArchiveFill,MdSpaceDashboard,BsCardList, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import logowhite from '../../assets/logo-white.png';
@@ -16,17 +16,35 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       </div>
       <ul className='sidebar-list'>
 
-      <Link to="/" className="sidebar-link"> 
+      <Link to="/users" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsFillGrid1X2Fill className='icon'/> Dashbord
         </li>
       </Link>
 
-      <Link to="/buy" className="sidebar-link"> 
+      <Link to="/stock" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsFillGrid1X2Fill className='icon'/> Dashbord
+        </li>
+      </Link>
+
+      <Link to="/orderpage" className="sidebar-link">
+        <li className='sidebar-list-item'>
+            <BsBox2Fill className='icon'/> Commande 
+        </li>
+        </Link>
+
+        <Link to="/orderbuypage" className="sidebar-link">
+        <li className='sidebar-list-item'>
+            <BsBox2Fill className='icon'/> Commande d'achat
+        </li>
+        </Link>
+
+     {/*<Link to="/buy" className="sidebar-link"> 
         <li className='sidebar-list-item'>
             <BsCashStack className='icon'/> Achats
         </li>
-      </Link>
+       </Link>*/}
 
       <Link to="/sell" className="sidebar-link"> 
         <li className='sidebar-list-item'>
@@ -51,7 +69,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <BsBox2Fill className='icon'/> Produits
         </li>
         </Link>
-
+       
         <Link to="/historique" className="sidebar-link">
         <li className='sidebar-list-item'>
             <BsFileBarGraphFill  className='icon'/> Historique

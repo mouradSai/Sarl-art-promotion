@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appproducts.css'; 
 import Sidebar from '../../components/Main/Sidebar';
-import Header from '../../components/Headers/HeaderProduct';
+import HeaderProduct from '../../components/Headers/HeaderProduct';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; 
 
 function App() {
@@ -117,7 +117,7 @@ function App() {
         }
     };
 
-    const handleDelete = async (id) => {
+ /*   const handleDelete = async (id) => {
         try {
             const response = await axios.delete(`http://localhost:8080/products/${id}`);
             if (response.status === 200) {
@@ -131,7 +131,7 @@ function App() {
             showAlert('An error occurred. Please try again later.');
         }
     };
-
+*/
     const toggleActiveStatus = async (id, isActive) => {
         try {
             const response = await axios.put(`http://localhost:8080/products/${id}`, { IsActive: !isActive });
@@ -217,7 +217,7 @@ function App() {
     return (
        
             <div className="grid-container">
-                <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)}/>
+                <HeaderProduct OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)}/>
                 <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
                 <div className="container">
                     <h1 className="title-all">Products</h1>
