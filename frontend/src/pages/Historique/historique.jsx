@@ -39,7 +39,12 @@ function App() {
                             <p>Consultez l'historique de vos ventes précédentes dans cet espace.</p>
                         </div>
                     </Link>
-                   
+                    <Link to="/historique_commande" className="link-no-underline">
+                        <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
+                            <h2>Historique des commandes</h2>
+                            <p>Ici, vous pouvez consulter l'historique de vos achats passés.</p>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div>
