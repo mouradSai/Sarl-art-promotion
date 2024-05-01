@@ -5,6 +5,7 @@ const Provider = require('../models/provider'); // Import correct du modèle Pro
 const Product = require('../models/product'); // Import correct du modèle Product
 
 
+
 // Route pour créer une commande d'achat
 router.post('/', async (req, res) => {
     try {
@@ -16,12 +17,15 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'Fournisseur non trouvé' });
         }
 
-        // Convertir les noms de produits en IDs et calculer les totaux
+        // Convertir les noms de produits en IDs, calculer les totaux et mettre à jour les quantités de stock
         const productDetails = await Promise.all(produits.map(async ({ product_name, quantity, prixUnitaire }) => {
             const product = await Product.findOne({ name: product_name });
             if (!product) {
                 throw new Error(`Produit ${product_name} non trouvé`);
             }
+            const updatedQuantity = product.quantity + quantity;
+            await Product.findByIdAndUpdate(product._id, { $set: { quantity: updatedQuantity } });
+
             const totalLigne = quantity * prixUnitaire;
             return { product: product._id, quantity, prixUnitaire, totalLigne };
         }));
@@ -40,7 +44,7 @@ router.post('/', async (req, res) => {
         const savedCommandeAchat = await newCommandeAchat.save();
         res.status(201).json(savedCommandeAchat);
     } catch (error) {
-        console.error('Erreur lors de la création de la commande dachat:', error);
+        console.error('Erreur lors de la création de la commande d achat:', error);
         res.status(500).json({ message: 'Erreur lors de la création de la commande', error: error.message });
     }
 });
