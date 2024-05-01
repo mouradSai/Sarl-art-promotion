@@ -59,12 +59,22 @@ router.post('/', async (request, response) => {
     }
 });
 
-// Route pour obtenir tous les produits de la base de données
+// Route pour obtenir tous les produits de la base de données avec possibilité de filtrage par IsActive
 router.get('/', async (request, response) => {
     try {
-        const products = await Product.find({});
+        // Vérifie si le paramètre IsActive est présent dans la requête
+        const isActiveParam = request.query.IsActive;
+
+        // Définir le filtre en fonction de la valeur du paramètre IsActive
+        const filter = isActiveParam === 'true' ? { IsActive: true } : {};
+
+        // Récupérer les produits en utilisant le filtre
+        const products = await Product.find(filter);
+        const count = await Product.countDocuments(filter); // Nombre total de produits en fonction du filtre
+
+        // Retourner la réponse avec les produits filtrés
         return response.status(200).json({
-            count: products.length,
+            count: count,
             data: products
         });
     } catch (error) {
@@ -72,6 +82,7 @@ router.get('/', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
+
 
 // Route pour obtenir un produit spécifique de la base de données
 router.get('/:id', async (request, response) => {

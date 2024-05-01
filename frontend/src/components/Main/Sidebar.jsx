@@ -21,16 +21,24 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <BsFillGrid1X2Fill className='icon'/> Dashbord
         </li>
       </Link>
+
       <Link to="/orderpage" className="sidebar-link">
         <li className='sidebar-list-item'>
-            <BsCardList className='icon'/> Commande 
+            <BsBox2Fill className='icon'/> Commande 
         </li>
         </Link>
-      <Link to="/buy" className="sidebar-link"> 
+
+        <Link to="/orderbuypage" className="sidebar-link">
+        <li className='sidebar-list-item'>
+            <BsBox2Fill className='icon'/> Commande d'achat
+        </li>
+        </Link>
+
+     {/*<Link to="/buy" className="sidebar-link"> 
         <li className='sidebar-list-item'>
             <BsCashStack className='icon'/> Achats
         </li>
-      </Link>
+       </Link>*/}
 
       <Link to="/sell" className="sidebar-link"> 
         <li className='sidebar-list-item'>
@@ -55,6 +63,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <BsBox2Fill className='icon'/> Produits
         </li>
         </Link>
+       
         <Link to="/historique" className="sidebar-link">
         <li className='sidebar-list-item'>
             <BsFileBarGraphFill  className='icon'/> Historique

@@ -12,6 +12,7 @@ function Home() {
     const [customersCount, setCustomersCount] = useState(0);
     const [ordersachatCount,setOrdersachatCount] = useState(0);
     const [ordersventeCount,setOrderventeCount] = useState(0);
+    const [commandesCount,setCommandesCount] = useState(0); // Nouveau state pour le nombre de commandes
 
 
     useEffect(() => {
@@ -39,6 +40,11 @@ function Home() {
                 const ordersventeResponse = await fetch('http://localhost:8080/sells');
                 const ordersventeData = await ordersventeResponse.json();
                 setOrderventeCount(ordersventeData.count);
+                  // Fetching commandes count
+                  const commandesResponse = await fetch('http://localhost:8080/commandes');
+                  const commandesData = await commandesResponse.json();
+                  setCommandesCount(commandesData.count);
+   
   
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -109,6 +115,15 @@ function Home() {
                     </Link>
                 </div>
 
+                <div className='card'>
+                <Link to="/orderpage" className="sidebar-link"> 
+                    <div className='card-inner'>
+                        <h3>Commandes </h3>
+                        <BsCashStack className='card_icon'/>
+                    </div>
+                    <h1>{commandesCount}</h1>
+                    </Link>
+                </div>
                 
 
                 <div className='card'>
@@ -121,7 +136,7 @@ function Home() {
                 </Link>
                 </div>
 
-                
+               
             </div>
 
             <div className='charts'>

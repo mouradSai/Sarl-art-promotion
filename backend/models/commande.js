@@ -19,6 +19,10 @@ const commandeSchema = new mongoose.Schema({
         ref: 'provider' // Assurez-vous que 'Provider' correspond au nom de votre modèle de fournisseur
     },
     produits: [produitSchema], // ou tout autre type approprié
+    observation:{
+        type:String,
+        required:false
+    },
     date_commande: { type: Date, default: Date.now }
 });
 
