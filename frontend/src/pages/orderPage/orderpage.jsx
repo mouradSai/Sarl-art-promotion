@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import Sidebar from '../../components/Main/Sidebar';
 import Header from '../../components/Main/Header';
+import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
     const [productName, setProductName] = useState('');
@@ -16,11 +17,16 @@ function App() {
     const [products, setProducts] = useState([]);
     const [providers, setProviders] = useState([]);
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+    const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
 
     useEffect(() => {
         const fetchProviders = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/providers');
+                const response = await axios.get('http://localhost:8080/providers', {
+                    params: {
+                        IsActive: true
+                    }
+                });
                 setProviders(response.data.data);
             } catch (error) {
                 console.error('Error fetching providers:', error);
@@ -29,7 +35,11 @@ function App() {
 
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/products');
+                const response = await axios.get('http://localhost:8080/products', {
+                    params: {
+                        IsActive: true
+                    }
+                });
                 setProducts(response.data.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -42,7 +52,7 @@ function App() {
 
     const handleAddProduct = () => {
         if (!productName || !quantity || !providerName || !codeCommande) {
-            alert('Veuillez remplir tous les champs du produit, du fournisseur et du code de commande.');
+            showAlert('Veuillez remplir tous les champs du produit, du fournisseur et du code de commande.');
             return;
         }
 
@@ -58,7 +68,7 @@ function App() {
 
     const handleFinalizeOrder = async () => {
         if (commandes.length === 0 || !codeCommande || !providerName) {
-            alert('Veuillez ajouter des produits et remplir tous les champs de commande.');
+            showAlert('Veuillez ajouter des produits et remplir tous les champs de commande.');
             return;
         }
 
@@ -71,7 +81,7 @@ function App() {
                 produits: commandes
             });
 
-            alert('Commande finalisée avec succès : ' + response.data.code_commande);
+            showAlert('Commande finalisée avec succès : ' + response.data.code_commande);
             setCommandes([]);
             setCodeCommande('');
             setObservationCom('');
@@ -79,7 +89,7 @@ function App() {
             setShowPopup(false);
         } catch (error) {
             console.error('Erreur complète:', error);
-            alert('Erreur lors de la finalisation de la commande : ' + (error.response ? error.response.data.message : error.message));
+            showAlert('Erreur lors de la finalisation de la commande : ' + (error.response ? error.response.data.message : error.message));
         }
     };
 
@@ -87,7 +97,9 @@ function App() {
         setShowPopup(true);
         setDate(new Date().toISOString().slice(0, 10)); // Format de la date YYYY-MM-DD
     };
-
+    const showAlert = (message, type) => {
+        setAlert({ message, type });
+    };
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
@@ -164,9 +176,12 @@ function App() {
                         </tbody>
                     </table>
                 </div>
+                {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
+
             </div>
         </div>
     );
 }
 
 export default App;
+/*the last version of commande panel */
