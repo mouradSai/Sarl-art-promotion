@@ -6,16 +6,17 @@
   margin: 0 auto; /* Centrage horizontal */
 }
 
-.title-all {
-  position: relative;
-  font-family: 'Libre Franklin', sans-serif;
-  font-size: 60px;
-  font-weight: 900;
-  margin-bottom: 35px;
-  color: #b31217; /* Couleur de texte sombre */
-  text-align: center;
-  text-shadow: 0 4px 4px #a5a5a5, /* Shadow at the bottom */
-               0 5px 5px #a5a5a5; /* Even stronger shadow at the bottom */
+  .title-all {
+    position: relative;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 60px;
+    font-weight: 900;
+    margin-bottom: 35px;
+    color: #b31217; /* Couleur de texte sombre */
+    text-align: center;
+    text-shadow: 0 4px 4px #a5a5a5, /* Shadow at the bottom */
+                 0 5px 5px #a5a5a5; /* Even stronger shadow at the bottom */
+  
 }
 
 h2 {

@@ -80,7 +80,7 @@ function App() {
             <Header />
             <Sidebar />
             <div className="container">
-                <h1 className="title-all">Commandes d'Achat</h1>
+                <h1 className="title-all">Historique d'achat</h1>
                 <input
                     type="text"
                     placeholder="Search commandes..."
