@@ -115,7 +115,7 @@ function App() {
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className='container'>
-                <h1>Gestion de Commande</h1>
+             <h1 className="title-all">Bon de commande</h1>
                 <div className="form-container">
                 <div className='bloc'>
                     <div className='bloc1'>

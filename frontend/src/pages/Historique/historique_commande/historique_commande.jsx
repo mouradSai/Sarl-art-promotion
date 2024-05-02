@@ -78,7 +78,7 @@ function App() {
             <Header />
             <Sidebar />
             <div className="container">
-                <h1 className="title-all">Commandes</h1>
+                <h1 className="title-all">Historique des bons</h1>
                 <input
                     type="text"
                     placeholder="Search by code or provider..."
