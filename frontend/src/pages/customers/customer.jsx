@@ -30,7 +30,7 @@ function App() {
     const [selectedClient, setSelectedClient] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showActiveOnly, setShowActiveOnly] = useState(false); // Ajout de l'état pour filtrer les clients actifs
+    const [showActiveOnly, setShowActiveOnly] = useState(true); // Ajout de l'état pour filtrer les clients actifs
     const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
 
     const clientsPerPage = 8; // Nombre de clients à afficher par page

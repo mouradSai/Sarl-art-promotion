@@ -24,7 +24,7 @@ import Orderbuypage from "./pages/orderbuyPage/orderbuypage";
 
 //Historique_commande
 import Historique_commande from "./pages/Historique/historique_commande/historique_commande"; 
-
+import Historique_commande_achat from "./pages/Historique/historique-commande_achat/historique_commande_achat";
 function App() {
 	const user = localStorage.getItem("token");
 
@@ -47,6 +47,7 @@ function App() {
 			<Route path="/orderpage" element={<Orderpage />}/>
 			<Route path="/orderbuypage" element={<Orderbuypage />}/>
 			<Route path="/historique_commande" element={<Historique_commande />}/>
+			<Route path="/historique_commande_achat" element={<Historique_commande_achat />}/>
 
 
 

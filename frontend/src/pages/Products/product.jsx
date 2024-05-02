@@ -24,7 +24,7 @@ function App() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showActiveOnly, setShowActiveOnly] = useState(false); 
+    const [showActiveOnly, setShowActiveOnly] = useState(true); 
     const [alert, setAlert] = useState(null); 
     const [units] = useState(['kg', 'g', 'L', 'ml', 'unit']);  // List of units
 
