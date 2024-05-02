@@ -24,4 +24,45 @@ router.post("/", async (req, res) => {
 	}
 });
 
+// Route pour récupérer tous les utilisateurs
+router.get("/", async (req, res) => {
+    try {
+        const users = await User.find();
+        res.send(users);
+    } catch (error) {
+        res.status(500).send({ message: "Internal Server Error" });
+    }
+});
+
+router.get("/:id", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) return res.status(404).send({ message: "User not found" });
+        res.send(user);
+    } catch (error) {
+        res.status(500).send({ message: "Internal Server Error" });
+    }
+});
+// Route pour supprimer un utilisateur par son ID
+router.delete("/:id", async (req, res) => {
+    try {
+        const user = await User.findByIdAndRemove(req.params.id);
+        if (!user) return res.status(404).send({ message: "User not found" });
+        res.send({ message: "User deleted successfully" });
+    } catch (error) {
+        res.status(500).send({ message: "Internal Server Error" });
+    }
+});
+
+// Route pour mettre à jour le rôle d'un utilisateur par son ID
+router.put("/:id/role", async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id, { role: req.body.role }, { new: true });
+        if (!user) return res.status(404).send({ message: "User not found" });
+        res.send({ message: "User role updated successfully" });
+    } catch (error) {
+        res.status(500).send({ message: "Internal Server Error" });
+    }
+});
+
 module.exports = router;

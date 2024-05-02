@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
 
 	role: {
         type: String,
+		required: true,
         enum: ["user", "admin", "superadmin"], // Définissez les rôles possibles
         default: "user" // Rôle par défaut pour les nouveaux utilisateurs
     }
@@ -52,3 +53,6 @@ const validate = (data) => {
 };
 
 module.exports = { User, validate };
+
+
+
