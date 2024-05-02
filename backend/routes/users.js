@@ -44,15 +44,23 @@ router.get("/:id", async (req, res) => {
     }
 });
 // Route pour supprimer un utilisateur par son ID
+
 router.delete("/:id", async (req, res) => {
     try {
+        console.log("Deleting user with ID:", req.params.id);
         const user = await User.findByIdAndRemove(req.params.id);
-        if (!user) return res.status(404).send({ message: "User not found" });
+        if (!user) {
+            console.log("User not found with ID:", req.params.id);
+            return res.status(404).send({ message: "User not found" });
+        }
+        console.log("User deleted successfully:", user);
         res.send({ message: "User deleted successfully" });
     } catch (error) {
+        console.error("Error deleting user:", error);
         res.status(500).send({ message: "Internal Server Error" });
     }
 });
+
 
 // Route pour mettre à jour le rôle d'un utilisateur par son ID
 router.put("/:id/role", async (req, res) => {
