@@ -6,22 +6,39 @@ import CustomAlert from '../../../components/costumeAlert/costumeAlert';
 
 function App() {
     const [commandes, setCommandes] = useState([]);
+    const [filteredCommandes, setFilteredCommandes] = useState([]);
     const [selectedCommande, setSelectedCommande] = useState(null);
     const [alert, setAlert] = useState(null);
+    const [searchText, setSearchText] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const commandesPerPage = 5;
 
     useEffect(() => {
         fetchCommandes();
     }, []);
 
+    useEffect(() => {
+        filterCommandes();
+    }, [searchText, commandes]);
+
     const fetchCommandes = async () => {
         try {
             const response = await axios.get('http://localhost:8080/commandes');
             setCommandes(response.data.commandes);
-            console.log(response.data.commandes); // Debugging to see the data structure
         } catch (error) {
             console.error('Error fetching commandes:', error);
             showAlert('An error occurred while fetching commandes. Please try again later.', 'error');
         }
+    };
+
+    const filterCommandes = () => {
+        const lowercasedFilter = searchText.toLowerCase();
+        const filteredData = commandes.filter(commande =>
+            commande.provider_id.name.toLowerCase().includes(lowercasedFilter) ||
+            commande.code_commande.toLowerCase().includes(lowercasedFilter)
+        );
+        setFilteredCommandes(filteredData);
+        setCurrentPage(1); // Reset to first page when filter changes
     };
 
     const showAlert = (message, type) => {
@@ -47,12 +64,27 @@ function App() {
         setSelectedCommande(commande);
     };
 
+    // Pagination Logic
+    const indexOfLastCommande = currentPage * commandesPerPage;
+    const indexOfFirstCommande = indexOfLastCommande - commandesPerPage;
+    const currentCommandes = filteredCommandes.slice(indexOfFirstCommande, indexOfLastCommande);
+
+    const handlePageChange = (pageOffset) => {
+        setCurrentPage(prevPage => prevPage + pageOffset);
+    };
+
     return (
         <div className="grid-container">
             <Header />
             <Sidebar />
             <div className="container">
                 <h1 className="title-all">Commandes</h1>
+                <input
+                    type="text"
+                    placeholder="Search by code or provider..."
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                />
                 <table className="table">
                     <thead>
                         <tr>
@@ -63,19 +95,24 @@ function App() {
                         </tr>
                     </thead>
                     <tbody>
-                        {commandes.map((commande) => (
+                        {currentCommandes.map((commande) => (
                             <tr key={commande._id}>
                                 <td>{commande.code_commande}</td>
                                 <td>{commande.provider_id ? commande.provider_id.name : 'No provider'}</td>
                                 <td>{new Date(commande.date_commande).toISOString().slice(0, 10)}</td>
                                 <td>
                                     <button className='view-button' onClick={() => handleView(commande)}>View</button>
-                                    <button  className='delete-button' onClick={() => handleDelete(commande._id)}>Delete</button>
+                                    <button className='delete-button' onClick={() => handleDelete(commande._id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <div className="pagination">
+                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Previous</button>
+                    <span>Page {currentPage} of {Math.ceil(filteredCommandes.length / commandesPerPage)}</span>
+                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCommandes.length / commandesPerPage)}>Next</button>
+                </div>
                 {selectedCommande && (
                     <div className="popup">
                         <div className="popup-content">
@@ -95,7 +132,7 @@ function App() {
                                 <tbody>
                                     {selectedCommande.produits.map((prod, index) => (
                                         <tr key={index}>
-                                            <td>{prod.product.name}</td> {/* Corrected to show product name */}
+                                            <td>{prod.product.name}</td>
                                             <td>{prod.quantity}</td>
                                         </tr>
                                     ))}
@@ -111,4 +148,3 @@ function App() {
 }
 
 export default App;
-/******** *****************the last version ndddvhdvhvdvhvvdiojvjvfjjfvfvjf */

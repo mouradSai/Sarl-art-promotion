@@ -19,11 +19,16 @@ function App() {
 
     useEffect(() => {
         const lowercasedFilter = searchText.toLowerCase();
-        const filteredData = commandes.filter(item => {
+        const filteredData = commandes.filter(commande =>
+            commande.provider_id.name.toLowerCase().includes(lowercasedFilter) ||
+            commande.code_commande.toLowerCase().includes(lowercasedFilter)
+        );
+       /* const filteredData = commandes.filter(item => 
+            {
             return Object.keys(item).some(key =>
                 typeof item[key] === "string" && item[key].toLowerCase().includes(lowercasedFilter)
             );
-        });
+        });*/
         setFilteredCommandes(filteredData);
         setCurrentPage(1); // Reset to first page when search changes
     }, [searchText, commandes]);
@@ -98,10 +103,10 @@ function App() {
                                 <td>{commande.code_commande}</td>
                                 <td>{commande.provider_id ? commande.provider_id.name : 'No provider'}</td>
                                 <td>{new Date(commande.date_commande).toISOString().slice(0, 10)}</td>
-                                <td>{commande.totalCommande.toFixed(2)} €</td>
+                                <td>{commande.totalCommande.toFixed(2)} DA</td>
                                 <td>
-                                    <button onClick={() => handleView(commande)}>View</button>
-                                    <button onClick={() => handleDelete(commande._id)}>Delete</button>
+                                    <button className='view-button' onClick={() => handleView(commande)}>View</button>
+                                    <button className='delete-button' onClick={() => handleDelete(commande._id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}
