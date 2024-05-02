@@ -10,7 +10,7 @@ const handleLogout = () => {
 function Header({ OpenSidebar }) {
   const handleCommandeClick = () => {
     // Rediriger vers la page Catégorie
-    window.location.href = '/historique_commande';
+    window.location.href = '/historique';
   };
 
 
