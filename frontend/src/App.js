@@ -31,8 +31,8 @@ import Historique_commande_achat from "./pages/Historique/historique-commande_ac
 import Historique_commande_vente from "./pages/Historique/historique_commande_vente/historique_commande_vente";
 
 
-
 function App() {
+	
 	const user = localStorage.getItem("token");
 
 	return (
