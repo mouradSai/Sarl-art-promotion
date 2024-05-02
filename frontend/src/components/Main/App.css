@@ -130,6 +130,11 @@ body {
     width: 100px; /* Ajustez la taille selon vos besoins */
     height: auto; /* Cela permet de conserver les proportions originales du logo */
     margin-right: 10px; /* Espacement entre le logo et le texte */
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar-brand:hover .sidebar-logo {
+    transform: scaleX(-1);
   }
 
 
