@@ -35,7 +35,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
 
       <Link to="/orderpage" className="sidebar-link">
         <li className='sidebar-list-item'>
-            < BsCardList className='icon'/> Bon de Commande 
+            < BsCardList className='icon'/> Bon de commande 
         </li>
         </Link>
 
@@ -47,7 +47,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
 
         <Link to="/ordersellpage" className="sidebar-link">
         <li className='sidebar-list-item'>
-            <BsBox2Fill className='icon'/> commande de vente 
+            <FaMoneyBillTransfer className='icon'/>  Vente 
         </li>
         </Link>
 
@@ -83,7 +83,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
        
         <Link to="/historique" className="sidebar-link">
         <li className='sidebar-list-item'>
-            <BsFileBarGraphFill  className='icon'/> Historique
+            <BsFileBarGraphFill  className='icon'/> Historiques
         </li>
         </Link>
        
