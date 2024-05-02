@@ -25,21 +25,41 @@ function App() {
 
                 <div className="dashboard-grid">
                     {/* Premier tableau cliquable */}
-                    <Link to="/historiqueachat" className="link-no-underline">
-                        <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
+                    {/*<Link to="/historiqueachat" className="link-no-underline">
+                        {/* <div className="dashboard-item" onClick={() => { }}>
                             <h2>Historique d'Achat</h2>
                             <p>Ici, vous pouvez consulter l'historique de vos achats passés.</p>
-                        </div>
-                    </Link>
+                        </div> */}
+                   {/*} </Link>
 
                     {/* Deuxième tableau cliquable */}
-                    <Link to="/historiquevente" className="link-no-underline">
-                        <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique de vente */ }}>
+                     {/*<Link to="/historiquevente" className="link-no-underline">
+                        <div className="dashboard-item" onClick={() => { }}>
                             <h2>Historique de Vente</h2>
                             <p>Consultez l'historique de vos ventes précédentes dans cet espace.</p>
                         </div>
+                    </Link>*/}
+
+
+                    
+                    <Link to="/historique_commande_achat" className="link-no-underline">
+                        <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
+                            <h2>Historique des commandes d'achat</h2>
+                            <p>Ici, vous pouvez consulter l'historique de vos achats passés.</p>
+                        </div>
                     </Link>
-                   
+                    <Link to="/historique_commande_vente" className="link-no-underline">
+                        <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
+                            <h2>Historique des commandes de vente</h2>
+                            <p>Ici, vous pouvez consulter l'historique de vos ventes passés.</p>
+                        </div>
+                    </Link>
+                    <Link to="/historique_commande" className="link-no-underline">
+                        <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
+                            <h2>Historique des commandes</h2>
+                            <p>Ici, vous pouvez consulter l'historique de vos achats passés.</p>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div>

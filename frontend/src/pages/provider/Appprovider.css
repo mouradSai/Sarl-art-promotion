@@ -107,6 +107,8 @@ h2 {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Ombre légère */
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
 /* Style pour les formulaires */
