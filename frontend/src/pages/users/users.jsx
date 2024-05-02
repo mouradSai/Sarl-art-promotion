@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Sidebar from '../../components/Main/Sidebar';
+import Header from '../../components/Main/Header';
+import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
+
+
 
 function Users() {
+    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [newUserRole, setNewUserRole] = useState('');
@@ -9,6 +15,14 @@ function Users() {
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [showUserRolePopup, setShowUserRolePopup] = useState(false);
     const [showViewPopup, setShowViewPopup] = useState(false); // Ajout d'un état pour le popup de voir
+
+    const OpenSidebar = () => {
+        setOpenSidebarToggle(!openSidebarToggle);
+    };
+
+    const handleSidebarItemClick = (content) => {
+        setSelectedContent(content); // Correction: la variable "selectedContent" n'est pas définie
+    };
 
     useEffect(() => {
         fetchUsers();
@@ -81,8 +95,11 @@ function Users() {
     };
 
     return (
-        <div>
-            <h1>Utilisateurs</h1>
+        <div className="grid-container">
+            <Header OpenSidebar={OpenSidebar}/>
+            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} handleItemClick={handleSidebarItemClick}/>
+            <div className="container">
+            <h1 className="title-all">Utilisateurs</h1>
             <table>
                 <thead>
                     <tr>
@@ -153,6 +170,7 @@ function Users() {
                 </div>
             )}
         </div>
+     </div>
     );
 }
 
