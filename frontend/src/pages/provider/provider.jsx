@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { BsSearch } from "react-icons/bs";
 import './Appprovider.css'; // Correction de la typo dans le nom du fichier CSS
 import Sidebar from '../../components/Main/Sidebar';
 import Header from '../../components/Main/Header';
@@ -45,7 +46,7 @@ function App() {
             setProviders(response.data.data);
         } catch (error) {
             console.error('Error:', error);
-            showAlert('An error occurred while fetching providers. Please try again later.');
+            showAlert('Une erreur sest produite lors de la récupération des fournisseurs. Veuillez réessayer plus tard');
         }
     };
     
@@ -64,25 +65,25 @@ function App() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!formData.name || !formData.address || !formData.description || !formData.number) {
-            showAlert('Please fill in all required fields.');
+            showAlert('Veuillez remplir tous les champs requis');
             return;
         }
         try {
             const response = await axios.post('http://localhost:8080/providers', formData);
             if (response.status === 201) {
-                showAlert('Provider added successfully.');
+                showAlert('Fournisseur ajouté avec succès');
                 fetchProviders();
                 resetFormData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred.');
+                showAlert(response.data.message || 'Une erreur sest produite');
             }
         } catch (error) {
             console.error('Error:', error);
             if (error.response) {
-                showAlert(error.response.data.message || 'An error occurred.');
+                showAlert(error.response.data.message || 'Une erreur sest produite');
             } else {
-                showAlert('An error occurred. Please try again later.');
+                showAlert('Une erreur sest produite. Veuillez réessayer plus tard');
             }
         }
     };
@@ -91,14 +92,14 @@ function App() {
         try {
             const response = await axios.delete(`http://localhost:8080/providers/${id}`);
             if (response.status === 200) {
-                showAlert('Provider deleted successfully.');
+                showAlert('Fournisseur supprimé avec succès');
                 fetchProviders();
             } else {
-                showAlert(response.data.message || 'An error occurred while deleting provider.');
+                showAlert(response.data.message || 'Une erreur sest produite lors de la suppression du fournisseur');
             }
         } catch (error) {
             console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            showAlert('Une erreur sest produite. Veuillez réessayer plus tard');
         }
     };
 
@@ -106,14 +107,14 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/providers/${id}`, { IsActive: !isActive });
             if (response.status === 200) {
-                showAlert(`Provider ${isActive ? 'deactivated' : 'activated'} successfully.`);
+                showAlert(`Fournisseur  ${isActive ? 'desactivé' : 'activé'} avec succès`);
                 fetchProviders();
             } else {
-                showAlert(response.data.message || 'An error occurred while updating provider status.');
+                showAlert(response.data.message || 'Une erreur sest produite lors de la mise à jour du statut du fournisseur');
             }
         } catch (error) {
             console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            showAlert('Une erreur sest produite. Veuillez réessayer plus tard');
         }
     };
 
@@ -132,17 +133,17 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/providers/${editProviderId}`, formData);
             if (response.status && response.status === 200) {
-                showAlert('Provider updated successfully.');
+                showAlert('Fournisseur mis à jour avec succès');
                 fetchProviders();
                 setEditProviderId('');
                 resetFormData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred while updating provider.');
+                showAlert(response.data.message || 'Une erreur sest produite lors de la mise à jour du fournisseur');
             }
         } catch (error) {
             console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            showAlert('Une erreur sest produite. Veuillez réessayer plus tard');
         }
     };
 
@@ -191,27 +192,35 @@ function App() {
             <div className="container">
                 <h1 className="title-all">Fournisseurs</h1>
                 <div className="actions">
-                    <input
+                    
+                    <div className='search-cont'>
+                    <BsSearch className='search-icon'/>
+                        <input className='search-bar'
                         type="text"
-                        placeholder="Search providers..."
+                        placeholder="Chercher un fournisseur"
                         value={searchText}
                         onChange={handleSearchChange}
-                    />
+                        />
+                    </div>
+
                     <label>
                         <input
                             type="checkbox"
+                            class="checkbox-custom"
                             checked={showActiveOnly}
                             onChange={handleFilterChange}
                         />
-                        Show Active Only
+                        <span class="checkbox-label">Afficher</span>
                     </label>
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+
+                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button> 
                 </div>
+
                 {showCreateForm && (
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
-                            <h2>Create New Provider</h2>
+                            <h2>Créer un nouveau fournisseur</h2>
                             <form onSubmit={handleSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
@@ -229,11 +238,11 @@ function App() {
                         <table className="mfwork">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Address</th>
+                                    <th>Nom</th>
+                                    <th>Adresse</th>
                                     <th>Description</th>
-                                    <th>Number</th>
-                                    <th>Active</th> {/* Ajout de la colonne "Active" */}
+                                    <th>Numéro</th>
+                                    <th>Actif</th> {/* Ajout de la colonne "Active" */}
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -255,24 +264,24 @@ function App() {
                             </tbody>
                         </table>
                         <div className="pagination">
-                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
+                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Précédent</button>
                             <span>{currentPage}</span>
-                            <button disabled={currentPage === Math.ceil(providers.length / providersPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                            <button disabled={currentPage === Math.ceil(providers.length / providersPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant &gt;</button>
                         </div>
                     </>
                 )}
                 {filterProviders(providers, searchText).length === 0 && (
-                    <p>No providers found.</p>
+                    <p>Aucun fournisseur trouvé</p>
                 )}
                 {selectedProvider && (
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedProvider(null)}>&times;</span>
-                            <h2>Provider Details</h2>
-                            <p>Name: {selectedProvider.name}</p>
-                            <p>Address: {selectedProvider.address}</p>
-                            <p>Description: {selectedProvider.description}</p>
-                            <p>Number: {selectedProvider.number}</p>
+                            <h2>Détails du fournisseur</h2>
+                            <p>Nom : {selectedProvider.name}</p>
+                            <p>Adresse : {selectedProvider.address}</p>
+                            <p>Description : {selectedProvider.description}</p>
+                            <p>Numéro : {selectedProvider.number}</p>
                             <button className='delete-button' onClick={() => setSelectedProvider(null)}>Cancel</button>
                         </div>
                     </div>
@@ -281,12 +290,12 @@ function App() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => { setEditProviderId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
-                            <h2>Edit Provider</h2>
+                            <h2>Modifier le fournisseur</h2>
                             <form onSubmit={handleEditSubmit}>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nom" />
+                                <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Adresse" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
+                                <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Numéro" />
                                 <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
                                 <button className="create-button" type="submit">Save</button>
                                 <button className='delete-button' onClick={() => { setEditProviderId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>

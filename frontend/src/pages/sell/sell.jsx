@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Appsell.css';
 import Sidebar from '../../components/Main/Sidebar';
 import Header from '../../components/Main/Header';
 import ReactToPrint from 'react-to-print';

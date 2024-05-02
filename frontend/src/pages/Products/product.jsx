@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Appproducts.css'; 
 import Sidebar from '../../components/Main/Sidebar';
-import Header from '../../components/Headers/HeaderProduct';
+import HeaderProduct from '../../components/Headers/HeaderProduct';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; 
 
 function App() {
@@ -217,7 +217,7 @@ function App() {
     return (
        
             <div className="grid-container">
-                <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)}/>
+                <HeaderProduct OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)}/>
                 <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
                 <div className="container">
                     <h1 className="title-all">Products</h1>

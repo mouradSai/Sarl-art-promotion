@@ -1,8 +1,13 @@
 import {React  }from 'react';
-import {BsFillArchiveFill,MdSpaceDashboard,BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
-import { FaMoneyBillTransfer } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
 import logowhite from '../../assets/logo-white.png';
+import { Link } from 'react-router-dom';
+
+// Importation des icones react
+import {BsFillArchiveFill, BsPersonCircle, MdSpaceDashboard,BsCardList, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
+import { FaMoneyBillTransfer } from "react-icons/fa6";
+
+
+
   
 function Sidebar({ openSidebarToggle, OpenSidebar }) {
   return (
@@ -16,7 +21,13 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       </div>
       <ul className='sidebar-list'>
 
-      <Link to="/" className="sidebar-link"> 
+      <Link to="/users" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+          <BsPersonCircle className='icon'/> Utilisateurs
+        </li>
+      </Link>
+
+      <Link to="/stock" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsFillGrid1X2Fill className='icon'/> Dashbord
         </li>
@@ -24,13 +35,13 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
 
       <Link to="/orderpage" className="sidebar-link">
         <li className='sidebar-list-item'>
-            <BsBox2Fill className='icon'/> Commande 
+            < BsCardList className='icon'/> Bon de Commande 
         </li>
         </Link>
 
         <Link to="/orderbuypage" className="sidebar-link">
         <li className='sidebar-list-item'>
-            <BsBox2Fill className='icon'/> Commande d'achat
+            <BsCashStack className='icon'/> Achat
         </li>
         </Link>
 

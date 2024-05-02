@@ -1,9 +1,11 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 
 //components imports 
-import Index from "./components/Main/index";
+import Stock from "./components/Main/index";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import Landpage from "./components/landpage/Home";
+
 
 
 
@@ -20,6 +22,7 @@ import Categorie from "./pages/categorie/categorie";
 import Entrepot from "./pages/entrepots/entrepot";
 import Orderpage from "./pages/orderPage/orderpage";
 import Orderbuypage from "./pages/orderbuyPage/orderbuypage";
+import Users from "./pages/users/users";
 import Ordersellpage from "./pages/ordersellPage/ordersellpage";
 
 //Historique_commande
@@ -34,7 +37,7 @@ function App() {
 
 	return (
 		<Routes>
-			{user && <Route path="/" exact element={<Index/>} />}
+			{user && <Route path="/" exact element={<Landpage/>} />}
 			<Route path="/signup" exact element={<Signup />} />
 			<Route path="/login" exact element={<Login />} />
 			<Route path="/" element={<Navigate replace to="/login" />} />
@@ -55,6 +58,10 @@ function App() {
 			<Route path="/historique_commande_achat" element={<Historique_commande_achat />}/>
 			<Route path="/historique_commande_vente" element={<Historique_commande_vente />}/>
 
+			<Route path="/stock" element={<Stock />}/>
+			<Route path="/users" element={<Users />}/>
+
+	
 
 
 
