@@ -34,17 +34,23 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         </li>
         </Link>
 
+        <Link to="/ordersellpage" className="sidebar-link">
+        <li className='sidebar-list-item'>
+            <BsBox2Fill className='icon'/> commande de vente 
+        </li>
+        </Link>
+
      {/*<Link to="/buy" className="sidebar-link"> 
         <li className='sidebar-list-item'>
             <BsCashStack className='icon'/> Achats
         </li>
-       </Link>*/}
+       </Link>
 
       <Link to="/sell" className="sidebar-link"> 
         <li className='sidebar-list-item'>
             <FaMoneyBillTransfer className='icon'/> Ventes
         </li>
-        </Link>
+        </Link>*/}
 
         <Link to="/provider" className="sidebar-link">
         <li className='sidebar-list-item'>

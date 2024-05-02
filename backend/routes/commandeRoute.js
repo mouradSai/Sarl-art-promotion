@@ -56,11 +56,11 @@ router.get('/', async (req, res) => {
             });
 
           // Ajout du nombre de commandes à la réponse
-            const nombreDeCommandes = commandes.length;
+            const count = commandes.length;
 
             // Retourne les commandes avec le nombre total
              res.status(200).json({
-             nombreDeCommandes,
+             count,
              commandes
    });    } catch (error) {
         console.error('Erreur lors de la récupération des commandes:', error);
