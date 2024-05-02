@@ -114,7 +114,7 @@ function Home() {
                 </div>
 
                 <div className='card'>
-                    <Link to="/ordersellpage" className="sidebar-link"> 
+                    <Link to="/historique_commande_vente" className="sidebar-link"> 
                         <div className='card-inner'>
                             <h3>Commandes de vente</h3>
                             <BsCashStack className='card_icon'/>

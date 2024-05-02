@@ -33,6 +33,10 @@ button {
     font-size: 16px;
 }
 
+.print-button {
+    background-color: #28a745;
+  }
+  
 button:hover {
     background-color: #0056b3;
 }
@@ -50,7 +54,9 @@ button:hover {
     list-style-type: none;
     padding: 0;
 }
+.print-button{
 
+}
 .product-list li {
     margin-bottom: 10px;
     padding: 10px;

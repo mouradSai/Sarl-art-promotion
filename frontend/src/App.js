@@ -25,7 +25,7 @@ import Ordersellpage from "./pages/ordersellPage/ordersellpage";
 //Historique_commande
 import Historique_commande from "./pages/Historique/historique_commande/historique_commande"; 
 import Historique_commande_achat from "./pages/Historique/historique-commande_achat/historique_commande_achat";
-
+import Historique_commande_vente from "./pages/Historique/historique_commande_vente/historique_commande_vente";
 
 
 
@@ -53,6 +53,7 @@ function App() {
 			<Route path="/ordersellpage" element={<Ordersellpage />}/>
 			<Route path="/historique_commande" element={<Historique_commande />}/>
 			<Route path="/historique_commande_achat" element={<Historique_commande_achat />}/>
+			<Route path="/historique_commande_vente" element={<Historique_commande_vente />}/>
 
 
 
