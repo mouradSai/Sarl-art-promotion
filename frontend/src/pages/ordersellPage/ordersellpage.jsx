@@ -1,37 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './App.css';
-import Header from '../../components/Headers/HeaderCommande';
 import Sidebar from '../../components/Main/Sidebar';
-//import Header from '../../components/Main/Header';
+import Header from '../../components/Headers/HeaderCommande';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
+    const [prixUnitaire, setPrixUnitaire] = useState('');
     const [codeCommande, setCodeCommande] = useState('');
     const [observation_com, setObservationCom] = useState('');
-    const [providerName, setProviderName] = useState('');
+    const [clientName, setClientName] = useState('');
     const [commandes, setCommandes] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [date, setDate] = useState('');
     const [products, setProducts] = useState([]);
-    const [providers, setProviders] = useState([]);
+    const [clients, setClients] = useState([]);
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
-    const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
-    const [isProviderDisabled, setIsProviderDisabled] = useState(false); // Ajout de l'état pour désactiver la sélection du fournisseur
+    const [alert, setAlert] = useState(null);
+    const [isClientDisabled, setIsClientDisabled] = useState(false);
 
     useEffect(() => {
-        const fetchProviders = async () => {
+        const fetchClients = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/providers', {
+                const response = await axios.get('http://localhost:8080/clients', {
                     params: {
                         IsActive: true
                     }
                 });
-                setProviders(response.data.data);
+                setClients(response.data.data);
             } catch (error) {
-                console.error('Error fetching providers:', error);
+                console.error('Error fetching clients:', error);
             }
         };
 
@@ -48,40 +47,44 @@ function App() {
             }
         };
 
-        fetchProviders();
+        fetchClients();
         fetchProducts();
     }, []);
 
     const handleAddProduct = () => {
-        if (!productName || !quantity || !providerName || !codeCommande) {
-            showAlert('Veuillez remplir tous les champs du produit, du fournisseur et du code de commande.');
+        if (!productName || !quantity || !prixUnitaire || !clientName || !codeCommande) {
+            showAlert('Veuillez remplir tous les champs du produit, du client, du prix unitaire et du code de commande.');
             return;
         }
 
+        const totalLigne = parseInt(quantity, 10) * parseFloat(prixUnitaire);
+
         const newProduct = {
             product_name: productName,
-            quantity: parseInt(quantity, 10)
+            quantity: parseInt(quantity, 10),
+            prixUnitaire: parseFloat(prixUnitaire),
+            totalLigne: totalLigne.toFixed(2)
         };
 
         setCommandes([...commandes, newProduct]);
         setProductName('');
         setQuantity('');
-        
-        // Désactiver la sélection du fournisseur après l'ajout du premier enregistrement
-        setIsProviderDisabled(true);
+        setPrixUnitaire('');
+
+        setIsClientDisabled(true);
     };
 
     const handleFinalizeOrder = async () => {
-        if (commandes.length === 0 || !codeCommande || !providerName) {
+        if (commandes.length === 0 || !codeCommande || !clientName) {
             showAlert('Veuillez ajouter des produits et remplir tous les champs de commande.');
             return;
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/commandes', {
+            const response = await axios.post('http://localhost:8080/commandes_vente', {
                 code_commande: codeCommande,
-                provider_name: providerName,
-                date_commande: date, // Ajouté pour correspondre au champ attendu
+                client_name: clientName,
+                date_commande: date,
                 observation: observation_com,
                 produits: commandes
             });
@@ -90,11 +93,10 @@ function App() {
             setCommandes([]);
             setCodeCommande('');
             setObservationCom('');
-            setProviderName('');
+            setClientName('');
             setShowPopup(false);
-            
-            // Réactiver la sélection du fournisseur après la finalisation de la commande
-            setIsProviderDisabled(false);
+
+            setIsClientDisabled(false);
         } catch (error) {
             console.error('Erreur complète:', error);
             showAlert('Erreur lors de la finalisation de la commande : ' + (error.response ? error.response.data.message : error.message));
@@ -103,11 +105,20 @@ function App() {
 
     const handleValidateOrder = () => {
         setShowPopup(true);
-        setDate(new Date().toISOString().slice(0, 10)); // Format de la date YYYY-MM-DD
+        setDate(new Date().toISOString().slice(0, 10));
     };
 
     const showAlert = (message, type) => {
         setAlert({ message, type });
+    };
+
+    // Fonction pour calculer le total de la commande principale
+    const calculateTotalCommandePrincipale = () => {
+        let totalCommandePrincipale = 0;
+        commandes.forEach(item => {
+            totalCommandePrincipale += parseFloat(item.totalLigne);
+        });
+        return totalCommandePrincipale.toFixed(2);
     };
 
     return (
@@ -115,40 +126,39 @@ function App() {
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className='container'>
-                <h1>Gestion de Commande</h1>
+                <h1>Gestion de Commande de Vente</h1>
                 <div className="form-container">
-                <div className='bloc'>
-                    <div className='bloc1'>
-                        <select value={providerName} onChange={(e) => setProviderName(e.target.value)} disabled={isProviderDisabled}>
-                            <option value="">Sélectionnez un fournisseur</option>
-                            {providers.map(provider => (
-                                <option key={provider.id} value={provider.name}>{provider.name}</option>
-                            ))}
-                        </select>
-                        <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
-                        <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
-                    </div>
-                    <div className='bloc2'>
-                        <select value={productName} onChange={(e) => setProductName(e.target.value)}>
-                            <option value="">Sélectionnez un produit</option>
-                            {products.map(product => (
-                                <option key={product.id} value={product.name}>{product.name}</option>
-                            ))}
-                        </select>
-                        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                    <div className='bloc'> 
+                        <div className='bloc1'> 
+                            <select value={clientName} onChange={(e) => setClientName(e.target.value)} disabled={isClientDisabled}>
+                                <option value="">Sélectionnez un client</option>
+                                {clients.map(client => (
+                                    <option key={client.id} value={client.name}>{client.name}</option>
+                                ))}
+                            </select>
+                            <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
+                            <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
                         </div>
-                </div>
-
-                    <div className='bloc3'>
-                        <button onClick={handleAddProduct}>+ Ajouter Produit</button>
-                         <button className='print-button' onClick={handleValidateOrder}>Valider</button>
+                        <div className='bloc2'>
+                            <select value={productName} onChange={(e) => setProductName(e.target.value)}>
+                                <option value="">Sélectionnez un produit</option>
+                                {products.map(product => (
+                                    <option key={product.id} value={product.name}>{product.name}</option>
+                                ))}
+                            </select>
+                            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                            <input type="number" value={prixUnitaire} onChange={(e) => setPrixUnitaire(e.target.value)} placeholder="Prix Unitaire" />
+                        </div>
                     </div>
-
+                    <div className='bloc3'>
+                        <button onClick={handleAddProduct}> + Ajouter Produit</button>
+                        <button className='print-button' onClick={handleValidateOrder}>Valider</button>
+                    </div>
                 </div>
                 {showPopup && (
                     <div className="popup">
                         <h2>Informations de Commande</h2>
-                        <p>Fournisseur: {providerName}</p>
+                        <p>Client: {clientName}</p>
                         <p>Code de Commande: {codeCommande}</p>
                         <p>Date :{date}</p>
                         <p>Observation :{observation_com}</p>
@@ -158,6 +168,8 @@ function App() {
                                 <tr>
                                     <th>Produit</th>
                                     <th>Quantité</th>
+                                    <th>Prix Unitaire</th>
+                                    <th>Total Ligne</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,12 +177,19 @@ function App() {
                                     <tr key={index}>
                                         <td>{item.product_name}</td>
                                         <td>{item.quantity}</td>
+                                        <td>{item.prixUnitaire}.00 DA</td>
+                                        <td>{item.totalLigne} DA</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-                        <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
-                        <button className='print-button' onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                        <div>
+                            <h3>Total Commande Principale: {calculateTotalCommandePrincipale()} DA</h3>
+                        </div>
+                        <div className="popup-buttons">
+                            <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
+                            <button className='print-button' onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                        </div>
                     </div>
                 )}
                 <div>
@@ -180,6 +199,8 @@ function App() {
                             <tr>
                                 <th>Produit</th>
                                 <th>Quantité</th>
+                                <th>Prix Unitaire</th>
+                                <th>Total Ligne</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -187,6 +208,8 @@ function App() {
                                 <tr key={index}>
                                     <td>{item.product_name}</td>
                                     <td>{item.quantity}</td>
+                                    <td>{item.prixUnitaire},00 DA</td>
+                                    <td>{item.totalLigne} DA</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -7,7 +7,7 @@ import CustomAlert from '../../components/costumeAlert/costumeAlert';
 function App() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [selectedContent, setSelectedContent] = useState('');
-    const [showOnlyActive, setShowOnlyActive] = useState(false);
+    const [showOnlyActive, setShowOnlyActive] = useState(true);
 
     const OpenSidebar = () => {
         setOpenSidebarToggle(!openSidebarToggle);

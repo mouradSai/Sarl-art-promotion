@@ -31,7 +31,7 @@ function App() {
     const [selectedProvider, setSelectedProvider] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showActiveOnly, setShowActiveOnly] = useState(false); // Ajout de l'état pour filtrer les fournisseurs actifs
+    const [showActiveOnly, setShowActiveOnly] = useState(true); // Ajout de l'état pour filtrer les fournisseurs actifs
     const [alert, setAlert] = useState(null); // Ajout de l'état pour l'alerte
 
     const providersPerPage = 8; // Nombre de fournisseurs à afficher par page

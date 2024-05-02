@@ -35,12 +35,22 @@ router.post('/', async (request, response) => {
     }
 });
 
-// Route pour obtenir tous les clients de la base de données
+// Route pour obtenir tous les clients de la base de données avec possibilité de filtrage par IsActive
 router.get('/', async (request, response) => {
     try {
-        const clients = await Client.find({});
+        // Vérifie si le paramètre IsActive est présent dans la requête
+        const isActiveParam = request.query.IsActive;
+
+        // Définir le filtre en fonction de la valeur du paramètre IsActive
+        const filter = isActiveParam === 'true' ? { IsActive: true } : {};
+
+        // Récupérer les clients en utilisant le filtre
+        const clients = await Client.find(filter);
+        const count = await Client.countDocuments(filter); // Nombre total de clients en fonction du filtre
+
+        // Retourner la réponse avec les clients filtrés
         return response.status(200).json({
-            count: clients.length,
+            count: count,
             data: clients
         });
     } catch (error) {
@@ -48,6 +58,7 @@ router.get('/', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
+
 
 // Route pour obtenir un client spécifique de la base de données
 router.get('/:id', async (request, response) => {

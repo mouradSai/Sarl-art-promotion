@@ -11,6 +11,7 @@ const categoriesRoute =require ("./routes/categoriesRoute")
 const entrepotsRoute = require ("./routes/entrepotsRoute");
 const commandeRoute =require("./routes/commandeRoute");
 const commande_achatRoute = require("./routes/commande_achatRoute");
+const commande_venteRoute =require("./routes/commande_venteRoute");
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -46,6 +47,7 @@ app.use('/categories',categoriesRoute);
 app.use('/entrepots',entrepotsRoute);
 app.use('/commandes',commandeRoute);
 app.use('/commandes_achat',commande_achatRoute);
+app.use('/commandes_vente',commande_venteRoute);
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
 
