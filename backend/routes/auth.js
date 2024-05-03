@@ -20,8 +20,14 @@ router.post("/", async (req, res) => {
 		if (!validPassword)
 			return res.status(401).send({ message: "Invalid Email or Password" });
 
+		// Récupération du rôle de l'utilisateur
+		const role = user.role;
+
+		// Génération du jeton d'authentification
 		const token = user.generateAuthToken();
-		res.status(200).send({ data: token, message: "logged in successfully" });
+
+		// Envoi de la réponse avec le token et le rôle
+		res.status(200).send({ data: { token, role }, message: "logged in successfully" });
 	} catch (error) {
 		res.status(500).send({ message: "Internal Server " });
 	}

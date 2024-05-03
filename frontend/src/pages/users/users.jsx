@@ -16,6 +16,9 @@ function Users() {
     const [showUserRolePopup, setShowUserRolePopup] = useState(false);
     const [showViewPopup, setShowViewPopup] = useState(false); // Ajout d'un état pour le popup de voir
 
+
+
+    
     const OpenSidebar = () => {
         setOpenSidebarToggle(!openSidebarToggle);
     };

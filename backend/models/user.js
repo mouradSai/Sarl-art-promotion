@@ -32,13 +32,14 @@ const userSchema = new mongoose.Schema({
         default: "user" // Rôle par défaut pour les nouveaux utilisateurs
     }
 });
-
 userSchema.methods.generateAuthToken = function () {
-	const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
-		expiresIn: "7d",
-	});
-	return token;
+    // Inclure le rôle de l'utilisateur dans le jeton
+    const token = jwt.sign({ _id: this._id, role: this.role }, process.env.JWTPRIVATEKEY, {
+        expiresIn: "7d",
+    });
+    return token;
 };
+
 
 const User = mongoose.model("user", userSchema);
 
