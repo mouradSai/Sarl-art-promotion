@@ -31,45 +31,38 @@ import Historique_commande_achat from "./pages/Historique/historique-commande_ac
 import Historique_commande_vente from "./pages/Historique/historique_commande_vente/historique_commande_vente";
 
 
+//protection de routes 
+import ProtectedRoute from "./components/protection/ProtectedRoute";
 
 function App() {
+	
 	const user = localStorage.getItem("token");
 
 	return (
 		<Routes>
-			{user && <Route path="/" exact element={<Landpage/>} />}
-
-
-			
-			<Route path="/signup" exact element={<Signup />} />
-			<Route path="/login" exact element={<Login />} />
-			<Route path="/" element={<Navigate replace to="/login" />} />
-			<Route path="/provider" element={<Provider />}/>
-			<Route path="/customer" element={<Customer />}/>
-			<Route path="/product" element={<Product />}/>
-			{/*<Route path="/buy" element={<Buy />}/>
-			<Route path="/sell" element={<Sell />}/>
-			<Route path="/historiqueachat" element={<Historiqueachat />}/>
-			<Route path="/historiquevente" element={<Historiquevente />}/>*/}
-			<Route path="/historique" element={<Historique />}/>
-			<Route path="/categorie" element={<Categorie />}/>
-			<Route path="/entrepot" element={<Entrepot />}/>
-			<Route path="/orderpage" element={<Orderpage />}/>
-			<Route path="/orderbuypage" element={<Orderbuypage />}/>
-			<Route path="/ordersellpage" element={<Ordersellpage />}/>
-			<Route path="/historique_commande" element={<Historique_commande />}/>
-			<Route path="/historique_commande_achat" element={<Historique_commande_achat />}/>
-			<Route path="/historique_commande_vente" element={<Historique_commande_vente />}/>
-
-			<Route path="/stock" element={<Stock />}/>
-			<Route path="/users" element={<Users />}/>
-
-	
-
-
-
-
-		</Routes>
+		{/* Utilisation d'un ternaire pour déterminer si on affiche la page ou redirige vers login */}
+		<Route path="/" element={user ? <ProtectedRoute><Landpage/></ProtectedRoute> : <Navigate replace to="/login" />} />
+  
+		{/* Routes qui nécessitent la protection */}
+		<Route path="/provider" element={<ProtectedRoute><Provider /></ProtectedRoute>} />
+		<Route path="/customer" element={<ProtectedRoute><Customer /></ProtectedRoute>} />
+		<Route path="/product" element={<ProtectedRoute><Product /></ProtectedRoute>} />
+		<Route path="/historique" element={<ProtectedRoute><Historique /></ProtectedRoute>} />
+		<Route path="/categorie" element={<ProtectedRoute><Categorie /></ProtectedRoute>} />
+		<Route path="/entrepot" element={<ProtectedRoute><Entrepot /></ProtectedRoute>} />
+		<Route path="/orderpage" element={<ProtectedRoute><Orderpage /></ProtectedRoute>} />
+		<Route path="/orderbuypage" element={<ProtectedRoute><Orderbuypage /></ProtectedRoute>} />
+		<Route path="/ordersellpage" element={<ProtectedRoute><Ordersellpage /></ProtectedRoute>} />
+		<Route path="/historique_commande" element={<ProtectedRoute><Historique_commande /></ProtectedRoute>} />
+		<Route path="/historique_commande_achat" element={<ProtectedRoute><Historique_commande_achat /></ProtectedRoute>} />
+		<Route path="/historique_commande_vente" element={<ProtectedRoute><Historique_commande_vente /></ProtectedRoute>} />
+		<Route path="/stock" element={<ProtectedRoute><Stock /></ProtectedRoute>} />
+		<Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+  
+		{/* Routes sans protection */}
+		<Route path="/signup" element={<Signup />} />
+		<Route path="/login" element={<Login />} />
+	  </Routes>
 	);
 }
 

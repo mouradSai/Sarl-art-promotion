@@ -1,13 +1,17 @@
 import React from 'react';
 import { BsSearch, BsJustify } from 'react-icons/bs';
 import { RiLogoutBoxFill } from 'react-icons/ri';
+import { logout } from '../logout/logout'; // Assurez-vous que le chemin d'importation est correct
+import { useNavigate } from 'react-router-dom';
 
-const handleLogout = () => {
-  localStorage.removeItem("token");
-  window.location.reload();
-};
 
 function Header({ OpenSidebar }) {
+  const navigate = useNavigate(); // Utilisez `useNavigate` à l'intérieur du composant
+
+  const handleLogout = async () => {
+    await logout();  // Attend que la promesse de logout soit résolue
+    navigate('/login');  // Ensuite redirige vers la page de connexion
+  };
   const handleCommandeClick = () => {
     // Rediriger vers la page Catégorie
     window.location.href = '/historique';
