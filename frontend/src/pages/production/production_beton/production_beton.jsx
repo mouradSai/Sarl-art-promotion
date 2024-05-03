@@ -6,6 +6,7 @@ function production_beton() {
     return (
         <div className="grid-container">
         <Header />
+        <h1>ICI LA PRODUCTION</h1>
         </div>
     );
 }
