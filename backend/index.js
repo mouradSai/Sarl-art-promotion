@@ -11,7 +11,10 @@ const commandeRoute =require("./routes/commandeRoute");
 const commande_achatRoute = require("./routes/commande_achatRoute");
 const commande_venteRoute =require("./routes/commande_venteRoute");
 
+//les dossier de generate pdfs 
 const generatePdfcommande = require ("./generatePdf/generatePdfcommande");
+const generatePdfachat = require ("./generatePdf/generatePdfachat");
+const generatePdfvente = require ("./generatePdf/generatePdfvente");
 
 const express = require("express");
 const cors = require("cors");
@@ -47,6 +50,8 @@ app.use('/commandes',commandeRoute);
 app.use('/commandes_achat',commande_achatRoute);
 app.use('/commandes_vente',commande_venteRoute);
 app.use ('/generatePdfcommande',generatePdfcommande);
+app.use ('/generatePdfachat',generatePdfachat);
+
 
 
 const port = process.env.PORT || 8080;
