@@ -10,6 +10,12 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 
   
 function Sidebar({ openSidebarToggle, OpenSidebar }) {
+
+  const userRole = localStorage.getItem('role'); // Récupérer le rôle de l'utilisateur depuis le localStorage
+
+  // Vérifier si l'utilisateur a le rôle d'administrateur
+  const isSuperadmin = userRole === 'superadmin'  ;
+  //const isUser = userRole === 'superadmin' || userRole === 'admin';
   return (
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
@@ -21,11 +27,13 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       </div>
       <ul className='sidebar-list'>
 
+        
+      {isSuperadmin && (
       <Link to="/users" className="sidebar-link"> 
       <li className='sidebar-list-item'>
           <BsPersonCircle className='icon'/> Utilisateurs
         </li>
-      </Link>
+      </Link>)}
 
       <Link to="/stock" className="sidebar-link"> 
       <li className='sidebar-list-item'>

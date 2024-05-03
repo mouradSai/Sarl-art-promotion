@@ -17,7 +17,13 @@ const Login = () => {
         try {
             const url = "http://localhost:8080/api/auth";
             const { data: res } = await axios.post(url, data);
-            localStorage.setItem("token", res.data);
+            
+            // Stockage du token dans le localStorage
+            localStorage.setItem("token", res.data.token);
+            
+            // Stockage du rôle dans le localStorage
+            localStorage.setItem("role", res.data.role);
+            
             window.location = "/";
         } catch (error) {
             if (
@@ -35,7 +41,7 @@ const Login = () => {
             <div className={styles.login_form_container}>
                 <div className={styles.left}>
                     <form className={styles.form_container} onSubmit={handleSubmit}>
-					<img src={logo} alt="Logo" className={styles.logo} />
+                        <img src={logo} alt="Logo" className={styles.logo} />
 
                         <h1>Connexion à votre compte</h1>
                         <input
