@@ -5,8 +5,6 @@ const authRoutes = require("./routes/auth");
 const providersRoute = require ("./routes/providersRoute");
 const clientsRoute = require ("./routes/clientsRoute");
 const productsRoute = require ("./routes/productsRoute");
-const ordersRoute =require ("./routes/ordersRoute");
-const orderssellRoute=require("./routes/orderssellRoute");
 const categoriesRoute =require ("./routes/categoriesRoute")
 const entrepotsRoute = require ("./routes/entrepotsRoute");
 const commandeRoute =require("./routes/commandeRoute");
@@ -40,9 +38,6 @@ app.use("/api/auth", authRoutes);
 app.use('/providers', providersRoute);
 app.use('/clients', clientsRoute);
 app.use('/products', productsRoute);
-app.use('/orders',ordersRoute);
-app.use('/commandedetaillee',ordersRoute);
-app.use('/sells',orderssellRoute);
 app.use('/categories',categoriesRoute);
 app.use('/entrepots',entrepotsRoute);
 app.use('/commandes',commandeRoute);
