@@ -15,6 +15,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
 
   // Vérifier si l'utilisateur a le rôle d'administrateur
   const isSuperadmin = userRole === 'superadmin'  ;
+  //const isUser = userRole === 'superadmin' || userRole === 'admin';
   return (
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
