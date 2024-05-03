@@ -51,6 +51,8 @@ app.use('/commandes_achat',commande_achatRoute);
 app.use('/commandes_vente',commande_venteRoute);
 app.use ('/generatePdfcommande',generatePdfcommande);
 app.use ('/generatePdfachat',generatePdfachat);
+app.use ('/generatePdfvente',generatePdfvente);
+
 
 
 
