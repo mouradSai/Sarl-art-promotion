@@ -120,7 +120,47 @@ function App() {
         });
         return totalCommandePrincipale.toFixed(2);
     };
+//generate pdf order 
+const handleGeneratePDF = async () => {
+    if (commandes.length === 0 || !codeCommande || !clientName) {
+        showAlert('Veuillez ajouter des produits et remplir tous les champs de commande.');
+        return;
+    }
 
+    const orderDetails = {
+        clientName,
+        codeCommande,
+        date: new Date().toISOString().slice(0, 10),
+        observation_com,
+        commandes
+    };
+
+    try {
+        const response = await fetch('http://localhost:8080/generatePdfvente', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderDetails)
+        });
+
+        if (!response.ok) {
+            throw new Error('Erreur lors de la génération du PDF');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'bon-de-commande.pdf');
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+    } catch (error) {
+        console.error('Erreur lors de la génération du PDF :', error);
+        showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
+    }
+};
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
@@ -189,6 +229,8 @@ function App() {
                         <div className="popup-buttons">
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
                             <button className='print-button' onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+
                         </div>
                     </div>
                 )}
