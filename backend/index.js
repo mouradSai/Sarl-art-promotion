@@ -16,6 +16,12 @@ const app = express();
 app.use(express.json());
 
 
+
+const bodyParser = require('body-parser');
+const pdf = require('html-pdf');
+const pdfTemplate = require('./documents/index');
+
+
 app.get('/', (req, res) => {
     console.log(req)
     return res.status(234).send('bonjour ')
@@ -45,5 +51,27 @@ app.use('/commandes_achat',commande_achatRoute);
 app.use('/commandes_vente',commande_venteRoute);
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
+
+
+
+
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+app.post('/create-pdf', (req, res) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+        if(err) {
+            res.send(Promise.reject());
+        }
+
+        res.send(Promise.resolve());
+    });
+});
+
+app.get('/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
+
 
 
