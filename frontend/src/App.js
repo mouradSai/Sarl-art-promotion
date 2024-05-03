@@ -44,21 +44,136 @@ function App() {
 		<Route path="/" element={user ? <ProtectedRoute><Landpage/></ProtectedRoute> : <Navigate replace to="/login" />} />
   
 		{/* Routes qui nécessitent la protection */}
-		<Route path="/provider" element={<ProtectedRoute><Provider /></ProtectedRoute>} />
-		<Route path="/customer" element={<ProtectedRoute><Customer /></ProtectedRoute>} />
-		<Route path="/product" element={<ProtectedRoute><Product /></ProtectedRoute>} />
-		<Route path="/historique" element={<ProtectedRoute><Historique /></ProtectedRoute>} />
-		<Route path="/categorie" element={<ProtectedRoute><Categorie /></ProtectedRoute>} />
-		<Route path="/entrepot" element={<ProtectedRoute><Entrepot /></ProtectedRoute>} />
-		<Route path="/orderpage" element={<ProtectedRoute><Orderpage /></ProtectedRoute>} />
-		<Route path="/orderbuypage" element={<ProtectedRoute><Orderbuypage /></ProtectedRoute>} />
-		<Route path="/ordersellpage" element={<ProtectedRoute><Ordersellpage /></ProtectedRoute>} />
-		<Route path="/historique_commande" element={<ProtectedRoute><Historique_commande /></ProtectedRoute>} />
-		<Route path="/historique_commande_achat" element={<ProtectedRoute><Historique_commande_achat /></ProtectedRoute>} />
-		<Route path="/historique_commande_vente" element={<ProtectedRoute><Historique_commande_vente /></ProtectedRoute>} />
-		<Route path="/stock" element={<ProtectedRoute><Stock /></ProtectedRoute>} />
-		<Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
-  
+			<Route path="/provider" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Provider />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/customer" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Customer />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/product" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Product />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/historique" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Historique />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/categorie" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Categorie />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/entrepot" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Entrepot />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/orderpage" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Orderpage />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/orderbuypage" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Orderbuypage />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/ordersellpage" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Ordersellpage />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/historique_commande" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Historique_commande />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/historique_commande_achat" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Historique_commande_achat />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+			<Route path="/historique_commande_vente" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Historique_commande_vente />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
+            {/* Ajoutez la vérification du rôle pour l'accès à la route stock */}
+		    <Route path="/stock" element={
+		             localStorage.getItem("token") && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ? (
+
+						<ProtectedRoute>
+							<Stock />
+						</ProtectedRoute> ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+			  />
+            {/* Ajoutez la vérification du rôle pour l'accès à la route Users */}
+            <Route path="/users" element={
+                    localStorage.getItem("token") && localStorage.getItem("role") === "superadmin"  ? (
+                        <ProtectedRoute>
+                            <Users />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
 		{/* Routes sans protection */}
 		<Route path="/signup" element={<Signup />} />
 		<Route path="/login" element={<Login />} />
