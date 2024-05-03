@@ -42,7 +42,7 @@ const Home = () => {
                     </div>
                   </a>
                 ` : ''}
-                <a href="/" class="destination__card">
+                <a href="/production_beton" class="destination__card">
                   <img src="${beton}" alt="destination" />
                   <div class="card__content">
                     <h4>Gestion de production</h4>

@@ -9,7 +9,7 @@ import Landpage from "./components/landpage/Home";
 
 
 
-//pages imports 
+//pages imports stock
 import Product from "./pages/Products/product";
 import Customer from"./pages/customers/customer";
 import Provider from "./pages/provider/provider";
@@ -25,11 +25,14 @@ import Orderbuypage from "./pages/orderbuyPage/orderbuypage";
 import Users from "./pages/users/users";
 import Ordersellpage from "./pages/ordersellPage/ordersellpage";
 
-//Historique_commande
+//Historique_commande stock
 import Historique_commande from "./pages/Historique/historique_commande/historique_commande"; 
 import Historique_commande_achat from "./pages/Historique/historique-commande_achat/historique_commande_achat";
 import Historique_commande_vente from "./pages/Historique/historique_commande_vente/historique_commande_vente";
 
+
+//Import pages production 
+import Production_beton from "./pages/production/production_beton/production_beton";
 
 //protection de routes 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
@@ -175,6 +178,18 @@ function App() {
                 }
             />  
 		{/* Routes sans protection */}
+		<Route path="/production_beton" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Production_beton />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+
+
 		<Route path="/signup" element={<Signup />} />
 		<Route path="/login" element={<Login />} />
 	  </Routes>
