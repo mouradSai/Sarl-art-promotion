@@ -68,7 +68,7 @@ const ProductStockVisualizer = () => {
         <div className='appContainer'>
             <h2>Produits bientôt en rupture de stock</h2>
             <div className='visualizationContainer'>
-                <table className='table'>
+                <table className='table-shart'>
                     <thead>
                         <tr className='tableHeader'>
                             <th>Produit</th>

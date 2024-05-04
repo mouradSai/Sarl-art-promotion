@@ -25,13 +25,13 @@
     padding: 20px;
 }
 
-.table {
+.table-shart {
     width: 40%;
     border-collapse: collapse;
     margin-right: 20px;
 }
 
-.table th, .table td {
+.table-shart th, .table-shart td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
