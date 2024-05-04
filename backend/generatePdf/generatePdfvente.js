@@ -801,7 +801,7 @@ router.post('/', async (req, res) => {
                                 <div class="whitespace-nowrap text-slate-400">Net total:</div>
                               </td>
                               <td class="border-b p-3 text-right">
-                                <div class="whitespace-nowrap font-bold text-main">Total Commande Principale: ${calculateTotalCommandePrincipale()} DA</div>
+                                <div class="whitespace-nowrap font-bold text-main"> ${calculateTotalCommandePrincipale()} DA</div>
                               </td>
                             </tr>
                             <!--   <tr>
