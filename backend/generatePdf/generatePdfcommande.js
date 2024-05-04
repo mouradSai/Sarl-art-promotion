@@ -1,12 +1,14 @@
 const puppeteer = require('puppeteer');
 const express = require("express");
-
 const router = express.Router();
-
-
 
 router.post('/', async (req, res) => {
     const { providerName, codeCommande, date, observation_com, commandes } = req.body;
+
+    // Validation simple des données requises
+    if (!providerName || !codeCommande || !date || !commandes || commandes.length === 0) {
+        return res.status(400).json({ message: 'Missing required fields' });
+    }
 
     let html = `<!DOCTYPE html>
     <html lang="en">
@@ -836,8 +838,7 @@ router.post('/', async (req, res) => {
       </div>
     </div>
     </body>
-    </html>
-    `;
+    </html>; `
 
     try {
         const browser = await puppeteer.launch();
@@ -855,3 +856,5 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
+
+
