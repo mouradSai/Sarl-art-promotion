@@ -172,7 +172,7 @@ const handleDelete = (index) => {
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <SidebarProduction openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className='container'>
-             <h1 className="title-all">Bon de commande</h1>
+             <h1 className="title-all">Production</h1>
                 <div className="form-container">
                 <div className='bloc'>
                     <div className='bloc1'>
