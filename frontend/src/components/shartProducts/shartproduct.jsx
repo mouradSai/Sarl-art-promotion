@@ -1,52 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
-import axios from 'axios'; // Ensure you have axios installed or use fetch API instead
-
-// Embedded CSS styles
-const styles = {
-    appContainer: {
-        fontFamily: 'Arial, sans-serif',
-        margin: '20px',
-        color: '#333',
-    },
-    visualizationContainer: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '20px',
-    },
-    table: {
-        width: '40%',
-        borderCollapse: 'collapse',
-        marginRight: '20px',
-    },
-    chartContainer: { // Style for the chart container to set a fixed width
-        width: '500px', // Set a fixed width for the chart
-    },
-    tableCell: {
-        border: '1px solid #ccc',
-        padding: '8px',
-        textAlign: 'left',
-    },
-    tableHeader: {
-        backgroundColor: '#f4f4f4',
-    },
-    tableRow: {
-        ':hover': {
-            backgroundColor: '#e9e9e9',
-        },
-    },
-    deleteButton: {
-        backgroundColor: '#f44336',
-        color: 'white',
-        border: 'none',
-        cursor: 'pointer',
-        padding: '5px 10px',
-        ':hover': {
-            backgroundColor: '#d32f2f',
-        },
-    },
-};
+import axios from 'axios';
+import './App.css'; // Ensure the CSS file is correctly linked
 
 const SeuilBas = 1000; // Low quantity threshold
 
@@ -57,7 +13,12 @@ const ProductStockVisualizer = () => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/products');
-                setProduits(response.data.data.filter(prod => prod.quantity < SeuilBas));
+                // Fetch products, filter by threshold, sort by quantity, and slice the top 10
+                const filteredAndSortedProducts = response.data.data
+                    .filter(prod => prod.quantity < SeuilBas)
+                    .sort((a, b) => a.quantity - b.quantity)
+                    .slice(0, 10); // Keep only the 10 products with the lowest quantities
+                setProduits(filteredAndSortedProducts);
             } catch (error) {
                 console.error('Error:', error);
                 showAlert('An error occurred while fetching products. Please try again later.');
@@ -100,30 +61,30 @@ const ProductStockVisualizer = () => {
                 display: false
             }
         },
-        maintainAspectRatio: false, // Add this to maintain the aspect ratio
+        maintainAspectRatio: false, // Maintain aspect ratio
     };
 
     return (
-        <div style={styles.appContainer}>
+        <div className='appContainer'>
             <h2>Visualisation des produits à faible stock</h2>
-            <div style={styles.visualizationContainer}>
-                <table style={styles.table}>
+            <div className='visualizationContainer'>
+                <table className='table'>
                     <thead>
-                        <tr style={styles.tableHeader}>
+                        <tr className='tableHeader'>
                             <th>Produit</th>
                             <th>Quantité</th>
                         </tr>
                     </thead>
                     <tbody>
                         {produits.map((produit, index) => (
-                            <tr key={index} style={styles.tableRow}>
+                            <tr key={index} className='tableRow'>
                                 <td>{produit.name}</td>
                                 <td>{produit.quantity}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                <div style={styles.chartContainer}>
+                <div className='chartContainer'>
                     <Bar data={data} options={options} />
                 </div>
             </div>
@@ -131,7 +92,6 @@ const ProductStockVisualizer = () => {
     );
 };
 
-// Placeholder for the showAlert function
 function showAlert(message) {
     alert(message); // Replace this with your alert system if different
 }
