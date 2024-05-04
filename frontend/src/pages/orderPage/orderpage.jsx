@@ -156,6 +156,12 @@ function App() {
         }
     };
     
+//suppression d'une ligne d'enregestrement tableau
+const handleDelete = (index) => {
+    // Crée un nouveau tableau en filtrant l'élément à l'index spécifié
+    const newCommandes = commandes.filter((item, i) => i !== index);
+    setCommandes(newCommandes);
+};
 
 
     
@@ -207,7 +213,7 @@ function App() {
                             <thead className="table-header">
                                 <tr>
                                     <th>Produit</th>
-                                    <th>Quantité</th>
+                                    <th>Quantité</th>                               
                                 </tr>
                             </thead>
                             <tbody>
@@ -232,6 +238,7 @@ function App() {
                             <tr>
                                 <th>Produit</th>
                                 <th>Quantité</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -239,6 +246,9 @@ function App() {
                                 <tr key={index}>
                                     <td>{item.product_name}</td>
                                     <td>{item.quantity}</td>
+                                    <td>
+                            <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
