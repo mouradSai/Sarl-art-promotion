@@ -68,6 +68,53 @@ function App() {
     const handlePageChange = (pageOffset) => {
         setCurrentPage(prevPage => prevPage + pageOffset);
     };
+    const handleGeneratePDF = async () => {
+        if (!selectedCommande) {
+            showAlert('Please select a commande to generate a PDF.');
+            return;
+        }
+        if (!selectedCommande.produits || selectedCommande.produits.length === 0) {
+            showAlert('No products in the commande.');
+            return;
+        }
+    
+        const orderDetails = {
+            clientName: selectedCommande.client_id ? selectedCommande.client_id.name : '',
+            codeCommande: selectedCommande.code_commande,
+            date: new Date(selectedCommande.date_commande).toISOString().slice(0, 10),
+            observation_com: selectedCommande.observation,
+            commandes: selectedCommande.produits.map(prod => ({
+                product_name: prod.product ? prod.product.name : 'Product name not available',
+                quantity: prod.quantity,
+                prixUnitaire: prod.prixUnitaire,
+                totalLigne: prod.totalLigne
+            }))
+        };
+    
+        try {
+            const response = await fetch('http://localhost:8080/generatePdfvente', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderDetails)
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
+            }
+    
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `bon-de-commande-${orderDetails.codeCommande}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Erreur lors de la génération du PDF :', error);
+            showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
+        }
+    };
 
     return (
         <div className="grid-container">
@@ -140,6 +187,8 @@ function App() {
                                     ))}
                                 </tbody>
                             </table>
+                            <button onClick={handleGeneratePDF}>Download PDF</button>
+
                         </div>
                     </div>
                 )}
