@@ -1,8 +1,8 @@
 import React from 'react';
-import { BsSearch, BsJustify } from 'react-icons/bs';
+import { BsSearch, BsJustify, BsArrowBarLeft } from 'react-icons/bs';
 import { RiLogoutBoxFill } from 'react-icons/ri';
 import { logout } from '../logout/logout'; // Assurez-vous que le chemin d'importation est correct
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 function Header({ OpenSidebar }) {
@@ -33,7 +33,17 @@ function Header({ OpenSidebar }) {
         <BsJustify className='icon-header' onClick={OpenSidebar} />
       </div>
 
+
+
+      <Link to="/"> 
+            <button className={"white_btn_logout"}>
+              <BsArrowBarLeft className='icon-head'/> Accueil
+            </button>
+      </Link>
+
+
       <div className='header-right'>
+
         <button className={"white_btn"} onClick={handleProductClick}>
           <span>Produits</span>
         </button>
