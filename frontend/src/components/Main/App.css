@@ -125,6 +125,16 @@ body {
     -webkit-transition: all 0.5s;
   }
 
+  #sidebarProd {
+    grid-area: sidebar;
+    height: 100%;
+    background-color: #323232;
+    overflow-y: auto;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+  }
+
+
 
   .sidebar-logo {
     width: 100px; /* Ajustez la taille selon vos besoins */
