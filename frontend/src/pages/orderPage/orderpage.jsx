@@ -156,7 +156,11 @@ function App() {
         }
     };
     
+
+
+    
     return (
+        
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
