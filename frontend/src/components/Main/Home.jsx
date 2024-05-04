@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BsFillBellFill, BsFillArchiveFill, MdSpaceDashboard, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill, BsFileBarGraphFill, BsCashStack, BsBox2Fill, BsPeopleFill } from 'react-icons/bs';
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
-
+import Shartproduct from '../shartProducts/shartproduct';
 function Home() {
     const [productsCount, setProductsCount] = useState(0);
     const [providersCount, setProvidersCount] = useState(0);
@@ -55,10 +55,13 @@ function Home() {
     }, []);
 
     return (
+       
+       
         <main className='main-container'>
             <div className='main-title'>
                 <h3>DASHBOARD</h3>
             </div>
+
 
             <div className='main-cards'>
                 <div className='card'>
@@ -122,6 +125,9 @@ function Home() {
                         <h1>{commandesVenteCount}</h1>
                     </Link>
                 </div>
+            </div>
+            <div> 
+          <Shartproduct></Shartproduct>
             </div>
         </main>
     );
