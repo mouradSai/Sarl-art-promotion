@@ -167,6 +167,14 @@ const handleGeneratePDF = async () => {
         showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
     }
 };
+
+//suppression d'une ligne d'enregestrement tableau
+const handleDelete = (index) => {
+    // Crée un nouveau tableau en filtrant l'élément à l'index spécifié
+    const newCommandes = commandes.filter((item, i) => i !== index);
+    setCommandes(newCommandes);
+};
+
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
@@ -249,6 +257,8 @@ const handleGeneratePDF = async () => {
                                 <th>Quantité</th>
                                 <th>Prix Unitaire</th>
                                 <th>Total Ligne</th>
+                                <th>Action</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -258,6 +268,9 @@ const handleGeneratePDF = async () => {
                                     <td>{item.quantity}</td>
                                     <td>{item.prixUnitaire},00 DA</td>
                                     <td>{item.totalLigne} DA</td>
+                                    <td>
+                            <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

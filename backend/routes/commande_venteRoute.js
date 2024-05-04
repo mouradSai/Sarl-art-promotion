@@ -4,6 +4,7 @@ const CommandeVente = require('../models/commande_vente');
 const Client = require('../models/client'); // Import correct du modèle Client
 const Product = require('../models/product'); // Import correct du modèle Product
 
+
 // Route pour créer une commande de vente
 router.post('/', async (req, res) => {
     try {
@@ -15,21 +16,26 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'Client non trouvé' });
         }
 
-        // Convertir les noms de produits en IDs, calculer les totaux et mettre à jour les quantités de stock
-        const productDetails = await Promise.all(produits.map(async ({ product_name, quantity, prixUnitaire }) => {
+        // Convertir les noms de produits en IDs et vérifier la disponibilité
+        const productDetails = [];
+        for (const { product_name, quantity, prixUnitaire } of produits) {
             const product = await Product.findOne({ name: product_name });
             if (!product) {
-                throw new Error(`Produit ${product_name} non trouvé`);
+                return res.status(404).json({ message: `Produit ${product_name} non trouvé` });
             }
-            const updatedQuantity = product.quantity - quantity; // Quantité déduite pour une vente
-            if (updatedQuantity < 0) {
-                throw new Error(`Quantité insuffisante pour ${product_name}`);
+            if (quantity > product.quantity) {
+                return res.status(400).json({
+                    message: `Quantité entrer de ${product_name} est supérieure à celle disponible en stock qui est : ${ product.quantity}`,
+                    quantiteDisponible: product.quantity
+                });
             }
+
+            const updatedQuantity = product.quantity - quantity;
             await Product.findByIdAndUpdate(product._id, { $set: { quantity: updatedQuantity } });
 
             const totalLigne = quantity * prixUnitaire;
-            return { product: product._id, quantity, prixUnitaire, totalLigne };
-        }));
+            productDetails.push({ product: product._id, quantity, prixUnitaire, totalLigne });
+        }
 
         const totalCommande = productDetails.reduce((acc, item) => acc + item.totalLigne, 0);
 
