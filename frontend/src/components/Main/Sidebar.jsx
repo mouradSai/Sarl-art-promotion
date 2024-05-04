@@ -28,18 +28,20 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       <ul className='sidebar-list'>
 
         
-      {isSuperadmin && (
-      <Link to="/users" className="sidebar-link"> 
-      <li className='sidebar-list-item'>
-          <BsPersonCircle className='icon'/> Utilisateurs
-        </li>
-      </Link>)}
+    
 
       <Link to="/stock" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsFillGrid1X2Fill className='icon'/> Dashbord
         </li>
       </Link>
+      
+      {isSuperadmin && (
+      <Link to="/users" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+          <BsPersonCircle className='icon'/> Utilisateurs
+        </li>
+      </Link>)}
 
       <Link to="/orderpage" className="sidebar-link">
         <li className='sidebar-list-item'>
