@@ -110,8 +110,16 @@ function App() {
         setAlert({ message, type });
     };
     const handleGeneratePDF = async () => {
-        if (commandes.length === 0 || !codeCommande || !providerName) {
-            showAlert('Veuillez ajouter des produits et remplir tous les champs de commande.');
+        if (commandes.length === 0) {
+            showAlert('Veuillez ajouter des produits à la commande.');
+            return;
+        }
+        if (!codeCommande) {
+            showAlert('Veuillez entrer un code de commande.');
+            return;
+        }
+        if (!providerName) {
+            showAlert('Veuillez entrer le nom du fournisseur.');
             return;
         }
     
@@ -126,31 +134,33 @@ function App() {
         try {
             const response = await fetch('http://localhost:8080/generatePdfcommande', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(orderDetails)
             });
     
             if (!response.ok) {
-                throw new Error('Erreur lors de la génération du PDF');
+                throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
             }
     
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'bon-de-commande.pdf');
+            link.setAttribute('download', `bon-de-commande-${codeCommande}.pdf`);
             document.body.appendChild(link);
             link.click();
-            link.parentNode.removeChild(link);
+            document.body.removeChild(link);
         } catch (error) {
             console.error('Erreur lors de la génération du PDF :', error);
             showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
         }
     };
     
+
+
+    
     return (
+        
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
