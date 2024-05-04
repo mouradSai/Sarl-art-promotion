@@ -3,11 +3,25 @@
     font-family: 'Arial, sans-serif';
     margin: 20px;
     color: #333;
+
+}
+.appContainer h2{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 35px;
+    background-color: #b01212;
+    color: white; /* Couleur de texte sombre */
+    text-align: center;
+   
 }
 
 .visualizationContainer {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 20px;
 }
 
