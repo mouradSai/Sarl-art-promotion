@@ -11,10 +11,23 @@ function Home() {
     const [commandesCount, setCommandesCount] = useState(0);
     const [commandesAchatCount, setCommandesAchatCount] = useState(0);
     const [commandesVenteCount, setCommandesVenteCount] = useState(0); // Nouveau state pour le nombre de commandes de vente
+    const [categoriescount, setCategoriesCount] = useState(0); // Nouveau state pour le nombre de commandes de vente
+    const [entrepotscount, setEntrepotsCount] = useState(0); // Nouveau state pour le nombre de commandes de vente
+
 
     useEffect(() => {
         const fetchCounts = async () => {
             try {
+                // Fetching categorie count
+                const entrepotsResponse = await fetch('http://localhost:8080/entrepots');
+                const entrepotsData = await entrepotsResponse.json();
+                setEntrepotsCount(entrepotsData.count);
+    
+                // Fetching categorie count
+                const categoriesResponse = await fetch('http://localhost:8080/categories');
+                const categoriesData = await categoriesResponse.json();
+                setCategoriesCount(categoriesData.count);
+    
                 // Fetching products count
                 const productsResponse = await fetch('http://localhost:8080/products');
                 const productsData = await productsResponse.json();
@@ -91,6 +104,24 @@ function Home() {
                             <BsPeopleFill className='card_icon'/>
                         </div>
                         <h1>{customersCount}</h1>
+                    </Link> 
+                </div>
+                <div className='card'>
+                    <Link to="/categorie" className="sidebar-link"> 
+                        <div className='card-inner'>
+                            <h3>Categories</h3>
+                            <BsPeopleFill className='card_icon'/>
+                        </div>
+                        <h1>{categoriescount}</h1>
+                    </Link> 
+                </div>
+                <div className='card'>
+                    <Link to="/entrepot" className="sidebar-link"> 
+                        <div className='card-inner'>
+                            <h3>Entrepots</h3>
+                            <BsPeopleFill className='card_icon'/>
+                        </div>
+                        <h1>{entrepotscount}</h1>
                     </Link> 
                 </div>
 
