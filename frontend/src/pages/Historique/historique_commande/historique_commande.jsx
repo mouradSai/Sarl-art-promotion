@@ -3,7 +3,6 @@ import axios from 'axios';
 import Sidebar from '../../../components/Main/Sidebar';
 import Header from '../../../components/Main/Header';
 import CustomAlert from '../../../components/costumeAlert/costumeAlert';
-
 function App() {
     const [commandes, setCommandes] = useState([]);
     const [filteredCommandes, setFilteredCommandes] = useState([]);
@@ -64,14 +63,56 @@ function App() {
         setSelectedCommande(commande);
     };
 
+    const handleGeneratePDF = async () => {
+        if (!selectedCommande) {
+            showAlert('Please select a commande to generate a PDF.');
+            return;
+        }
+        if (!selectedCommande.produits || selectedCommande.produits.length === 0) {
+            showAlert('No products in the commande.');
+            return;
+        }
+    
+        const orderDetails = {
+            providerName: selectedCommande.provider_id ? selectedCommande.provider_id.name : '',
+            codeCommande: selectedCommande.code_commande,
+            date: new Date(selectedCommande.date_commande).toISOString().slice(0, 10),
+            observation_com: selectedCommande.observation,
+            commandes: selectedCommande.produits.map(prod => ({
+                product_name: prod.product ? prod.product.name : 'Product name not available',
+                quantity: prod.quantity
+            }))
+        };
+    
+        try {
+            const response = await fetch('http://localhost:8080/generatePdfcommande', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderDetails)
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
+            }
+    
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `bon-de-commande-${orderDetails.codeCommande}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Erreur lors de la génération du PDF :', error);
+            showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
+        }
+    };
+    
     // Pagination Logic
     const indexOfLastCommande = currentPage * commandesPerPage;
     const indexOfFirstCommande = indexOfLastCommande - commandesPerPage;
     const currentCommandes = filteredCommandes.slice(indexOfFirstCommande, indexOfLastCommande);
-
-    const handlePageChange = (pageOffset) => {
-        setCurrentPage(prevPage => prevPage + pageOffset);
-    };
 
     return (
         <div className="grid-container">
@@ -138,6 +179,7 @@ function App() {
                                     ))}
                                 </tbody>
                             </table>
+                            <button onClick={handleGeneratePDF}>Download PDF</button>
                         </div>
                     </div>
                 )}
