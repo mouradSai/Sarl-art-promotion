@@ -266,6 +266,9 @@ body {
   .card:nth-child(7) {
     background-color: #2978df;
   }
+  .card:nth-child(8) {
+    background-color: #69df29;
+  }
   
   .card-inner {
     display: flex;
