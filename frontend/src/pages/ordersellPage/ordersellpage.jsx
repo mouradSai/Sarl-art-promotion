@@ -206,7 +206,6 @@ const handleDelete = (index) => {
                     </div>
                     <div className='bloc3'>
                         <button onClick={handleAddProduct}> + Ajouter Produit</button>
-                        <button className='print-button' onClick={handleValidateOrder}>Valider</button>
                     </div>
                 </div>
                 {showPopup && (
@@ -275,6 +274,7 @@ const handleDelete = (index) => {
                             ))}
                         </tbody>
                     </table>
+                    <button className='print-button' onClick={handleValidateOrder}>Valider</button>
                 </div>
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

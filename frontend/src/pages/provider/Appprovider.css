@@ -203,14 +203,18 @@ tr:hover {
 }
 
 .pagination button {
+  
+  font-size: 18px;
   background-color: #007bff; /* Bleu */
+  font-weight: 600;
   color: #fff; /* Texte blanc */
-  padding: 8px 16px;
+  padding: 10px 18px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   margin: 0 4px; /* Espacement entre les boutons de pagination */
   transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
+  margin-bottom: 40px;
 }
 
 .pagination button:hover {
@@ -220,6 +224,16 @@ tr:hover {
 .pagination button:disabled {
   background-color: #ddd; /* Gris pour les boutons désactivés */
   cursor: not-allowed; /* Curseur non disponible pour les boutons désactivés */
+}
+
+.pagination span{
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 20px;
+    font-weight: 500;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 7px;
+
 }
 
 

@@ -130,10 +130,10 @@ function App() {
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Product Name</th>
-                                        <th>Quantity</th>
-                                        <th>Unit Price</th>
-                                        <th>Total Line</th>
+                                        <th className='titlesHis'>Product Name</th>
+                                        <th className='titlesHis'>Quantity</th>
+                                        <th className='titlesHis'>Unit Price</th>
+                                        <th className='titlesHis'>Total Line</th>
                                     </tr>
                                 </thead>
                                 <tbody>

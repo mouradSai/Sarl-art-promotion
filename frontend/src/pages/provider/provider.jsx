@@ -264,9 +264,9 @@ function App() {
                             </tbody>
                         </table>
                         <div className="pagination">
-                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Précédent</button>
+                            <button className='next-prev-btn' disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Précédent</button>
                             <span>{currentPage}</span>
-                            <button disabled={currentPage === Math.ceil(providers.length / providersPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant &gt;</button>
+                            <button className='next-prev-btn' disabled={currentPage === Math.ceil(providers.length / providersPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant &gt;</button>
                         </div>
                     </>
                 )}

@@ -176,15 +176,22 @@ const handleDelete = (index) => {
                 <div className="form-container">
                 <div className='bloc'>
                     <div className='bloc1'>
-                        <select value={providerName} onChange={(e) => setProviderName(e.target.value)} disabled={isProviderDisabled}>
-                            <option value="">Sélectionnez un fournisseur</option>
-                            {providers.map(provider => (
-                                <option key={provider.id} value={provider.name}>{provider.name}</option>
+
+                        <select value={productName} onChange={(e) => setProductName(e.target.value)}>
+                            <option value="">Sélectionnez un produit</option>
+                            {products.map(product => (
+                                <option key={product.id} value={product.name}>{product.name}</option>
                             ))}
                         </select>
-                        <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
-                        <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
+                        <input type="text"  placeholder="Gravier 8/15" />
+                        <input type="text"  placeholder="Gravier 15/25" />
+                        <input type="text"  placeholder="Sable 04" />
+                        <input type="text"  placeholder="BOUSSAADA" />
+                        <input type="text"  placeholder="Ciment" />
+                        <input type="text"  placeholder="Adjuvant" />
+                        <input type="text"  placeholder="Eau" />
                     </div>
+
                     <div className='bloc2'>
                         <select value={productName} onChange={(e) => setProductName(e.target.value)}>
                             <option value="">Sélectionnez un produit</option>
@@ -198,7 +205,6 @@ const handleDelete = (index) => {
 
                     <div className='bloc3'>
                         <button onClick={handleAddProduct}>+ Ajouter Produit</button>
-                         <button className='print-button' onClick={handleValidateOrder}>Valider</button>
                     </div>
 
                 </div>
@@ -227,7 +233,7 @@ const handleDelete = (index) => {
                             </tbody>
                         </table>
                         <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
-                        <button className='print-button' onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                        <button className='print-button' onClick={handleFinalizeOrder}>Finaliser la Production</button>
                         <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
 
                     </div>
@@ -248,12 +254,13 @@ const handleDelete = (index) => {
                                     <td>{item.product_name}</td>
                                     <td>{item.quantity}</td>
                                     <td>
-                            <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
+                                 <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+                    <button className='print-button' onClick={handleValidateOrder}>Valider</button>
                 </div>
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>
