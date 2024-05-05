@@ -22,6 +22,7 @@ const app = express();
 app.use(express.json());
 
 
+
 app.get('/', (req, res) => {
     console.log(req)
     return res.status(234).send('bonjour ')
@@ -58,5 +59,9 @@ app.use ('/generatePdfvente',generatePdfvente);
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
+
+
+
+
 
 

@@ -32,7 +32,7 @@ import Historique_commande_vente from "./pages/Historique/historique_commande_ve
 
 
 //Import pages production 
-import Production_beton from "./pages/production/production_beton/production_beton";
+import Production_beton from "./pages/production/production_beton";
 
 //protection de routes 
 import ProtectedRoute from "./components/protection/ProtectedRoute";

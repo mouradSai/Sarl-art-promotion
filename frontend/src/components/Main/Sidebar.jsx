@@ -19,10 +19,15 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
   return (
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
-        <div className='sidebar-brand'>
-        <img src={logowhite} alt='Logo' className='sidebar-logo' />
-          <div className="sidebar-name">Sarl Art Groupe</div>
-        </div>
+          <div className='sidebar-brand'>
+
+              <Link to="/">
+              <img src={logowhite} alt='Logo' className='sidebar-logo' />
+              </Link>
+
+              <div className="sidebar-name">Sarl Art Groupe</div>
+
+          </div>
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>
       </div>
       <ul className='sidebar-list'>
@@ -60,18 +65,6 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <FaMoneyBillTransfer className='icon'/>  Vente 
         </li>
         </Link>
-
-     {/*<Link to="/buy" className="sidebar-link"> 
-        <li className='sidebar-list-item'>
-            <BsCashStack className='icon'/> Achats
-        </li>
-       </Link>
-
-      <Link to="/sell" className="sidebar-link"> 
-        <li className='sidebar-list-item'>
-            <FaMoneyBillTransfer className='icon'/> Ventes
-        </li>
-        </Link>*/}
 
         <Link to="/provider" className="sidebar-link">
         <li className='sidebar-list-item'>

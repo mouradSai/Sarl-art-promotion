@@ -166,8 +166,8 @@ function App() {
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Product Name</th>
-                                        <th>Quantity</th>
+                                        <th className='titlesHis'>Product Name</th>
+                                        <th className='titlesHis'>Quantity</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -92,7 +92,7 @@ button:hover {
 }
 
 .popup th {
-    background-color: #f2f2f2;
+    color: #fdfdfd;
 }
 
 .popup tr:nth-child(even) {
