@@ -213,11 +213,11 @@ function App() {
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
                             <h2>Create New Client</h2>
                             <form onSubmit={handleSubmit}>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nom" />
                                 <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} placeholder="Prenom" />
-                                <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+                                <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Adresse" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone Number" />
+                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Numero" />
                                 <button className="create-button" type="submit">Save</button>
                                 <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
                             </form>
@@ -229,7 +229,7 @@ function App() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>NOM</th>
+                                    <th>Nom</th>
                                     <th>Prenom</th>
                                     <th>Adresse</th>
                                     <th>Description</th>
@@ -271,11 +271,11 @@ function App() {
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedClient(null)}>&times;</span>
                             <h2>Client Details</h2>
-                            <p>Name: {selectedClient.name}</p>
+                            <p>Nom: {selectedClient.name}</p>
                             <p>Prenom: {selectedClient.prenom}</p>
-                            <p>Address: {selectedClient.address}</p>
+                            <p>Adresse: {selectedClient.address}</p>
                             <p>Description: {selectedClient.description}</p>
-                            <p>Phone Number: {selectedClient.phoneNumber}</p>
+                            <p>Numero: {selectedClient.phoneNumber}</p>
                             <button className='delet-button' onClick={() => setSelectedClient(null)}>Cancel</button>
                         </div>
                     </div>
