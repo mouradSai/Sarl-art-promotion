@@ -23,6 +23,9 @@ const Login = () => {
             
             // Stockage du rôle dans le localStorage
             localStorage.setItem("role", res.data.role);
+
+             // Stockage du rôle dans le localStorage
+            localStorage.setItem("firstName", res.data.firstName);
             
             window.location = "/";
         } catch (error) {

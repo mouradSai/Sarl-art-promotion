@@ -178,27 +178,34 @@ const handleDelete = (index) => {
                     <div className='bloc1'>
 
                         <select value={productName} onChange={(e) => setProductName(e.target.value)}>
-                            <option value="">Sélectionnez un produit</option>
+                            <option value="">Sélectionnez un produit finie</option>
+                            {products.map(product => (
+                                <option key={product.id} value={product.name}>{product.name}</option>
+                            ))}
+                        </select>                      
+                        
+                        <select value={productName} onChange={(e) => setProductName(e.target.value)}>
+                            <option value="">Sélectionnez un produit finie</option>
                             {products.map(product => (
                                 <option key={product.id} value={product.name}>{product.name}</option>
                             ))}
                         </select>
-                        <input type="text"  placeholder="Gravier 8/15" />
+                        {/* <input type="text"  placeholder="Gravier 8/15" />
                         <input type="text"  placeholder="Gravier 15/25" />
                         <input type="text"  placeholder="Sable 04" />
                         <input type="text"  placeholder="BOUSSAADA" />
                         <input type="text"  placeholder="Ciment" />
                         <input type="text"  placeholder="Adjuvant" />
-                        <input type="text"  placeholder="Eau" />
+                        <input type="text"  placeholder="Eau" /> */}
                     </div>
 
                     <div className='bloc2'>
-                        <select value={productName} onChange={(e) => setProductName(e.target.value)}>
+                        {/* <select value={productName} onChange={(e) => setProductName(e.target.value)}>
                             <option value="">Sélectionnez un produit</option>
                             {products.map(product => (
                                 <option key={product.id} value={product.name}>{product.name}</option>
                             ))}
-                        </select>
+                        </select> */}
                         <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
                         </div>
                 </div>

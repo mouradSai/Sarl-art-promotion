@@ -23,11 +23,15 @@ router.post("/", async (req, res) => {
 		// Récupération du rôle de l'utilisateur
 		const role = user.role;
 
+		// Récupération du rôle de l'utilisateur
+		const firstName = user.firstName;
+
+
 		// Génération du jeton d'authentification
 		const token = user.generateAuthToken();
 
 		// Envoi de la réponse avec le token et le rôle
-		res.status(200).send({ data: { token, role }, message: "logged in successfully" });
+		res.status(200).send({ data: { token, role, firstName }, message: "logged in successfully" });
 	} catch (error) {
 		res.status(500).send({ message: "Internal Server " });
 	}

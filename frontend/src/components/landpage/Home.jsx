@@ -7,7 +7,7 @@ import "./landpage.css";
 
 const Home = () => {
   const userRole = localStorage.getItem('role'); // Récupérer le rôle de l'utilisateur depuis le localStorage
-
+  
   // Vérifier si l'utilisateur a le rôle de super administrateur
   const isSuperadmin = userRole === 'superadmin' || userRole === 'admin';
 
