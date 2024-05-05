@@ -62,6 +62,10 @@ function App() {
     const handleView = (commande) => {
         setSelectedCommande(commande);
     };
+    
+    const handlePageChange = (pageOffset) => {
+        setCurrentPage(prevPage => prevPage + pageOffset);
+    };
 
     const handleGeneratePDF = async () => {
         if (!selectedCommande) {
@@ -142,8 +146,8 @@ function App() {
                                 <td>{commande.provider_id ? commande.provider_id.name : 'No provider'}</td>
                                 <td>{new Date(commande.date_commande).toISOString().slice(0, 10)}</td>
                                 <td>
-                                    <button className='view-button' onClick={() => handleView(commande)}>View</button>
-                                    <button className='delete-button' onClick={() => handleDelete(commande._id)}>Delete</button>
+                                    <button className='view-button' onClick={() => handleView(commande)}>Détails</button>
+                                    <button className='delete-button' onClick={() => handleDelete(commande._id)}>Supprimer</button>
                                 </td>
                             </tr>
                         ))}

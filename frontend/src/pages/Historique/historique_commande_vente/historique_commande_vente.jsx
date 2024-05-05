@@ -146,8 +146,8 @@ function App() {
                                 <td>{new Date(commande.date_commande).toISOString().slice(0, 10)}</td>
                                 <td>{commande.totalCommande.toFixed(2)} DA</td>
                                 <td>
-                                    <button className='view-button' onClick={() => handleView(commande)}>View</button>
-                                    <button className='delete-button' onClick={() => handleDelete(commande._id)}>Delete</button>
+                                    <button className='view-button' onClick={() => handleView(commande)}>Détails</button>
+                                    <button className='delete-button' onClick={() => handleDelete(commande._id)}>Supprimer</button>
                                 </td>
                             </tr>
                         ))}

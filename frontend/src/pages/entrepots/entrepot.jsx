@@ -211,10 +211,10 @@ function App() {
                                         <td>{entrepot.name}</td>
                                         <td>{entrepot.IsActive ? 'Yes' : 'No'}</td>
                                         <td>
-                                            <button className='view-button' onClick={() => handleView(entrepot)}>View</button>
-                                            <button className='edit-button' onClick={() => handleEdit(entrepot)}>Edit</button>
+                                            <button className='view-button' onClick={() => handleView(entrepot)}>Voir</button>
+                                            <button className='edit-button' onClick={() => handleEdit(entrepot)}>Modifier</button>
                                             <button className='action-button delete-button' onClick={() => handleDelete(entrepot._id, entrepot.IsActive)}>
-                                                {entrepot.IsActive ? 'Disable' : 'Enable'}
+                                                {entrepot.IsActive ? 'Désactiver' : 'Activer'}
                                             </button>
                                         </td>
                                     </tr>

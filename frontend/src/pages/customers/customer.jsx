@@ -248,23 +248,23 @@ function App() {
                                         <td>{client.phoneNumber}</td>
                                         <td>{client.IsActive ? 'Yes' : 'No'}</td> {/* Affichage de la propriété IsActive */}
                                         <td>
-                                            <button className='view-button' onClick={() => handleView(client)}>View</button>
-                                            <button className='edit-button' onClick={() => handleEdit(client)}>Edit</button>
-                                            <button className='delete-button' onClick={() => toggleActiveStatus(client._id, client.IsActive)}>{client.IsActive ? 'Disable' : 'Enable'}</button>
+                                            <button className='view-button' onClick={() => handleView(client)}>Détails</button>
+                                            <button className='edit-button' onClick={() => handleEdit(client)}>Modifier</button>
+                                            <button className='delete-button' onClick={() => toggleActiveStatus(client._id, client.IsActive)}>{client.IsActive ? 'Désactiver' : 'Activer'}</button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                         <div className="pagination">
-                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
+                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Précédent</button>
                             <span>{currentPage}</span>
-                            <button disabled={currentPage === Math.ceil(clients.length / clientsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                            <button disabled={currentPage === Math.ceil(clients.length / clientsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant &gt;</button>
                         </div>
                     </>
                 )}
                 {filterClients(clients, searchText).length === 0 && (
-                    <p>No clients found.</p>
+                    <p>Aucun client trouver.</p>
                 )}
                 {selectedClient && (
                     <div className="popup">
@@ -275,7 +275,11 @@ function App() {
                             <p>Prenom: {selectedClient.prenom}</p>
                             <p>Adresse: {selectedClient.address}</p>
                             <p>Description: {selectedClient.description}</p>
-                            <p>Numero: {selectedClient.phoneNumber}</p>
+                            {selectedClient.phoneNumber.length >= 10 ? (
+                                <p>Numéro: {selectedClient.phoneNumber}</p>
+                            ) : (
+                                <p>Numéro de téléphone invalide</p>
+                            )}
                             <button className='delet-button' onClick={() => setSelectedClient(null)}>Cancel</button>
                         </div>
                     </div>
