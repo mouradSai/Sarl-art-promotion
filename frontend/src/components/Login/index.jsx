@@ -43,7 +43,7 @@ const Login = () => {
                     <form className={styles.form_container} onSubmit={handleSubmit}>
                         <img src={logo} alt="Logo" className={styles.logo} />
 
-                        <h1>Connexion à votre compte</h1>
+                        <h1 className="titlelog">Connexion a votre compte</h1>
                         <input
                             type="email"
                             placeholder="Email"

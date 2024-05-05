@@ -90,7 +90,13 @@
 	font-weight: bold;
 	font-size: 14px;
 	cursor: pointer;
+	color: #1D2634
 }
+
+.white_btn:hover{
+	color: white;
+}
+
 
 .red_btn {
 	background-color: #E80B17;
