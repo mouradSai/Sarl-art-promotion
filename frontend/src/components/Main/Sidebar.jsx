@@ -83,17 +83,12 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <BsBox2Fill className='icon'/> Produits
         </li>
         </Link>
-        <Link to="/credit_achat" className="sidebar-link">
+        <Link to="/credit" className="sidebar-link">
         <li className='sidebar-list-item'>
-            <BsFileBarGraphFill  className='icon'/> Credit achat
+            <BsFileBarGraphFill  className='icon'/> Credits
         </li>
         </Link>
-        <Link to="/credit_vente" className="sidebar-link">
-        <li className='sidebar-list-item'>
-            <BsFileBarGraphFill  className='icon'/> Credit vente
-        </li>
-        </Link>
-        
+
         <Link to="/historique" className="sidebar-link">
         <li className='sidebar-list-item'>
             <BsFileBarGraphFill  className='icon'/> Historiques

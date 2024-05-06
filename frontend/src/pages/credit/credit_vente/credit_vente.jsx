@@ -98,7 +98,7 @@ function App() {
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className="container">
-                <h1 className="title-all">Liste des Crédits</h1>
+                <h1 className="title-all">Crédits des ventes</h1>
                 <input
                     type="text"
                     placeholder="Search credits..."

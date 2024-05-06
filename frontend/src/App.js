@@ -13,10 +13,6 @@ import Landpage from "./components/landpage/Home";
 import Product from "./pages/Products/product";
 import Customer from"./pages/customers/customer";
 import Provider from "./pages/provider/provider";
-{/*import Buy from "./pages/buy/buy";
-import Sell from "./pages/sell/sell";
-import Historiqueachat from "./pages/Historique/historiqueAchat/historiqueachat";
-import Historiquevente from "./pages/Historique/historiquevente/historiquevente";*/}
 import Historique from "./pages/Historique/historique"
 import Categorie from "./pages/categorie/categorie";
 import Entrepot from "./pages/entrepots/entrepot";
@@ -30,6 +26,7 @@ import Ordersellpage from "./pages/ordersellPage/ordersellpage";
 //pages credit de achat 
 import Credit_achat from "./pages/credit/credit_achat/credit_achat";
 import Credit_vente from "./pages/credit/credit_vente/credit_vente"
+import Credit from "./pages/credit/credit"
 //Historique_commande stock
 import Historique_commande from "./pages/Historique/historique_commande/historique_commande"; 
 import Historique_commande_achat from "./pages/Historique/historique-commande_achat/historique_commande_achat";
@@ -215,6 +212,20 @@ function App() {
                     )
                 }
 			  />
+
+            <Route path="/credit" element={
+		             localStorage.getItem("token") && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ? (
+
+						<ProtectedRoute>
+							<Credit />
+						</ProtectedRoute> ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+			  />
+
+
+
             {/* Ajoutez la vérification du rôle pour l'accès à la route Users */}
             <Route path="/users" element={
                     localStorage.getItem("token") && localStorage.getItem("role") === "superadmin"  ? (
@@ -237,7 +248,6 @@ function App() {
                     )
                 }
             />  
-            
 
 
 		<Route path="/signup" element={<Signup />} />

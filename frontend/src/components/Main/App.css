@@ -349,7 +349,100 @@ body {
     margin-right: 10px;
   }
   
-  
+
+
+/* Barre deroulante du profil et le profil */
+
+.profile-dropdown {
+  position: relative;
+  padding: 9px 12px; /* Ajustez le rembourrage selon vos préférences */
+  color: #ffffff;
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 600;
+  font-size: 18px; /* Ajustez la taille de la police selon vos préférences */
+  background-color: #bf0909; /* Couleur de fond */
+  cursor: pointer; /* Curseur de souris */
+  border-radius: 10px;
+}
+
+.profile-dropdown:hover {
+  background-color: white; /* Couleur de fond */
+  color: #bf0909;
+  border: 1px solid #bf0909;;
+}
+
+/* Style pour l'icône et le nom de l'utilisateur */
+.profile-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.leftione {
+  margin-left: 5px;
+  text-transform:capitalize;
+
+}
+.lefti {
+  margin-left: 20px;
+  margin-right: 10px;
+  text-transform:capitalize;
+}
+
+/* Style pour le dropdown lorsqu'il est ouvert */
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+/* Style pour les éléments du dropdown */
+.dropdown-content button {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  text-align: left;
+  border: none;
+  background-color: #ffffff;
+  cursor: pointer;
+  color: #bf0909; 
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 600;
+  font-size: 18px; /* Ajustez la taille de la police selon vos préférences */
+/* Coins arrondis */
+}
+
+.dropdown-content button:hover {
+  color: #bf0909; 
+  background-color: #ffffff;
+}
+
+/* Style pour l'icône du bouton de déconnexion */
+.dropdown-content .icon-head {
+  margin-bottom: 2.5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   /* End Main  */
   
   

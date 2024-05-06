@@ -5,7 +5,8 @@
 
 .dashboard-grid {
     display: flex;
-    justify-content: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     gap: 20px;
     margin-top: 20px;
@@ -28,6 +29,7 @@
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
     background-color: rgb(255, 255, 255);
+    margin-bottom: 40px;
     box-shadow: 2px 2px 20px rgba(0, 0, 0, 2);
 }
 
