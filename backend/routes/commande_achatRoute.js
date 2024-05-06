@@ -5,11 +5,9 @@ const Provider = require('../models/provider'); // Import correct du modèle Pro
 const Product = require('../models/product'); // Import correct du modèle Product
 
 
-
-// Route pour créer une commande d'achat
 router.post('/', async (req, res) => {
     try {
-        const { code_commande, provider_name, date_commande, observation, produits } = req.body;
+        const { code_commande, provider_name, date_commande, observation, produits, versement, modePaiement } = req.body;
 
         // Trouver l'ID du fournisseur à partir de son nom
         const provider = await Provider.findOne({ name: provider_name });
@@ -17,7 +15,7 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'Fournisseur non trouvé' });
         }
 
-        // Convertir les noms de produits en IDs, calculer les totaux et mettre à jour les quantités de stock
+        // Convertir les noms de produits en IDs et calculer les totaux
         const productDetails = await Promise.all(produits.map(async ({ product_name, quantity, prixUnitaire }) => {
             const product = await Product.findOne({ name: product_name });
             if (!product) {
@@ -38,7 +36,9 @@ router.post('/', async (req, res) => {
             date_commande: date_commande || new Date(),
             observation,
             produits: productDetails,
-            totalCommande
+            totalCommande,
+            versement, // Add versement to the document
+            modePaiement // Add modePaiement to the document
         });
 
         const savedCommandeAchat = await newCommandeAchat.save();
@@ -49,7 +49,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = router;
 // Route pour récupérer toutes les commandes d'achat
 router.get('/', async (req, res) => {
     try {
@@ -78,6 +77,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Erreur lors de la récupération des commandes d achat', error: error.message });
     }
 });
+
 router.put('/:id', async (req, res) => {
     try {
         const { produits, ...otherData } = req.body;

@@ -25,6 +25,10 @@ import Orderbuypage from "./pages/orderbuyPage/orderbuypage";
 import Users from "./pages/users/users";
 import Ordersellpage from "./pages/ordersellPage/ordersellpage";
 
+
+
+//pages credit de achat 
+import Credit_achat from "./pages/credit_achat/credit_achat";
 //Historique_commande stock
 import Historique_commande from "./pages/Historique/historique_commande/historique_commande"; 
 import Historique_commande_achat from "./pages/Historique/historique-commande_achat/historique_commande_achat";
@@ -166,6 +170,18 @@ function App() {
                     )
                 }
 			  />
+
+                {/* Ajoutez la vérification du rôle pour l'accès à la route stock */}
+		    <Route path="/credit_achat" element={
+		             localStorage.getItem("token") && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ? (
+
+						<ProtectedRoute>
+							<Credit_achat />
+						</ProtectedRoute> ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+			  />
             {/* Ajoutez la vérification du rôle pour l'accès à la route Users */}
             <Route path="/users" element={
                     localStorage.getItem("token") && localStorage.getItem("role") === "superadmin"  ? (
@@ -188,6 +204,7 @@ function App() {
                     )
                 }
             />  
+            
 
 
 		<Route path="/signup" element={<Signup />} />

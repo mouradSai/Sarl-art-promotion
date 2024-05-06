@@ -20,6 +20,10 @@ function App() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [alert, setAlert] = useState(null);
     const [isProviderDisabled, setIsProviderDisabled] = useState(false);
+    const [versement, setVersement] = useState('');
+const [modePaiement, setModePaiement] = useState('');
+const [showFinalizePopup, setShowFinalizePopup] = useState(false);
+
 
     useEffect(() => {
         const fetchProviders = async () => {
@@ -51,7 +55,15 @@ function App() {
         fetchProviders();
         fetchProducts();
     }, []);
-
+    const handleShowFinalizePopup = () => {
+        if (commandes.length === 0) {
+            showAlert('Veuillez ajouter des produits à la commande.');
+            return;
+        }
+        setShowPopup(false);
+        setShowFinalizePopup(true);
+    };
+    
     const handleAddProduct = () => {
         if (!productName || !quantity || !prixUnitaire || !providerName || !codeCommande) {
             showAlert('Veuillez remplir tous les champs du produit, du fournisseur, du prix unitaire et du code de commande.');
@@ -76,33 +88,32 @@ function App() {
     };
 
     const handleFinalizeOrder = async () => {
-        if (commandes.length === 0 || !codeCommande || !providerName) {
-            showAlert('Veuillez ajouter des produits et remplir tous les champs de commande.');
-            return;
-        }
-
         try {
             const response = await axios.post('http://localhost:8080/commandes_achat', {
                 code_commande: codeCommande,
                 provider_name: providerName,
                 date_commande: date,
                 observation: observation_com,
-                produits: commandes
+                produits: commandes,
+                versement,
+                modePaiement
             });
-
+    
             showAlert('Commande finalisée avec succès : ' + response.data.code_commande);
             setCommandes([]);
             setCodeCommande('');
             setObservationCom('');
             setProviderName('');
-            setShowPopup(false);
-
+            setVersement('');
+            setModePaiement('');
+            setShowFinalizePopup(false);
             setIsProviderDisabled(false);
         } catch (error) {
             console.error('Erreur complète:', error);
             showAlert('Erreur lors de la finalisation de la commande : ' + (error.response ? error.response.data.message : error.message));
         }
     };
+    
 
     const handleValidateOrder = () => {
         setShowPopup(true);
@@ -247,12 +258,35 @@ const handleDelete = (index) => {
                         </div>
                         <div className="popup-buttons">
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
-                            <button className='print-button' onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                            <button className='next-button' onClick={handleShowFinalizePopup}>Suivant</button>
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
 
                         </div>
                     </div>
                 )}
+                {showFinalizePopup && (
+    <div className="popup">
+        <h2>Détails de Paiement</h2>
+        <div>
+            <label>Mode de Paiement:</label>
+            <select value={modePaiement} onChange={(e) => setModePaiement(e.target.value)}>
+                <option value="">Choisir un mode de paiement</option>
+                <option value="chéque">Chèque</option>
+                <option value="espèce">Espèce</option>
+                <option value="crédit">Crédit</option>
+            </select>
+        </div>
+        <div>
+            <label>Versement (facultatif):</label>
+            <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
+        </div>
+        <div className="popup-buttons">
+            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
+            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+        </div>
+    </div>
+)}
+
                 <div>
                     <h2>Produits ajoutés :</h2>
                     <table>
