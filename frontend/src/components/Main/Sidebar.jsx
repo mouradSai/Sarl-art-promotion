@@ -88,6 +88,12 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <BsFileBarGraphFill  className='icon'/> Credit achat
         </li>
         </Link>
+        <Link to="/credit_vente" className="sidebar-link">
+        <li className='sidebar-list-item'>
+            <BsFileBarGraphFill  className='icon'/> Credit vente
+        </li>
+        </Link>
+        
         <Link to="/historique" className="sidebar-link">
         <li className='sidebar-list-item'>
             <BsFileBarGraphFill  className='icon'/> Historiques

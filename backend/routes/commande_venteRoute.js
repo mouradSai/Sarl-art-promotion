@@ -8,7 +8,7 @@ const Product = require('../models/product'); // Import correct du modèle Produ
 // Route pour créer une commande de vente
 router.post('/', async (req, res) => {
     try {
-        const { code_commande, client_name, date_commande, observation, produits } = req.body;
+        const { code_commande, client_name, date_commande, observation, produits ,versement, modePaiement } = req.body;
 
         // Trouver l'ID du client à partir de son nom
         const client = await Client.findOne({ name: client_name });
@@ -45,7 +45,9 @@ router.post('/', async (req, res) => {
             date_commande: date_commande || new Date(),
             observation,
             produits: productDetails,
-            totalCommande
+            totalCommande,
+            versement, // Add versement to the document
+            modePaiement // Add modePaiement to the document
         });
 
         const savedCommandeVente = await newCommandeVente.save();

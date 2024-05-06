@@ -19,6 +19,9 @@ function App() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [alert, setAlert] = useState(null);
     const [isClientDisabled, setIsClientDisabled] = useState(false);
+    const [versement, setVersement] = useState('');
+    const [modePaiement, setModePaiement] = useState('');
+    const [showFinalizePopup, setShowFinalizePopup] = useState(false);
 
     useEffect(() => {
         const fetchClients = async () => {
@@ -73,7 +76,14 @@ function App() {
 
         setIsClientDisabled(true);
     };
-
+    const handleShowFinalizePopup = () => {
+        if (commandes.length === 0) {
+            showAlert('Veuillez ajouter des produits à la commande.');
+            return;
+        }
+        setShowPopup(false);
+        setShowFinalizePopup(true);
+    };
     const handleFinalizeOrder = async () => {
         if (commandes.length === 0 || !codeCommande || !clientName) {
             showAlert('Veuillez ajouter des produits et remplir tous les champs de commande.');
@@ -86,7 +96,9 @@ function App() {
                 client_name: clientName,
                 date_commande: date,
                 observation: observation_com,
-                produits: commandes
+                produits: commandes,
+                versement,
+                modePaiement
             });
 
             showAlert('Commande finalisée avec succès : ' + response.data.code_commande);
@@ -241,7 +253,7 @@ const handleDelete = (index) => {
                         </div>
                         <div className="popup-buttons">
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
-                            <button className='print-button' onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                            <button className='next-button' onClick={handleShowFinalizePopup}>Suivant</button>
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
 
                         </div>
@@ -272,6 +284,28 @@ const handleDelete = (index) => {
                                     </td>
                                 </tr>
                             ))}
+                              {showFinalizePopup && (
+    <div className="popup">
+        <h2>Détails de Paiement</h2>
+        <div>
+            <label>Mode de Paiement:</label>
+            <select value={modePaiement} onChange={(e) => setModePaiement(e.target.value)}>
+                <option value="">Choisir un mode de paiement</option>
+                <option value="chéque">Chèque</option>
+                <option value="espèce">Espèce</option>
+                <option value="crédit">Crédit</option>
+            </select>
+        </div>
+        <div>
+            <label>Versement (facultatif):</label>
+            <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
+        </div>
+        <div className="popup-buttons">
+            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
+            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+        </div>
+    </div>
+)}
                         </tbody>
                     </table>
                     <button className='print-button' onClick={handleValidateOrder}>Valider</button>

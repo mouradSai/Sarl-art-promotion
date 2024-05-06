@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from '../../components/Main/Sidebar';
-import Header from '../../components/Headers/HeaderCommande';
-import CustomAlert from '../../components/costumeAlert/costumeAlert'; 
+import Sidebar from '../../../components/Main/Sidebar';
+import Header from '../../../components/Headers/HeaderCommande';
+import CustomAlert from '../../../components/costumeAlert/costumeAlert'; 
 
 function App() {
     const [credits, setCredits] = useState([]);
@@ -129,7 +129,7 @@ function App() {
                                 <td>{credit.resteAPayer.toFixed(2)} DA</td>
                                 <td>{credit.commande.modePaiement}</td>
                                 <td>
-                                    <button className='add-payment-button' onClick={() => setSelectedCredit(credit)}>Add Payment</button>
+                                    <button className='add-payment-button' onClick={() => setSelectedCredit(credit)}>Ajouter Paiement</button>
                                 </td>
                             </tr>
                         ))}
@@ -157,7 +157,7 @@ function App() {
                             onChange={(e) => setPaymentAmount(parseFloat(e.target.value))}
                             placeholder="Enter payment amount"
                         />
-                        <button onClick={() => handleAddPayment(selectedCredit._id, paymentAmount)}>Add Payment</button>
+                        <button onClick={() => handleAddPayment(selectedCredit._id, paymentAmount)}>Ajouter </button>
                     </div>
                 )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
