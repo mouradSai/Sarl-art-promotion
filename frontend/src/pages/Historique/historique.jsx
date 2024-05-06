@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import bon from '../../assets/bon.jpg';
 import achat from '../../assets/achat.jpg';
 import vente from '../../assets/vente.jpg';
+import creditA from '../../assets/creditA.jpg';
+import creditV from '../../assets/creditV.jpg';
 
 import "./historique.css"
 
@@ -53,14 +55,14 @@ function App() {
 
                     <Link to="/historique_creditachat" className="link-no-underline">
                         <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
-                            <img src={vente} />
+                            <img src={creditA} />
                             <h2>Historique des credit achat</h2>
                             <p>Ici, vous pouvez consulter l'historique de vos credit achat</p>
                         </div>
                     </Link>
                     <Link to="/historique_creditvente" className="link-no-underline">
                         <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
-                            <img src={vente} />
+                            <img src={creditV} />
                             <h2>Historique des credit vente</h2>
                             <p>Ici, vous pouvez consulter l'historique de vos credit vente</p>
                         </div>
