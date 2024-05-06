@@ -194,11 +194,11 @@ function App() {
                     )
                 }
 			  />
-               <Route path="/credit_vente" element={
+               <Route path="/historique_creditvente" element={
 		             localStorage.getItem("token") && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ? (
 
 						<ProtectedRoute>
-							<Credit_vente />
+							<Historique_creditvente />
 						</ProtectedRoute> ) : (
                         <Navigate replace to="/login" />
                     )

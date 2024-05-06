@@ -47,20 +47,20 @@ function App() {
         setAlert({ message, type });
     };
 
-    const handleDelete = async (id) => {
-        try {
-            const response = await axios.delete(`http://localhost:8080/commandes_achat/${id}`);
-            if (response.status === 200) {
-                showAlert('Commande deleted successfully.', 'success');
-                fetchCommandes(); // Refetch all data to update the UI accordingly
-            } else {
-                showAlert(response.data.message || 'An error occurred while deleting the commande.', 'error');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.', 'error');
-        }
-    };
+    // const handleDelete = async (id) => {
+    //     try {
+    //         const response = await axios.delete(`http://localhost:8080/commandes_achat/${id}`);
+    //         if (response.status === 200) {
+    //             showAlert('Commande deleted successfully.', 'success');
+    //             fetchCommandes(); // Refetch all data to update the UI accordingly
+    //         } else {
+    //             showAlert(response.data.message || 'An error occurred while deleting the commande.', 'error');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //         showAlert('An error occurred. Please try again later.', 'error');
+    //     }
+    // };
 
     const handleView = (commande) => {
         setSelectedCommande(commande);
@@ -154,7 +154,7 @@ function App() {
                                 <td>{commande.totalCommande.toFixed(2)} DA</td>
                                 <td>
                                     <button className='view-button' onClick={() => handleView(commande)}>Détails</button>
-                                    <button className='delete-button' onClick={() => handleDelete(commande._id)}>Supprimer</button>
+                                    {/* <button className='delete-button' onClick={() => handleDelete(commande._id)}>Supprimer</button> */}
                                 </td>
                             </tr>
                         ))}

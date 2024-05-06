@@ -76,5 +76,24 @@ router.post('/add-payment/:id', async (req, res) => {
         res.status(500).json({ message: 'Error adding payment', error: error.message });
     }
 });
+//delet 
 
+
+router.delete('/delete-by-commande/:codeCommande', async (req, res) => {
+    try {
+        const { codeCommande } = req.params;
+
+        // Find all CommandeVente documents with the provided code_commande
+        const commandes = await CommandeVente.find({ code_commande: codeCommande });
+        const commandeIds = commandes.map(cmd => cmd._id);
+
+        // Delete all CreditVente documents linked to these CommandeVente IDs
+        const result = await CreditVente.deleteMany({ commande: { $in: commandeIds } });
+
+        res.status(200).json({ message: 'Credits deleted successfully', deletedCount: result.deletedCount });
+    } catch (error) {
+        console.error('Error deleting credits:', error);
+        res.status(500).json({ message: 'Error deleting credits', error: error.message });
+    }
+});
 module.exports = router;
