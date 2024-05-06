@@ -171,6 +171,8 @@
 //         <div className="grid-container">
 //             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
 //             <SidebarProduction openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+
+
 //             <div className='container'>
 //              <h1 className="title-all">Production</h1>
 //                 <div className="form-container">
@@ -312,7 +314,15 @@ function App() {
     const { name, value } = event.target;
     setInputs(prevState => ({
       ...prevState,
-      [name]: value
+      [name]: parseFloat(value)
+    }));
+  };
+
+  const handleResultChange = (event) => {
+    const { name, value } = event.target;
+    setResultats(prevState => ({
+      ...prevState,
+      [name]: parseFloat(value)
     }));
   };
 
@@ -323,6 +333,18 @@ function App() {
       Object.entries(proportions).map(([key, val]) => [key, val * volumeDesire])
     );
     setResultats(resultatsCalculés);
+  };
+
+  const recalculerVolume = () => {
+    const { formuleSelectionnee } = inputs;
+    const proportions = formules[formuleSelectionnee];
+    const totalVolume = Object.entries(resultats).reduce((acc, [key, value]) => {
+      return acc + (value / proportions[key]);
+    }, 0) / Object.keys(resultats).length;  // Moyenne des volumes pour chaque matériau
+    setInputs(prevState => ({
+      ...prevState,
+      volumeDesire: totalVolume
+    }));
   };
 
   return (
@@ -360,11 +382,26 @@ function App() {
         Calculer les Quantités de Matériaux
       </button>
       <h2>Quantités nécessaires selon la {inputs.formuleSelectionnee === 'formule1' ? 'Formule 1' : 'Formule 2'}:</h2>
-      <ul>
+      <form>
         {Object.entries(resultats).map(([key, value]) => (
-          <li key={key}>{key.replace(/_/g, ' ')} : {value.toFixed(2)} kg/litres</li>
+          <div key={key}>
+            <label>
+              {key.replace(/_/g, ' ')} (en kg, sauf eau en litres):
+              <input
+                type="number"
+                name={key}
+                value={value}
+                onChange={handleResultChange}
+                step="0.1"
+                min="0"
+              />
+            </label>
+          </div>
         ))}
-      </ul>
+      </form>
+      <button onClick={recalculerVolume}>
+        Recalculer le Volume de Béton Basé sur les Quantités Modifiées
+      </button>
     </div>
   );
 }
