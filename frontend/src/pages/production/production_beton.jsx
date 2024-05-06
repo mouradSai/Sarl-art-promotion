@@ -272,8 +272,36 @@
 
 // export default App;
 import React, { useState } from 'react';
+import Header from '../../components/Main/Header';
+import SidebarProduction from './SidebarProduction';
+import CustomAlert from '../../components/costumeAlert/costumeAlert';
+import './App.css';
 
 function App() {
+  const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+
+  const [inputs, setInputs] = useState({
+    volumeDesire: 1,
+    formuleSelectionnee: 'formule1'
+  });
+const handleResultChange = (event) => {
+    const { name, value } = event.target;
+    setResultats(prevState => ({
+        ...prevState,
+        [name]: parseFloat(value)
+    }));
+};
+
+  const [resultats, setResultats] = useState({
+    gravier_15_25: 0,
+    gravier_8_15: 0,
+    sable_0_4: 0,
+    sable_0_1: 0,
+    ciment: 0,
+    eau: 0,
+    adjuvant: 0
+  });
+
   const formules = {
     formule1: {
       gravier_15_25: 360,
@@ -291,119 +319,75 @@ function App() {
       sable_0_1: 190,
       ciment: 150,
       eau: 75,
-      adjuvant: 0  // Assuming no adjuvant in formula 2 for simplicity, set to zero
+      adjuvant: 0  // No adjuvant
     }
   };
 
-  const [inputs, setInputs] = useState({
-    volumeDesire: 1,
-    formuleSelectionnee: 'formule1'
-  });
-
-  const [resultats, setResultats] = useState({
-    gravier_15_25: 0,
-    gravier_8_15: 0,
-    sable_0_4: 0,
-    sable_0_1: 0,
-    ciment: 0,
-    eau: 0,
-    adjuvant: 0
-  });
-
+  // Handles all input changes for forms and selects
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setInputs(prevState => ({
-      ...prevState,
-      [name]: parseFloat(value)
-    }));
+    setInputs(inputs => ({ ...inputs, [name]: parseFloat(value) }));
   };
 
-  const handleResultChange = (event) => {
-    const { name, value } = event.target;
-    setResultats(prevState => ({
-      ...prevState,
-      [name]: parseFloat(value)
-    }));
-  };
-
+  // Recalculates material quantities based on selected formula and desired volume
   const calculerQuantites = () => {
-    const { volumeDesire, formuleSelectionnee } = inputs;
-    const proportions = formules[formuleSelectionnee];
-    const resultatsCalculés = Object.fromEntries(
-      Object.entries(proportions).map(([key, val]) => [key, val * volumeDesire])
-    );
-    setResultats(resultatsCalculés);
+    const proportions = formules[inputs.formuleSelectionnee];
+    const newResultats = {};
+    for (const key in proportions) {
+      newResultats[key] = proportions[key] * inputs.volumeDesire;
+    }
+    setResultats(newResultats);
   };
 
+  // Recalculates the desired volume based on material quantities entered
   const recalculerVolume = () => {
-    const { formuleSelectionnee } = inputs;
-    const proportions = formules[formuleSelectionnee];
-    const totalVolume = Object.entries(resultats).reduce((acc, [key, value]) => {
-      return acc + (value / proportions[key]);
-    }, 0) / Object.keys(resultats).length;  // Moyenne des volumes pour chaque matériau
-    setInputs(prevState => ({
-      ...prevState,
-      volumeDesire: totalVolume
-    }));
+    const proportions = formules[inputs.formuleSelectionnee];
+    let totalVolume = 0;
+    let count = 0;
+    for (const key in resultats) {
+      if (proportions[key] > 0) {
+        totalVolume += resultats[key] / proportions[key];
+        count++;
+      }
+    }
+    setInputs(inputs => ({ ...inputs, volumeDesire: totalVolume / count }));
   };
 
   return (
-    <div className="App">
-      <h1>Calculateur de Matériaux pour Béton</h1>
-      <form>
-        <div>
-          <label>
-            Choisissez une formule :
-            <select
-              name="formuleSelectionnee"
-              value={inputs.formuleSelectionnee}
-              onChange={handleInputChange}
-            >
+    <div className="grid-container">
+      <Header OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
+      <SidebarProduction openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
+      <div className="App">
+        <h1>Calculateur de Matériaux pour Béton</h1>
+        <div className="form-group">
+          <label>Choisissez une formule :
+            <select name="formuleSelectionnee" value={inputs.formuleSelectionnee} onChange={handleInputChange}>
               <option value="formule1">Formule 1</option>
               <option value="formule2">Formule 2</option>
             </select>
           </label>
         </div>
-        <div>
-          <label>
-            Volume de béton désiré (en m³) :
-            <input
-              type="number"
-              name="volumeDesire"
-              value={inputs.volumeDesire}
-              onChange={handleInputChange}
-              step="0.1"
-              min="0"
-            />
+        <div className="form-group">
+          <label>Volume de béton désiré (en m³) :
+            <input type="number" name="volumeDesire" value={inputs.volumeDesire} onChange={handleInputChange} step="0.1" min="0" />
           </label>
         </div>
-      </form>
-      <button onClick={calculerQuantites}>
-        Calculer les Quantités de Matériaux
-      </button>
-      <h2>Quantités nécessaires selon la {inputs.formuleSelectionnee === 'formule1' ? 'Formule 1' : 'Formule 2'}:</h2>
-      <form>
-        {Object.entries(resultats).map(([key, value]) => (
-          <div key={key}>
-            <label>
-              {key.replace(/_/g, ' ')} (en kg, sauf eau en litres):
-              <input
-                type="number"
-                name={key}
-                value={value}
-                onChange={handleResultChange}
-                step="0.1"
-                min="0"
-              />
-            </label>
-          </div>
-        ))}
-      </form>
-      <button onClick={recalculerVolume}>
-        Recalculer le Volume de Béton Basé sur les Quantités Modifiées
-      </button>
+        <button onClick={calculerQuantites}>Calculer les Quantités de Matériaux</button>
+        <h2>Quantités nécessaires selon la {inputs.formuleSelectionnee === 'formule1' ? 'Formule 1' : 'Formule 2'}:</h2>
+        <div>
+          {Object.entries(resultats).map(([key, value]) => (
+            <div key={key} className="form-group">
+              <label>{key.replace(/_/g, ' ')} (en kg, sauf eau en litres):
+                <input type="number" name={key} value={value.toFixed(2)} onChange={handleResultChange} step="0.1" min="0" />
+              </label>
+            </div>
+          ))}
+        </div>
+        <button onClick={recalculerVolume}>Recalculer le Volume de Béton Basé sur les Quantités Modifiées</button>
+      </div>
     </div>
   );
 }
 
 export default App;
+
