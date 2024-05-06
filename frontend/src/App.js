@@ -25,11 +25,17 @@ import Orderbuypage from "./pages/orderbuyPage/orderbuypage";
 import Users from "./pages/users/users";
 import Ordersellpage from "./pages/ordersellPage/ordersellpage";
 
+
+
+//pages credit de achat 
+import Credit_achat from "./pages/credit/credit_achat/credit_achat";
+import Credit_vente from "./pages/credit/credit_vente/credit_vente"
 //Historique_commande stock
 import Historique_commande from "./pages/Historique/historique_commande/historique_commande"; 
 import Historique_commande_achat from "./pages/Historique/historique-commande_achat/historique_commande_achat";
 import Historique_commande_vente from "./pages/Historique/historique_commande_vente/historique_commande_vente";
-
+import Historique_creditachat from "./pages/Historique/historique_credit/historique_creditachat";
+import Historique_creditvente from "./pages/Historique/historique_credit/historique_creditvente";
 
 //Import pages production 
 import Production_beton from "./pages/production/production_beton";
@@ -155,12 +161,55 @@ function App() {
         <Navigate replace to="/login" />
     )
 			}/>
+
+            <Route path="/historique_creditachat" element={
+    localStorage.getItem("token") && (localStorage.getItem("role") === "superadmin" || localStorage.getItem("role") === "admin") ? (
+        <ProtectedRoute>
+            <Historique_creditachat />
+        </ProtectedRoute>
+    ) : (
+        <Navigate replace to="/login" />
+    )
+			}/>
             {/* Ajoutez la vérification du rôle pour l'accès à la route stock */}
 		    <Route path="/stock" element={
 		             localStorage.getItem("token") && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ? (
 
 						<ProtectedRoute>
 							<Stock />
+						</ProtectedRoute> ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+			  />
+
+                {/* Ajoutez la vérification du rôle pour l'accès à la route credit_achat */}
+		    <Route path="/credit_achat" element={
+		             localStorage.getItem("token") && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ? (
+
+						<ProtectedRoute>
+							<Credit_achat />
+						</ProtectedRoute> ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+			  />
+               <Route path="/historique_creditvente" element={
+		             localStorage.getItem("token") && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ? (
+
+						<ProtectedRoute>
+							<Historique_creditvente />
+						</ProtectedRoute> ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+			  />
+                 {/* Ajoutez la vérification du rôle pour l'accès à la route credit_vente */}
+		    <Route path="/credit_vente" element={
+		             localStorage.getItem("token") && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ? (
+
+						<ProtectedRoute>
+							<Credit_vente />
 						</ProtectedRoute> ) : (
                         <Navigate replace to="/login" />
                     )
@@ -188,6 +237,7 @@ function App() {
                     )
                 }
             />  
+            
 
 
 		<Route path="/signup" element={<Signup />} />

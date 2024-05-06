@@ -10,7 +10,8 @@ const entrepotsRoute = require ("./routes/entrepotsRoute");
 const commandeRoute =require("./routes/commandeRoute");
 const commande_achatRoute = require("./routes/commande_achatRoute");
 const commande_venteRoute =require("./routes/commande_venteRoute");
-
+const credit_achat = require("./routes/credit_achatRoute");
+const credit_vente=require ("./routes/credit_venteRoute");
 //les dossier de generate pdfs 
 const generatePdfcommande = require ("./generatePdf/generatePdfcommande");
 const generatePdfachat = require ("./generatePdf/generatePdfachat");
@@ -53,7 +54,8 @@ app.use('/commandes_vente',commande_venteRoute);
 app.use ('/generatePdfcommande',generatePdfcommande);
 app.use ('/generatePdfachat',generatePdfachat);
 app.use ('/generatePdfvente',generatePdfvente);
-
+app.use('/credit_achat',credit_achat);
+app.use('/credit_vente',credit_vente);
 
 
 
