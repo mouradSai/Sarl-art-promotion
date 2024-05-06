@@ -272,8 +272,30 @@
 import React, { useState } from 'react';
 
 function App() {
+  const formules = {
+    formule1: {
+      gravier_15_25: 360,
+      gravier_8_15: 640,
+      sable_0_4: 700,
+      sable_0_1: 160,
+      ciment: 350,
+      eau: 160,
+      adjuvant: 3.5
+    },
+    formule2: {
+      gravier_15_25: 390,
+      gravier_8_15: 670,
+      sable_0_4: 830,
+      sable_0_1: 190,
+      ciment: 150,
+      eau: 75,
+      adjuvant: 0  // Assuming no adjuvant in formula 2 for simplicity, set to zero
+    }
+  };
+
   const [inputs, setInputs] = useState({
-    volumeDesire: 1  // L'utilisateur peut entrer le volume de béton désiré
+    volumeDesire: 1,
+    formuleSelectionnee: 'formule1'
   });
 
   const [resultats, setResultats] = useState({
@@ -286,48 +308,21 @@ function App() {
     adjuvant: 0
   });
 
-  const proportions = {
-    gravier_15_25: 360,
-    gravier_8_15: 640,
-    sable_0_4: 700,
-    sable_0_1: 160,
-    ciment: 350,
-    eau: 160,
-    adjuvant: 3.5
-  };
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setInputs(prevState => ({
       ...prevState,
-      [name]: parseFloat(value)
-    }));
-  };
-
-  const handleResultChange = (event) => {
-    const { name, value } = event.target;
-    setResultats(prevState => ({
-      ...prevState,
-      [name]: parseFloat(value)
+      [name]: value
     }));
   };
 
   const calculerQuantites = () => {
-    const { volumeDesire } = inputs;
+    const { volumeDesire, formuleSelectionnee } = inputs;
+    const proportions = formules[formuleSelectionnee];
     const resultatsCalculés = Object.fromEntries(
       Object.entries(proportions).map(([key, val]) => [key, val * volumeDesire])
     );
     setResultats(resultatsCalculés);
-  };
-
-  const recalculerVolume = () => {
-    const totalVolume = Object.entries(resultats).reduce((acc, [key, value]) => {
-      return acc + (value / proportions[key]);
-    }, 0) / Object.keys(resultats).length;  // Moyenne des volumes pour chaque matériau
-    setInputs(prevState => ({
-      ...prevState,
-      volumeDesire: totalVolume
-    }));
   };
 
   return (
@@ -336,7 +331,20 @@ function App() {
       <form>
         <div>
           <label>
-            Volume de béton désiré (en m³):
+            Choisissez une formule :
+            <select
+              name="formuleSelectionnee"
+              value={inputs.formuleSelectionnee}
+              onChange={handleInputChange}
+            >
+              <option value="formule1">Formule 1</option>
+              <option value="formule2">Formule 2</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>
+            Volume de béton désiré (en m³) :
             <input
               type="number"
               name="volumeDesire"
@@ -351,26 +359,12 @@ function App() {
       <button onClick={calculerQuantites}>
         Calculer les Quantités de Matériaux
       </button>
-      <h2>Quantités nécessaires:</h2>
-      <form>
+      <h2>Quantités nécessaires selon la {inputs.formuleSelectionnee === 'formule1' ? 'Formule 1' : 'Formule 2'}:</h2>
+      <ul>
         {Object.entries(resultats).map(([key, value]) => (
-          <div key={key}>
-            <label>
-              {key.replace(/_/g, ' ')} (en kg, sauf eau en litres):
-              <input
-                type="number"
-                name={key}
-                value={value}
-                onChange={handleResultChange}
-                step="0.1"
-              />
-            </label>
-          </div>
+          <li key={key}>{key.replace(/_/g, ' ')} : {value.toFixed(2)} kg/litres</li>
         ))}
-      </form>
-      <button onClick={recalculerVolume}>
-        Recalculer le Volume de Béton Basé sur les Quantités Modifiées
-      </button>
+      </ul>
     </div>
   );
 }
