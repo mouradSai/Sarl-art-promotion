@@ -16,7 +16,11 @@ router.post('/', async (request, response) => {
                 message: 'Veuillez fournir tous les champs requis : name, prenom, address, phoneNumber',
             });
         }
-
+        // Vérifier si un produit avec le même nom existe déjà
+        const existingClient = await Client.findOne({ name: request.body.name });
+        if (existingClient) {
+            return response.status(409).send({ message: "Un client avec le même nom existe déjà" });
+        }
         const newClient = {
             name: request.body.name,
             prenom: request.body.prenom,

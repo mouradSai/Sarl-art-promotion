@@ -20,7 +20,11 @@ router.post('/', async (request, response) => {
                 message: 'Veuillez fournir tous les champs requis : name, namecategory, nameentrepot, quantity, unit',
             });
         }
-
+        // Vérifier si un produit avec le même nom existe déjà
+        const existingProduct = await Product.findOne({ name: request.body.name });
+        if (existingProduct) {
+            return response.status(409).send({ message: "Un produit avec le même nom existe déjà" });
+        }
         // Rechercher l'ID de la catégorie en fonction du nom
         const category = await Categorie.findOne({ name: request.body.namecategory });
         if (!category) {
@@ -121,6 +125,20 @@ router.delete('/:id', async (request, response) => {
             return response.status(404).json({ message: 'Produit non trouvé' });
         }
         return response.status(200).send({ message: 'Produit supprimé avec succès' });
+    } catch (error) {
+        console.error(error.message);
+        response.status(500).send({ message: error.message });
+    }
+});
+// Endpoint to fetch a product by name
+router.get('/productByName/:name', async (request, response) => {
+    try {
+        const { name } = request.params;
+        const product = await Product.findOne({ name: name });
+        if (!product) {
+            return response.status(404).send({ message: 'Product not found' });
+        }
+        return response.status(200).json(product);
     } catch (error) {
         console.error(error.message);
         response.status(500).send({ message: error.message });
