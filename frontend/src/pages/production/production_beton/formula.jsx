@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../../../components/Main/Header';
-import SidebarProduction from '../SidebarProduction';
+import SidebarProduction from './SidebarProduction';
 
 function App() {
     const [name, setName] = useState(''); // Nom de la formule
