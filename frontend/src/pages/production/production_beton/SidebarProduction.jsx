@@ -47,7 +47,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       </Link>
       <Link to="/historique_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsReceiptCutoff  className='icon'/> Historique
+            <BsFileBarGraphFill  className='icon'/> Historique
         </li>
       </Link>
        

@@ -7,7 +7,6 @@ import CustomAlert from '../../../components/costumeAlert/costumeAlert';
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [formules, setFormules] = useState([]);
-  const [index, setIndex] = useState(1); // Initial index, assumed starting at 1
   const [inputs, setInputs] = useState({
     codeProduction: '',
     volumeDesire: 1,
@@ -29,18 +28,8 @@ function App() {
           }));
         }
       })
-      .catch(error => console.error('Error fetching formulas', error));
-    generateProductionCode(); // Generate the code when the component mounts
+      .catch(error => console.error('Erreur lors de la récupération des formules', error));
   }, []);
-
-  const generateProductionCode = () => {
-    const year = new Date().getFullYear(); // Get current year
-    const productionCode = `${year}/${index}`; // Create production code with year and index
-    setInputs(prevInputs => ({
-      ...prevInputs,
-      codeProduction: productionCode
-    }));
-  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -79,12 +68,10 @@ function App() {
     })
     .then(response => {
       showAlert("La production a été enregistrée avec succès.", "success");
-      setIndex(prevIndex => prevIndex + 1); // Increment the index after a successful submission
-      generateProductionCode(); // Generate new code for next use
     })
     .catch(error => {
       showAlert("Une erreur s'est produite lors de l'enregistrement de la production.", "error");
-      console.error('Error saving production', error);
+      console.error('Erreur lors de l\'enregistrement de la production', error);
     });
   };
 
@@ -98,7 +85,7 @@ function App() {
           <div className="production-form-1">
             <div className="form-group">
               <label>Code de production:</label>
-              <input className="input-small" type="text" name="codeProduction" value={inputs.codeProduction} onChange={handleInputChange} readOnly />
+              <input className="input-small" type="text" name="codeProduction" value={inputs.codeProduction} onChange={handleInputChange} />
             </div>
           </div>
           <div className="production-form-2">
