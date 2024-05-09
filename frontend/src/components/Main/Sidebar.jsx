@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 // Importation des icones react
 import {BsFillArchiveFill, BsPersonCircle, MdSpaceDashboard,BsCardList, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { TbZoomMoney } from "react-icons/tb";
 
 
 
@@ -85,7 +86,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         </Link>
         <Link to="/credit" className="sidebar-link">
         <li className='sidebar-list-item'>
-            <BsFileBarGraphFill  className='icon'/> Credits
+            <TbZoomMoney  className='icon'/> Credits
         </li>
         </Link>
 

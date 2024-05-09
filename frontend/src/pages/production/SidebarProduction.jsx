@@ -38,6 +38,12 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
             <TbBuildingFactory  className='icon'/> Production
         </li>
       </Link>
+
+      <Link to="/bon_production_beton" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsCardList  className='icon'/> Production
+        </li>
+      </Link>
        
        
         

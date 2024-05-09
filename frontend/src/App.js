@@ -36,6 +36,7 @@ import Historique_creditvente from "./pages/Historique/historique_credit/histori
 
 //Import pages production 
 import Production_beton from "./pages/production/production_beton";
+import Bon_production_beton from "./pages/production/bon_production_beton";
 
 //protection de routes 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
@@ -242,6 +243,17 @@ function App() {
                     localStorage.getItem("token")    ? (
                         <ProtectedRoute>
                             <Production_beton />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+
+            <Route path="/bon_production_beton" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Bon_production_beton />
                         </ProtectedRoute>
                     ) : (
                         <Navigate replace to="/login" />
