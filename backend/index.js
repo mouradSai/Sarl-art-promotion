@@ -26,6 +26,10 @@ const generatePdfcommande = require ("./generatePdf/generatePdfcommande");
 const generatePdfachat = require ("./generatePdf/generatePdfachat");
 const generatePdfvente = require ("./generatePdf/generatePdfvente");
 
+
+//production 
+const FormulaRoute = require ("./routes/FormulaRoute");
+const production_Route = require ("./routes/productionRoute");
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -67,6 +71,8 @@ app.use('/credit_achat',credit_achat);
 app.use('/credit_vente',credit_vente);
 app.use('/bon_production',bon_production);
 
+app.use('/Formules',FormulaRoute);
+app.use('/production_beton',production_Route);
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
