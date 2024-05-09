@@ -36,7 +36,7 @@ import Historique_creditvente from "./pages/Historique/historique_credit/histori
 
 //Import pages production 
 import Production_beton from "./pages/production/production_beton";
-
+import Formula from "./pages/production/formula";
 //protection de routes 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
 
@@ -242,6 +242,17 @@ function App() {
                     localStorage.getItem("token")    ? (
                         <ProtectedRoute>
                             <Production_beton />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+            {/* Routes sans protection */}
+		<Route path="/formula" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Formula />
                         </ProtectedRoute>
                     ) : (
                         <Navigate replace to="/login" />

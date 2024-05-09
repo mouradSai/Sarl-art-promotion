@@ -271,7 +271,8 @@
 // }
 
 // export default App;
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from '../../components/Main/Header';
 import SidebarProduction from './SidebarProduction';
 import CustomAlert from '../../components/costumeAlert/costumeAlert';
@@ -279,78 +280,48 @@ import './App.css';
 
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
-
+  const [formules, setFormules] = useState([]);
   const [inputs, setInputs] = useState({
     volumeDesire: 1,
-    formuleSelectionnee: 'formule1'
+    formuleSelectionnee: ''
   });
-const handleResultChange = (event) => {
-    const { name, value } = event.target;
-    setResultats(prevState => ({
-        ...prevState,
-        [name]: parseFloat(value)
-    }));
-};
+  const [resultats, setResultats] = useState({});
 
-  const [resultats, setResultats] = useState({
-    gravier_15_25: 0,
-    gravier_8_15: 0,
-    sable_0_4: 0,
-    sable_0_1: 0,
-    ciment: 0,
-    eau: 0,
-    adjuvant: 0
-  });
+  useEffect(() => {
+    // Charger les formules depuis l'API
+    axios.get('http://localhost:8080/formules')
+      .then(response => {
+        setFormules(response.data);
+        if (response.data.length > 0) {
+          setInputs(inputs => ({
+            ...inputs,
+            formuleSelectionnee: response.data[0]._id  // Pré-sélectionner la première formule
+          }));
+        }
+      })
+      .catch(error => console.error('Error fetching formulas', error));
+  }, []);
 
-  const formules = {
-    formule1: {
-      gravier_15_25: 360,
-      gravier_8_15: 640,
-      sable_0_4: 700,
-      sable_0_1: 160,
-      ciment: 350,
-      eau: 160,
-      adjuvant: 3.5
-    },
-    formule2: {
-      gravier_15_25: 390,
-      gravier_8_15: 670,
-      sable_0_4: 830,
-      sable_0_1: 190,
-      ciment: 150,
-      eau: 75,
-      adjuvant: 0  // No adjuvant
-    }
-  };
-
-  // Handles all input changes for forms and selects
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setInputs(inputs => ({ ...inputs, [name]: parseFloat(value) }));
+    setInputs(inputs => ({ ...inputs, [name]: value }));
   };
 
-  // Recalculates material quantities based on selected formula and desired volume
+  const handleResultChange = (event) => {
+    const { name, value } = event.target;
+    setResultats(prevState => ({
+      ...prevState,
+      [name]: parseFloat(value)
+    }));
+  };
+
   const calculerQuantites = () => {
-    const proportions = formules[inputs.formuleSelectionnee];
+    const formula = formules.find(f => f._id === inputs.formuleSelectionnee);
     const newResultats = {};
-    for (const key in proportions) {
-      newResultats[key] = proportions[key] * inputs.volumeDesire;
-    }
+    formula.products.forEach(p => {
+      newResultats[p.product.name] = p.quantity * inputs.volumeDesire;
+    });
     setResultats(newResultats);
-  };
-
-  // Recalculates the desired volume based on material quantities entered
-  const recalculerVolume = () => {
-    const proportions = formules[inputs.formuleSelectionnee];
-    let totalVolume = 0;
-    let count = 0;
-    for (const key in resultats) {
-      if (proportions[key] > 0) {
-        totalVolume += resultats[key] / proportions[key];
-        count++;
-      }
-    }
-    setInputs(inputs => ({ ...inputs, volumeDesire: totalVolume / count }));
   };
 
   return (
@@ -362,8 +333,9 @@ const handleResultChange = (event) => {
         <div className="form-group">
           <label>Choisissez une formule :
             <select name="formuleSelectionnee" value={inputs.formuleSelectionnee} onChange={handleInputChange}>
-              <option value="formule1">Formule 1</option>
-              <option value="formule2">Formule 2</option>
+              {formules.map(formule => (
+                <option key={formule._id} value={formule._id}>{formule.name}</option>
+              ))}
             </select>
           </label>
         </div>
@@ -373,21 +345,19 @@ const handleResultChange = (event) => {
           </label>
         </div>
         <button onClick={calculerQuantites}>Calculer les Quantités de Matériaux</button>
-        <h2>Quantités nécessaires selon la {inputs.formuleSelectionnee === 'formule1' ? 'Formule 1' : 'Formule 2'}:</h2>
+        <h2>Quantités nécessaires pour la formule sélectionnée :</h2>
         <div>
           {Object.entries(resultats).map(([key, value]) => (
             <div key={key} className="form-group">
-              <label>{key.replace(/_/g, ' ')} (en kg, sauf eau en litres):
+              <label>{key} (quantité nécessaire) :
                 <input type="number" name={key} value={value.toFixed(2)} onChange={handleResultChange} step="0.1" min="0" />
               </label>
             </div>
           ))}
         </div>
-        <button onClick={recalculerVolume}>Recalculer le Volume de Béton Basé sur les Quantités Modifiées</button>
       </div>
     </div>
   );
 }
 
 export default App;
-

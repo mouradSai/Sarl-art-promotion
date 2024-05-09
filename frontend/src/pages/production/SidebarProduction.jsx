@@ -7,6 +7,7 @@ import {BsFillArchiveFill, BsPersonCircle, MdSpaceDashboard,BsCardList, BsPerson
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { TbBuildingFactory } from "react-icons/tb";
 
+import { BsReceiptCutoff } from "react-icons/bs";
 
 
   
@@ -36,6 +37,12 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       <Link to="/production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <TbBuildingFactory  className='icon'/> Production
+        </li>
+      </Link>
+       
+      <Link to="/formula" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsReceiptCutoff  className='icon'/> Formules
         </li>
       </Link>
        
