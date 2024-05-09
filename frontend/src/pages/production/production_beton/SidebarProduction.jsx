@@ -1,5 +1,5 @@
 import {React  }from 'react';
-import logowhite from '../../assets/logo-white.png';
+import logowhite from '../../../assets/logo-white.png';
 import { Link } from 'react-router-dom';
 
 // Importation des icones react
@@ -43,6 +43,11 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       <Link to="/formula" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsReceiptCutoff  className='icon'/> Formules
+        </li>
+      </Link>
+      <Link to="/historique_beton" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsReceiptCutoff  className='icon'/> Historique
         </li>
       </Link>
        

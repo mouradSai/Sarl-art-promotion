@@ -144,5 +144,15 @@ router.get('/productByName/:name', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
-
+// Route pour rechercher des produits par nom
+router.get('/search', async (req, res) => {
+    const { name } = req.query;
+    try {
+        const products = await Product.find({ name: { $regex: new RegExp(name, 'i') } });
+        res.json(products);
+    } catch (error) {
+        console.error('Search error:', error);
+        res.status(500).send('Server error during product search');
+    }
+});
 module.exports = router;
