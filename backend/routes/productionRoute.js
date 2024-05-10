@@ -1,26 +1,32 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Production = require('../models/production');
 const Formula = require('../models/Formula');
+const Product = require('../models/product'); // Assuming this is the model for your products
 
-// Endpoint pour créer une production
+
+
+// Endpoint to create a production
 router.post('/', async (req, res) => {
     try {
-        const { formulaId, volumeDesired, codeProduction, description, observations } = req.body;
+        const { formulaId, volumeDesired, codeProduction,description, observations } = req.body;
 
-        // Trouver la formule par ID et peupler les produits
+        
+
+        // Find the formula by ID and populate the products
         const formula = await Formula.findById(formulaId).populate('products.product');
         if (!formula) {
             return res.status(404).send({ message: 'Formula not found' });
         }
 
-        // Calculer les quantités nécessaires pour chaque produit
+        // Calculate the quantities needed for each product
         const materialsUsed = formula.products.map(p => ({
-            product: p.product._id,  // Sauvegarde l'ID du produit
-            quantity: p.quantity * volumeDesired  // Calcule la quantité basée sur le volume désiré
+            product: p.product._id,
+            quantity: p.quantity * volumeDesired
         }));
 
-        // Créer la production
+        // Create the production
         const production = new Production({
             codeProduction,
             formula: formulaId,
@@ -29,8 +35,14 @@ router.post('/', async (req, res) => {
             materialsUsed,
             observations
         });
-
         await production.save();
+
+        // Update product quantities
+        for (const material of materialsUsed) {
+            await Product.findByIdAndUpdate(material.product, {
+                $inc: { quantity: -material.quantity }
+            });
+        }
 
         res.status(201).json(production);
     } catch (error) {
@@ -38,6 +50,7 @@ router.post('/', async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
+
 // Endpoint pour obtenir toutes les productions
 router.get('/', async (req, res) => {
     try {

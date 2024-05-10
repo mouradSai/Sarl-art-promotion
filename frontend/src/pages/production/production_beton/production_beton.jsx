@@ -16,6 +16,7 @@ function App() {
   });
   const [resultats, setResultats] = useState({});
   const [alert, setAlert] = useState(null);
+  const [lastCalculated, setLastCalculated] = useState({}); // To track last calculated quantities to avoid re-calculation
 
   useEffect(() => {
     axios.get('http://localhost:8080/formules')
@@ -46,12 +47,32 @@ function App() {
 
   const calculerQuantites = () => {
     const formula = formules.find(f => f._id === inputs.formuleSelectionnee);
+    if (!formula) return;
     const newResultats = {};
     formula.products.forEach(p => {
       newResultats[p.product.name] = p.quantity * inputs.volumeDesire;
     });
     setResultats(newResultats);
+    setLastCalculated(newResultats);
     showAlert("Les quantités ont été calculées avec succès.", "success");
+  };
+
+  const recalculateVolumeBasedOnQuantities = () => {
+    const formula = formules.find(f => f._id === inputs.formuleSelectionnee);
+    if (!formula) return;
+    let newVolume = 0;
+    Object.entries(resultats).forEach(([product, quantity]) => {
+      const baseQuantity = formula.products.find(p => p.product.name === product)?.quantity;
+      if (baseQuantity) {
+        const volumeContribution = quantity / baseQuantity;
+        newVolume += volumeContribution;
+      }
+    });
+    setInputs(prevInputs => ({
+      ...prevInputs,
+      volumeDesire: newVolume / formula.products.length // Average contribution to volume
+    }));
+    showAlert("Volume recalculé avec succès.", "success");
   };
 
   const showAlert = (message, type) => {
@@ -70,8 +91,9 @@ function App() {
       showAlert("La production a été enregistrée avec succès.", "success");
     })
     .catch(error => {
-      showAlert("Une erreur s'est produite lors de l'enregistrement de la production.", "error");
-      console.error('Erreur lors de l\'enregistrement de la production', error);
+      const errorMessage = error.response && error.response.data ? error.response.data.message : "Une erreur s'est produite lors de l'enregistrement de la production.";
+      showAlert(errorMessage, "error");
+      console.error('Erreur lors de l\'enregistrement de la production', error.response || error);
     });
   };
 
@@ -86,6 +108,12 @@ function App() {
             <div className="form-group">
               <label>Code de production:</label>
               <input className="input-small" type="text" name="codeProduction" value={inputs.codeProduction} onChange={handleInputChange} />
+              <label>Formule sélectionnée:</label>
+              <select value={inputs.formuleSelectionnee} name="formuleSelectionnee" onChange={handleInputChange}>
+                {formules.map(formule => (
+                  <option key={formule._id} value={formule._id}>{formule.name}</option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="production-form-2">
@@ -106,6 +134,7 @@ function App() {
             <div className="button-group">
               <button className="button-calculate" onClick={calculerQuantites}>Calculer les Quantités</button>
               <button className="button-save" onClick={handleSubmit}>Enregistrer la Production</button>
+              <button className="button-calculate" onClick={recalculateVolumeBasedOnQuantities}>Recalculer Volume</button>
             </div>
           </div>
           <div className='quantities'>
