@@ -88,7 +88,7 @@ function App() {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Code Production</th>
+                            <th >Code Production</th>
                             <th>Formula</th>
                             <th>Date Production</th>
                             <th>Actions</th>
@@ -128,8 +128,8 @@ function App() {
             <table>
                 <thead>
                     <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
+                        <th  className='titlesHis'>Product</th>
+                        <th  className='titlesHis'>Quantity</th>
                     </tr>
                 </thead>
                 <tbody>
