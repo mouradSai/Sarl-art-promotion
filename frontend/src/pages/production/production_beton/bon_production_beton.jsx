@@ -2,75 +2,80 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function BonProductionForm() {
+
   const [clients, setClients] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [formulas, setFormulas] = useState([]);
   const [selectedClient, setSelectedClient] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedFormula, setSelectedFormula] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [heure, setHeure] = useState('');
   const [lieuLivraison, setLieuLivraison] = useState('');
+  const [heure, setHeure] = useState('');
+  const [date, setDate] = useState('');
   const [bonProductions, setBonProductions] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchClients = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/clients', {
-                params: {
-                    IsActive: true
-                }
-            });
-            setClients(response.data.data);
-        } catch (error) {
-            console.error('Error fetching clients:', error);
-        }
+      try {
+        const response = await axios.get('http://localhost:8080/clients', {
+          params: {
+            IsActive: true
+          }
+        });
+        setClients(response.data.data);
+      } catch (error) {
+        console.error('Error fetching clients:', error);
+      }
     };
 
-    const fetchProducts = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/products', {
-                params: {
-                    IsActive: true
-                }
-            });
-            setProducts(response.data.data);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
-    };
-    
+const fetchFormulas = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/Formules');
+    setFormulas(response.data); // Accéder directement à response.data
+  } catch (error) {
+    console.error('Error fetching formulas:', error);
+  }
+};
+
+
     fetchClients();
-    fetchProducts();
+    fetchFormulas();
   }, []);
 
   const handleAddBonProduction = () => {
-    if (!selectedClient || !selectedProduct || !quantity || !heure || !lieuLivraison) {
+    if (!selectedClient || !selectedFormula || !quantity || !heure || !lieuLivraison || !date) {
       setErrorMessage('Veuillez remplir tous les champs.');
       return;
     }
 
     const newBonProduction = {
-      client: selectedClient,
-      produit: selectedProduct,
+      client_name: selectedClient,
+      formules: [{ formula_name: selectedFormula }],
       quantite: quantity,
+      lieu_livraison: lieuLivraison,
       heure: heure,
-      lieuLivraison: lieuLivraison
+      date: date
     };
 
     setBonProductions([...bonProductions, newBonProduction]);
     setErrorMessage('');
   };
 
+  const handleDelete = (index) => {
+    const updatedBonProductions = [...bonProductions];
+    updatedBonProductions.splice(index, 1);
+    setBonProductions(updatedBonProductions);
+  };
+
   const handleValidate = async () => {
     if (bonProductions.length === 0) {
-      setErrorMessage('Veuillez ajouter au moins une ligne de bon de production.');
+      setErrorMessage('Veuillez ajouter au moins un bon de production.');
       return;
     }
 
     try {
       await axios.post('http://localhost:8080/bon_production', bonProductions);
       alert('Les données ont été enregistrées avec succès !');
-      setBonProductions([]); // Effacer les bonnes productions après la soumission réussie
     } catch (error) {
       console.error('Error saving bon productions:', error);
       alert('Une erreur est survenue lors de l\'enregistrement des données.');
@@ -78,7 +83,7 @@ function BonProductionForm() {
   };
 
   return (
-    <div>
+    <div className="bon-production-form">
       <h2>Formulaire de Bon de Production</h2>
       <div>
         <label>Client:</label>
@@ -90,11 +95,11 @@ function BonProductionForm() {
         </select>
       </div>
       <div>
-        <label>Produit:</label>
-        <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)}>
-          <option value="">Sélectionnez un produit</option>
-          {products.map(product => (
-            <option key={product._id} value={product.name}>{product.name}</option>
+        <label>Formule:</label>
+        <select value={selectedFormula} onChange={(e) => setSelectedFormula(e.target.value)}>
+          <option value="">Sélectionnez une formule</option>
+          {formulas && formulas.map(formula => (
+            <option key={formula._id} value={formula.name}>{formula.name}</option>
           ))}
         </select>
       </div>
@@ -107,6 +112,10 @@ function BonProductionForm() {
         <input type="text" value={heure} onChange={(e) => setHeure(e.target.value)} />
       </div>
       <div>
+        <label>Date:</label>
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+      </div>
+      <div>
         <label>Lieu de livraison:</label>
         <input type="text" value={lieuLivraison} onChange={(e) => setLieuLivraison(e.target.value)} />
       </div>
@@ -117,20 +126,26 @@ function BonProductionForm() {
         <thead>
           <tr>
             <th>Client</th>
-            <th>Produit</th>
+            <th>Formule</th>
             <th>Quantité</th>
+            <th>Date</th>
             <th>Heure</th>
             <th>Lieu de livraison</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {bonProductions.map((bonProduction, index) => (
             <tr key={index}>
-              <td>{bonProduction.client}</td>
-              <td>{bonProduction.produit}</td>
+              <td>{bonProduction.client_name}</td>
+              <td>{bonProduction.formules[0].formula_name}</td>
               <td>{bonProduction.quantite}</td>
+              <td>{bonProduction.date}</td>
               <td>{bonProduction.heure}</td>
-              <td>{bonProduction.lieuLivraison}</td>
+              <td>{bonProduction.lieu_livraison}</td>
+              <td>
+                <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
+              </td>
             </tr>
           ))}
         </tbody>
