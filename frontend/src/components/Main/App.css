@@ -120,7 +120,7 @@ body {
     grid-area: sidebar;
     height: 100%;
     background-color: #b61217;
-    overflow-y: auto;
+    overflow-y: hidden;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
   }

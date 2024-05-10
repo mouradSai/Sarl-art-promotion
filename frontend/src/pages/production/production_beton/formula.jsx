@@ -142,7 +142,7 @@ function App() {
                                 type="text"
                                 value={product.product}
                                 onChange={(e) => handleProductChange(index, 'product', e.target.value)}
-                                placeholder="Product name"
+                                placeholder="Matiére name"
                                 required
                             />
                             <input
@@ -154,8 +154,8 @@ function App() {
                             />
                         </div>
                     ))}
-                    <button type="button" className='view-button' onClick={handleAddProduct}> + Add Product</button>
-                    <button className='print-button' type="submit">Create Formula</button>
+                    <button type="button" className='view-button' onClick={handleAddProduct}> + Ajouter Matiére </button>
+                    <button className='print-button' type="submit">creer Formule</button>
                 </form>
 
                 <h2>Formula List</h2>
@@ -186,9 +186,9 @@ function App() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Quantité</th>
-                                    <th>Action</th>
+                                    <th  className='titlesHis' >Nom</th>
+                                    <th  className='titlesHis'>Quantité</th>
+                                    <th  className='titlesHis'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -204,8 +204,8 @@ function App() {
                                             />
                                         </td>
                                         <td>
-                                            <button onClick={() => handleUpdateProduct(index)}>Update</button>
-                                            <button onClick={() => handleDeleteProduct(index)}>Delete</button>
+                                            <button className='view-button' onClick={() => handleUpdateProduct(index)}>Update</button>
+                                            <button className='delete-button' onClick={() => handleDeleteProduct(index)}>Delete</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -229,12 +229,12 @@ function App() {
                                         />
                                     </td>
                                     <td>
-                                        <button onClick={handleAddProductToFormula}>Add Product</button>
+                                        <button className='print-button' onClick={handleAddProductToFormula}>Add Product</button>
                                         </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <button onClick={handleClosePopup}>Close</button>
+                        <button className='delete-button' onClick={handleClosePopup}>Close</button>
                     </div>
                 </div>
             )}

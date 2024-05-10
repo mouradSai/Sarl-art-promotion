@@ -110,6 +110,7 @@ h2 {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Ombre légère */
   opacity: 1;
   transition: opacity 0.3s ease;
+  min-width: 500px; /* Ajout de la largeur minimale */
 }
 
 /* Style pour les formulaires */
