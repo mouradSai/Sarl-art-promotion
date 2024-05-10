@@ -142,7 +142,7 @@ function App() {
                                 type="text"
                                 value={product.product}
                                 onChange={(e) => handleProductChange(index, 'product', e.target.value)}
-                                placeholder="Product name"
+                                placeholder="Matiére name"
                                 required
                             />
                             <input
@@ -154,8 +154,8 @@ function App() {
                             />
                         </div>
                     ))}
-                    <button type="button" className='view-button' onClick={handleAddProduct}> + Add Product</button>
-                    <button className='print-button' type="submit">Create Formula</button>
+                    <button type="button" className='view-button' onClick={handleAddProduct}> + Ajouter Matiére </button>
+                    <button className='print-button' type="submit">creer Formule</button>
                 </form>
 
                 <h2>Formula List</h2>
