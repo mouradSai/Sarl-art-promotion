@@ -51,6 +51,11 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
             <BsReceiptCutoff  className='icon'/> Formules
         </li>
       </Link>
+      <Link to="/Stock_finie" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsBox2Fill  className='icon'/> Stock finie
+        </li>
+      </Link>
       <Link to="/historique_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsFileBarGraphFill  className='icon'/> Historique

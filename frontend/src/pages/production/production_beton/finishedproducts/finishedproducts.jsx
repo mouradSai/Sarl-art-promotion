@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from './SidebarProduction';
-import Header from '../../../components/Main/Header';
-import CustomAlert from '../../../components/costumeAlert/costumeAlert';
+import Sidebar from '../SidebarProduction';
+import Header from '../../../../components/Main/Header';
+import CustomAlert from '../../../../components/costumeAlert/costumeAlert';
+
+
 
 function App() {
     const [productions, setProductions] = useState([]);
@@ -23,7 +25,7 @@ function App() {
 
     const fetchProductions = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/production_beton');
+            const response = await axios.get('http://localhost:8080/production_beton/finished-products');
             setProductions(response.data);
         } catch (error) {
             console.error('Error fetching productions:', error);
@@ -34,8 +36,8 @@ function App() {
     const filterProductions = () => {
         const lowercasedFilter = searchText.toLowerCase();
         const filteredData = productions.filter(production =>
-            production.formula?.name.toLowerCase().includes(lowercasedFilter) ||
-            production.codeProduction.toLowerCase().includes(lowercasedFilter)
+            production.formulaName.toLowerCase().includes(lowercasedFilter) ||
+            production.productionCode.toLowerCase().includes(lowercasedFilter)
         );
         setFilteredProductions(filteredData);
         setCurrentPage(1); // Reset to the first page whenever the filter changes
@@ -47,7 +49,7 @@ function App() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:8080/production_beton/${id}`);
+            const response = await axios.delete(`http://localhost:8080/production_beton/finished-products/${id}`);
             if (response.status === 200) {
                 showAlert('Production deleted successfully.', 'success');
                 fetchProductions(); // Refetch all data to update the UI accordingly
@@ -78,7 +80,7 @@ function App() {
             <Header />
             <Sidebar />
             <div className="container">
-                <h1 className="title-all">Historique des Productions</h1>
+                <h1 className="title-all">Stock finie</h1>
                 <input
                     type="text"
                     placeholder="Search by code or formula..."
@@ -91,18 +93,20 @@ function App() {
                             <th>Code Production</th>
                             <th>Formula</th>
                             <th>Date Production</th>
+                            <th>Volume Produced</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentProductions.map((production) => (
                             <tr key={production._id}>
-                                <td>{production.codeProduction}</td>
-                                <td>{production.formula ? production.formula.name : 'No formula'}</td>
+                                <td>{production.productionCode}</td>
+                                <td>{production.formulaName}</td>
                                 <td>{new Date(production.date).toISOString().slice(0, 10)}</td>
+                                <td>{production.volumeProduced}m³</td>
                                 <td>
                                     <button className='view-button' onClick={() => handleView(production)}>Details</button>
-                                    {/* <button className='delete-button' onClick={() => handleDelete(production._id)}>Delete</button> */}
+                                    <button className='delete-button' onClick={() => handleDelete(production._id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -118,29 +122,11 @@ function App() {
         <div className="popup-content">
             <span className="close-button" onClick={() => setSelectedProduction(null)}>&times;</span>
             <h2>Production Details</h2>
-            <p><strong>Code:</strong> {selectedProduction.codeProduction}</p>
+            <p><strong>Code:</strong> {selectedProduction.productionCode}</p>
             <p><strong>Date of Production:</strong> {new Date(selectedProduction.date).toISOString().slice(0, 10)}</p>
-            <p><strong>Formula Name:</strong> {selectedProduction.formula ? selectedProduction.formula.name : 'N/A'}</p>
-            <p><strong>Description:</strong> {selectedProduction.description}</p>
-            <p><strong>Volume Desired:</strong> {selectedProduction.volumeDesired}m³</p>
-            <p><strong>Observations:</strong> {selectedProduction.observations}</p>
-            <h3>Materials Used</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {selectedProduction.materialsUsed.map((material, index) => (
-                        <tr key={index}>
-                            <td>{material.product.name}</td>
-                            <td>{material.quantity}KG</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <p><strong>Formula Name:</strong> {selectedProduction.formulaName}</p>
+            <p><strong>Volume Produced:</strong> {selectedProduction.volumeProduced}m³</p>
+           
         </div>
     </div>
 )}

@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Production = require('../models/production');
+const ProductFinished = require('../models/productfinished');
 const Formula = require('../models/Formula');
-const Product = require('../models/product'); // Assuming this is the model for your products
-
+const Product = require('../models/product');
 
 // Endpoint to create a production
 router.post('/', async (req, res) => {
@@ -38,7 +38,6 @@ router.post('/', async (req, res) => {
             codeProduction,
             formula: formulaId,
             volumeDesired,
-            // description,
             materialsUsed,
             observations
         });
@@ -51,13 +50,44 @@ router.post('/', async (req, res) => {
             });
         }
 
+        // Create an entry in ProductFinished collection
+        const productFinished = new ProductFinished({
+            productionCode: codeProduction,
+            volumeProduced: volumeDesired,
+            formulaName: formula.name // Assuming the formula has a 'name' field
+        });
+        await productFinished.save();
+
         res.status(201).json(production);
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: error.message });
     }
 });
-
+// Endpoint pour obtenir tous les produits finis
+router.get('/finished-products', async (req, res) => {
+    try {
+        const finishedProducts = await ProductFinished.find();
+        res.status(200).json(finishedProducts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: error.message });
+    }
+});
+// Endpoint pour supprimer un produit fini par son ID
+router.delete('/finished-products/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedProduct = await ProductFinished.findByIdAndDelete(id);
+        if (!deletedProduct) {
+            return res.status(404).send({ message: 'Product not found' });
+        }
+        res.status(200).send({ message: 'Product deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: error.message });
+    }
+});
 // Endpoint pour obtenir toutes les productions
 router.get('/', async (req, res) => {
     try {

@@ -39,6 +39,8 @@ import Production_beton from "./pages/production/production_beton/production_bet
 import Bon_production_beton from "./pages/production/bon_production_beton";
 import Formula from "./pages/production/production_beton/formula";
 import Historique_beton from"./pages/production/production_beton/historique_beton";
+import Stock_finie from "./pages/production/production_beton/finishedproducts/finishedproducts";
+
 //protection de routes 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
 
@@ -277,6 +279,16 @@ function App() {
                     localStorage.getItem("token")    ? (
                         <ProtectedRoute>
                             <Bon_production_beton />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+              <Route path="/stock_finie" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Stock_finie />
                         </ProtectedRoute>
                     ) : (
                         <Navigate replace to="/login" />
