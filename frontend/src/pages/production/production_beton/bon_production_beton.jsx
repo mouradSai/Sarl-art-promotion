@@ -72,15 +72,28 @@ const fetchFormulas = async () => {
       setErrorMessage('Veuillez ajouter au moins un bon de production.');
       return;
     }
-
+  
     try {
-      await axios.post('http://localhost:8080/bon_production', bonProductions);
+      // Construire les données à envoyer
+      const dataToSend = {
+        code_bon: 'VotreValeur', // Remplacez 'VotreValeur' par la valeur appropriée
+        client_name: bonProductions[0].client_name, // Vous pouvez ajuster cela si nécessaire
+        formules: bonProductions.map(bonProduction => bonProduction.formules[0]), // Formules sous forme de tableau
+        quantite: bonProductions[0].quantite, // Vous pouvez ajuster cela si nécessaire
+        lieu_livraison: bonProductions[0].lieu_livraison, // Vous pouvez ajuster cela si nécessaire
+        heure: bonProductions[0].heure, // Vous pouvez ajuster cela si nécessaire
+        date: bonProductions[0].date // Vous pouvez ajuster cela si nécessaire
+      };
+  
+      // Envoyer les données au backend
+      await axios.post('http://localhost:8080/bon_production', dataToSend);
       alert('Les données ont été enregistrées avec succès !');
     } catch (error) {
       console.error('Error saving bon productions:', error);
       alert('Une erreur est survenue lors de l\'enregistrement des données.');
     }
   };
+  
 
   return (
     <div className="bon-production-form">

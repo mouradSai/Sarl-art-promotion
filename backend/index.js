@@ -15,11 +15,6 @@ const credit_vente=require ("./routes/credit_venteRoute");
 
 
 
-//les dossier de production
-const bon_production=require ("./routes/bon_productionRoute"); 
-
-
-
 
 //les dossier de generate pdfs 
 const generatePdfcommande = require ("./generatePdf/generatePdfcommande");
@@ -28,6 +23,8 @@ const generatePdfvente = require ("./generatePdf/generatePdfvente");
 
 
 //production 
+//les dossier de production
+const bon_production=require ("./routes/bon_productionRoute"); 
 const FormulaRoute = require ("./routes/FormulaRoute");
 const production_Route = require ("./routes/productionRoute");
 const express = require("express");
@@ -69,8 +66,8 @@ app.use ('/generatePdfachat',generatePdfachat);
 app.use ('/generatePdfvente',generatePdfvente);
 app.use('/credit_achat',credit_achat);
 app.use('/credit_vente',credit_vente);
-app.use('/bon_production',bon_production);
 
+app.use('/bon_production',bon_production);
 app.use('/Formules',FormulaRoute);
 app.use('/production_beton',production_Route);
 
