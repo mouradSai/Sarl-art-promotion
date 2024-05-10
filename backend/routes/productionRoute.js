@@ -6,13 +6,10 @@ const Formula = require('../models/Formula');
 const Product = require('../models/product'); // Assuming this is the model for your products
 
 
-
 // Endpoint to create a production
 router.post('/', async (req, res) => {
     try {
-        const { formulaId, volumeDesired, codeProduction,description, observations } = req.body;
-
-        
+        const { formulaId, volumeDesired, codeProduction, description, observations } = req.body;
 
         // Find the formula by ID and populate the products
         const formula = await Formula.findById(formulaId).populate('products.product');
@@ -26,18 +23,28 @@ router.post('/', async (req, res) => {
             quantity: p.quantity * volumeDesired
         }));
 
-        // Create the production
+        // Check stock availability for each product
+        for (const material of materialsUsed) {
+            const product = await Product.findById(material.product);
+            if (product.quantity < material.quantity) {
+                return res.status(400).send({
+                    message: `Not enough stock for ${product.name}. Required: ${material.quantity}, Available: ${product.quantity}`
+                });
+            }
+        }
+
+        // Create the production if all materials are available in sufficient quantities
         const production = new Production({
             codeProduction,
             formula: formulaId,
             volumeDesired,
-            description,
+            // description,
             materialsUsed,
             observations
         });
         await production.save();
 
-        // Update product quantities
+        // Deduct the used quantities from the product stock
         for (const material of materialsUsed) {
             await Product.findByIdAndUpdate(material.product, {
                 $inc: { quantity: -material.quantity }

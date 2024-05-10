@@ -3,7 +3,7 @@ import axios from 'axios';
 import Header from '../../../components/Main/Header';
 import SidebarProduction from './SidebarProduction';
 import CustomAlert from '../../../components/costumeAlert/costumeAlert';
-
+import "./App.css";
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [formules, setFormules] = useState([]);
@@ -102,7 +102,7 @@ function App() {
       <Header OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
       <SidebarProduction openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
       <div className='container'>
-        <h1>Calculateur de Matériaux pour Béton</h1>
+        <h1 className='title-all'>Production de Béton</h1>
         <div className="production-grid">
           <div className="production-form-1">
             <div className="form-group">
@@ -125,20 +125,20 @@ function App() {
               <label>Observations:</label>
               <textarea className="textarea" name="observations" value={inputs.observations} onChange={handleInputChange} />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>Description:</label>
               <textarea className="textarea" name="description" value={inputs.description} onChange={handleInputChange} />
-            </div>
+            </div> */}
           </div>
           <div className="production-form-3">
             <div className="button-group">
-              <button className="button-calculate" onClick={calculerQuantites}>Calculer les Quantités</button>
-              <button className="button-save" onClick={handleSubmit}>Enregistrer la Production</button>
-              <button className="button-calculate" onClick={recalculateVolumeBasedOnQuantities}>Recalculer Volume</button>
+              <button className="button" onClick={calculerQuantites}>Calculer les Quantités</button>
+              <button className="print-button" onClick={handleSubmit}>Enregistrer la Production</button>
+              <button className="button-calc" onClick={recalculateVolumeBasedOnQuantities}>Recalculer Volume</button>
             </div>
           </div>
           <div className='quantities'>
-            <h2>Quantités nécessaires:</h2>
+            <h2 className='title-small'>Quantités nécessaires:</h2>
             {Object.entries(resultats).map(([key, value]) => (
               <div key={key} className="quantity-item">
                 <label>{key}:</label>

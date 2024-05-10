@@ -42,7 +42,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
 
       <Link to="/bon_production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsCardList  className='icon'/> Production
+            <BsCardList  className='icon'/> Bon Production
         </li>
       </Link>
        
