@@ -3,7 +3,7 @@ import axios from 'axios';
 import Header from '../../../components/Main/Header';
 import SidebarProduction from './SidebarProduction';
 import CustomAlert from '../../../components/costumeAlert/costumeAlert';
-
+import "./App.css";
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [formules, setFormules] = useState([]);
@@ -16,6 +16,7 @@ function App() {
   });
   const [resultats, setResultats] = useState({});
   const [alert, setAlert] = useState(null);
+  const [lastCalculated, setLastCalculated] = useState({}); // To track last calculated quantities to avoid re-calculation
 
   useEffect(() => {
     axios.get('http://localhost:8080/formules')
@@ -46,12 +47,32 @@ function App() {
 
   const calculerQuantites = () => {
     const formula = formules.find(f => f._id === inputs.formuleSelectionnee);
+    if (!formula) return;
     const newResultats = {};
     formula.products.forEach(p => {
       newResultats[p.product.name] = p.quantity * inputs.volumeDesire;
     });
     setResultats(newResultats);
+    setLastCalculated(newResultats);
     showAlert("Les quantités ont été calculées avec succès.", "success");
+  };
+
+  const recalculateVolumeBasedOnQuantities = () => {
+    const formula = formules.find(f => f._id === inputs.formuleSelectionnee);
+    if (!formula) return;
+    let newVolume = 0;
+    Object.entries(resultats).forEach(([product, quantity]) => {
+      const baseQuantity = formula.products.find(p => p.product.name === product)?.quantity;
+      if (baseQuantity) {
+        const volumeContribution = quantity / baseQuantity;
+        newVolume += volumeContribution;
+      }
+    });
+    setInputs(prevInputs => ({
+      ...prevInputs,
+      volumeDesire: newVolume / formula.products.length // Average contribution to volume
+    }));
+    showAlert("Volume recalculé avec succès.", "success");
   };
 
   const showAlert = (message, type) => {
@@ -70,8 +91,9 @@ function App() {
       showAlert("La production a été enregistrée avec succès.", "success");
     })
     .catch(error => {
-      showAlert("Une erreur s'est produite lors de l'enregistrement de la production.", "error");
-      console.error('Erreur lors de l\'enregistrement de la production', error);
+      const errorMessage = error.response && error.response.data ? error.response.data.message : "Une erreur s'est produite lors de l'enregistrement de la production.";
+      showAlert(errorMessage, "error");
+      console.error('Erreur lors de l\'enregistrement de la production', error.response || error);
     });
   };
 
@@ -80,12 +102,18 @@ function App() {
       <Header OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
       <SidebarProduction openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
       <div className='container'>
-        <h1>Calculateur de Matériaux pour Béton</h1>
+        <h1 className='title-all'>Production de Béton</h1>
         <div className="production-grid">
           <div className="production-form-1">
             <div className="form-group">
               <label>Code de production:</label>
               <input className="input-small" type="text" name="codeProduction" value={inputs.codeProduction} onChange={handleInputChange} />
+              <label>Formule sélectionnée:</label>
+              <select value={inputs.formuleSelectionnee} name="formuleSelectionnee" onChange={handleInputChange}>
+                {formules.map(formule => (
+                  <option key={formule._id} value={formule._id}>{formule.name}</option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="production-form-2">
@@ -97,19 +125,20 @@ function App() {
               <label>Observations:</label>
               <textarea className="textarea" name="observations" value={inputs.observations} onChange={handleInputChange} />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>Description:</label>
               <textarea className="textarea" name="description" value={inputs.description} onChange={handleInputChange} />
-            </div>
+            </div> */}
           </div>
           <div className="production-form-3">
             <div className="button-group">
-              <button className="button-calculate" onClick={calculerQuantites}>Calculer les Quantités</button>
-              <button className="button-save" onClick={handleSubmit}>Enregistrer la Production</button>
+              <button className="button" onClick={calculerQuantites}>Calculer les Quantités</button>
+              <button className="print-button" onClick={handleSubmit}>Enregistrer la Production</button>
+              <button className="button-calc" onClick={recalculateVolumeBasedOnQuantities}>Recalculer Volume</button>
             </div>
           </div>
           <div className='quantities'>
-            <h2>Quantités nécessaires:</h2>
+            <h2 className='title-small'>Quantités nécessaires:</h2>
             {Object.entries(resultats).map(([key, value]) => (
               <div key={key} className="quantity-item">
                 <label>{key}:</label>

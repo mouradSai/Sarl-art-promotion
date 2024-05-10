@@ -47,14 +47,13 @@ function App() {
             const response = await axios.get('http://localhost:8080/credit_vente');
             const creditsData = response.data;
     
-            // Filter out resolved credits and resolve overlapping cases
-            const filteredData = creditsData.filter((credit, index) => {
+            // Filtrer les crédits pour récupérer uniquement ceux avec le reste à payer minimum (sauf s'il est égal à zéro)
+            const filteredData = creditsData.filter(credit => {
                 const restAPayer = credit.resteAPayer;
-                const sameCommandCredits = creditsData.filter((c, i) => c.commande.code_commande === credit.commande.code_commande && i !== index);
-                const hasZeroRestAPayer = sameCommandCredits.some(c => c.resteAPayer === 0);
-                const hasNonZeroRestAPayer = sameCommandCredits.some(c => c.resteAPayer > 0);
+                const sameCommandCredits = creditsData.filter(c => c.commande.code_commande === credit.commande.code_commande);
+                const minRestAPayer = Math.min(...sameCommandCredits.map(c => c.resteAPayer));
     
-                return restAPayer > 0 && !hasZeroRestAPayer;
+                return restAPayer === minRestAPayer && restAPayer !== 0;
             });
     
             setCredits(filteredData);
@@ -63,6 +62,7 @@ function App() {
             showAlert('An error occurred while fetching credits. Please try again later.', 'error');
         }
     };
+    
     
     const showAlert = (message, type) => {
         setAlert({ message, type });

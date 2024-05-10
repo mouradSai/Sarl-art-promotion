@@ -42,13 +42,18 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
 
       <Link to="/bon_production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsCardList  className='icon'/> Production
+            <BsCardList  className='icon'/> Bon Production
         </li>
       </Link>
        
       <Link to="/formula" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsReceiptCutoff  className='icon'/> Formules
+        </li>
+      </Link>
+      <Link to="/Stock_finie" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsBox2Fill  className='icon'/> Stock finie
         </li>
       </Link>
       <Link to="/historique_beton" className="sidebar-link"> 

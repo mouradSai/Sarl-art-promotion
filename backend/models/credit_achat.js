@@ -9,6 +9,7 @@ const creditAchatSchema = new Schema({
     },
     
     resteAPayer: { type: Number, required: true },
+    
 });
 
 creditAchatSchema.pre('save', function(next) {
