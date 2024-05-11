@@ -113,7 +113,14 @@ function HistoriqueBon() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedBonProduction(null)}>&times;</span>
-                            {/* Afficher les détails du bon de production sélectionné ici */}
+                            <h2>Détails du Bon de Production</h2>
+                            <p><strong>Code Bon:</strong> {selectedBonProduction.code_bon}</p>
+                            <p><strong>Client:</strong> {selectedBonProduction.client_id.name}</p>
+                            <p><strong>Date:</strong> {new Date(selectedBonProduction.date).toISOString().slice(0, 10)}</p>
+                            <p><strong>Heure:</strong> {selectedBonProduction.heure}</p>
+                            <p><strong>Quantité:</strong> {selectedBonProduction.quantite}</p>
+                            <p><strong>Lieu de livraison:</strong> {selectedBonProduction.lieu_livraison}</p>
+                            {/* Ajoutez d'autres détails du bon de production ici si nécessaire */}
                         </div>
                     </div>
                 )}
