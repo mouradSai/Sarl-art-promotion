@@ -39,13 +39,17 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
             <TbBuildingFactory  className='icon'/> Production
         </li>
       </Link>
+      <Link to="/production_vente" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <TbBuildingFactory  className='icon'/> Production vente
+        </li>
+      </Link>
 
       <Link to="/bon_production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsCardList  className='icon'/> Bon Production
         </li>
       </Link>
-       
       <Link to="/formula" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsReceiptCutoff  className='icon'/> Formules

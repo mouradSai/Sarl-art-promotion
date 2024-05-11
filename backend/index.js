@@ -30,6 +30,8 @@ const generatePdfvente = require ("./generatePdf/generatePdfvente");
 //production 
 const FormulaRoute = require ("./routes/FormulaRoute");
 const production_Route = require ("./routes/productionRoute");
+const commande_productionventeRoute = require ("./routes/commande_productionventeRoute");
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -73,6 +75,7 @@ app.use('/bon_production',bon_production);
 
 app.use('/Formules',FormulaRoute);
 app.use('/production_beton',production_Route);
+app.use('/commande_production_vente',commande_productionventeRoute);
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
