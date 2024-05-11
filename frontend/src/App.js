@@ -33,17 +33,18 @@ import Historique_commande_achat from "./pages/Historique/historique-commande_ac
 import Historique_commande_vente from "./pages/Historique/historique_commande_vente/historique_commande_vente";
 import Historique_creditachat from "./pages/Historique/historique_credit/historique_creditachat";
 import Historique_creditvente from "./pages/Historique/historique_credit/historique_creditvente";
-import Historique_production_vente from "./pages/production/production_beton/historique_production_vente";
 
 //Import pages production 
 
 import Bon_production_beton from "./pages/production/production_beton/bon_production_beton";
 import Production_beton from "./pages/production/production_beton/production_beton";
 import Formula from "./pages/production/production_beton/formula";
-import Historique_beton from"./pages/production/production_beton/historique_beton";
-import Historique_bon from"./pages/production/production_beton/historique_bon";
+import Historique_beton from"./pages/production/production_beton/Historique/historique_beton";
+import Historique_bon from"./pages/production/production_beton/Historique/historique_bon";
 import Stock_finie from "./pages/production/production_beton/finishedproducts/finishedproducts";
 import Production_vente from "./pages/production/production_beton/production_vente";
+import Historique_production_vente from "./pages/production/production_beton/Historique/historique_production_vente";
+import Historique_production from "./pages/production/production_beton/Historique/historique";
 //protection de routes 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
 
@@ -285,6 +286,18 @@ function App() {
                     localStorage.getItem("token")    ? (
                         <ProtectedRoute>
                             <Historique_production_vente />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+            
+                {/* Routes sans protection */}
+		<Route path="/historique_production" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Historique_production />
                         </ProtectedRoute>
                     ) : (
                         <Navigate replace to="/login" />

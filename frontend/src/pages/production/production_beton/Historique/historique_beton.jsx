@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from './SidebarProduction';
-import Header from '../../../components/Main/Header';
-import CustomAlert from '../../../components/costumeAlert/costumeAlert';
+import Sidebar from '../SidebarProduction';
+import Header from '../../../../components/Main/Header';
+import CustomAlert from '../../../../components/costumeAlert/costumeAlert';
 
 function App() {
     const [productions, setProductions] = useState([]);

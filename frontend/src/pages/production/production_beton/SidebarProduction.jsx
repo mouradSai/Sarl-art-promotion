@@ -41,7 +41,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       </Link>
       <Link to="/production_vente" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <TbBuildingFactory  className='icon'/> Production vente
+            <TbBuildingFactory  className='icon'/> commande vente
         </li>
       </Link>
 
@@ -60,18 +60,9 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
             <BsBox2Fill  className='icon'/> Stock finie
         </li>
       </Link>
-      <Link to="/historique_beton" className="sidebar-link"> 
-      <li className='sidebar-list-item'>
-            <BsFileBarGraphFill  className='icon'/> Historique
-        </li>
-      </Link>
-      <Link to="/historique_production_vente" className="sidebar-link"> 
-      <li className='sidebar-list-item'>
-            <BsFileBarGraphFill  className='icon'/> Historique vente
-        </li>
-      </Link>
+    
 
-      <Link to="/historique_bon" className="sidebar-link"> 
+      <Link to="/historique_production" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsFileBarGraphFill  className='icon'/> Historique
         </li>
