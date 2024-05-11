@@ -172,6 +172,7 @@ const fetchFormulas = async () => {
       <table>
         <thead>
           <tr>
+            <th>Code</th>
             <th>Client</th>
             <th>Formule</th>
             <th>Quantité</th>
@@ -184,6 +185,7 @@ const fetchFormulas = async () => {
         <tbody>
           {bonProductions.map((bonProduction, index) => (
             <tr key={index}>
+              <td>{bonProduction.code_Bon}</td>
               <td>{bonProduction.client_name}</td>
               <td>{bonProduction.formules[0].formula_name}</td>
               <td>{bonProduction.quantite}</td>
