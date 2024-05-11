@@ -72,13 +72,32 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
-    // Ajoutez ici le code pour la mise à jour d'un bon de production
-});
 
-router.delete('/:id', async (req, res) => {
-    // Ajoutez ici le code pour la suppression d'un bon de production
-});
+router.get('/:id', async (req, res) => {
+    try {
+      const bonProduction = await BonProduction.findById(req.params.id)
+        .populate({
+          path: 'client_id',
+          select: 'name',
+          model: 'Client'
+        })
+        .populate({
+          path: 'formules.formula',
+          select: 'name',
+          model: 'Formula'
+        });
+  
+      if (!bonProduction) {
+        return res.status(404).json({ message: 'Bon de production non trouvé' });
+      }
+  
+      res.status(200).json(bonProduction);
+    } catch (error) {
+      console.error('Erreur lors de la récupération du bon de production par ID:', error);
+      res.status(500).json({ message: 'Erreur lors de la récupération du bon de production par ID', error: error.message });
+    }
+  });
+
 
 router.put('/:id', async (req, res) => {
   try {
