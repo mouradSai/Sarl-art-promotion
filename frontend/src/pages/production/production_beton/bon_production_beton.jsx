@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Sidebar from '../production_beton/SidebarProduction';
+import Header from '../../../components/Main/Header';
+import CustomAlert from '../../../components/costumeAlert/costumeAlert';
 
 function BonProductionForm() {
 
   const [clients, setClients] = useState([]);
   const [formulas, setFormulas] = useState([]);
+  const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [selectedClient, setSelectedClient] = useState('');
   const [selectedFormula, setSelectedFormula] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -96,8 +100,13 @@ const fetchFormulas = async () => {
   
 
   return (
+
+    <div className="grid-container">
+    <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+    <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+    <div className='container'>
     <div className="bon-production-form">
-      <h2>Formulaire de Bon de Production</h2>
+      <h1 className="title-all"> Bon de Production</h1>
       <div>
         <label>Client:</label>
         <select value={selectedClient} onChange={(e) => setSelectedClient(e.target.value)}>
@@ -163,8 +172,10 @@ const fetchFormulas = async () => {
           ))}
         </tbody>
       </table>
-      <button onClick={handleValidate}>Valider</button>
+      <button className='print-button' onClick={handleValidate}>Valider</button>
     </div>
+  </div>
+ </div>
   );
 }
 
