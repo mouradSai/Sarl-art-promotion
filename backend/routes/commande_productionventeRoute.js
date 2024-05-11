@@ -3,7 +3,6 @@ const router = express.Router();
 const CommandeProductionVente = require('../models/commande_production_vente');
 const Client = require('../models/client');
 const ProductFinished = require('../models/productfinished');
-
 router.post('/', async (req, res) => {
     try {
         const { code_commande, date_commande, observation, client_name, produits, versement, modePaiement } = req.body;
@@ -20,6 +19,16 @@ router.post('/', async (req, res) => {
             if (!product) {
                 return res.status(404).json({ message: `Finished product not found for production code: ${productionCode}` });
             }
+
+            // Vérifier si la quantité commandée est disponible en stock
+            if (product.volumeProduced < quantity) {
+                return res.status(400).json({ message: `La quantité demandée de ${product.productionCode} est supérieure à celle en stock. Quantité disponible: ${product.volumeProduced}` });
+            }
+
+            // Soustraire la quantité commandée du volume produit
+            product.volumeProduced -= quantity;
+            await product.save();
+
             const totalLigne = quantity * prixUnitaire;
             productDetails.push({
                 productfinished: product._id,
@@ -49,6 +58,7 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Error creating production sale order', error: error.message });
     }
 });
+
 
 // Route to retrieve all production sale orders
 router.get('/', async (req, res) => {

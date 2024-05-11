@@ -20,6 +20,7 @@ const credit_vente=require ("./routes/credit_venteRoute");
 const generatePdfcommande = require ("./generatePdf/generatePdfcommande");
 const generatePdfachat = require ("./generatePdf/generatePdfachat");
 const generatePdfvente = require ("./generatePdf/generatePdfvente");
+const generatePdfproductionvente = require ("./generatePdf/generatePdfproductionvente");
 
 
 //production 
@@ -66,6 +67,8 @@ app.use('/commandes_vente',commande_venteRoute);
 app.use ('/generatePdfcommande',generatePdfcommande);
 app.use ('/generatePdfachat',generatePdfachat);
 app.use ('/generatePdfvente',generatePdfvente);
+app.use ('/generatePdfproductionvente',generatePdfproductionvente);
+
 app.use('/credit_achat',credit_achat);
 app.use('/credit_vente',credit_vente);
 

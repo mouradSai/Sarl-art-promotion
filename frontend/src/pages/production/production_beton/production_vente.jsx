@@ -126,7 +126,68 @@ function App() {
     const showAlert = (message, type) => {
         setAlert({ message, type });
     };
+//suppression d'une ligne d'enregestrement tableau
+const handleDelete = (index) => {
+    // Crée un nouveau tableau en filtrant l'élément à l'index spécifié
+    const newCommandes = commandes.filter((item, i) => i !== index);
+    setCommandes(newCommandes);
+};
 
+ // Fonction pour calculer le total de la commande principale
+const calculateTotalCommandePrincipale = () => {
+    let totalCommandePrincipale = 0;
+    commandes.forEach(item => {
+        totalCommandePrincipale += item.quantity * item.prixUnitaire;
+    });
+    return totalCommandePrincipale.toFixed(2);
+};
+//generate pdf order 
+const handleGeneratePDF = async () => {
+    if (commandes.length === 0) {
+        showAlert('Veuillez ajouter des produits à la commande.');
+        return;
+    }
+    if (!codeCommande) {
+        showAlert('Veuillez entrer un code de commande.');
+        return;
+    }
+    if (!clientName) {
+        showAlert('Veuillez entrer le nom du fournisseur.');
+        return;
+    }
+
+    const orderDetails = {
+        clientName,
+        codeCommande,
+        date: new Date().toISOString().slice(0, 10),
+        observation_com,
+        commandes
+    };
+
+    try {
+        const response = await fetch('http://localhost:8080/generatePdfproductionvente', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderDetails)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `bon-de-commande-${codeCommande}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (error) {
+        console.error('Erreur lors de la génération du PDF :', error);
+        showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
+    }
+};
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
@@ -188,9 +249,14 @@ function App() {
                                 ))}
                             </tbody>
                         </table>
+                        <div>
+                            <h3>Total Commande Principale: {calculateTotalCommandePrincipale()} DA</h3>
+                        </div>
                         <div className="popup-buttons">
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
                             <button className='next-button' onClick={handleShowFinalizePopup}>Suivant</button>
+                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+
                         </div>
                     </div>
                 )}
@@ -203,6 +269,8 @@ function App() {
                                 <th>Quantité</th>
                                 <th>Prix Unitaire</th>
                                 <th>Total Ligne</th>
+                                <th>Action</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -212,6 +280,9 @@ function App() {
                                     <td>{item.quantity}</td>
                                     <td>{item.prixUnitaire}</td>
                                     <td>{(item.quantity * item.prixUnitaire).toFixed(2)}</td>
+                                    <td>
+                            <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
