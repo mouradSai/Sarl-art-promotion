@@ -65,6 +65,11 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
             <BsFileBarGraphFill  className='icon'/> Historique
         </li>
       </Link>
+      <Link to="/historique_production_vente" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsFileBarGraphFill  className='icon'/> Historique vente
+        </li>
+      </Link>
 
       <Link to="/historique_bon" className="sidebar-link"> 
       <li className='sidebar-list-item'>

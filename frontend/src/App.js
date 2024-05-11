@@ -33,6 +33,7 @@ import Historique_commande_achat from "./pages/Historique/historique-commande_ac
 import Historique_commande_vente from "./pages/Historique/historique_commande_vente/historique_commande_vente";
 import Historique_creditachat from "./pages/Historique/historique_credit/historique_creditachat";
 import Historique_creditvente from "./pages/Historique/historique_credit/historique_creditvente";
+import Historique_production_vente from "./pages/production/production_beton/historique_production_vente";
 
 //Import pages production 
 
@@ -272,6 +273,18 @@ function App() {
                     localStorage.getItem("token")    ? (
                         <ProtectedRoute>
                             <Historique_bon />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+            
+                {/* Routes sans protection */}
+		<Route path="/historique_production_vente" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Historique_production_vente />
                         </ProtectedRoute>
                     ) : (
                         <Navigate replace to="/login" />
