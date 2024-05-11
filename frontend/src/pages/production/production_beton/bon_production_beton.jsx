@@ -12,6 +12,7 @@ function BonProductionForm() {
   const [selectedClient, setSelectedClient] = useState('');
   const [selectedFormula, setSelectedFormula] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [codeBon, setCodeBon] = useState('');
   const [lieuLivraison, setLieuLivraison] = useState('');
   const [heure, setHeure] = useState('');
   const [date, setDate] = useState('');
@@ -47,7 +48,7 @@ const fetchFormulas = async () => {
   }, []);
 
   const handleAddBonProduction = () => {
-    if (!selectedClient || !selectedFormula || !quantity || !heure || !lieuLivraison || !date) {
+    if (!selectedClient || !selectedFormula || !quantity || !heure || !lieuLivraison || !date || !codeBon) {
       setErrorMessage('Veuillez remplir tous les champs.');
       return;
     }
@@ -56,12 +57,14 @@ const fetchFormulas = async () => {
       client_name: selectedClient,
       formules: [{ formula_name: selectedFormula }],
       quantite: quantity,
+      code_Bon: codeBon, // Utilisez la valeur de codeBon mise à jour ici
       lieu_livraison: lieuLivraison,
       heure: heure,
       date: date
     };
 
     setBonProductions([...bonProductions, newBonProduction]);
+    setCodeBon(''); // Réinitialisez la valeur de codeBon après l'ajout
     setErrorMessage('');
   };
 
@@ -80,7 +83,7 @@ const fetchFormulas = async () => {
     try {
       // Construire les données à envoyer
       const dataToSend = {
-        code_bon: 'VotreValeur', // Remplacez 'VotreValeur' par la valeur appropriée
+        code_bon: bonProductions[0].code_Bon, // Remplacez 'VotreValeur' par la valeur appropriée
         client_name: bonProductions[0].client_name, // Vous pouvez ajuster cela si nécessaire
         formules: bonProductions.map(bonProduction => bonProduction.formules[0]), // Formules sous forme de tableau
         quantite: bonProductions[0].quantite, // Vous pouvez ajuster cela si nécessaire
@@ -107,6 +110,10 @@ const fetchFormulas = async () => {
     <div className='container'>
     <div className="bon-production-form">
       <h1 className="title-all"> Bon de Production</h1>
+      <div className="form-container">
+        <div className='bloc'>
+          <div className='bloc1'>
+
       <div>
         <label>Client:</label>
         <select value={selectedClient} onChange={(e) => setSelectedClient(e.target.value)}>
@@ -116,6 +123,7 @@ const fetchFormulas = async () => {
           ))}
         </select>
       </div>
+
       <div>
         <label>Formule:</label>
         <select value={selectedFormula} onChange={(e) => setSelectedFormula(e.target.value)}>
@@ -125,22 +133,39 @@ const fetchFormulas = async () => {
           ))}
         </select>
       </div>
+
+      <div>
+        <label>Code du bon:</label>
+        <input placeholder="Code de bon" type="text" value={codeBon} onChange={(e) => setCodeBon(e.target.value)} />
+      </div>
+
       <div>
         <label>Quantité:</label>
-        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+        <input placeholder="Quantité" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
       </div>
-      <div>
-        <label>Heure:</label>
-        <input type="text" value={heure} onChange={(e) => setHeure(e.target.value)} />
-      </div>
-      <div>
+
+      </div> 
+
+      <div className='bloc2'>
+
+      <div className='datebon'>
         <label>Date:</label>
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       </div>
       <div>
+
+      <div>
+        <label>Heure:</label>
+        <input type="text" value={heure} onChange={(e) => setHeure(e.target.value)} />
+      </div>
+
         <label>Lieu de livraison:</label>
         <input type="text" value={lieuLivraison} onChange={(e) => setLieuLivraison(e.target.value)} />
       </div>
+
+      </div> 
+      </div> 
+      </div> 
       <button onClick={handleAddBonProduction}>Ajouter Bon de Production</button>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <h2>Bons de Production</h2>
