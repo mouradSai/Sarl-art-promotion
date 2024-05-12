@@ -52,6 +52,13 @@ function App() {
                             <p>Ici, vous pouvez consulter l'historique de vos ventes passés</p>
                         </div>
                     </Link>
+                    <Link to="/historique_credit_vente" className="link-no-underline">
+                        <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
+                            <img src={vente} />
+                            <h2>Historique des credit de vente de beton </h2>
+                            <p>Ici, vous pouvez consulter l'historique de vos credit de ventes passés</p>
+                        </div>
+                    </Link>
 
                   
 

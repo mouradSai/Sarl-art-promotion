@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const CreditProductionVente = require('./credit_production_vente'); // Import the CreditProductionVente model
 
 // Schema for finished products in the production sale order
 const produitVenteSchema = new Schema({
@@ -45,6 +46,24 @@ const commandeProductionVenteSchema = new mongoose.Schema({
 commandeProductionVenteSchema.pre('save', function(next) {
     this.totalCommande = this.produits.reduce((acc, curr) => acc + curr.totalLigne, 0);
     next();
+});
+
+// Middleware to create a CreditProductionVente after saving a CommandeProductionVente
+commandeProductionVenteSchema.post('save', async function(doc) {
+    try {
+        const resteAPayer = doc.totalCommande - (doc.versement || 0); // Calculate resteAPayer
+
+        // Create the CreditProductionVente record
+        const creditProductionVente = new CreditProductionVente({
+            vente: doc._id,
+            resteAPayer: resteAPayer
+        });
+
+        await creditProductionVente.save();
+    } catch (error) {
+        console.error('Error creating credit production vente:', error);
+        throw error; // Throw the error to ensure it's caught by the caller
+    }
 });
 
 const CommandeProductionVente = mongoose.model('CommandeProductionVente', commandeProductionVenteSchema);
