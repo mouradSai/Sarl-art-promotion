@@ -21,15 +21,26 @@ function HistoriqueBon() {
         filterBonsProduction();
     }, [searchText, bonsProduction]);
 
+
     const fetchBonsProduction = async () => {
         try {
             const response = await axios.get('http://localhost:8080/bon_production');
-            setBonsProduction(response.data.bonsProduction);
+            const bonsProductionWithFormulas = response.data.bonsProduction.map(bon => {
+                // Assuming you have the formula name available in 'formula' object
+                const formulaName = bon.formules.length > 0 ? bon.formules[0].formula.name : "";
+                return {...bon, formulaName };
+            });
+            setBonsProduction(bonsProductionWithFormulas);
         } catch (error) {
             console.error('Error fetching bons production:', error);
             showAlert('An error occurred while fetching bons production. Please try again later.', 'error');
         }
     };
+    
+
+
+
+
 
     const filterBonsProduction = () => {
         if (!bonsProduction) {
@@ -44,6 +55,8 @@ function HistoriqueBon() {
         setFilteredBonsProduction(filteredData);
         setCurrentPage(1); // Reset to the first page whenever the filter changes
     };
+
+    
     
 
     const showAlert = (message, type) => {
@@ -79,6 +92,7 @@ function HistoriqueBon() {
                     <thead>
                         <tr>
                             <th>Code Bon</th>
+                            <th>Formule</th>
                             <th>Client</th>
                             <th>Date</th>
                             <th>Heure</th>
@@ -91,6 +105,7 @@ function HistoriqueBon() {
                     {currentBonsProduction.map((bonProduction) => (
                         <tr key={bonProduction._id}>
                             <td>{bonProduction.code_bon}</td>
+                            <td>{bonProduction.formulaName}</td>
                             <td>{bonProduction.client_id.name}</td>
                             <td>{new Date(bonProduction.date).toISOString().slice(0, 10)}</td>
                             <td>{bonProduction.heure}</td>
@@ -115,6 +130,7 @@ function HistoriqueBon() {
                             <span className="close-button" onClick={() => setSelectedBonProduction(null)}>&times;</span>
                             <h2>Détails du Bon de Production</h2>
                             <p><strong>Code Bon:</strong> {selectedBonProduction.code_bon}</p>
+                            <p><strong>Formule:</strong> {selectedBonProduction.formula}</p>
                             <p><strong>Client:</strong> {selectedBonProduction.client_id.name}</p>
                             <p><strong>Date:</strong> {new Date(selectedBonProduction.date).toISOString().slice(0, 10)}</p>
                             <p><strong>Heure:</strong> {selectedBonProduction.heure}</p>
