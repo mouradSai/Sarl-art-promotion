@@ -30,6 +30,10 @@ function HistoriqueBon() {
                 const formulaName = bon.formules.length > 0 ? bon.formules[0].formula.name : "";
                 return {...bon, formulaName };
             });
+    
+            // Sort the bons production by date in descending order
+            bonsProductionWithFormulas.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
             setBonsProduction(bonsProductionWithFormulas);
         } catch (error) {
             console.error('Error fetching bons production:', error);
@@ -37,9 +41,6 @@ function HistoriqueBon() {
         }
     };
     
-
-
-
 
 
     const filterBonsProduction = () => {
