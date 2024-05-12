@@ -16,6 +16,7 @@ function BonProductionForm() {
   const [lieuLivraison, setLieuLivraison] = useState('');
   const [heure, setHeure] = useState('');
   const [date, setDate] = useState('');
+  const [bonProductionAdded, setBonProductionAdded] = useState(false); // Ajout de la variable d'état
   const [bonProductions, setBonProductions] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -63,15 +64,17 @@ const fetchFormulas = async () => {
       date: date
     };
 
-    setBonProductions([...bonProductions, newBonProduction]);
+    setBonProductions([newBonProduction]);
     setCodeBon(''); // Réinitialisez la valeur de codeBon après l'ajout
     setErrorMessage('');
+    setBonProductionAdded(true); // Mettre à jour l'état du bon de production ajouté
   };
 
   const handleDelete = (index) => {
     const updatedBonProductions = [...bonProductions];
     updatedBonProductions.splice(index, 1);
     setBonProductions(updatedBonProductions);
+    setBonProductionAdded(false); // Mettre à jour l'état du bon de production ajouté
   };
 
   const handleValidate = async () => {
@@ -166,7 +169,7 @@ const fetchFormulas = async () => {
       </div> 
       </div> 
       </div> 
-      <button onClick={handleAddBonProduction}>Ajouter Bon de Production</button>
+      <button className={`add-button ${bonProductionAdded ? 'gray-button' : ''}`} onClick={handleAddBonProduction} disabled={bonProductionAdded}>Ajouter Bon de Production</button>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <h2>Bons de Production</h2>
       <table>

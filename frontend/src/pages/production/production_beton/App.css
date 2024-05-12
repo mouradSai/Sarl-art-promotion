@@ -89,3 +89,13 @@
   margin-bottom: 20px;
   margin-top: 10px;
 }
+
+.gray-button {
+  background-color: #ccc; /* Couleur de fond grise */
+  color: #666; /* Couleur du texte grise */
+}
+
+.gray-button:hover {
+  background-color: #ccc; /* Couleur de fond grise au survol */
+  color: #666; /* Couleur du texte grise au survol */
+}
