@@ -15,21 +15,21 @@ const credit_vente=require ("./routes/credit_venteRoute");
 
 
 
-//les dossier de production
-const bon_production=require ("./routes/bon_productionRoute"); 
-
-
-
 
 //les dossier de generate pdfs 
 const generatePdfcommande = require ("./generatePdf/generatePdfcommande");
 const generatePdfachat = require ("./generatePdf/generatePdfachat");
 const generatePdfvente = require ("./generatePdf/generatePdfvente");
+const generatePdfproductionvente = require ("./generatePdf/generatePdfproductionvente");
 
 
 //production 
+//les dossier de production
+const bon_production=require ("./routes/bon_productionRoute"); 
 const FormulaRoute = require ("./routes/FormulaRoute");
 const production_Route = require ("./routes/productionRoute");
+const commande_productionventeRoute = require ("./routes/commande_productionventeRoute");
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -67,12 +67,15 @@ app.use('/commandes_vente',commande_venteRoute);
 app.use ('/generatePdfcommande',generatePdfcommande);
 app.use ('/generatePdfachat',generatePdfachat);
 app.use ('/generatePdfvente',generatePdfvente);
+app.use ('/generatePdfproductionvente',generatePdfproductionvente);
+
 app.use('/credit_achat',credit_achat);
 app.use('/credit_vente',credit_vente);
-app.use('/bon_production',bon_production);
 
+app.use('/bon_production',bon_production);
 app.use('/Formules',FormulaRoute);
 app.use('/production_beton',production_Route);
+app.use('/commande_production_vente',commande_productionventeRoute);
 
 const port = process.env.PORT || 8080;
 app.listen(port, console.log(`Listening on port ${port}...`));

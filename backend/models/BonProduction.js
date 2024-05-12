@@ -1,33 +1,27 @@
-// Importation de mongoose
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-// Schéma du modèle BonProduction
-const BonProductionSchema = new mongoose.Schema({
-    client: {
-        type: mongoose.Schema.Types.ObjectId, // Référence vers le modèle Client
-        ref: 'Client', // Nom du modèle référencé
-    },
-    product: {
-        type: mongoose.Schema.Types.ObjectId, // Référence vers le modèle Product
-        ref: 'Product', // Nom du modèle référencé
-    },
-    quantity: {
-        type: Number
-    },
-    date: {
-        type: Date,
-        default: Date.now // Date par défaut, peut être changée
-    },
-    heure: {
-        type: String,
-    },
-    lieuLivraison: {
-        type: String,
+// Schéma pour les formules dans le bon de production
+const formulaProdSchema = new Schema({
+    formula: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Formula', // Assurez-vous que 'Formula' correspond au nom de votre modèle de formule
     }
 });
 
-// Création du modèle BonProduction à partir du schéma
-const BonProduction = mongoose.model('BonProduction', BonProductionSchema);
+// Schéma pour le bon de production
+const bonProductionSchema = new mongoose.Schema({
+    code_bon: String,
+    client_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'client' // Assurez-vous que 'client' correspond au nom de votre modèle de client
+    },
+    formules: [formulaProdSchema],
+    quantite: { type: Number, required: true },  // Quantité totale pour la production
+    lieu_livraison: { type: String, required: true },  // Lieu de livraison
+    heure: { type: String, required: true }, // Heure de production
+    date: { type: Date, default: Date.now } // Date de production
+});
 
-// Export du modèle pour l'utiliser ailleurs dans l'application
+const BonProduction = mongoose.model('BonProduction', bonProductionSchema);
 module.exports = BonProduction;

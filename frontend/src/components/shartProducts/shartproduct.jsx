@@ -4,7 +4,7 @@ import 'chart.js/auto';
 import axios from 'axios';
 import './App.css'; // Ensure the CSS file is correctly linked
 
-const SeuilBas = 1000; // Low quantity threshold
+const SeuilBas = 100000; // Low quantity threshold
 
 const ProductStockVisualizer = () => {
     const [produits, setProduits] = useState([]); // Initialize state for products
@@ -79,7 +79,7 @@ const ProductStockVisualizer = () => {
                         {produits.map((produit, index) => (
                             <tr key={index} className='tableRow'>
                                 <td>{produit.name}</td>
-                                <td>{produit.quantity}</td>
+                                <td>{produit.quantity} {produit.unit} </td>
                             </tr>
                         ))}
                     </tbody>

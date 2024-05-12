@@ -35,12 +35,16 @@ import Historique_creditachat from "./pages/Historique/historique_credit/histori
 import Historique_creditvente from "./pages/Historique/historique_credit/historique_creditvente";
 
 //Import pages production 
-import Production_beton from "./pages/production/production_beton/production_beton";
-import Bon_production_beton from "./pages/production/bon_production_beton";
-import Formula from "./pages/production/production_beton/formula";
-import Historique_beton from"./pages/production/production_beton/historique_beton";
-import Stock_finie from "./pages/production/production_beton/finishedproducts/finishedproducts";
 
+import Bon_production_beton from "./pages/production/production_beton/bon_production_beton";
+import Production_beton from "./pages/production/production_beton/production_beton";
+import Formula from "./pages/production/production_beton/formula";
+import Historique_beton from"./pages/production/production_beton/Historique/historique_beton";
+import Historique_bon from"./pages/production/production_beton/Historique/historique_bon";
+import Stock_finie from "./pages/production/production_beton/finishedproducts/finishedproducts";
+import Production_vente from "./pages/production/production_beton/production_vente";
+import Historique_production_vente from "./pages/production/production_beton/Historique/historique_production_vente";
+import Historique_production from "./pages/production/production_beton/Historique/historique";
 //protection de routes 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
 
@@ -263,6 +267,45 @@ function App() {
                     )
                 }
             />  
+
+
+                {/* Routes sans protection */}
+		<Route path="/historique_bon" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Historique_bon />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+            
+                {/* Routes sans protection */}
+		<Route path="/historique_production_vente" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Historique_production_vente />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+            
+                {/* Routes sans protection */}
+		<Route path="/historique_production" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Historique_production />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+
+
             {/* Routes sans protection */}
 		<Route path="/formula" element={
                     localStorage.getItem("token")    ? (
@@ -289,6 +332,17 @@ function App() {
                     localStorage.getItem("token")    ? (
                         <ProtectedRoute>
                             <Stock_finie />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+
+                <Route path="/production_vente" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Production_vente />
                         </ProtectedRoute>
                     ) : (
                         <Navigate replace to="/login" />
