@@ -82,7 +82,7 @@ function HistoriqueBon() {
             <Header />
             <Sidebar />
             <div className="container">
-                <h1 className="title-all">Historique des Bons de Production</h1>
+                <h1 className="title-all">Historique des Bons</h1>
                 <input
                     type="text"
                     placeholder="Rechercher par code ou client..."
