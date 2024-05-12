@@ -79,7 +79,7 @@ const ProductStockVisualizer = () => {
                         {produits.map((produit, index) => (
                             <tr key={index} className='tableRow'>
                                 <td>{produit.name}</td>
-                                <td>{produit.quantity}</td>
+                                <td>{produit.quantity} {produit.unit} </td>
                             </tr>
                         ))}
                     </tbody>
