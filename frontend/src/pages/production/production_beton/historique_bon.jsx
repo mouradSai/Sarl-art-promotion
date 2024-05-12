@@ -130,7 +130,7 @@ function HistoriqueBon() {
                             <span className="close-button" onClick={() => setSelectedBonProduction(null)}>&times;</span>
                             <h2>Détails du Bon de Production</h2>
                             <p><strong>Code Bon:</strong> {selectedBonProduction.code_bon}</p>
-                            <p><strong>Formule:</strong> {selectedBonProduction.formula}</p>
+                            <p><strong>Formule:</strong> {selectedBonProduction.formulaName}</p>
                             <p><strong>Client:</strong> {selectedBonProduction.client_id.name}</p>
                             <p><strong>Date:</strong> {new Date(selectedBonProduction.date).toISOString().slice(0, 10)}</p>
                             <p><strong>Heure:</strong> {selectedBonProduction.heure}</p>
