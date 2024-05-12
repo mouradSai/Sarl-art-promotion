@@ -110,7 +110,7 @@ function HistoriqueBon() {
                             <td>{bonProduction.client_id.name}</td>
                             <td>{new Date(bonProduction.date).toISOString().slice(0, 10)}</td>
                             <td>{bonProduction.heure}</td>
-                            <td>{bonProduction.quantite}</td>
+                            <td>{bonProduction.quantite}m³</td>
                             <td>{bonProduction.lieu_livraison}</td>
                             <td>
                                 <button className='view-button' onClick={() => handleView(bonProduction)}>Détails</button>

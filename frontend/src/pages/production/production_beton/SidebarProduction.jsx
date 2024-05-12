@@ -60,6 +60,11 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
             <BsBox2Fill  className='icon'/> Stock finie
         </li>
       </Link>
+      <Link to="/credit_production_vente" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsBox2Fill  className='icon'/> Credit vente
+        </li>
+      </Link>
     
 
       <Link to="/historique_production" className="sidebar-link"> 
