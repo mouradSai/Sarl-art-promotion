@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import {BsFillArchiveFill, BsPersonCircle, MdSpaceDashboard,BsCardList, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { TbBuildingFactory } from "react-icons/tb";
-
+import { TbZoomMoney } from "react-icons/tb";
 import { BsReceiptCutoff } from "react-icons/bs";
 
 
@@ -41,13 +41,13 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       </Link>
       <Link to="/production_vente" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <TbBuildingFactory  className='icon'/> commande vente
+            <BsCashStack  className='icon'/> Vente
         </li>
       </Link>
 
       <Link to="/bon_production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsCardList  className='icon'/> Bon Production
+            <BsCardList  className='icon'/> Bon de production
         </li>
       </Link>
       <Link to="/formula" className="sidebar-link"> 
@@ -62,7 +62,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       </Link>
       <Link to="/credit_production_vente" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsBox2Fill  className='icon'/> Credit vente
+            <TbZoomMoney  className='icon'/> Crédit de vente
         </li>
       </Link>
     
