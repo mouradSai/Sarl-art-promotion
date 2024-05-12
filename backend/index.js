@@ -29,7 +29,7 @@ const bon_production=require ("./routes/bon_productionRoute");
 const FormulaRoute = require ("./routes/FormulaRoute");
 const production_Route = require ("./routes/productionRoute");
 const commande_productionventeRoute = require ("./routes/commande_productionventeRoute");
-
+const credit_production_venteRoute = require ("./routes/credit_production_venteRoute");
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -71,6 +71,7 @@ app.use ('/generatePdfproductionvente',generatePdfproductionvente);
 
 app.use('/credit_achat',credit_achat);
 app.use('/credit_vente',credit_vente);
+app.use('/credit_production_vente',credit_production_venteRoute);
 
 app.use('/bon_production',bon_production);
 app.use('/Formules',FormulaRoute);

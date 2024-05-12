@@ -119,9 +119,9 @@ function App() {
                             <h2>Commande Details</h2>
                             <p><strong>Code:</strong> {selectedCommande.code_commande}</p>
                             <p><strong>Date of Commande:</strong> {new Date(selectedCommande.date_commande).toISOString().slice(0, 10)}</p>
-                            <p><strong>Total Commande:</strong> {selectedCommande.totalCommande.toFixed(2)}</p>
+                            <p><strong>Total Commande:</strong> {selectedCommande.totalCommande.toFixed(2)}DA</p>
                             <p><strong>Observation:</strong> {selectedCommande.observation}</p>
-                            <p><strong>Versement:</strong> {selectedCommande.versement}</p>
+                            <p><strong>Versement:</strong> {selectedCommande.versement}DA</p>
                             <p><strong>Mode Paiement:</strong> {selectedCommande.modePaiement}</p>
                             <h3>Produits</h3>
                             <table>
@@ -137,9 +137,9 @@ function App() {
                                     {selectedCommande.produits.map((produit, index) => (
                                         <tr key={index}>
                                             <td>{produit.productfinished.productionCode}</td>
-                                            <td>{produit.quantity}</td>
-                                            <td>{produit.prixUnitaire}</td>
-                                            <td>{produit.totalLigne.toFixed(2)}</td>
+                                            <td>{produit.quantity}m³</td>
+                                            <td>{produit.prixUnitaire}DA</td>
+                                            <td>{produit.totalLigne.toFixed(2)}DA</td>
                                         </tr>
                                     ))}
                                 </tbody>

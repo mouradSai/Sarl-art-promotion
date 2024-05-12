@@ -45,6 +45,8 @@ import Stock_finie from "./pages/production/production_beton/finishedproducts/fi
 import Production_vente from "./pages/production/production_beton/production_vente";
 import Historique_production_vente from "./pages/production/production_beton/Historique/historique_production_vente";
 import Historique_production from "./pages/production/production_beton/Historique/historique";
+import Credit_production_vente from "./pages/production/production_beton/credit_production_vente";
+import Historique_credit_vente from "./pages/production/production_beton/Historique/historique_credit_vente";
 //protection de routes 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
 
@@ -343,6 +345,27 @@ function App() {
                     localStorage.getItem("token")    ? (
                         <ProtectedRoute>
                             <Production_vente />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+            
+            <Route path="/credit_production_vente" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Credit_production_vente />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+              <Route path="/historique_credit_vente" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <Historique_credit_vente />
                         </ProtectedRoute>
                     ) : (
                         <Navigate replace to="/login" />
