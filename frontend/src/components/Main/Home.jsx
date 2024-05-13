@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { BsFillBellFill, BsFillArchiveFill, MdSpaceDashboard, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill, BsFileBarGraphFill, BsCashStack, BsBox2Fill, BsPeopleFill } from 'react-icons/bs';
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaArrowRight,FaArrowLeft } from "react-icons/fa";
+
 import { Link } from 'react-router-dom';
 import Shartproduct from '../shartProducts/shartproduct';
+
 function Home() {
+    const [showShartProduct, setShowShartProduct] = useState(false); // State pour afficher ou masquer Shartproduct
+
     const [productsCount, setProductsCount] = useState(0);
     const [providersCount, setProvidersCount] = useState(0);
     const [customersCount, setCustomersCount] = useState(0);
   
     const [commandesCount, setCommandesCount] = useState(0);
     const [commandesAchatCount, setCommandesAchatCount] = useState(0);
-    const [commandesVenteCount, setCommandesVenteCount] = useState(0); // Nouveau state pour le nombre de commandes de vente
-    const [categoriescount, setCategoriesCount] = useState(0); // Nouveau state pour le nombre de commandes de vente
-    const [entrepotscount, setEntrepotsCount] = useState(0); // Nouveau state pour le nombre de commandes de vente
-
+    const [commandesVenteCount, setCommandesVenteCount] = useState(0); 
+    const [categoriescount, setCategoriesCount] = useState(0); 
+    const [entrepotscount, setEntrepotsCount] = useState(0); 
 
     useEffect(() => {
         const fetchCounts = async () => {
@@ -68,15 +72,15 @@ function Home() {
     }, []);
 
     return (
-       
-       
         <main className='main-container'>
             <div className='main-title'>
                 <h3>DASHBOARD</h3>
             </div>
 
-
+     {/* Affichage des cartes d'informations */}
+     {!showShartProduct && (
             <div className='main-cards'>
+                {/* Première moitié de la page */}
                 <div className='card'>
                     <Link to="/product" className="sidebar-link"> 
                         <div className='card-inner'>
@@ -124,9 +128,6 @@ function Home() {
                         <h1>{entrepotscount}</h1>
                     </Link> 
                 </div>
-
-                
-
                 <div className='card'>
                     <Link to="/historique_commande" className="sidebar-link"> 
                         <div className='card-inner'>
@@ -157,9 +158,22 @@ function Home() {
                     </Link>
                 </div>
             </div>
-            <div> 
-          <Shartproduct></Shartproduct>
+   )}
+
+            {/* Affichage de Shartproduct */}
+            {showShartProduct && (
+                <div className="shart-product-container">
+                    <Shartproduct />
+                </div>
+            )}
+
+            {/* Bouton pour basculer entre les vues */}
+            <div className={showShartProduct ? "toggle-button-container-left" : "toggle-button-container-right"}>
+                <button className="toggle-button" onClick={() => setShowShartProduct(!showShartProduct)}>
+                    {showShartProduct ? <FaArrowLeft className='iconar'/>  : <FaArrowRight className='iconar'/>}
+                </button>
             </div>
+            
         </main>
     );
 }

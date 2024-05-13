@@ -426,7 +426,48 @@ body {
 }
 
 
+.toggle-button-container {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
 
+.toggle-button-container-left {
+  position: absolute;
+  top: 70%;
+  left: 10;
+  transform: translateY(-50%);
+}
+
+.toggle-button-container-right {
+  position: absolute;
+  top: 70%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.toggle-button {
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 600;
+  font-size: 70px;
+  border-radius: 50%; /* Pour rendre le bouton rond */
+  background-color: #bc0707; 
+  color: #ffffff;
+  width: 60px; /* Taille du bouton */
+  height: 60px; /* Taille du bouton */
+  border: none; /* Supprime la bordure */
+  cursor: pointer; /* Change le curseur au survol */
+  display: flex; /* Pour centrer le contenu */
+  align-items: center; /* Pour centrer le contenu verticalement */
+  justify-content: center; /* Pour centrer le contenu horizontalement */
+}
+
+.toggle-button:hover {
+  font-size: 32px; /* Increase font size on hover */
+  color: #ffffff; 
+  background-color: #740505;
+}
 
 
 
