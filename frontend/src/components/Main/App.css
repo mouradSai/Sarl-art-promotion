@@ -366,9 +366,7 @@ body {
 }
 
 .profile-dropdown:hover {
-  background-color: white; /* Couleur de fond */
-  color: #bf0909;
-  border: 1px solid #bf0909;;
+  background-color: #740505; /* Darker shade of the original background color */
 }
 
 /* Style pour l'icône et le nom de l'utilisateur */

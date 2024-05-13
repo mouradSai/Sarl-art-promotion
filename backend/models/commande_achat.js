@@ -41,7 +41,9 @@ const commandeAchatSchema = new mongoose.Schema({
         type: String,
         enum: ['chéque', 'espèce', 'crédit'],  // Sélection des options de mode de paiement
         required: true
-    }
+    },
+    code_cheque: { type: String, required: false } // Nouvelle propriété code_cheque
+
 });
 
 // Calculer le total de la commande avant de sauvegarder

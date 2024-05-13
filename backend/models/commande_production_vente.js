@@ -39,7 +39,9 @@ const commandeProductionVenteSchema = new mongoose.Schema({
         type: String,
         enum: ['chéque', 'espèce', 'crédit'],  // Choices for payment mode
         required: true
-    }
+    },
+    code_cheque: { type: String, required: false } // Nouvelle propriété code_cheque
+
 });
 
 // Pre-save hook to calculate the total order before saving

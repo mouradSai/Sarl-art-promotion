@@ -86,7 +86,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         </Link>
         <Link to="/credit" className="sidebar-link">
         <li className='sidebar-list-item'>
-            <TbZoomMoney  className='icon'/> Credits
+            <TbZoomMoney  className='icon'/> Crédits
         </li>
         </Link>
 
