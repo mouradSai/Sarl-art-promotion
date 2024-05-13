@@ -4,11 +4,10 @@ const CommandeVente = require('../models/commande_vente');
 const Client = require('../models/client'); // Import correct du modèle Client
 const Product = require('../models/product'); // Import correct du modèle Product
 
-
 // Route pour créer une commande de vente
 router.post('/', async (req, res) => {
     try {
-        const { code_commande, client_name, date_commande, observation, produits ,versement, modePaiement } = req.body;
+        const { code_commande, client_name, date_commande, observation, produits ,versement, modePaiement, code_cheque } = req.body;
 
         // Trouver l'ID du client à partir de son nom
         const client = await Client.findOne({ name: client_name });
@@ -25,7 +24,7 @@ router.post('/', async (req, res) => {
             }
             if (quantity > product.quantity) {
                 return res.status(400).json({
-                    message: `Quantité entrer de ${product_name} est supérieure à celle disponible en stock qui est : ${ product.quantity}`,
+                    message: `Quantité entrée de ${product_name} est supérieure à celle disponible en stock qui est : ${product.quantity}`,
                     quantiteDisponible: product.quantity
                 });
             }
@@ -47,7 +46,8 @@ router.post('/', async (req, res) => {
             produits: productDetails,
             totalCommande,
             versement, // Add versement to the document
-            modePaiement // Add modePaiement to the document
+            modePaiement, // Add modePaiement to the document
+            code_cheque // Add code_cheque to the document
         });
 
         const savedCommandeVente = await newCommandeVente.save();
