@@ -106,6 +106,8 @@ function App() {
                                 <th>Versement Initial</th>
                                 <th>Reste à Payer</th>
                                 <th>Mode de Paiement</th>
+                                <th>N° cheque</th>
+
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -113,11 +115,13 @@ function App() {
                             {currentCredits.map((credit) => (
                                 <tr key={credit._id}>
                                     <td>{credit.commande.code_commande}</td>
-                                    <td>{credit.commande.provider_id ? credit.commande.provider_id.name : 'No provider'}</td>
+                                    <td>{credit.commande.client_id ? credit.commande.client_id.name : 'No client'}</td>
                                     <td>{credit.commande.totalCommande.toFixed(2)} DA</td>
                                     <td>{credit.commande.versement.toFixed(2)} DA</td>
                                     <td>{credit.resteAPayer.toFixed(2)} DA</td>
                                     <td>{credit.commande.modePaiement}</td>
+                                    <td>{credit.commande.code_cheque || 'N/A'}</td>
+
                                     <td>
                                         <button className='delete-button' onClick={() => handleDeleteCredit(credit.commande.code_commande)}>Delete</button>
                                     </td>
