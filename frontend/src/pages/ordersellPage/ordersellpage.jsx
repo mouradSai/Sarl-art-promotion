@@ -22,6 +22,9 @@ function App() {
     const [versement, setVersement] = useState('');
     const [modePaiement, setModePaiement] = useState('');
     const [showFinalizePopup, setShowFinalizePopup] = useState(false);
+    const [codeCheque, setCodeCheque] = useState('');
+
+
 
     useEffect(() => {
         const fetchClients = async () => {
@@ -85,11 +88,11 @@ function App() {
         setShowFinalizePopup(true);
     };
     const handleFinalizeOrder = async () => {
-        if (commandes.length === 0 || !codeCommande || !clientName) {
-            showAlert('Veuillez ajouter des produits et remplir tous les champs de commande.');
+        if (commandes.length === 0 || !codeCommande || !clientName || !modePaiement) {
+            showAlert('Veuillez ajouter des produits, remplir tous les champs de commande et sélectionner un mode de paiement.');
             return;
         }
-
+    
         try {
             const response = await axios.post('http://localhost:8080/commandes_vente', {
                 code_commande: codeCommande,
@@ -98,23 +101,28 @@ function App() {
                 observation: observation_com,
                 produits: commandes,
                 versement,
-                modePaiement
+                modePaiement,
+                code_cheque: codeCheque // Inclure la nouvelle propriété code_cheque
             });
-
+    
             showAlert('Commande finalisée avec succès : ' + response.data.code_commande);
             setCommandes([]);
             setCodeCommande('');
             setObservationCom('');
             setClientName('');
+            setModePaiement('');
+            setVersement('');
             setShowPopup(false);
-
+            setShowFinalizePopup(false);
+            setCodeCheque(''); // Réinitialiser la valeur de codeCheque
+    
             setIsClientDisabled(false);
         } catch (error) {
             console.error('Erreur complète:', error);
             showAlert('Erreur lors de la finalisation de la commande : ' + (error.response ? error.response.data.message : error.message));
         }
     };
-
+    
     const handleValidateOrder = () => {
         setShowPopup(true);
         setDate(new Date().toISOString().slice(0, 10));
@@ -178,6 +186,22 @@ const handleGeneratePDF = async () => {
         console.error('Erreur lors de la génération du PDF :', error);
         showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
     }
+};
+
+
+const handleModePaiementChange = (e) => {
+    const selectedModePaiement = e.target.value;
+    setModePaiement(selectedModePaiement);
+
+    // Si le mode de paiement est "Chèque", récupérez automatiquement le total de la commande et mettez-le dans le champ versement
+    if (selectedModePaiement === 'chéque' || selectedModePaiement === 'espèce'  ) {
+        const totalCommande = calculateTotalCommandePrincipale();
+        setVersement(totalCommande);
+    } else {
+        // Réinitialisez le champ versement si le mode de paiement est différent de "Chèque"
+        setVersement('');
+    }
+    
 };
 
 //suppression d'une ligne d'enregestrement tableau
@@ -284,18 +308,28 @@ const handleDelete = (index) => {
                                     </td>
                                 </tr>
                             ))}
-                              {showFinalizePopup && (
+                             
+
+{showFinalizePopup && (
     <div className="popup">
         <h2>Détails de Paiement</h2>
         <div>
             <label>Mode de Paiement:</label>
-            <select value={modePaiement} onChange={(e) => setModePaiement(e.target.value)}>
+            <select value={modePaiement} onChange={handleModePaiementChange}>
                 <option value="">Choisir un mode de paiement</option>
                 <option value="chéque">Chèque</option>
                 <option value="espèce">Espèce</option>
                 <option value="crédit">Crédit</option>
-            </select>
+        </select>
+
         </div>
+        {modePaiement === 'chéque' && (
+    <div>
+        <label>Code Chèque:</label>
+        <input type="text" value={codeCheque} onChange={(e) => setCodeCheque(e.target.value)} placeholder="Code Chèque" />
+    </div>
+)}
+
         <div>
             <label>Versement (facultatif):</label>
             <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
@@ -306,6 +340,7 @@ const handleDelete = (index) => {
         </div>
     </div>
 )}
+
                         </tbody>
                     </table>
                     <button className='print-button' onClick={handleValidateOrder}>Valider</button>

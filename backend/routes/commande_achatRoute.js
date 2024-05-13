@@ -7,7 +7,7 @@ const Product = require('../models/product'); // Import correct du modèle Produ
 
 router.post('/', async (req, res) => {
     try {
-        const { code_commande, provider_name, date_commande, observation, produits, versement, modePaiement } = req.body;
+        const { code_commande, provider_name, date_commande, observation, produits, versement, modePaiement,code_cheque } = req.body;
 
         // Trouver l'ID du fournisseur à partir de son nom
         const provider = await Provider.findOne({ name: provider_name });
@@ -38,7 +38,8 @@ router.post('/', async (req, res) => {
             produits: productDetails,
             totalCommande,
             versement, // Add versement to the document
-            modePaiement // Add modePaiement to the document
+            modePaiement,// Add modePaiement to the document
+            code_cheque
         });
 
         const savedCommandeAchat = await newCommandeAchat.save();

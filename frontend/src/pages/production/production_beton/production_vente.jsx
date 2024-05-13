@@ -22,6 +22,7 @@ function App() {
     const [versement, setVersement] = useState('');
     const [modePaiement, setModePaiement] = useState('');
     const [showFinalizePopup, setShowFinalizePopup] = useState(false);
+    const [codeCheque, setCodeCheque] = useState('');
 
     useEffect(() => {
         const fetchClients = async () => {
@@ -100,7 +101,9 @@ function App() {
             client_name: clientName,
             produits: commandes,
             versement: parseFloat(versement),
-            modePaiement
+            modePaiement,
+            code_cheque: codeCheque // Inclure la nouvelle propriété code_cheque
+
         };
 
         try {
@@ -187,6 +190,21 @@ const handleGeneratePDF = async () => {
         console.error('Erreur lors de la génération du PDF :', error);
         showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
     }
+};
+
+const handleModePaiementChange = (e) => {
+    const selectedModePaiement = e.target.value;
+    setModePaiement(selectedModePaiement);
+
+    // Si le mode de paiement est "Chèque", récupérez automatiquement le total de la commande et mettez-le dans le champ versement
+    if (selectedModePaiement === 'chéque' || selectedModePaiement === 'espèce'  ) {
+        const totalCommande = calculateTotalCommandePrincipale();
+        setVersement(totalCommande);
+    } else {
+        // Réinitialisez le champ versement si le mode de paiement est différent de "Chèque"
+        setVersement('');
+    }
+    
 };
     return (
         <div className="grid-container">
@@ -289,28 +307,38 @@ const handleGeneratePDF = async () => {
                     </table>
                     <button className='print-button' onClick={handleValidateOrder}>Valider</button>
                 </div>
-                {showFinalizePopup && (
-                    <div className="popup">
-                        <h2>Détails de Paiement</h2>
-                        <div>
-                            <label>Mode de Paiement:</label>
-                            <select value={modePaiement} onChange={(e) => setModePaiement(e.target.value)}>
-                                <option value="">Choisir un mode de paiement</option>
-                                <option value="chéque">Chèque</option>
-                                <option value="espèce">Espèce</option>
-                                <option value="crédit">Crédit</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>Versement (facultatif):</label>
-                            <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
-                        </div>
-                        <div className="popup-buttons">
-                            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
-                            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
-                        </div>
-                    </div>
-                )}
+              
+{showFinalizePopup && (
+    <div className="popup">
+        <h2>Détails de Paiement</h2>
+        <div>
+            <label>Mode de Paiement:</label>
+            <select value={modePaiement} onChange={handleModePaiementChange}>
+                <option value="">Choisir un mode de paiement</option>
+                <option value="chéque">Chèque</option>
+                <option value="espèce">Espèce</option>
+                <option value="crédit">Crédit</option>
+        </select>
+
+        </div>
+        {modePaiement === 'chéque' && (
+    <div>
+        <label>Code Chèque:</label>
+        <input type="text" value={codeCheque} onChange={(e) => setCodeCheque(e.target.value)} placeholder="Code Chèque" />
+    </div>
+)}
+
+        <div>
+            <label>Versement (facultatif):</label>
+            <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
+        </div>
+        <div className="popup-buttons">
+            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
+            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+        </div>
+    </div>
+)}
+
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>
         </div>

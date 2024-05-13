@@ -5,7 +5,7 @@ const Client = require('../models/client');
 const ProductFinished = require('../models/productfinished');
 router.post('/', async (req, res) => {
     try {
-        const { code_commande, date_commande, observation, client_name, produits, versement, modePaiement } = req.body;
+        const { code_commande, date_commande, observation, client_name, produits, versement, modePaiement,code_cheque } = req.body;
 
         // Finding the client by name
         const client = await Client.findOne({ name: client_name });
@@ -48,7 +48,8 @@ router.post('/', async (req, res) => {
             produits: productDetails,
             totalCommande,
             versement,
-            modePaiement
+            modePaiement,
+            code_cheque
         });
 
         const savedCommandeProductionVente = await newCommandeProductionVente.save();
