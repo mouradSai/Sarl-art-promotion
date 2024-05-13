@@ -110,6 +110,8 @@ function App() {
                             <th>Versement Initial</th>
                             <th>Reste à Payer</th>
                             <th>Mode de Paiement</th>
+                            <th>N° cheque</th>
+
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -122,6 +124,8 @@ function App() {
                                 <td>{credit.vente.versement.toFixed(2)} DA</td>
                                 <td>{credit.resteAPayer.toFixed(2)} DA</td>
                                 <td>{credit.vente.modePaiement}</td>
+                                <td>{credit.vente.code_cheque || 'N/A'}</td>
+
                                 <td>
                                     <button className='delete-button' onClick={() => handleDeleteCredit(credit.vente.code_commande)}>Delete</button>
                                 </td>
