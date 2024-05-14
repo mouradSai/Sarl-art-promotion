@@ -7,6 +7,7 @@ import Sidebar from '../../components/Main/Sidebar';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
+
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [codeCommande, setCodeCommande] = useState('');
@@ -164,6 +165,7 @@ const handleDelete = (index) => {
 };
 
 
+
     
     return (
         
@@ -172,6 +174,7 @@ const handleDelete = (index) => {
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className='container'>
              <h1 className="title-all">Bon de commande</h1>
+
                 <div className="form-container">
                 <div className='bloc'>
                     <div className='bloc1'>
