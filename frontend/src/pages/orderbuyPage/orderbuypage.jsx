@@ -6,6 +6,8 @@ import Header from '../../components/Headers/HeaderCommande';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
+    const [commandesAchatCount, setCommandesAchatCount] = useState(0);
+    
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [prixUnitaire, setPrixUnitaire] = useState('');
@@ -208,12 +210,39 @@ const handleModePaiementChange = (e) => {
     }
     
 };
+
+
+useEffect(() => {
+    const fetchCounts = async () => {
+        try {
+                            // Fetching commandes_achat count
+                            const commandes_achatResponse = await fetch('http://localhost:8080/commandes_achat');
+                            const commandes_achatData = await commandes_achatResponse.json();
+                            setCommandesAchatCount(commandes_achatData.count + 1);
+
+                        } catch (error) {
+                            console.error('Error fetching data:', error);
+                        }
+                    };
+
+    fetchCounts();
+
+ }, []);
+                    
+    
+
+
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className='container'>
                 <h1 className="title-all">Commande d'achat </h1>
+
+                <div>
+                <h2>Nombre de commandes d'achat : {commandesAchatCount}</h2>          
+               </div>
+
                 <div className="form-container">
                 <div className='bloc'> 
                     <div className='bloc1'> 

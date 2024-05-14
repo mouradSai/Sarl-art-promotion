@@ -34,6 +34,7 @@
 }
 
 .form_container h1 {
+	font-weight: 800;
 	font-size: 40px;
 	margin-top: 0;
 }
@@ -46,7 +47,8 @@
 	border-radius: 10px;
 	background-color: #edf5f4;
 	margin: 5px 0;
-	font-size: 14px;
+	font-size: 18px;
+	font-weight: 500;
 }
 
 .error_msg {
@@ -72,6 +74,7 @@
 }
 
 .right h1 {
+	
 	margin-top: 0;
 	margin-left: 20px;
 	color: white;
