@@ -9,11 +9,11 @@ router.get('/', async (req, res) => {
         const credits = await CreditVente.find()
             .populate({
                 path: 'commande',
-                model: 'CommandeVente', // Updated to CommandeVente
-                select: 'code_commande totalCommande versement modePaiement client_id', // Updated to client_id
+                model: 'CommandeVente',
+                select: 'code_commande totalCommande versement modePaiement client_id code_cheque', // Ajout de 'code_cheque' ici
                 populate: {
-                    path: 'client_id', // Updated to client_id
-                    model: 'Client', // Updated to Client
+                    path: 'client_id',
+                    model: 'Client',
                     select: 'name'
                 }
             });
@@ -36,6 +36,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Error retrieving credits', error: error.message });
     }
 });
+
 
 // POST route to add a payment
 router.post('/add-payment/:id', async (req, res) => {

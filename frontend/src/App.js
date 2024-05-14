@@ -1,15 +1,14 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 
 //components imports 
+
 import Stock from "./components/Main/index";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Landpage from "./components/landpage/Home";
 
-
-
-
 //pages imports stock
+
 import Product from "./pages/Products/product";
 import Customer from"./pages/customers/customer";
 import Provider from "./pages/provider/provider";
@@ -21,13 +20,14 @@ import Orderbuypage from "./pages/orderbuyPage/orderbuypage";
 import Users from "./pages/users/users";
 import Ordersellpage from "./pages/ordersellPage/ordersellpage";
 
-
-
 //pages credit de achat 
+
 import Credit_achat from "./pages/credit/credit_achat/credit_achat";
-import Credit_vente from "./pages/credit/credit_vente/credit_vente"
-import Credit from "./pages/credit/credit"
+import Credit_vente from "./pages/credit/credit_vente/credit_vente";
+import Credit from "./pages/credit/credit";
+
 //Historique_commande stock
+
 import Historique_commande from "./pages/Historique/historique_commande/historique_commande"; 
 import Historique_commande_achat from "./pages/Historique/historique-commande_achat/historique_commande_achat";
 import Historique_commande_vente from "./pages/Historique/historique_commande_vente/historique_commande_vente";
@@ -47,11 +47,12 @@ import Historique_production_vente from "./pages/production/production_beton/His
 import Historique_production from "./pages/production/production_beton/Historique/historique";
 import Credit_production_vente from "./pages/production/production_beton/credit_production_vente";
 import Historique_credit_vente from "./pages/production/production_beton/Historique/historique_credit_vente";
+
 //protection de routes 
+
 import ProtectedRoute from "./components/protection/ProtectedRoute";
 
 function App() {
-	
 	const user = localStorage.getItem("token");
 
 	return (
