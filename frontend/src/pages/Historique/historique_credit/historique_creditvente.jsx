@@ -27,7 +27,8 @@ function App() {
     const fetchCredits = async () => {
         try {
             const response = await axios.get('http://localhost:8080/credit_vente');
-            setCredits(response.data); // Store all fetched credits directly without filtering
+            const sortedCredits = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setCredits(sortedCredits); // Store all fetched credits directly without filtering
         } catch (error) {
             console.error('Error fetching credits:', error);
             showAlert('An error occurred while fetching credits. Please try again later.', 'error');
