@@ -206,7 +206,7 @@ const handleModePaiementChange = (e) => {
         setVersement(totalCommande);
     } else {
         // Réinitialisez le champ versement si le mode de paiement est différent de "Chèque"
-        setVersement('');
+        setVersement(0);
     }
     
 };

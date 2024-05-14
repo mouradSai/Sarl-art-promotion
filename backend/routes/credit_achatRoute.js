@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
             .populate({
                 path: 'commande',
                 model: 'CommandeAchat',
-                select: 'code_commande totalCommande versement modePaiement provider_id code_cheque',
+                select: 'code_commande totalCommande versement modePaiement provider_id code_cheque date_commande',
                 populate: {
                     path: 'provider_id',
                     model: 'provider',
