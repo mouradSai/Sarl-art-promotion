@@ -23,9 +23,9 @@ function App() {
     const [alert, setAlert] = useState(null);
     const [isProviderDisabled, setIsProviderDisabled] = useState(false);
     const [versement, setVersement] = useState('');
-const [modePaiement, setModePaiement] = useState('');
-const [showFinalizePopup, setShowFinalizePopup] = useState(false);
-const [codeCheque, setCodeCheque] = useState('');
+    const [modePaiement, setModePaiement] = useState('');
+    const [showFinalizePopup, setShowFinalizePopup] = useState(false);
+    const [codeCheque, setCodeCheque] = useState('');
 
 
 
@@ -211,6 +211,8 @@ const handleModePaiementChange = (e) => {
     
 };
 
+
+
 useEffect(() => {
     const fetchCounts = async () => {
         try {
@@ -223,10 +225,12 @@ useEffect(() => {
             
             // Incrémentation de 1 et concaténation avec l'année actuelle
             const incrementedCount = commandes_achatData.count + 1;
-            const displayCount = `${incrementedCount}${currentYear}`;
+            const displayCount = `BA${incrementedCount}${currentYear}`;
             
             // Mise à jour de l'état
             setCommandesAchatCount(displayCount);
+            setCodeCommande(displayCount);
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -258,6 +262,7 @@ useEffect(() => {
                                 <option key={provider.id} value={provider.name}>{provider.name}</option>
                             ))}
                         </select>
+
                         <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
                         <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
                     </div>
