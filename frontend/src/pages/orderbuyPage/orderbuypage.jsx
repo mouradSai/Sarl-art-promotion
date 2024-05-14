@@ -7,7 +7,7 @@ import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import 
 
 function App() {
     const [commandesAchatCount, setCommandesAchatCount] = useState(0);
-    
+
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [prixUnitaire, setPrixUnitaire] = useState('');
@@ -211,23 +211,29 @@ const handleModePaiementChange = (e) => {
     
 };
 
-
 useEffect(() => {
     const fetchCounts = async () => {
         try {
-                            // Fetching commandes_achat count
-                            const commandes_achatResponse = await fetch('http://localhost:8080/commandes_achat');
-                            const commandes_achatData = await commandes_achatResponse.json();
-                            setCommandesAchatCount(commandes_achatData.count + 1);
-
-                        } catch (error) {
-                            console.error('Error fetching data:', error);
-                        }
-                    };
+            // Récupération de l'année actuelle
+            const currentYear = new Date().getFullYear();
+            
+            // Fetching commandes_achat count
+            const commandes_achatResponse = await fetch('http://localhost:8080/commandes_achat');
+            const commandes_achatData = await commandes_achatResponse.json();
+            
+            // Incrémentation de 1 et concaténation avec l'année actuelle
+            const incrementedCount = commandes_achatData.count + 1;
+            const displayCount = `${incrementedCount}${currentYear}`;
+            
+            // Mise à jour de l'état
+            setCommandesAchatCount(displayCount);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     fetchCounts();
-
- }, []);
+}, []);
                     
     
 
