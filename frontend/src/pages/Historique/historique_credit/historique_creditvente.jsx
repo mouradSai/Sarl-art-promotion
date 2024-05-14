@@ -27,7 +27,8 @@ function App() {
     const fetchCredits = async () => {
         try {
             const response = await axios.get('http://localhost:8080/credit_vente');
-            setCredits(response.data); // Store all fetched credits directly without filtering
+            const sortedCredits = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setCredits(sortedCredits); // Store all fetched credits directly without filtering
         } catch (error) {
             console.error('Error fetching credits:', error);
             showAlert('An error occurred while fetching credits. Please try again later.', 'error');
@@ -117,8 +118,8 @@ function App() {
                                     <td>{credit.commande.code_commande}</td>
                                     <td>{credit.commande.client_id ? credit.commande.client_id.name : 'No client'}</td>
                                     <td>{credit.commande.totalCommande.toFixed(2)} DA</td>
-                                    <td>{credit.commande.versement.toFixed(2)} DA</td>
-                                    <td>{credit.resteAPayer.toFixed(2)} DA</td>
+                                    <td>{credit.commande.versement ? credit.commande.versement.toFixed(2): 'N/A'} DA</td>
+                                    <td>{credit.resteAPayer ? credit.resteAPayer.toFixed(2): 'N/A'} DA</td>
                                     <td>{credit.commande.modePaiement}</td>
                                     <td>{credit.commande.code_cheque || 'N/A'}</td>
 
