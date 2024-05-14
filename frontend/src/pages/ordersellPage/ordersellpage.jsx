@@ -5,6 +5,9 @@ import Header from '../../components/Headers/HeaderCommande';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
+
+    const [commandesVenteCount, setCommandesVenteCount] = useState(0); 
+
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [prixUnitaire, setPrixUnitaire] = useState('');
@@ -210,6 +213,40 @@ const handleDelete = (index) => {
     const newCommandes = commandes.filter((item, i) => i !== index);
     setCommandes(newCommandes);
 };
+
+
+
+useEffect(() => {
+    const fetchCounts = async () => {
+        try {
+
+            // Récupération de l'année actuelle
+            const currentYear = new Date().getFullYear();
+            
+             // Fetching commandes_vente count
+             const commandes_venteResponse = await fetch('http://localhost:8080/commandes_vente');
+             const commandes_venteData = await commandes_venteResponse.json();
+            
+            // Incrémentation de 1 et concaténation avec l'année actuelle
+            const incrementedCount = commandes_venteData.count + 1;
+            const displayCount = `BV${incrementedCount}${currentYear}`;
+            
+            // Mise à jour de l'état
+            setCommandesVenteCount(displayCount);
+            setCodeCommande(displayCount);
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    fetchCounts();
+}, []);
+         
+
+
+
+
 
     return (
         <div className="grid-container">

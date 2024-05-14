@@ -8,6 +8,8 @@ import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import 
 
 function App() {
 
+    const [commandesCount, setCommandesCount] = useState(0);
+
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [codeCommande, setCodeCommande] = useState('');
@@ -163,6 +165,37 @@ const handleDelete = (index) => {
     const newCommandes = commandes.filter((item, i) => i !== index);
     setCommandes(newCommandes);
 };
+
+
+
+useEffect(() => {
+    const fetchCounts = async () => {
+        try {
+
+            // Récupération de l'année actuelle
+            const currentYear = new Date().getFullYear();
+            
+            // Fetching commandes_achat count
+               // Fetching commandes count
+            const commandesResponse = await fetch('http://localhost:8080/commandes');
+            const commandesData = await commandesResponse.json();
+            
+            // Incrémentation de 1 et concaténation avec l'année actuelle
+            const incrementedCount = commandesData.count + 1;
+            const displayCount = `BC${incrementedCount}${currentYear}`;
+            
+            // Mise à jour de l'état
+            setCommandesCount(displayCount);
+            setCodeCommande(displayCount);
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    fetchCounts();
+}, []);
+         
 
 
 

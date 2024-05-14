@@ -266,18 +266,24 @@ tr:hover {
   outline: none;
   font-size: 16px;
   padding: 10px;
-  border-radius: 20px; /* Bordures arrondies */
+  border-radius: 20px; 
+  transition: border-color 0.5s ease-in-out; 
 }
 
 .search-cont .search-bar::placeholder {
-  color: #75758B;
+  color:#666;
 }
 
 .search-cont .search-bar:focus {
-  border: 2px solid #007bff;
+  border: 2px solid #B61217;
+}
+
+.search-cont .search-bar:not(:focus) {
+  border: 2px solid #585858;
 }
 
 .checkbox-custom {
+
   /* Hide the default checkbox */
   appearance: none;
   -webkit-appearance: none;
@@ -290,7 +296,7 @@ tr:hover {
   /* Add some padding */
   padding: 2px;
   /* Add some margin */
-  margin-right: 5px;
+  margin-right: 10px;
   /* Make it round */
   border-radius: 4px;
   /* Set checkbox background color */
@@ -323,9 +329,9 @@ tr:hover {
   /* Add some margin */
   font-family: 'Libre Franklin', sans-serif;
   margin-left: 5px;
+  padding-right: 14px;
   /* Set font size */
   font-size: 16px;
   /* Set font color */
   color: #333;
-  margin-right: 40px;
 }

@@ -249,10 +249,6 @@ useEffect(() => {
             <div className='container'>
                 <h1 className="title-all">Commande d'achat </h1>
 
-                <div>
-                <h2>Nombre de commandes d'achat : {commandesAchatCount}</h2>          
-               </div>
-
                 <div className="form-container">
                 <div className='bloc'> 
                     <div className='bloc1'> 
