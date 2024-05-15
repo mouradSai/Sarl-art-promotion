@@ -24,6 +24,30 @@ function App() {
     const [showFinalizePopup, setShowFinalizePopup] = useState(false);
     const [codeCheque, setCodeCheque] = useState('');
 
+
+    useEffect(() => {
+        const fetchCounts = async () => {
+          try {
+            const currentYear = new Date().getFullYear();
+            
+            const response = await fetch('http://localhost:8080/commandes_achat');
+            const data = await response.json();
+            
+            const incrementedCount = data.count + 1;
+            const displayCount = `BVP${incrementedCount}${currentYear}`;
+            
+           setCodeCommande(displayCount);
+    
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+    
+        fetchCounts();
+      }, []);
+
+
+
     useEffect(() => {
         const fetchClients = async () => {
             try {
@@ -66,6 +90,11 @@ function App() {
             return;
         }
 
+        if (parseInt(quantity, 10) <= 0 || parseFloat(prixUnitaire) <= 0) {
+            showAlert('La quantité et le prix unitaire doivent être supérieurs à zéro.');
+            return;
+        }
+
         const totalLigne = parseInt(quantity, 10) * parseFloat(prixUnitaire);
         const newProduct = {
             productionCode: productCode,
@@ -97,6 +126,17 @@ function App() {
 
         // Si versement est vide, le définir à 0
         const finalVersement = versement === '' ? 0 : parseFloat(versement);
+
+        if (finalVersement < 0) {
+            showAlert('Le versement ne peut pas être inférieur à zéro.');
+            return;
+        }
+
+        const totalCommande = calculateTotalCommandePrincipale();
+        if (finalVersement > totalCommande) {
+            showAlert('Le versement ne peut pas être supérieur au total de la commande.');
+            return;
+        }
 
         const orderDetails = {
             code_commande: codeCommande,

@@ -286,7 +286,7 @@ function App() {
             
                 {/* Routes sans protection */}
 		<Route path="/historique_production_vente" element={
-                    localStorage.getItem("token")    ? (
+                    localStorage.getItem("token")   && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"    ? (
                         <ProtectedRoute>
                             <Historique_production_vente />
                         </ProtectedRoute>
@@ -322,7 +322,7 @@ function App() {
             />  
 
             <Route path="/bon_production_beton" element={
-                    localStorage.getItem("token")    ? (
+                    localStorage.getItem("token")   && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"       ? (
                         <ProtectedRoute>
                             <Bon_production_beton />
                         </ProtectedRoute>
@@ -343,7 +343,7 @@ function App() {
             />  
 
                 <Route path="/production_vente" element={
-                    localStorage.getItem("token")    ? (
+                    localStorage.getItem("token")  && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"      ? (
                         <ProtectedRoute>
                             <Production_vente />
                         </ProtectedRoute>
@@ -354,7 +354,7 @@ function App() {
             />  
             
             <Route path="/credit_production_vente" element={
-                    localStorage.getItem("token")    ? (
+                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ? (
                         <ProtectedRoute>
                             <Credit_production_vente />
                         </ProtectedRoute>
@@ -364,7 +364,7 @@ function App() {
                 }
             />  
               <Route path="/historique_credit_vente" element={
-                    localStorage.getItem("token")    ? (
+                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ?  (
                         <ProtectedRoute>
                             <Historique_credit_vente />
                         </ProtectedRoute>

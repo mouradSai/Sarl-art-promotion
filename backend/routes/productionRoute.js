@@ -92,7 +92,10 @@ router.delete('/finished-products/:id', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const productions = await Production.find().populate('formula').populate('materialsUsed.product');
-        res.status(200).json(productions);
+        res.status(200).json({
+            count: productions.length,
+            productions
+        });
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: error.message });
