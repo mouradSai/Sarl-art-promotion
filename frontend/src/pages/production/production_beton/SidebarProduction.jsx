@@ -16,8 +16,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
   const userRole = localStorage.getItem('role'); // Récupérer le rôle de l'utilisateur depuis le localStorage
 
   // Vérifier si l'utilisateur a le rôle d'administrateur
-  const isSuperadmin = userRole === 'superadmin'  ;
-  //const isUser = userRole === 'superadmin' || userRole === 'admin';
+  const isSuperadmin = userRole === 'superadmin' || userRole === 'admin'  ;
   return (
     <aside id="sidebarProd" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
@@ -39,17 +38,18 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
             <TbBuildingFactory  className='icon'/> Production
         </li>
       </Link>
+      {isSuperadmin && (
       <Link to="/production_vente" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsCashStack  className='icon'/> Vente
         </li>
-      </Link>
-
+      </Link>)}
+      {isSuperadmin && (
       <Link to="/bon_production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsCardList  className='icon'/> Bon de production
         </li>
-      </Link>
+      </Link>)}
       <Link to="/formula" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsReceiptCutoff  className='icon'/> Formules
@@ -60,11 +60,12 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
             <BsBox2Fill  className='icon'/> Stock finie
         </li>
       </Link>
+      {isSuperadmin && (
       <Link to="/credit_production_vente" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <TbZoomMoney  className='icon'/> Crédit de vente
         </li>
-      </Link>
+      </Link>)}
     
 
       <Link to="/historique_production" className="sidebar-link"> 

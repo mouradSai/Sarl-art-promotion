@@ -16,7 +16,11 @@ function App() {
     const OpenSidebar = () => {
         setOpenSidebarToggle(!openSidebarToggle);
     };
+    const userRole = localStorage.getItem('role'); // Récupérer le rôle de l'utilisateur depuis le localStorage
 
+    // Vérifier si l'utilisateur a le rôle d'administrateur
+    const isSuperadmin = userRole === 'superadmin' || userRole === 'admin'  ;
+    //const isUser = userRole === 'superadmin' || userRole === 'admin';
     return (
         <div className="grid-container">
             <Header OpenSidebar={OpenSidebar}/>
@@ -44,21 +48,22 @@ function App() {
                             <p>Ici, vous pouvez consulter l'historique de vos Bon de commandes passés</p>
                         </div>
                     </Link>
-
+                    {isSuperadmin && (
                     <Link to="/historique_production_vente" className="link-no-underline">
                         <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
                             <img src={vente} />
                             <h2>Historique des commandes de vente de beton </h2>
                             <p>Ici, vous pouvez consulter l'historique de vos ventes passés</p>
                         </div>
-                    </Link>
+                    </Link>)}
+                    {isSuperadmin && (
                     <Link to="/historique_credit_vente" className="link-no-underline">
                         <div className="dashboard-item" onClick={() => { /* Redirection vers l'historique d'achat */ }}>
                             <img src={vente} />
                             <h2>Historique des credit de vente de beton </h2>
                             <p>Ici, vous pouvez consulter l'historique de vos credit de ventes passés</p>
                         </div>
-                    </Link>
+                    </Link>)}
 
                   
 
