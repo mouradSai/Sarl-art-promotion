@@ -24,7 +24,9 @@ function App() {
     const fetchProductions = async () => {
         try {
             const response = await axios.get('http://localhost:8080/production_beton');
-            const sortedProductions = response.data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Trier par date décroissante
+            console.log('API Response:', response.data); // Inspecter les données renvoyées par l'API
+            const productionsData = response.data.productions || []; // Accéder au tableau de productions
+            const sortedProductions = productionsData.sort((a, b) => new Date(b.date) - new Date(a.date)); // Trier par date décroissante
             setProductions(sortedProductions);
         } catch (error) {
             console.error('Error fetching productions:', error);
