@@ -24,7 +24,8 @@ function App() {
     const fetchProductions = async () => {
         try {
             const response = await axios.get('http://localhost:8080/production_beton');
-            setProductions(response.data);
+            const sortedProductions = response.data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Trier par date décroissante
+            setProductions(sortedProductions);
         } catch (error) {
             console.error('Error fetching productions:', error);
             showAlert('An error occurred while fetching productions. Please try again later.', 'error');
@@ -88,7 +89,7 @@ function App() {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th >Code Production</th>
+                            <th>Code Production</th>
                             <th>Formula</th>
                             <th>Date Production</th>
                             <th>Actions</th>
@@ -114,37 +115,36 @@ function App() {
                     <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredProductions.length / productionsPerPage)}>Next</button>
                 </div>
                 {selectedProduction && (
-    <div className="popup">
-        <div className="popup-content">
-            <span className="close-button" onClick={() => setSelectedProduction(null)}>&times;</span>
-            <h2>Production Details</h2>
-            <p><strong>Code:</strong> {selectedProduction.codeProduction}</p>
-            <p><strong>Date of Production:</strong> {new Date(selectedProduction.date).toISOString().slice(0, 10)}</p>
-            <p><strong>Formula Name:</strong> {selectedProduction.formula ? selectedProduction.formula.name : 'N/A'}</p>
-            <p><strong>Description:</strong> {selectedProduction.description}</p>
-            <p><strong>Volume Desired:</strong> {selectedProduction.volumeDesired}m³</p>
-            <p><strong>Observations:</strong> {selectedProduction.observations}</p>
-            <h3>Materials Used</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th  className='titlesHis'>Product</th>
-                        <th  className='titlesHis'>Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {selectedProduction.materialsUsed.map((material, index) => (
-                        <tr key={index}>
-                            <td>{material.product.name}</td>
-                            <td>{material.quantity}KG</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    </div>
-)}
-
+                    <div className="popup">
+                        <div className="popup-content">
+                            <span className="close-button" onClick={() => setSelectedProduction(null)}>&times;</span>
+                            <h2>Production Details</h2>
+                            <p><strong>Code:</strong> {selectedProduction.codeProduction}</p>
+                            <p><strong>Date of Production:</strong> {new Date(selectedProduction.date).toISOString().slice(0, 10)}</p>
+                            <p><strong>Formula Name:</strong> {selectedProduction.formula ? selectedProduction.formula.name : 'N/A'}</p>
+                            <p><strong>Description:</strong> {selectedProduction.description}</p>
+                            <p><strong>Volume Desired:</strong> {selectedProduction.volumeDesired}m³</p>
+                            <p><strong>Observations:</strong> {selectedProduction.observations}</p>
+                            <h3>Materials Used</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th className='titlesHis'>Product</th>
+                                        <th className='titlesHis'>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {selectedProduction.materialsUsed.map((material, index) => (
+                                        <tr key={index}>
+                                            <td>{material.product.name}</td>
+                                            <td>{material.quantity}KG</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>
         </div>

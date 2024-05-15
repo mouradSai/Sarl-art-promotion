@@ -4,6 +4,8 @@ import Header from '../../../components/Main/Header';
 import SidebarProduction from './SidebarProduction';
 import CustomAlert from '../../../components/costumeAlert/costumeAlert';
 import "./App.css";
+
+
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [formules, setFormules] = useState([]);
@@ -16,7 +18,30 @@ function App() {
   });
   const [resultats, setResultats] = useState({});
   const [alert, setAlert] = useState(null);
-  const [lastCalculated, setLastCalculated] = useState({}); // To track last calculated quantities to avoid re-calculation
+  const [lastCalculated, setLastCalculated] = useState({}); 
+
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const currentYear = new Date().getFullYear();
+        
+        const response = await fetch('http://localhost:8080/commandes_achat');
+        const data = await response.json();
+        
+        const incrementedCount = data.count + 1;
+        const displayCount = `CP${incrementedCount}${currentYear}`;
+        
+        setInputs(inputs => ({ ...inputs, codeProduction: displayCount }));
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchCounts();
+  }, []);
+
 
   useEffect(() => {
     axios.get('http://localhost:8080/formules')

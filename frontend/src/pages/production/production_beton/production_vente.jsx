@@ -24,6 +24,30 @@ function App() {
     const [showFinalizePopup, setShowFinalizePopup] = useState(false);
     const [codeCheque, setCodeCheque] = useState('');
 
+
+    useEffect(() => {
+        const fetchCounts = async () => {
+          try {
+            const currentYear = new Date().getFullYear();
+            
+            const response = await fetch('http://localhost:8080/commandes_achat');
+            const data = await response.json();
+            
+            const incrementedCount = data.count + 1;
+            const displayCount = `BVP${incrementedCount}${currentYear}`;
+            
+           setCodeCommande(displayCount);
+    
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+    
+        fetchCounts();
+      }, []);
+
+
+
     useEffect(() => {
         const fetchClients = async () => {
             try {
