@@ -25,7 +25,7 @@ function BonProductionForm() {
       try {
         const currentYear = new Date().getFullYear();
         
-        const response = await fetch('http://localhost:8080/commandes_achat');
+        const response = await fetch('http://localhost:8080/bon_production');
         const data = await response.json();
         
         const incrementedCount = data.count + 1;

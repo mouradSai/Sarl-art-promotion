@@ -26,9 +26,9 @@ function App() {
       try {
         const currentYear = new Date().getFullYear();
         
-        const response = await fetch('http://localhost:8080/commandes_achat');
+        const response = await fetch('http://localhost:8080/production_beton');
         const data = await response.json();
-        
+      
         const incrementedCount = data.count + 1;
         const displayCount = `CP${incrementedCount}${currentYear}`;
         
