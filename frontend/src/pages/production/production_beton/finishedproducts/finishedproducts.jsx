@@ -4,8 +4,6 @@ import Sidebar from '../SidebarProduction';
 import Header from '../../../../components/Main/Header';
 import CustomAlert from '../../../../components/costumeAlert/costumeAlert';
 
-
-
 function App() {
     const [productions, setProductions] = useState([]);
     const [filteredProductions, setFilteredProductions] = useState([]);
@@ -26,7 +24,8 @@ function App() {
     const fetchProductions = async () => {
         try {
             const response = await axios.get('http://localhost:8080/production_beton/finished-products');
-            setProductions(response.data);
+            const filteredData = response.data.filter(production => production.volumeProduced > 0);
+            setProductions(filteredData);
         } catch (error) {
             console.error('Error fetching productions:', error);
             showAlert('An error occurred while fetching productions. Please try again later.', 'error');
@@ -36,8 +35,8 @@ function App() {
     const filterProductions = () => {
         const lowercasedFilter = searchText.toLowerCase();
         const filteredData = productions.filter(production =>
-            production.formulaName.toLowerCase().includes(lowercasedFilter) ||
-            production.productionCode.toLowerCase().includes(lowercasedFilter)
+            (production.formulaName && production.formulaName.toLowerCase().includes(lowercasedFilter)) ||
+            (production.productionCode && production.productionCode.toLowerCase().includes(lowercasedFilter))
         );
         setFilteredProductions(filteredData);
         setCurrentPage(1); // Reset to the first page whenever the filter changes
@@ -118,19 +117,17 @@ function App() {
                     <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredProductions.length / productionsPerPage)}>Next</button>
                 </div>
                 {selectedProduction && (
-    <div className="popup">
-        <div className="popup-content">
-            <span className="close-button" onClick={() => setSelectedProduction(null)}>&times;</span>
-            <h2>Production Details</h2>
-            <p><strong>Code:</strong> {selectedProduction.productionCode}</p>
-            <p><strong>Date of Production:</strong> {new Date(selectedProduction.date).toISOString().slice(0, 10)}</p>
-            <p><strong>Formula Name:</strong> {selectedProduction.formulaName}</p>
-            <p><strong>Volume Produced:</strong> {selectedProduction.volumeProduced}m³</p>
-           
-        </div>
-    </div>
-)}
-
+                    <div className="popup">
+                        <div className="popup-content">
+                            <span className="close-button" onClick={() => setSelectedProduction(null)}>&times;</span>
+                            <h2>Production Details</h2>
+                            <p><strong>Code:</strong> {selectedProduction.productionCode}</p>
+                            <p><strong>Date of Production:</strong> {new Date(selectedProduction.date).toISOString().slice(0, 10)}</p>
+                            <p><strong>Formula Name:</strong> {selectedProduction.formulaName}</p>
+                            <p><strong>Volume Produced:</strong> {selectedProduction.volumeProduced}m³</p>
+                        </div>
+                    </div>
+                )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>
         </div>

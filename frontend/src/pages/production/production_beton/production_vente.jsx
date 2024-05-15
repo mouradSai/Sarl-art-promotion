@@ -45,7 +45,8 @@ function App() {
                         IsActive: true
                     }
                 });
-                setProducts(response.data.map(item => ({
+                const filteredProducts = response.data.filter(item => item.volumeProduced > 0);
+                setProducts(filteredProducts.map(item => ({
                     id: item._id,
                     codeProduction: item.productionCode
                 })));
