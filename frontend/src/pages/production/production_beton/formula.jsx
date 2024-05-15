@@ -12,13 +12,18 @@ function App() {
     const [selectedFormula, setSelectedFormula] = useState(null); // Formule sélectionnée pour modification
     const [editableProducts, setEditableProducts] = useState([]); // Produits de la formule sélectionnée pour modification
     const [selectedProductIndex, setSelectedProductIndex] = useState(null); // Index du produit sélectionné pour édition
-    const [productSuggestions, setProductSuggestions] = useState([]);
+    const [productSuggestions, setProductSuggestions] = useState([]); // Suggestions de produits
 
+    // Fetch all formulas and products on component mount
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get('http://localhost:8080/formules');
-                setFormulas(response.data);
+                const formulaResponse = await axios.get('http://localhost:8080/formules');
+                setFormulas(formulaResponse.data);
+                const productResponse = await axios.get('http://localhost:8080/products', {
+                    params: { IsActive: true }
+                });
+                setProductSuggestions(productResponse.data.data);
             } catch (error) {
                 console.error(error);
             }
@@ -75,9 +80,17 @@ function App() {
         }
     };
 
-    const handleDetails = (formula) => {
-        setSelectedFormula(formula);
-        setEditableProducts(formula.products.map(prod => ({ ...prod.product, quantity: prod.quantity.toString() })));
+    const handleDetails = async (formula) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/formules/${formula._id}`);
+            setSelectedFormula(response.data);
+            setEditableProducts(response.data.products.map(prod => ({
+                ...prod.product,
+                quantity: prod.quantity.toString()
+            })));
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const handleClosePopup = () => {
@@ -94,7 +107,7 @@ function App() {
             const updatedFormula = { ...selectedFormula, products: updatedProducts };
             await axios.put(`http://localhost:8080/formules/${selectedFormula._id}`, updatedFormula);
             alert('Products updated successfully!');
-            handleDetails(selectedFormula); // Refresh the selected formula details
+            await handleDetails(selectedFormula); // Refresh the selected formula details
         } catch (error) {
             console.error(error);
             alert('Error updating products');
@@ -105,7 +118,7 @@ function App() {
         const productToAdd = { ...newProduct, quantity: parseFloat(newProduct.quantity.replace(',', '.')) };
         try {
             const response = await axios.put(`http://localhost:8080/formules/add-product/${selectedFormula._id}`, { product: productToAdd });
-            handleDetails(response.data); // Update the details view with new product list
+            await handleDetails(response.data); // Update the details view with new product list
             alert('Product added successfully!');
             setNewProduct({ product: '', quantity: '' }); // Reset new product fields
         } catch (error) {
@@ -120,7 +133,7 @@ function App() {
             const updatedFormula = { ...selectedFormula, products: updatedProducts.map(p => ({ product: p._id, quantity: p.quantity })) };
             await axios.put(`http://localhost:8080/formules/${selectedFormula._id}`, updatedFormula);
             alert('Product deleted successfully!');
-            handleDetails(selectedFormula); // Refresh the selected formula details
+            await handleDetails(selectedFormula); // Refresh the selected formula details
         } catch (error) {
             console.error(error);
             alert('Error deleting product');
@@ -138,13 +151,16 @@ function App() {
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
                     {products.map((product, index) => (
                         <div key={index}>
-                            <input
-                                type="text"
+                            <select
                                 value={product.product}
                                 onChange={(e) => handleProductChange(index, 'product', e.target.value)}
-                                placeholder="Matiére name"
                                 required
-                            />
+                            >
+                                <option value="">Sélectionnez un produit</option>
+                                {productSuggestions.map(prod => (
+                                    <option key={prod.id} value={prod.name}>{prod.name}</option>
+                                ))}
+                            </select>
                             <input
                                 type="text"
                                 value={product.quantity}
@@ -154,15 +170,15 @@ function App() {
                             />
                         </div>
                     ))}
-                    <button type="button" className='view-button' onClick={handleAddProduct}> + Ajouter Matiére </button>
-                    <button className='print-button' type="submit">creer Formule</button>
+                    <button type="button" className='view-button' onClick={handleAddProduct}> + Ajouter Matière </button>
+                    <button className='print-button' type="submit">créer Formule</button>
                 </form>
 
                 <h2>Formula List</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Nom formule </th>
+                            <th>Nom formule</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -186,9 +202,9 @@ function App() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th  className='titlesHis' >Nom</th>
-                                    <th  className='titlesHis'>Quantité</th>
-                                    <th  className='titlesHis'>Action</th>
+                                    <th className='titlesHis'>Nom</th>
+                                    <th className='titlesHis'>Quantité</th>
+                                    <th className='titlesHis'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -211,13 +227,16 @@ function App() {
                                 ))}
                                 <tr>
                                     <td>
-                                        <input
-                                            type="text"
+                                        <select
                                             value={newProduct.product}
                                             onChange={(e) => handleNewProductChange('product', e.target.value)}
-                                            placeholder="New product name"
                                             required
-                                        />
+                                        >
+                                            <option value="">Sélectionnez un produit</option>
+                                            {productSuggestions.map(prod => (
+                                                <option key={prod.id} value={prod.name}>{prod.name}</option>
+                                            ))}
+                                        </select>
                                     </td>
                                     <td>
                                         <input
@@ -230,7 +249,7 @@ function App() {
                                     </td>
                                     <td>
                                         <button className='print-button' onClick={handleAddProductToFormula}>Add Product</button>
-                                        </td>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -243,4 +262,3 @@ function App() {
 }
 
 export default App;
-/*efefnrmfrnfrfjrnfmjrefnrmfnr best oneuvbrvrbvbrvrnfnrnrvnrnvrovnekv,eùveprnvfepvdpivn,vrp$vjrnvrnvnvnfbvrfvfvnidbvcdevnvbdvdnnvfvevenvfevbev,eddcdc,dcjdbd vfdvnfdvnffed*/

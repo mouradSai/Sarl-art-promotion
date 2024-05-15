@@ -102,6 +102,7 @@ function App() {
                             <tr>
                                 <th>Code Commande</th>
                                 <th>Fournisseur</th>
+                                <th>Date commande</th>
                                 <th>Total Commande</th>
                                 <th>Versement Initial</th>
                                 <th>Reste à Payer</th>
@@ -116,9 +117,10 @@ function App() {
                                 <tr key={credit._id}>
                                     <td>{credit.commande.code_commande}</td>
                                     <td>{credit.commande.provider_id ? credit.commande.provider_id.name : 'No provider'}</td>
+                                    <td>{credit.commande.date_commande}</td>
                                     <td>{credit.commande.totalCommande.toFixed(2)} DA</td>
-                                    <td>{credit.commande.versement.toFixed(2)} DA</td>
-                                    <td>{credit.resteAPayer.toFixed(2)} DA</td>
+                                    <td>{credit.commande.versement ? credit.commande.versement.toFixed(2) : 'N/A'}</td>
+                                    <td>{credit.resteAPayer ? credit.resteAPayer.toFixed(2) : 'N/A'}</td>
                                     <td>{credit.commande.modePaiement}</td>
                                     <td>{credit.commande.code_cheque || 'N/A'}</td>
 

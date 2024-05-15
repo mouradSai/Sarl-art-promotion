@@ -210,7 +210,7 @@ function App() {
                             checked={showActiveOnly}
                             onChange={handleFilterChange}
                         />
-                        <span class="checkbox-label">Afficher</span>
+                        <span class="checkbox-label">Actifs seulement</span>
                     </label>
 
                     <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button> 
@@ -264,9 +264,9 @@ function App() {
                             </tbody>
                         </table>
                         <div className="pagination">
-                            <button className='next-prev-btn' disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Précédent</button>
+                            <button className='next-prev-btn' disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Précédent</button>
                             <span>{currentPage}</span>
-                            <button className='next-prev-btn' disabled={currentPage === Math.ceil(providers.length / providersPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant &gt;</button>
+                            <button className='next-prev-btn' disabled={currentPage === Math.ceil(providers.length / providersPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant</button>
                         </div>
                     </>
                 )}

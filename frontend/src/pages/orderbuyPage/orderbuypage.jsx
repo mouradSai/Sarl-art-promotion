@@ -6,6 +6,8 @@ import Header from '../../components/Headers/HeaderCommande';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
 function App() {
+    const [commandesAchatCount, setCommandesAchatCount] = useState(0);
+
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [prixUnitaire, setPrixUnitaire] = useState('');
@@ -21,9 +23,9 @@ function App() {
     const [alert, setAlert] = useState(null);
     const [isProviderDisabled, setIsProviderDisabled] = useState(false);
     const [versement, setVersement] = useState('');
-const [modePaiement, setModePaiement] = useState('');
-const [showFinalizePopup, setShowFinalizePopup] = useState(false);
-const [codeCheque, setCodeCheque] = useState('');
+    const [modePaiement, setModePaiement] = useState('');
+    const [showFinalizePopup, setShowFinalizePopup] = useState(false);
+    const [codeCheque, setCodeCheque] = useState('');
 
 
 
@@ -204,16 +206,49 @@ const handleModePaiementChange = (e) => {
         setVersement(totalCommande);
     } else {
         // Réinitialisez le champ versement si le mode de paiement est différent de "Chèque"
-        setVersement('');
+        setVersement(0);
     }
     
 };
+
+
+
+useEffect(() => {
+    const fetchCounts = async () => {
+        try {
+            // Récupération de l'année actuelle
+            const currentYear = new Date().getFullYear();
+            
+            // Fetching commandes_achat count
+            const commandes_achatResponse = await fetch('http://localhost:8080/commandes_achat');
+            const commandes_achatData = await commandes_achatResponse.json();
+            
+            // Incrémentation de 1 et concaténation avec l'année actuelle
+            const incrementedCount = commandes_achatData.count + 1;
+            const displayCount = `BA${incrementedCount}${currentYear}`;
+            
+            // Mise à jour de l'état
+            setCommandesAchatCount(displayCount);
+            setCodeCommande(displayCount);
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    fetchCounts();
+}, []);
+                    
+    
+
+
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className='container'>
                 <h1 className="title-all">Commande d'achat </h1>
+
                 <div className="form-container">
                 <div className='bloc'> 
                     <div className='bloc1'> 
@@ -223,6 +258,7 @@ const handleModePaiementChange = (e) => {
                                 <option key={provider.id} value={provider.name}>{provider.name}</option>
                             ))}
                         </select>
+
                         <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
                         <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
                     </div>

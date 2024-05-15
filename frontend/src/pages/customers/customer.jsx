@@ -191,20 +191,27 @@ function App() {
             <div className="container">
                 <h1 className="title-all">Clients</h1>
                 <div className="actions">
-                    <input
+
+                <div className='search-cont'>
+                    <h1 className='search-icon'/>
+                        <input className='search-bar'
                         type="text"
-                        placeholder="Search customers..."
+                        placeholder="Chercher un client"
                         value={searchText}
                         onChange={handleSearchChange}
-                    />
+                        />
+                    </div>
+
                     <label>
                         <input
                             type="checkbox"
+                            class="checkbox-custom"
                             checked={showActiveOnly}
                             onChange={handleFilterChange}
                         />
-                        Show Active Only
+                        <span class="checkbox-label">Actifs seulement</span>
                     </label>
+
                     <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
                 </div>
                 {showCreateForm && (
@@ -257,9 +264,9 @@ function App() {
                             </tbody>
                         </table>
                         <div className="pagination">
-                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Précédent</button>
+                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Précédent</button>
                             <span>{currentPage}</span>
-                            <button disabled={currentPage === Math.ceil(clients.length / clientsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant &gt;</button>
+                            <button disabled={currentPage === Math.ceil(clients.length / clientsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant</button>
                         </div>
                     </>
                 )}

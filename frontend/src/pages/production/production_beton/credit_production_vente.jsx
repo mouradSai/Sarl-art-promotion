@@ -110,6 +110,7 @@ function App() {
                         <tr>
                             <th>Code Commande</th>
                             <th>Client</th>
+                            <th>Date commande</th>
                             <th>Total Commande</th>
                             <th>Versement Initial</th>
                             <th>Reste à Payer</th>
@@ -122,6 +123,8 @@ function App() {
                             <tr key={credit._id}>
                                 <td>{credit.vente.code_commande}</td>
                                 <td>{credit.vente.client_id ? credit.vente.client_id.name : 'No client'}</td>
+                                <td>{credit.vente.date_commande}</td>
+
                                 <td>{credit.vente.totalCommande.toFixed(2)} DA</td>
                                 <td>{credit.vente.versement.toFixed(2)} DA</td>
                                 <td>{credit.resteAPayer.toFixed(2)} DA</td>

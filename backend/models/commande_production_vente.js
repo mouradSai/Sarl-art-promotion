@@ -33,7 +33,7 @@ const commandeProductionVenteSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    date_commande: { type: Date, default: Date.now },
+    date_commande: { type: String, default: new Date().toLocaleString() }, // Formatted date and time of the order
     versement: { type: Number, required: false },  // Down payment not required for the order
     modePaiement: {
         type: String,

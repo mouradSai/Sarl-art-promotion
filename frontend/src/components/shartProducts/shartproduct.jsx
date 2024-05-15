@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
 import { Bar } from 'react-chartjs-2';
+import { FaArrowRight } from "react-icons/fa6";
+
 import 'chart.js/auto';
 import axios from 'axios';
 import './App.css'; // Ensure the CSS file is correctly linked
@@ -66,7 +69,7 @@ const ProductStockVisualizer = () => {
 
     return (
         <div className='appContainer'>
-            <h2 className='title-all'>Produits bientôt en rupture de stock</h2>
+            <h1 className='title-all'>Produits en rupture de stock</h1>
             <div className='visualizationContainer'>
                 <table className='table-shart'>
                     <thead>

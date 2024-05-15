@@ -45,7 +45,8 @@ function App() {
                         IsActive: true
                     }
                 });
-                setProducts(response.data.map(item => ({
+                const filteredProducts = response.data.filter(item => item.volumeProduced > 0);
+                setProducts(filteredProducts.map(item => ({
                     id: item._id,
                     codeProduction: item.productionCode
                 })));
@@ -94,16 +95,18 @@ function App() {
             return;
         }
 
+        // Si versement est vide, le définir à 0
+        const finalVersement = versement === '' ? 0 : parseFloat(versement);
+
         const orderDetails = {
             code_commande: codeCommande,
             date_commande: date,
             observation: observation_com,
             client_name: clientName,
             produits: commandes,
-            versement: parseFloat(versement),
+            versement: finalVersement,
             modePaiement,
-            code_cheque: codeCheque // Inclure la nouvelle propriété code_cheque
-
+            code_cheque: codeCheque
         };
 
         try {
@@ -113,6 +116,7 @@ function App() {
             setCodeCommande('');
             setObservationCom('');
             setClientName('');
+            setVersement('');
             setShowPopup(false);
             setIsClientDisabled(false);
         } catch (error) {
@@ -129,83 +133,79 @@ function App() {
     const showAlert = (message, type) => {
         setAlert({ message, type });
     };
-//suppression d'une ligne d'enregestrement tableau
-const handleDelete = (index) => {
-    // Crée un nouveau tableau en filtrant l'élément à l'index spécifié
-    const newCommandes = commandes.filter((item, i) => i !== index);
-    setCommandes(newCommandes);
-};
 
- // Fonction pour calculer le total de la commande principale
-const calculateTotalCommandePrincipale = () => {
-    let totalCommandePrincipale = 0;
-    commandes.forEach(item => {
-        totalCommandePrincipale += item.quantity * item.prixUnitaire;
-    });
-    return totalCommandePrincipale.toFixed(2);
-};
-//generate pdf order 
-const handleGeneratePDF = async () => {
-    if (commandes.length === 0) {
-        showAlert('Veuillez ajouter des produits à la commande.');
-        return;
-    }
-    if (!codeCommande) {
-        showAlert('Veuillez entrer un code de commande.');
-        return;
-    }
-    if (!clientName) {
-        showAlert('Veuillez entrer le nom du fournisseur.');
-        return;
-    }
-
-    const orderDetails = {
-        clientName,
-        codeCommande,
-        date: new Date().toISOString().slice(0, 10),
-        observation_com,
-        commandes
+    const handleDelete = (index) => {
+        const newCommandes = commandes.filter((item, i) => i !== index);
+        setCommandes(newCommandes);
     };
 
-    try {
-        const response = await fetch('http://localhost:8080/generatePdfproductionvente', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderDetails)
+    const calculateTotalCommandePrincipale = () => {
+        let totalCommandePrincipale = 0;
+        commandes.forEach(item => {
+            totalCommandePrincipale += item.quantity * item.prixUnitaire;
         });
+        return totalCommandePrincipale.toFixed(2);
+    };
 
-        if (!response.ok) {
-            throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
+    const handleGeneratePDF = async () => {
+        if (commandes.length === 0) {
+            showAlert('Veuillez ajouter des produits à la commande.');
+            return;
+        }
+        if (!codeCommande) {
+            showAlert('Veuillez entrer un code de commande.');
+            return;
+        }
+        if (!clientName) {
+            showAlert('Veuillez entrer le nom du fournisseur.');
+            return;
         }
 
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `bon-de-commande-${codeCommande}.pdf`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } catch (error) {
-        console.error('Erreur lors de la génération du PDF :', error);
-        showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
-    }
-};
+        const orderDetails = {
+            clientName,
+            codeCommande,
+            date: new Date().toISOString().slice(0, 10),
+            observation_com,
+            commandes
+        };
 
-const handleModePaiementChange = (e) => {
-    const selectedModePaiement = e.target.value;
-    setModePaiement(selectedModePaiement);
+        try {
+            const response = await fetch('http://localhost:8080/generatePdfproductionvente', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderDetails)
+            });
 
-    // Si le mode de paiement est "Chèque", récupérez automatiquement le total de la commande et mettez-le dans le champ versement
-    if (selectedModePaiement === 'chéque' || selectedModePaiement === 'espèce'  ) {
-        const totalCommande = calculateTotalCommandePrincipale();
-        setVersement(totalCommande);
-    } else {
-        // Réinitialisez le champ versement si le mode de paiement est différent de "Chèque"
-        setVersement('');
-    }
-    
-};
+            if (!response.ok) {
+                throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `bon-de-commande-${codeCommande}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Erreur lors de la génération du PDF :', error);
+            showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
+        }
+    };
+
+    const handleModePaiementChange = (e) => {
+        const selectedModePaiement = e.target.value;
+        setModePaiement(selectedModePaiement);
+
+        if (selectedModePaiement === 'chéque' || selectedModePaiement === 'espèce') {
+            const totalCommande = calculateTotalCommandePrincipale();
+            setVersement(totalCommande);
+        } else {
+            setVersement(0);
+        }
+    };
+
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
@@ -299,7 +299,7 @@ const handleModePaiementChange = (e) => {
                                     <td>{item.prixUnitaire}</td>
                                     <td>{(item.quantity * item.prixUnitaire).toFixed(2)}</td>
                                     <td>
-                            <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
+                                        <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
                                     </td>
                                 </tr>
                             ))}
@@ -307,37 +307,35 @@ const handleModePaiementChange = (e) => {
                     </table>
                     <button className='print-button' onClick={handleValidateOrder}>Valider</button>
                 </div>
-              
-{showFinalizePopup && (
-    <div className="popup">
-        <h2>Détails de Paiement</h2>
-        <div>
-            <label>Mode de Paiement:</label>
-            <select value={modePaiement} onChange={handleModePaiementChange}>
-                <option value="">Choisir un mode de paiement</option>
-                <option value="chéque">Chèque</option>
-                <option value="espèce">Espèce</option>
-                <option value="crédit">Crédit</option>
-        </select>
 
-        </div>
-        {modePaiement === 'chéque' && (
-    <div>
-        <label>Code Chèque:</label>
-        <input type="text" value={codeCheque} onChange={(e) => setCodeCheque(e.target.value)} placeholder="Code Chèque" />
-    </div>
-)}
-
-        <div>
-            <label>Versement (facultatif):</label>
-            <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
-        </div>
-        <div className="popup-buttons">
-            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
-            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
-        </div>
-    </div>
-)}
+                {showFinalizePopup && (
+                    <div className="popup">
+                        <h2>Détails de Paiement</h2>
+                        <div>
+                            <label>Mode de Paiement:</label>
+                            <select value={modePaiement} onChange={handleModePaiementChange}>
+                                <option value="">Choisir un mode de paiement</option>
+                                <option value="chéque">Chèque</option>
+                                <option value="espèce">Espèce</option>
+                                <option value="crédit">Crédit</option>
+                            </select>
+                        </div>
+                        {modePaiement === 'chéque' && (
+                            <div>
+                                <label>Code Chèque:</label>
+                                <input type="text" value={codeCheque} onChange={(e) => setCodeCheque(e.target.value)} placeholder="Code Chèque" />
+                            </div>
+                        )}
+                        <div>
+                            <label>Versement (facultatif):</label>
+                            <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
+                        </div>
+                        <div className="popup-buttons">
+                            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
+                            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                        </div>
+                    </div>
+                )}
 
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

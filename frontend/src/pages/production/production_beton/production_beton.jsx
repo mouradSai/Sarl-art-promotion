@@ -57,23 +57,23 @@ function App() {
     showAlert("Les quantités ont été calculées avec succès.", "success");
   };
 
-  const recalculateVolumeBasedOnQuantities = () => {
-    const formula = formules.find(f => f._id === inputs.formuleSelectionnee);
-    if (!formula) return;
-    let newVolume = 0;
-    Object.entries(resultats).forEach(([product, quantity]) => {
-      const baseQuantity = formula.products.find(p => p.product.name === product)?.quantity;
-      if (baseQuantity) {
-        const volumeContribution = quantity / baseQuantity;
-        newVolume += volumeContribution;
-      }
-    });
-    setInputs(prevInputs => ({
-      ...prevInputs,
-      volumeDesire: newVolume / formula.products.length // Average contribution to volume
-    }));
-    showAlert("Volume recalculé avec succès.", "success");
-  };
+  // const recalculateVolumeBasedOnQuantities = () => {
+  //   const formula = formules.find(f => f._id === inputs.formuleSelectionnee);
+  //   if (!formula) return;
+  //   let newVolume = 0;
+  //   Object.entries(resultats).forEach(([product, quantity]) => {
+  //     const baseQuantity = formula.products.find(p => p.product.name === product)?.quantity;
+  //     if (baseQuantity) {
+  //       const volumeContribution = quantity / baseQuantity;
+  //       newVolume += volumeContribution;
+  //     }
+  //   });
+  //   setInputs(prevInputs => ({
+  //     ...prevInputs,
+  //     volumeDesire: newVolume / formula.products.length // Average contribution to volume
+  //   }));
+  //   showAlert("Volume recalculé avec succès.", "success");
+  // };
 
   const showAlert = (message, type) => {
     setAlert({ message, type });
@@ -134,7 +134,7 @@ function App() {
             <div className="button-group">
               <button className="button" onClick={calculerQuantites}>Calculer les Quantités</button>
               <button className="print-button" onClick={handleSubmit}>Enregistrer la Production</button>
-              <button className="button-calc" onClick={recalculateVolumeBasedOnQuantities}>Recalculer Volume</button>
+              {/* <button className="button-calc" onClick={recalculateVolumeBasedOnQuantities}>Recalculer Volume</button> */}
             </div>
           </div>
           <div className='quantities'>
