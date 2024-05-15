@@ -29,7 +29,7 @@ function BonProductionForm() {
         const data = await response.json();
         
         const incrementedCount = data.count + 1;
-        const displayCount = `BCP${incrementedCount}${currentYear}`;
+        const displayCount = `BP${incrementedCount}${currentYear}`;
         
         setCodeBon(displayCount);
 

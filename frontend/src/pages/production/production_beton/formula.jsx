@@ -132,7 +132,7 @@ function App() {
             <Header OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
             <SidebarProduction openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
             <div className='container'>
-                <h2>Create Formula</h2>
+                <h1 className='title-all'>Création des Formules</h1>
                 <form onSubmit={handleSubmit}>
                     <label>Nom de la formule:</label>
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
