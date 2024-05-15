@@ -103,6 +103,11 @@ function App() {
         // Si versement est vide, le définir à 0
         const finalVersement = versement === '' ? 0 : parseFloat(versement);
 
+        if (finalVersement < 0) {
+            showAlert('Le versement ne peut pas être inférieur à zéro.');
+            return;
+        }
+
         const totalCommande = calculateTotalCommandePrincipale();
         if (finalVersement > totalCommande) {
             showAlert('Le versement ne peut pas être supérieur au total de la commande.');
