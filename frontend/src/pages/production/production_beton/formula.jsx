@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../../../components/Main/Header';
 import SidebarProduction from './SidebarProduction';
+import CustomAlert from '../../../components/costumeAlert/costumeAlert';
 
 function App() {
     const [name, setName] = useState(''); // Nom de la formule
@@ -13,6 +14,7 @@ function App() {
     const [editableProducts, setEditableProducts] = useState([]); // Produits de la formule sélectionnée pour modification
     const [selectedProductIndex, setSelectedProductIndex] = useState(null); // Index du produit sélectionné pour édition
     const [productSuggestions, setProductSuggestions] = useState([]); // Suggestions de produits
+    const [alert, setAlert] = useState(null);
 
     // Fetch all formulas and products on component mount
     useEffect(() => {
@@ -65,7 +67,7 @@ function App() {
             setProducts([]);
         } catch (error) {
             console.error(error);
-            alert('Error creating formula');
+            showAlert('Error creating formula');
         }
     };
 
@@ -73,10 +75,10 @@ function App() {
         try {
             await axios.delete(`http://localhost:8080/formules/${id}`);
             setFormulas(formulas.filter(formula => formula._id !== id));
-            alert('Formula deleted successfully!');
+            showAlert('Formula deleted successfully!');
         } catch (error) {
             console.error(error);
-            alert('Error deleting formula');
+            showAlert('Error deleting formula');
         }
     };
 
@@ -106,11 +108,11 @@ function App() {
             }));
             const updatedFormula = { ...selectedFormula, products: updatedProducts };
             await axios.put(`http://localhost:8080/formules/${selectedFormula._id}`, updatedFormula);
-            alert('Products updated successfully!');
+            showAlert('Products updated successfully!');
             await handleDetails(selectedFormula); // Refresh the selected formula details
         } catch (error) {
             console.error(error);
-            alert('Error updating products');
+            showAlert('Error updating products');
         }
     };
 
@@ -119,11 +121,11 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/formules/add-product/${selectedFormula._id}`, { product: productToAdd });
             await handleDetails(response.data); // Update the details view with new product list
-            alert('Product added successfully!');
+            showAlert('Product added successfully!');
             setNewProduct({ product: '', quantity: '' }); // Reset new product fields
         } catch (error) {
             console.error(error);
-            alert('Error adding product to formula');
+            showAlert('Error adding product to formula');
         }
     };
 
@@ -132,14 +134,16 @@ function App() {
             const updatedProducts = editableProducts.filter((_, i) => i !== index);
             const updatedFormula = { ...selectedFormula, products: updatedProducts.map(p => ({ product: p._id, quantity: p.quantity })) };
             await axios.put(`http://localhost:8080/formules/${selectedFormula._id}`, updatedFormula);
-            alert('Product deleted successfully!');
+            showAlert('Product deleted successfully!');
             await handleDetails(selectedFormula); // Refresh the selected formula details
         } catch (error) {
             console.error(error);
-            alert('Error deleting product');
+            showAlert('Error deleting product');
         }
     };
-
+    const showAlert = (message, type) => {
+        setAlert({ message, type });
+      };
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
@@ -257,6 +261,8 @@ function App() {
                     </div>
                 </div>
             )}
+                    {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
+
         </div>
     );
 }
