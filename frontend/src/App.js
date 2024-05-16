@@ -343,7 +343,7 @@ function App() {
             />  
 
 <Route path="/Dashboard_production" element={
-                    localStorage.getItem("token")    ? (
+                    localStorage.getItem("token")   && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"    ? (
                         <ProtectedRoute>
                             <Dashboard_production />
                         </ProtectedRoute>

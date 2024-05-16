@@ -32,12 +32,12 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>
       </div>
       <ul className='sidebar-list'>
-
+      {isSuperadmin && (
       <Link to="/Dashboard_production" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <TbBuildingFactory  className='icon'/> Dashboard
         </li>
-      </Link>
+      </Link>)}
 
       <Link to="/production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
