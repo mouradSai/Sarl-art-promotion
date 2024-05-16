@@ -36,6 +36,55 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Error retrieving credits', error: error.message });
     }
 });
+// Ajoutez cette partie au fichier de routes existant
+router.get('/stats', async (req, res) => {
+    try {
+        const credits = await CreditAchat.find()
+            .populate({
+                path: 'commande',
+                model: 'CommandeAchat',
+                select: 'code_commande totalCommande versement modePaiement provider_id code_cheque date_commande',
+                populate: {
+                    path: 'provider_id',
+                    model: 'provider',
+                    select: 'name'
+                }
+            });
+
+        const commandesMap = new Map();
+
+        credits.forEach(credit => {
+            const commande = credit.commande;
+            if (commande) {
+                if (!commandesMap.has(commande.code_commande)) {
+                    commandesMap.set(commande.code_commande, {
+                        totalCommande: commande.totalCommande,
+                        maxVersement: commande.versement || 0
+                    });
+                } else {
+                    const existingCommande = commandesMap.get(commande.code_commande);
+                    existingCommande.maxVersement = Math.max(existingCommande.maxVersement, commande.versement || 0);
+                }
+            }
+        });
+
+        let totalCommandeSum = 0;
+        let totalVersementSum = 0;
+
+        commandesMap.forEach(commande => {
+            totalCommandeSum += commande.totalCommande;
+            totalVersementSum += commande.maxVersement;
+        });
+
+        res.status(200).json({
+            totalCommandeSum,
+            totalVersementSum
+        });
+    } catch (error) {
+        console.error('Error retrieving stats:', error);
+        res.status(500).json({ message: 'Error retrieving stats', error: error.message });
+    }
+});
 
 
 // POST route to add a payment
