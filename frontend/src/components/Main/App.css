@@ -279,6 +279,12 @@ body {
   .card:nth-child(8) {
     background-color: #69df29;
   }
+  .card:nth-child(9) {
+    background-color: #000000;
+  }
+   .card:nth-child(10) {
+    background-color: #da0000;
+  }
   
   .card-inner {
     display: flex;
@@ -350,6 +356,32 @@ body {
   }
   
 
+  .chart-container {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto; /* Centrer le graphique */
+}
+
+.main-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    flex: 1 1 calc(25% - 20px); /* Ajuste les cartes pour qu'elles prennent 25% de la largeur */
+    box-sizing: border-box;
+}
+
+.card-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card_icon {
+    font-size: 2em;
+}
 
 /* Barre deroulante du profil et le profil */
 
