@@ -95,5 +95,36 @@ router.delete('/delete-by-commande/:codeCommande', async (req, res) => {
         res.status(500).json({ message: 'Error deleting production credits', error: error.message });
     }
 });
+// Route to retrieve production sale order stats
+// Route to retrieve production sale order stats
+router.get('/stats', async (req, res) => {
+    try {
+        const commandes = await CommandeProductionVente.find()
+            .populate('client_id', 'name')
+            .sort('date_commande');
 
+        let totalCommandeSum = 0;
+        let totalVersementSum = 0;
+        let totalResteAPayerSum = 0;
+
+        commandes.forEach(commande => {
+            const totalCommande = commande.totalCommande;
+            const versement = commande.versement || 0;
+            const resteAPayer = totalCommande - versement;
+
+            totalCommandeSum += totalCommande;
+            totalVersementSum += versement;
+            totalResteAPayerSum += resteAPayer;
+        });
+
+        res.status(200).json({
+            totalCommandeSum,
+            totalVersementSum,
+            totalResteAPayerSum
+        });
+    } catch (error) {
+        console.error('Error retrieving production sale order stats:', error);
+        res.status(500).json({ message: 'Error retrieving production sale order stats', error: error.message });
+    }
+});
 module.exports = router;

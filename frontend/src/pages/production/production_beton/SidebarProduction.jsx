@@ -33,11 +33,19 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       </div>
       <ul className='sidebar-list'>
 
+      {isSuperadmin && (
+      <Link to="/Dashboard_production" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsFillGrid1X2Fill  className='icon'/> Dashboard
+        </li>
+      </Link>)}
+
       <Link to="/production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <TbBuildingFactory  className='icon'/> Production
         </li>
       </Link>
+      
       {isSuperadmin && (
       <Link to="/production_vente" className="sidebar-link"> 
       <li className='sidebar-list-item'>
