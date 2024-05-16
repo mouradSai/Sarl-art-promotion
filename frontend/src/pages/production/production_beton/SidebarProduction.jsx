@@ -35,7 +35,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       {isSuperadmin && (
       <Link to="/Dashboard_production" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <TbBuildingFactory  className='icon'/> Dashboard
+            <BsFillGrid1X2Fill  className='icon'/> Dashboard
         </li>
       </Link>)}
 
