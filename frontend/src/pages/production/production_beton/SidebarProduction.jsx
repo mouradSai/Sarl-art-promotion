@@ -33,6 +33,12 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       </div>
       <ul className='sidebar-list'>
 
+      <Link to="/Dashboard_production" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <TbBuildingFactory  className='icon'/> Dashboard
+        </li>
+      </Link>
+
       <Link to="/production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <TbBuildingFactory  className='icon'/> Production

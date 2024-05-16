@@ -1,0 +1,22 @@
+.line-chart {
+    width: 600px;  /* Adjust width as needed */
+    height: 400px; /* Adjust height as needed */
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;  /* Center horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Center content vertically */
+}
+
+.line-chart canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.yes{
+    color:#B61217;
+}

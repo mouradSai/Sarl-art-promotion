@@ -121,5 +121,27 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ message: 'Error deleting production sale order', error: error.message });
     }
 });
+// Route to retrieve production sale order stats by date
+router.get('/stats_date', async (req, res) => {
+    try {
+        const commandes = await CommandeProductionVente.find()
+            .populate('client_id', 'name')
+            .sort('date_commande');
 
+        const salesByDate = {};
+
+        commandes.forEach(commande => {
+            const date = new Date(commande.date_commande).toISOString().split('T')[0]; // Convertir la date ici
+            if (!salesByDate[date]) {
+                salesByDate[date] = 0;
+            }
+            salesByDate[date] += commande.totalCommande;
+        });
+
+        res.status(200).json(salesByDate);
+    } catch (error) {
+        console.error('Error retrieving sales by date:', error);
+        res.status(500).json({ message: 'Error retrieving sales by date', error: error.message });
+    }
+});
 module.exports = router;
