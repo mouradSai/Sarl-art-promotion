@@ -1,6 +1,7 @@
 // PieChartVente.js
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 const PieChartVente = ({ totalCommandeSum, totalVersementSum }) => {
     const remainingCredit = totalCommandeSum - totalVersementSum;
@@ -16,10 +17,20 @@ const PieChartVente = ({ totalCommandeSum, totalVersementSum }) => {
         ],
     };
 
+    const options = {
+        plugins: {
+            datalabels: {
+                display: true,
+                color: 'white',
+                formatter: (value) => `${value.toLocaleString()} DA`,
+            }
+        }
+    };
+
     return (
         <div className="chart-container">
             <h2>Statistiques  Ventes</h2>
-            <Pie data={data} />
+            <Pie data={data} options={options} plugins={[ChartDataLabels]} />
         </div>
     );
 };

@@ -159,7 +159,8 @@ function Home() {
                             <h1>{commandesVenteCount}</h1>
                         </Link>
                     </div>
-                      {/* Affichage du graphique en cercle pour les achats */}
+                    
+            {/* Affichage du graphique en cercle pour les achats */}
             <div className="chart-container">
                 <PieChartAchat totalCommandeSum={totalCommandeAchatSum} totalVersementSum={totalVersementAchatSum} />
             </div>
@@ -168,10 +169,9 @@ function Home() {
             <div className="chart-container">
                 <PieChartVente totalCommandeSum={totalCommandeVenteSum} totalVersementSum={totalVersementVenteSum} />
             </div>
+
                 </div>
             )}
-
-          
 
             {/* Affichage de Shartproduct */}
             {showShartProduct && (
