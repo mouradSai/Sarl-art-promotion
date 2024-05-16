@@ -12,11 +12,12 @@ const SalesLineChart = () => {
     const [salesData, setSalesData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [unit, setUnit] = useState('day'); // Default unit is day
 
     useEffect(() => {
         const fetchSalesData = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/commande_production_vente/stats_date'); // Vérifiez cette URL
+                const response = await axios.get(`http://localhost:8080/commande_production_vente/stats_date?unit=${unit}`);
                 setSalesData(response.data);
                 setLoading(false);
             } catch (error) {
@@ -26,7 +27,7 @@ const SalesLineChart = () => {
         };
 
         fetchSalesData();
-    }, []);
+    }, [unit]); // Re-fetch data when the unit changes
 
     if (loading) {
         return <p>Loading...</p>;
@@ -47,7 +48,7 @@ const SalesLineChart = () => {
                 data: totals,
                 fill: false,
                 backgroundColor: 'rgba(75,192,192,0.4)',
-                borderColor: 'rgba(75,192,192,1)',
+                borderColor: '#B61217',
             },
         ],
     };
@@ -57,8 +58,8 @@ const SalesLineChart = () => {
             x: {
                 type: 'time',
                 time: {
-                    unit: 'day',
-                    tooltipFormat: 'PPP',
+                    unit: unit, // Use the selected unit
+                    tooltipFormat: unit === 'day' ? 'PPP' : unit === 'month' ? 'MMM yyyy' : 'yyyy',
                 },
             },
             y: {
@@ -68,9 +69,23 @@ const SalesLineChart = () => {
     };
 
     return (
-        <div className="line-chart">
-            <h2 className='yes'>Évolution des Ventes par Date</h2>
-            <Line data={data} options={options} />
+        <div className="line-chart-container">
+            <div className="select-container">
+                <label htmlFor="unit-select">Unit:</label>
+                <select
+                    id="unit-select"
+                    value={unit}
+                    onChange={(e) => setUnit(e.target.value)}
+                >
+                    <option value="day">Jour</option>
+                    <option value="month">Mois</option>
+                    <option value="year">Année</option>
+                </select>
+            </div>
+            <div className="line-chart">
+                <h2 className='titleHis'>Évolution des Ventes par Date</h2>
+                <Line data={data} options={options} />
+            </div>
         </div>
     );
 };

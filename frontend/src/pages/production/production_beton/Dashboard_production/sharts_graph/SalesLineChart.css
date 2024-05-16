@@ -1,15 +1,49 @@
+.line-chart-container {
+    width: 800px;  /* Adjust width as needed */
+    margin: 0 auto; /* Center horizontally */
+    position: relative; /* Position relative for absolute positioning of the select button */
+}
+
+.select-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.select-container label {
+    display: none; /* Hide the label */
+}
+
+.select-container select {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 25px;
+    border: 2px solid#B61217;
+    background-color: #fff;
+    color: #B61217;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.select-container select:hover {
+    background-color: #B61217;
+    color: #fff;
+}
+
+.select-container select:focus {
+    border-color: #B61217;
+    box-shadow: 0 0 10px#B61217(0, 123, 255, 0.5);
+}
+
 .line-chart {
-    width: 600px;  /* Adjust width as needed */
-    height: 400px; /* Adjust height as needed */
     background: #fff;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;  /* Center horizontally */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; /* Center content vertically */
+    margin-top: 40px; /* Add some margin to avoid overlap */
 }
 
 .line-chart canvas {
@@ -17,6 +51,8 @@
     height: 100% !important;
 }
 
-.yes{
+.titleHis {
+    text-align: center;
+    margin-bottom: 20px;
     color:#B61217;
 }

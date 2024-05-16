@@ -124,6 +124,7 @@ router.delete('/:id', async (req, res) => {
 // Route to retrieve production sale order stats by date
 router.get('/stats_date', async (req, res) => {
     try {
+        const unit = req.query.unit || 'day'; // Get the unit from query parameters, default to 'day'
         const commandes = await CommandeProductionVente.find()
             .populate('client_id', 'name')
             .sort('date_commande');
@@ -131,11 +132,22 @@ router.get('/stats_date', async (req, res) => {
         const salesByDate = {};
 
         commandes.forEach(commande => {
-            const date = new Date(commande.date_commande).toISOString().split('T')[0]; // Convertir la date ici
-            if (!salesByDate[date]) {
-                salesByDate[date] = 0;
+            let dateKey;
+
+            // Determine the date key format based on the unit
+            if (unit === 'day') {
+                dateKey = new Date(commande.date_commande).toISOString().split('T')[0];
+            } else if (unit === 'month') {
+                const date = new Date(commande.date_commande);
+                dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+            } else if (unit === 'year') {
+                dateKey = new Date(commande.date_commande).getFullYear().toString();
             }
-            salesByDate[date] += commande.totalCommande;
+
+            if (!salesByDate[dateKey]) {
+                salesByDate[dateKey] = 0;
+            }
+            salesByDate[dateKey] += commande.totalCommande;
         });
 
         res.status(200).json(salesByDate);
@@ -144,4 +156,5 @@ router.get('/stats_date', async (req, res) => {
         res.status(500).json({ message: 'Error retrieving sales by date', error: error.message });
     }
 });
+
 module.exports = router;
