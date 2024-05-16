@@ -1,9 +1,12 @@
+// Home.js
 import React, { useState, useEffect } from 'react';
 import { BsBox2Fill, BsPersonFill, BsPeopleFill, BsCashStack, BsFileBarGraphFill } from 'react-icons/bs';
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import { Pie } from 'react-chartjs-2';
-import Shartproduct from '../shartProducts/shartproduct';
+import Shartproduct from '../../pages/Sharts-Dashboard/shartProducts/shartproduct';
+import PieChartAchat from '../../pages/Sharts-Dashboard/shartCommandes/PieChart_achats';
+import PieChartVente from '../../pages/Sharts-Dashboard/shartCommandes/PieChart_vente';
+import './App.css';  // Assurez-vous que le chemin est correct
 
 function Home() {
     const [showShartProduct, setShowShartProduct] = useState(false);
@@ -16,8 +19,10 @@ function Home() {
     const [commandesVenteCount, setCommandesVenteCount] = useState(0); 
     const [categoriesCount, setCategoriesCount] = useState(0); 
     const [entrepotsCount, setEntrepotsCount] = useState(0); 
-    const [totalCommandeSum, setTotalCommandeSum] = useState(0); // Nouvelle variable d'état
-    const [totalVersementSum, setTotalVersementSum] = useState(0); // Nouvelle variable d'état
+    const [totalCommandeAchatSum, setTotalCommandeAchatSum] = useState(0);
+    const [totalVersementAchatSum, setTotalVersementAchatSum] = useState(0);
+    const [totalCommandeVenteSum, setTotalCommandeVenteSum] = useState(0);
+    const [totalVersementVenteSum, setTotalVersementVenteSum] = useState(0);
 
     useEffect(() => {
         const fetchCounts = async () => {
@@ -54,11 +59,17 @@ function Home() {
                 const commandesVenteData = await commandesVenteResponse.json();
                 setCommandesVenteCount(commandesVenteData.count);
 
-                // Fetching stats
-                const statsResponse = await fetch('http://localhost:8080/credit_achat/stats');
-                const statsData = await statsResponse.json();
-                setTotalCommandeSum(statsData.totalCommandeSum);
-                setTotalVersementSum(statsData.totalVersementSum);
+                // Fetching stats for achats
+                const statsAchatResponse = await fetch('http://localhost:8080/credit_achat/stats');
+                const statsAchatData = await statsAchatResponse.json();
+                setTotalCommandeAchatSum(statsAchatData.totalCommandeSum);
+                setTotalVersementAchatSum(statsAchatData.totalVersementSum);
+
+                // Fetching stats for ventes
+                const statsVenteResponse = await fetch('http://localhost:8080/credit_vente/stats');
+                const statsVenteData = await statsVenteResponse.json();
+                setTotalCommandeVenteSum(statsVenteData.totalCommandeSum);
+                setTotalVersementVenteSum(statsVenteData.totalVersementSum);
 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -67,19 +78,6 @@ function Home() {
 
         fetchCounts();
     }, []);
-
-    const remainingCredit = totalCommandeSum - totalVersementSum;
-
-    const data = {
-        labels: ['Total Commande', 'Total Versement', 'Crédit Restant'],
-        datasets: [
-            {
-                data: [totalCommandeSum, totalVersementSum, remainingCredit],
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-            },
-        ],
-    };
 
     return (
         <main className='main-container'>
@@ -161,15 +159,19 @@ function Home() {
                             <h1>{commandesVenteCount}</h1>
                         </Link>
                     </div>
-                    
-            {/* Affichage du graphique en cercle */}
+                      {/* Affichage du graphique en cercle pour les achats */}
             <div className="chart-container">
-                <h2>Statistiques de Paiement Achat</h2>
-                <Pie data={data} />
+                <PieChartAchat totalCommandeSum={totalCommandeAchatSum} totalVersementSum={totalVersementAchatSum} />
+            </div>
+
+            {/* Affichage du graphique en cercle pour les ventes */}
+            <div className="chart-container">
+                <PieChartVente totalCommandeSum={totalCommandeVenteSum} totalVersementSum={totalVersementVenteSum} />
             </div>
                 </div>
             )}
 
+          
 
             {/* Affichage de Shartproduct */}
             {showShartProduct && (
