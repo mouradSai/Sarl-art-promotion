@@ -38,7 +38,7 @@ function App() {
     const fetchEntrepots = async () => {
         try {
             const response = await axios.get('http://localhost:8080/entrepots');
-            setEntrepots(response.data.data);
+            setEntrepots(response.data.data.reverse());
         } catch (error) {
             console.error('Error:', error);
             showAlert('An error occurred while fetching entrepots. Please try again later.');

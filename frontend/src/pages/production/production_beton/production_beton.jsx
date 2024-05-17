@@ -28,7 +28,7 @@ function App() {
         
         const response = await fetch('http://localhost:8080/production_beton');
         const data = await response.json();
-        
+      
         const incrementedCount = data.count + 1;
         const displayCount = `CP${incrementedCount}${currentYear}`;
         

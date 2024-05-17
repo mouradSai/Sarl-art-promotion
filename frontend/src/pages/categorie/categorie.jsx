@@ -39,7 +39,7 @@ function App() {
     const fetchCategories = async () => {
         try {
             const response = await axios.get('http://localhost:8080/categories');
-            setCategories(response.data.data);
+            setCategories(response.data.data.reverse());
         } catch (error) {
             console.error('Error:', error);
             showAlert('An error occurred while fetching categories. Please try again later.');

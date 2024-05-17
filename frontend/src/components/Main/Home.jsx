@@ -1,4 +1,3 @@
-// Home.js
 import React, { useState, useEffect } from 'react';
 import { BsBox2Fill, BsPersonFill, BsPeopleFill, BsCashStack, BsFileBarGraphFill } from 'react-icons/bs';
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
@@ -159,21 +158,26 @@ function Home() {
                             <h1>{commandesVenteCount}</h1>
                         </Link>
                     </div>
+                    </div>
+                )}
+                
+            {!showShartProduct && (
+            <div className="container-pie">
                     
-            {/* Affichage du graphique en cercle pour les achats */}
-            <div className="chart-container">
-                <PieChartAchat totalCommandeSum={totalCommandeAchatSum} totalVersementSum={totalVersementAchatSum} />
-            </div>
-
-            {/* Affichage du graphique en cercle pour les ventes */}
-            <div className="chart-container">
-                <PieChartVente totalCommandeSum={totalCommandeVenteSum} totalVersementSum={totalVersementVenteSum} />
-            </div>
-
+                {/* Affichage du graphique en cercle pour les achats */}
+                <div className="chart-container">
+                    <PieChartAchat totalCommandeSum={totalCommandeAchatSum} totalVersementSum={totalVersementAchatSum} />
                 </div>
+
+                {/* Affichage du graphique en cercle pour les ventes */}
+                <div className="chart-container">
+                    <PieChartVente totalCommandeSum={totalCommandeVenteSum} totalVersementSum={totalVersementVenteSum} />
+                </div>
+
+            </div>
             )}
 
-            {/* Affichage de Shartproduct */}
+            {/* Affichage de Shartproduct  */}
             {showShartProduct && (
                 <div className="shart-product-container">
                     <Shartproduct />
@@ -186,8 +190,12 @@ function Home() {
                     {showShartProduct ? <FaArrowLeft className='iconar'/>  : <FaArrowRight className='iconar'/>}
                 </button>
             </div>
+
+
         </main>
     );
 }
 
 export default Home;
+
+
