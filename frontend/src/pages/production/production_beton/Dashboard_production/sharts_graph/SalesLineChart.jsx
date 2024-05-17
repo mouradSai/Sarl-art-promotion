@@ -46,8 +46,8 @@ const SalesLineChart = () => {
             {
                 label: 'Total Ventes',
                 data: totals,
-                fill: false,
-                backgroundColor: 'rgba(75,192,192,0.4)',
+                fill: true,
+                backgroundColor: '#b6121776',
                 borderColor: '#B61217',
             },
         ],
