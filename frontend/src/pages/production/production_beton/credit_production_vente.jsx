@@ -56,7 +56,7 @@ function App() {
                 return restAPayer === minRestAPayer && restAPayer !== 0;
             });
     
-            setCredits(filteredData);
+            setCredits(filteredData.reverse());
         } catch (error) {
             console.error('Error fetching production credits:', error);
             showAlert('An error occurred while fetching production credits. Please try again later.', 'error');

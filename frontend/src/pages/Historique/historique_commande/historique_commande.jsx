@@ -23,7 +23,7 @@ function App() {
     const fetchCommandes = async () => {
         try {
             const response = await axios.get('http://localhost:8080/commandes');
-            setCommandes(response.data.commandes);
+            setCommandes(response.data.commandes.reverse());
         } catch (error) {
             console.error('Error fetching commandes:', error);
             showAlert('An error occurred while fetching commandes. Please try again later.', 'error');

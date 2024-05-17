@@ -42,7 +42,7 @@ function App() {
     const fetchClients = async () => {
         try {
             const response = await axios.get('http://localhost:8080/clients');
-            setClients(response.data.data);
+            setClients(response.data.data.reverse());
         } catch (error) {
             console.error('Error:', error);
             showAlert('An error occurred while fetching clients. Please try again later.');

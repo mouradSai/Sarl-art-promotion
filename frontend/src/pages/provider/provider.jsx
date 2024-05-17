@@ -43,7 +43,7 @@ function App() {
     const fetchProviders = async () => {
         try {
             const response = await axios.get('http://localhost:8080/providers');
-            setProviders(response.data.data);
+            setProviders(response.data.data.reverse());
         } catch (error) {
             console.error('Error:', error);
             showAlert('Une erreur sest produite lors de la récupération des fournisseurs. Veuillez réessayer plus tard');

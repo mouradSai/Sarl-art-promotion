@@ -39,7 +39,7 @@ function App() {
     const fetchProducts = async () => {
         try {
             const response = await axios.get('http://localhost:8080/products');
-            setProducts(response.data.data);
+            setProducts(response.data.data.reverse());
         } catch (error) {
             console.error('Error:', error);
             showAlert('An error occurred while fetching products. Please try again later.');
