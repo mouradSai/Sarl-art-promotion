@@ -42,7 +42,7 @@ function Header({ OpenSidebar }) {
 
       <Link to="/"> 
         <button className={"white_btn_logout"}>
-          <BsArrowBarLeft className='icon-head'/> Accueil
+          <BsArrowBarLeft className='icon-head logaac'/> Accueil
         </button>
       </Link>
 

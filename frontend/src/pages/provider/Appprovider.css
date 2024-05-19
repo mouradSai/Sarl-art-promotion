@@ -40,17 +40,11 @@ h2 {
   margin-left: 10px;
 }
 
-
-.actions .create-button {
-  margin-left: 10px; /* Marge à gauche pour l'espace entre l'input et le bouton */
-}
-
 .actions input[type="text"] {
 
-  width: 200px; /* Largeur de l'input de recherche */
-  margin-right: 60%; /* Marge à droite pour l'espace entre l'input et le bouton */
-
+  width: 300px; /* Largeur de l'input de recherche */
 }
+
 
 
 .create-button,
@@ -282,6 +276,11 @@ tr:hover {
   border: 2px solid #585858;
 }
 
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
 .checkbox-custom {
 
   /* Hide the default checkbox */
@@ -349,9 +348,13 @@ tr:hover {
 
 
 /* RESPONSIVE */
+@media (max-width: 1300px) {
 
-
-
+table {
+  padding: 0; /* Remove any default padding */
+  width: 90%;
+}
+}
 
 /* Medium <= 992px */ 
 @media (max-width: 992px) {
@@ -365,18 +368,82 @@ tr:hover {
 
 }
   table {
+    padding: 0; /* Remove any default padding */
     width: 10%;
-    height: 400px; /* Hauteur automatique pour permettre l'ajustement */
+    height: 70px; /* Hauteur automatique pour permettre l'ajustement */
+    margin-left:-40%;
   }
 
   th, td {
-    font-size: 18px; /* Réduire la taille de la police */
-    padding: 2px; /* Réduire le rembourrage */
+    font-size: 12px; /* Réduire la taille de la police */
+    padding: 0px; /* Réduire le rembourrage */
+    word-wrap: break-word; /* Ensure long words break to the next line */
   }
 
- 
+
+  h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #007bff; /* Couleur de texte bleue */
+  }
+  
+  /* Style pour les boutons */
+  .actions {
+    display: flex;
+    justify-content: center; 
+    align-items: center;/* Alignement des boutons au centre */
+    margin-bottom: 40px;
+    top: 5px; /* Position verticale fixe par rapport au haut de la page */
+    left: 5px;
+  }
+  
+  .actions .create-button {
+    margin-left: 5px;
+  }
+  
+  .actions .create-button {
+    margin-left: 0px;
+  }
+  
+  .actions input[type="text"] {
+    font-size: 12px;
+    width: 150px; 
+  }
+
+  .search-cont {
+    padding-right: 5px;
+  }
+  .search-icon{
+    display: none;
+  }
+
+  .checkbox-label {
+    font-size: 12px;
+  }
+
+.create-button,
+.view-button,
+.delete-button,
+.edit-button {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-bottom: 10px;
+  margin-right: 10px; /* Ajout d'un espace entre les boutons */
+  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
 }
 
+.next-prev-btn{
+  font-size: 12px;
+  padding: 9px 18px;
+}
+
+  
+
+
+}
 
 
 /* Small <= 768px */

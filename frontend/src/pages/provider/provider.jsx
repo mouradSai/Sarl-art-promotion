@@ -203,7 +203,7 @@ function App() {
                         />
                     </div>
 
-                    <label>
+                    <label class="checkbox-container">
                         <input
                             type="checkbox"
                             class="checkbox-custom"
