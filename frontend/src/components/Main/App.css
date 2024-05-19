@@ -500,6 +500,8 @@ body {
   width: 300px;
   height: 300px;
   margin: 0 auto ; /* Centrer le graphique */
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .container-pie {
@@ -523,7 +525,20 @@ body {
 
   /* End Main  */
   
+  @media (max-width: 1300px) {
+
+  .sidebar-logo {
+    width: 80px; 
+  }
+
+  .sidebar-list-item {
+    font-family: 'Libre Franklin', sans-serif;
+    padding: 10px 15px 15px 15px;
+    font-size: 12px;
+    font-weight: 600;
+  }
   
+}
   /* Medium <= 992px */
     
   @media screen and (max-width: 992px) {
@@ -548,41 +563,31 @@ body {
       display: inline;
     }
 
+    .logaac {
+      display: none;  /* Masquer l'icône */
+    }
+
     .white_btn_logout {
-      font-size: 14px;  /* Réduire la taille de la police */
+      font-size: 13px;  /* Réduire la taille de la police */
       padding: 6px 12px;  /* Réduire le rembourrage */
       border-radius: 20px;  /* Réduire le rayon de la bordure */
       margin: 0 3px;  /* Réduire la marge */
     }
 
-    .dropdown-content {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      z-index: 1;
+    .profile-dropdown {
+      padding: 3px 6px; /* Ajustez le rembourrage selon vos préférences */
+      font-size: 11px; /* Ajustez la taille de la police selon vos préférences */
+      border-radius: 20px;
     }
-    
 
     .dropdown-content button {
       display: block;
-      width: 50%;
+      width: 100%;
+      font-size: 11px; 
+      border-radius: 20px;
       padding: 6px 10px;
       text-align: left;
-      font-weight: 600;
-      font-size: 8px; /* Ajustez la taille de la police selon vos préférences */
-    /* Coins arrondis */
     }
-
-    .profile-dropdown {
-      padding: 3px 6px; /* Ajustez le rembourrage selon vos préférences */
-      font-size: 13px; /* Ajustez la taille de la police selon vos préférences */
-      border-radius: 10px;
-    }
-
 
 
 
