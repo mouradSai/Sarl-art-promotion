@@ -25,7 +25,8 @@ function App() {
         try {
             const response = await axios.get('http://localhost:8080/production_beton/finished-products');
             const filteredData = response.data.filter(production => production.volumeProduced > 0);
-            setProductions(filteredData);
+            // Inverse l'ordre des productions pour afficher les plus récentes en premier
+            setProductions(filteredData.reverse());
         } catch (error) {
             console.error('Error fetching productions:', error);
             showAlert('An error occurred while fetching productions. Please try again later.', 'error');

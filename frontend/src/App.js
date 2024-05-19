@@ -47,7 +47,7 @@ import Historique_production_vente from "./pages/production/production_beton/His
 import Historique_production from "./pages/production/production_beton/Historique/historique";
 import Credit_production_vente from "./pages/production/production_beton/credit_production_vente";
 import Historique_credit_vente from "./pages/production/production_beton/Historique/historique_credit_vente";
-
+import Dashboard_production from "./pages/production/production_beton/Dashboard_production/Dashboard_production";
 //protection de routes 
 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
@@ -341,6 +341,18 @@ function App() {
                     )
                 }
             />  
+
+<Route path="/Dashboard_production" element={
+                    localStorage.getItem("token")   && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"    ? (
+                        <ProtectedRoute>
+                            <Dashboard_production />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+
 
                 <Route path="/production_vente" element={
                     localStorage.getItem("token")  && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"      ? (

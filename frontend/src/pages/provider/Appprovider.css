@@ -335,3 +335,59 @@ tr:hover {
   /* Set font color */
   color: #333;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* RESPONSIVE */
+
+
+
+
+/* Medium <= 992px */ 
+@media (max-width: 992px) {
+
+  .container {
+    max-width: 200px; /* Utilisation d'une largeur maximale en pixels */
+  }
+
+  .title-all {
+    font-size: 40px;
+
+}
+  table {
+    width: 10%;
+    height: 400px; /* Hauteur automatique pour permettre l'ajustement */
+  }
+
+  th, td {
+    font-size: 18px; /* Réduire la taille de la police */
+    padding: 2px; /* Réduire le rembourrage */
+  }
+
+ 
+}
+
+
+
+/* Small <= 768px */
+@media screen and (max-width: 768px) {
+
+
+}
+
+/* Extra Small <= 576px */
+@media screen and (max-width: 576px) {
+
+
+}
+

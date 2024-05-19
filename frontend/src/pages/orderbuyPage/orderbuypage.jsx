@@ -92,6 +92,20 @@ function App() {
     };
 
     const handleFinalizeOrder = async () => {
+          // Si versement est vide, le définir à 0
+          const finalVersement = versement === '' ? 0 : parseFloat(versement);
+
+          if (finalVersement < 0) {
+              showAlert('Le versement ne peut pas être inférieur à zéro.');
+              return;
+          }
+          
+        const totalCommande = calculateTotalCommandePrincipale();
+        if (finalVersement > totalCommande) {
+            showAlert('Le versement ne peut pas être supérieur au total de la commande.');
+            return;
+        }
+  
         try {
             const response = await axios.post('http://localhost:8080/commandes_achat', {
                 code_commande: codeCommande,
@@ -99,7 +113,7 @@ function App() {
                 date_commande: date,
                 observation: observation_com,
                 produits: commandes,
-                versement,
+                versement :finalVersement,
                 modePaiement,
                 code_cheque: codeCheque // Inclure la nouvelle propriété code_cheque
 

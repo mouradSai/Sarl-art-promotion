@@ -24,12 +24,15 @@ function App() {
     const fetchCommandes = async () => {
         try {
             const response = await axios.get('http://localhost:8080/commande_production_vente');
-            setCommandes(response.data.commandesProductionVente);
+            // Inverser l'ordre des commandes pour les afficher les plus récentes en premier
+            const reversedCommandes = response.data.commandesProductionVente.reverse();
+            setCommandes(reversedCommandes);
         } catch (error) {
             console.error('Error fetching commandes:', error);
             showAlert('An error occurred while fetching commandes. Please try again later.', 'error');
         }
     };
+    
 
     const filterCommandes = () => {
         const lowercasedFilter = searchText.toLowerCase();
