@@ -6,6 +6,7 @@ import CustomAlert from '../../../../components/costumeAlert/costumeAlert';
 
 function App() {
     const [commandes, setCommandes] = useState([]);
+    const [clients, setClients] = useState([]);
     const [filteredCommandes, setFilteredCommandes] = useState([]);
     const [selectedCommande, setSelectedCommande] = useState(null);
     const [alert, setAlert] = useState(null);
@@ -15,6 +16,7 @@ function App() {
 
     useEffect(() => {
         fetchCommandes();
+        fetchClients();
     }, []);
 
     useEffect(() => {
@@ -30,6 +32,22 @@ function App() {
             console.error('Error fetching commandes:', error);
             showAlert('An error occurred while fetching commandes. Please try again later.', 'error');
         }
+    };
+
+    const fetchClients = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/clients', {
+                params: { IsActive: true }
+            });
+            setClients(response.data.data || []);
+        } catch (error) {
+            console.error('Error fetching clients:', error);
+        }
+    };
+
+    const getClientNameById = (clientId) => {
+        const client = clients.find(client => client._id === clientId);
+        return client ? client.name : 'Unknown Client';
     };
 
     const filterCommandes = () => {
@@ -75,9 +93,12 @@ function App() {
         }
 
         const orderDetails = {
-            clientName: selectedCommande.client_name,
+            clientName: selectedCommande.client_id.name,
             codeCommande: selectedCommande.code_commande,
             date: new Date(selectedCommande.date_commande).toISOString().slice(0, 10),
+            versement: selectedCommande.versement,
+            modePaiement: selectedCommande.modePaiement,
+            codeCheque: selectedCommande.code_cheque,
             observation_com: selectedCommande.observation,
             commandes: selectedCommande.produits.map(prod => ({
                 productionCode: prod.productfinished.productionCode,
@@ -130,7 +151,9 @@ function App() {
                 <table className="table">
                     <thead>
                         <tr>
+                          
                             <th>Code Commande</th>
+                            <th>Client</th>
                             <th>Date Commande</th>
                             <th>Total Commande</th>
                             <th>Actions</th>
@@ -140,6 +163,7 @@ function App() {
                         {currentCommandes.map((commande) => (
                             <tr key={commande._id}>
                                 <td>{commande.code_commande}</td>
+                                <td>{commande.client_id.name}</td>
                                 <td>{new Date(commande.date_commande).toISOString().slice(0, 10)}</td>
                                 <td>{commande.totalCommande.toFixed(2)}</td>
                                 <td>
@@ -160,6 +184,7 @@ function App() {
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedCommande(null)}>&times;</span>
                             <h2>Commande Details</h2>
+                            <p><strong>Client:</strong> {selectedCommande.client_id.name}</p>
                             <p><strong>Code:</strong> {selectedCommande.code_commande}</p>
                             <p><strong>Date of Commande:</strong> {new Date(selectedCommande.date_commande).toISOString().slice(0, 10)}</p>
                             <p><strong>Total Commande:</strong> {selectedCommande.totalCommande.toFixed(2)} DA</p>
