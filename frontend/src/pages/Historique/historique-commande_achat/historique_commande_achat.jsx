@@ -38,8 +38,8 @@ function App() {
             const response = await axios.get('http://localhost:8080/commandes_achat');
             setCommandes(response.data.commandesAchat.reverse());
         } catch (error) {
-            console.error('Error fetching commandes:', error);
-            showAlert('An error occurred while fetching commandes. Please try again later.', 'error');
+            console.error('Erreur lors de la récupération des commandes :', error);
+            showAlert('Une erreur s est produite lors de la récupération des commandes. Veuillez réessayer plus tard.', 'Erreur');
         }
     };
 
@@ -77,11 +77,11 @@ function App() {
     
     const handleGeneratePDF = async () => {
         if (!selectedCommande) {
-            showAlert('Please select a commande to generate a PDF.');
+            showAlert('Veuillez sélectionner une commande pour générer un PDF.');
             return;
         }
         if (!selectedCommande.produits || selectedCommande.produits.length === 0) {
-            showAlert('No products in the commande.');
+            showAlert('Aucun produit dans la commande.');
             return;
         }
     
@@ -91,7 +91,7 @@ function App() {
             date: new Date(selectedCommande.date_commande).toISOString().slice(0, 10),
             observation_com: selectedCommande.observation,
             commandes: selectedCommande.produits.map(prod => ({
-                product_name: prod.product ? prod.product.name : 'Product name not available',
+                product_name: prod.product ? prod.product.name : 'Nom du produit non disponible',
                 quantity: prod.quantity,
                 prixUnitaire: prod.prixUnitaire,
                 totalLigne: prod.totalLigne
@@ -131,7 +131,7 @@ function App() {
                 <h1 className="title-all">Historique d'achats</h1>
                 <input
                     type="text"
-                    placeholder="Search commandes..."
+                    placeholder="Rechercher des achats.."
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
@@ -142,7 +142,7 @@ function App() {
                             <th>Provider</th>
                             <th>Date Commande</th>
                             <th>Total Commande</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -169,19 +169,19 @@ function App() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedCommande(null)}>&times;</span>
-                            <h2>Commande Details</h2>
+                            <h2>Détails des commandes</h2>
                             <p><strong>Code Commande:</strong> {selectedCommande.code_commande}</p>
                             <p><strong>Date Commande:</strong> {new Date(selectedCommande.date_commande).toISOString().slice(0, 10)}</p>
-                            <p><strong>Provider:</strong> {selectedCommande.provider_id ? selectedCommande.provider_id.name : 'No provider'}</p>
+                            <p><strong>Fournisseur:</strong> {selectedCommande.provider_id ? selectedCommande.provider_id.name : 'No provider'}</p>
                             <p><strong>Observation:</strong> {selectedCommande.observation}</p>
                             <p><strong>Total Commande:</strong> {selectedCommande.totalCommande.toFixed(2)} DA</p>
                             <table>
                                 <thead>
                                     <tr>
-                                        <th className='titlesHis'>Product Name</th>
-                                        <th className='titlesHis'>Quantity</th>
-                                        <th className='titlesHis'>Unit Price</th>
-                                        <th className='titlesHis'>Total Line</th>
+                                        <th className='titlesHis'>Nom du produit</th>
+                                        <th className='titlesHis'>Quantité</th>
+                                        <th className='titlesHis'>Prix unitaire</th>
+                                        <th className='titlesHis'>Totale</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -195,7 +195,7 @@ function App() {
                                     ))}
                                 </tbody>
                             </table>
-                            <button onClick={handleGeneratePDF}>Download PDF</button>
+                            <button onClick={handleGeneratePDF}>Télécharger le PDF</button>
 
                         </div>
                     </div>

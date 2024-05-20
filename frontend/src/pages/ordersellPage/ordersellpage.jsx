@@ -248,7 +248,7 @@ useEffect(() => {
             setCodeCommande(displayCount);
 
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Erreur lors de la récupération des données:', error);
         }
     };
 
@@ -307,7 +307,7 @@ useEffect(() => {
                                     <th>Produit</th>
                                     <th>Quantité</th>
                                     <th>Prix Unitaire</th>
-                                    <th>Total Ligne</th>
+                                    <th>Total </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -327,7 +327,7 @@ useEffect(() => {
                         <div className="popup-buttons">
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
                             <button className='next-button' onClick={handleShowFinalizePopup}>Suivant</button>
-                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
 
                         </div>
                     </div>
@@ -340,7 +340,7 @@ useEffect(() => {
                                 <th>Produit</th>
                                 <th>Quantité</th>
                                 <th>Prix Unitaire</th>
-                                <th>Total Ligne</th>
+                                <th>Total </th>
                                 <th>Action</th>
 
                             </tr>
@@ -380,7 +380,7 @@ useEffect(() => {
 )}
 
         <div>
-            <label>Versement (facultatif):</label>
+            <label>Versement:</label>
             <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
         </div>
         <div className="popup-buttons">

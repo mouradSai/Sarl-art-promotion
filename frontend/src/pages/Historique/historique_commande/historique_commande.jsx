@@ -25,8 +25,8 @@ function App() {
             const response = await axios.get('http://localhost:8080/commandes');
             setCommandes(response.data.commandes.reverse());
         } catch (error) {
-            console.error('Error fetching commandes:', error);
-            showAlert('An error occurred while fetching commandes. Please try again later.', 'error');
+            console.error('Erreur lors de la récupération des commandes :', error);
+            showAlert('Une erreur s est produite lors de la récupération des commandes. Veuillez réessayer plus tard.', 'Erreur');
         }
     };
 
@@ -48,14 +48,14 @@ function App() {
         try {
             const response = await axios.delete(`http://localhost:8080/commandes/${id}`);
             if (response.status === 200) {
-                showAlert('Commande deleted successfully.', 'success');
+                showAlert('Commande supprimée avec succès.', 'succès');
                 fetchCommandes(); // Refetch all data to update the UI accordingly
             } else {
-                showAlert(response.data.message || 'An error occurred while deleting the commande.', 'error');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la suppression de la commande.', 'Erreur');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.', 'error');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.', 'Erreur');
         }
     };
 
@@ -69,11 +69,11 @@ function App() {
 
     const handleGeneratePDF = async () => {
         if (!selectedCommande) {
-            showAlert('Please select a commande to generate a PDF.');
+            showAlert('Veuillez sélectionner une commande pour générer un PDF.');
             return;
         }
         if (!selectedCommande.produits || selectedCommande.produits.length === 0) {
-            showAlert('No products in the commande.');
+            showAlert('Aucun produit dans la commande.');
             return;
         }
     
@@ -83,7 +83,7 @@ function App() {
             date: new Date(selectedCommande.date_commande).toISOString().slice(0, 10),
             observation_com: selectedCommande.observation,
             commandes: selectedCommande.produits.map(prod => ({
-                product_name: prod.product ? prod.product.name : 'Product name not available',
+                product_name: prod.product ? prod.product.name : 'Nom du produit non disponible',
                 quantity: prod.quantity
             }))
         };
@@ -126,7 +126,7 @@ function App() {
                 <h1 className="title-all">Historique des bons</h1>
                 <input
                     type="text"
-                    placeholder="Search by code or provider..."
+                    placeholder="Recherche par code ou fournisseur..."
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
@@ -134,9 +134,9 @@ function App() {
                     <thead>
                         <tr>
                             <th>Code Commande</th>
-                            <th>Provider</th>
+                            <th>Fournisseur</th>
                             <th>Date Commande</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -154,24 +154,24 @@ function App() {
                     </tbody>
                 </table>
                 <div className="pagination">
-                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Previous</button>
+                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Précédent</button>
                     <span>Page {currentPage} of {Math.ceil(filteredCommandes.length / commandesPerPage)}</span>
-                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCommandes.length / commandesPerPage)}>Next</button>
+                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCommandes.length / commandesPerPage)}>Suivant</button>
                 </div>
                 {selectedCommande && (
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedCommande(null)}>&times;</span>
-                            <h2>Commande Details</h2>
+                            <h2>Détails des commandes</h2>
                             <p><strong>Code Commande:</strong> {selectedCommande.code_commande}</p>
                             <p><strong>Date Commande:</strong> {new Date(selectedCommande.date_commande).toISOString().slice(0, 10)}</p>
-                            <p><strong>Provider:</strong> {selectedCommande.provider_id ? selectedCommande.provider_id.name : 'No provider'}</p>
+                            <p><strong>Fournisseur:</strong> {selectedCommande.provider_id ? selectedCommande.provider_id.name : 'No provider'}</p>
                             <p><strong>Observation:</strong> {selectedCommande.observation}</p>
                             <table>
                                 <thead>
                                     <tr>
-                                        <th className='titlesHis'>Product Name</th>
-                                        <th className='titlesHis'>Quantity</th>
+                                        <th className='titlesHis'>Nom du produit</th>
+                                        <th className='titlesHis'>Quantité</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -183,7 +183,7 @@ function App() {
                                     ))}
                                 </tbody>
                             </table>
-                            <button onClick={handleGeneratePDF}>Download PDF</button>
+                            <button onClick={handleGeneratePDF}>Télécharger le PDF</button>
                         </div>
                     </div>
                 )}

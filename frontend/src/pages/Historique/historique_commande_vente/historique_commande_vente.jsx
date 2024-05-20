@@ -32,8 +32,8 @@ function App() {
             const response = await axios.get('http://localhost:8080/commandes_vente');
             setCommandes(response.data.commandesVente.reverse());
         } catch (error) {
-            console.error('Error fetching commandes:', error);
-            showAlert('An error occurred while fetching commandes. Please try again later.', 'error');
+            console.error('Erreur lors de la récupération des commandes:', error);
+            showAlert('Une erreur s est produite lors de la récupération des commandes. Veuillez réessayer plus tard.', 'Erreur');
         }
     };
 
@@ -70,11 +70,11 @@ function App() {
     };
     const handleGeneratePDF = async () => {
         if (!selectedCommande) {
-            showAlert('Please select a commande to generate a PDF.');
+            showAlert('Veuillez sélectionner une commande pour générer un PDF.');
             return;
         }
         if (!selectedCommande.produits || selectedCommande.produits.length === 0) {
-            showAlert('No products in the commande.');
+            showAlert('Aucun produit dans la commande.');
             return;
         }
     
@@ -84,7 +84,7 @@ function App() {
             date: new Date(selectedCommande.date_commande).toISOString().slice(0, 10),
             observation_com: selectedCommande.observation,
             commandes: selectedCommande.produits.map(prod => ({
-                product_name: prod.product ? prod.product.name : 'Product name not available',
+                product_name: prod.product ? prod.product.name : 'Nom du produit non disponible',
                 quantity: prod.quantity,
                 prixUnitaire: prod.prixUnitaire,
                 totalLigne: prod.totalLigne
@@ -124,7 +124,7 @@ function App() {
                 <h1 className="title-all">Historique de vente</h1>
                 <input
                     type="text"
-                    placeholder="Search commandes..."
+                    placeholder="Rechercher des ventes..."
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
@@ -135,7 +135,7 @@ function App() {
                             <th>Client</th>
                             <th>Date Commande</th>
                             <th>Total Commande</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -154,15 +154,15 @@ function App() {
                     </tbody>
                 </table>
                 <div className="pagination">
-                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Previous</button>
+                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Précédent</button>
                     <span>Page {currentPage} of {Math.ceil(filteredCommandes.length / commandesPerPage)}</span>
-                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCommandes.length / commandesPerPage)}>Next</button>
+                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCommandes.length / commandesPerPage)}>Suivant</button>
                 </div>
                 {selectedCommande && (
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedCommande(null)}>&times;</span>
-                            <h2>Commande Details</h2>
+                            <h2>Détails des commandes</h2>
                             <p><strong>Code Commande:</strong> {selectedCommande.code_commande}</p>
                             <p><strong>Date Commande:</strong> {new Date(selectedCommande.date_commande).toISOString().slice(0, 10)}</p>
                             <p><strong>Client:</strong> {selectedCommande.client_id ? selectedCommande.client_id.name : 'No client'}</p>
@@ -170,10 +170,10 @@ function App() {
                             <table>
                                 <thead>
                                     <tr>
-                                        <th className='titlesHis'>Product Name</th>
-                                        <th className='titlesHis'>Quantity</th>
-                                        <th className='titlesHis'>Unit Price</th>
-                                        <th className='titlesHis'>Total Line</th>
+                                        <th className='titlesHis'>Nom du produit</th>
+                                        <th className='titlesHis'>Quantité</th>
+                                        <th className='titlesHis'>Prix unitaire</th>
+                                        <th className='titlesHis'>Totale</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -187,7 +187,7 @@ function App() {
                                     ))}
                                 </tbody>
                             </table>
-                            <button onClick={handleGeneratePDF}>Download PDF</button>
+                            <button onClick={handleGeneratePDF}>Télécharger le PDF</button>
 
                         </div>
                     </div>

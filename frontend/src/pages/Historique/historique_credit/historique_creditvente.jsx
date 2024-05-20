@@ -29,8 +29,8 @@ function App() {
             const response = await axios.get('http://localhost:8080/credit_vente');
             setCredits(response.data.reverse());
         } catch (error) {
-            console.error('Error fetching credits:', error);
-            showAlert('An error occurred while fetching credits. Please try again later.', 'error');
+            console.error('Erreur lors de la récupération des crédits :', error);
+            showAlert('Une erreur s est produite lors de la récupération des crédits. Veuillez réessayer plus tard.', 'Erreur');
         }
     };
     
@@ -66,22 +66,22 @@ function App() {
     const handleAddPayment = async (creditId, paymentAmount) => {
         try {
             const response = await axios.post(`http://localhost:8080/credit_vente/add-payment/${creditId}`, { newPayment: paymentAmount });
-            showAlert(response.data.message, 'success');
+            showAlert(response.data.message, 'succès');
             // If payment is successful, refetch credits to update the data
             fetchCredits();
         } catch (error) {
-            console.error('Error adding payment:', error);
-            showAlert('Failed to add payment. Please try again.', 'error');
+            console.error('Erreur lors de l ajout du paiement:', error);
+            showAlert('Échec de l ajout du paiement. Veuillez réessayer.', 'Erreur');
         }
     };
     const handleDeleteCredit = async (codeCommande) => {
         try {
             const response = await axios.delete(`http://localhost:8080/credit_vente/delete-by-commande/${codeCommande}`);
-            showAlert(response.data.message, 'success');
+            showAlert(response.data.message, 'succès');
             fetchCredits(); // Refetch the credits to update the list after deletion
         } catch (error) {
-            console.error('Error deleting credit:', error);
-            showAlert('Failed to delete credit. Please try again.', 'error');
+            console.error('Erreur lors de la suppression du crédit:', error);
+            showAlert('Échec de la suppression du crédit. Veuillez réessayer.', 'Erreur');
         }
     };
     
@@ -93,7 +93,7 @@ function App() {
                     <h1 className="title-all">Historique des crédits de ventes</h1>
                     <input
                         type="text"
-                        placeholder="Search credits..."
+                        placeholder="Rechercher des crédits.."
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                     />
@@ -104,12 +104,12 @@ function App() {
                                 <th>Fournisseur</th>
                                 <th>Date commande</th>
                                 <th>Total Commande</th>
-                                <th>Versement Initial</th>
+                                <th>Versement </th>
                                 <th>Reste à Payer</th>
                                 <th>Mode de Paiement</th>
                                 <th>N° cheque</th>
 
-                                <th>Actions</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -132,9 +132,9 @@ function App() {
                         </tbody>
                     </table>
                     <div className="pagination">
-                        <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Previous</button>
+                        <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Précédent</button>
                         <span>Page {currentPage} of {Math.ceil(filteredCredits.length / creditsPerPage)}</span>
-                        <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCredits.length / creditsPerPage)}>Next</button>
+                        <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCredits.length / creditsPerPage)}>Suivant</button>
                     </div>
                   
                     {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}

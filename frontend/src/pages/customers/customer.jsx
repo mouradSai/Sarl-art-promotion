@@ -44,8 +44,8 @@ function App() {
             const response = await axios.get('http://localhost:8080/clients');
             setClients(response.data.data.reverse());
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred while fetching clients. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite lors de la récupération des clients. Veuillez réessayer plus tard.');
         }
     };
     
@@ -64,25 +64,25 @@ function App() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!formData.name || !formData.prenom || !formData.address || !formData.phoneNumber) {
-            showAlert('Please fill in all required fields.');
+            showAlert('Veuillez remplir tous les champs requis.');
             return;
         }
         try {
             const response = await axios.post('http://localhost:8080/clients', formData);
             if (response.status === 201) {
-                showAlert('Client added successfully.');
+                showAlert('Client ajouté avec succès.');
                 fetchClients();
                 resetFormData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred.');
+                showAlert(response.data.message || 'Une erreur s est produite.');
             }
         } catch (error) {
             console.error('Error:', error);
             if (error.response) {
-                showAlert(error.response.data.message || 'An error occurred.');
+                showAlert(error.response.data.message || 'Une erreur s est produite.');
             } else {
-                showAlert('An error occurred. Please try again later.');
+                showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
             }
         }
     };
@@ -91,14 +91,14 @@ function App() {
         try {
             const response = await axios.delete(`http://localhost:8080/clients/${id}`);
             if (response.status === 200) {
-                showAlert('Client deleted successfully.');
+                showAlert('Client supprimé avec succès.');
                 fetchClients();
             } else {
-                showAlert(response.data.message || 'An error occurred while deleting client.');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la suppression du client.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
 
@@ -106,14 +106,14 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/clients/${id}`, { IsActive: !isActive });
             if (response.status === 200) {
-                showAlert(`Client ${isActive ? 'deactivated' : 'activated'} successfully.`);
+                showAlert(`Client ${isActive ? 'Désactiver' : 'Activer'} avec succès.`);
                 fetchClients();
             } else {
-                showAlert(response.data.message || 'An error occurred while updating client status.');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la mise à jour du statut du client.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
 
@@ -132,17 +132,17 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/clients/${editClientId}`, formData);
             if (response.status && response.status === 200) {
-                showAlert('Client updated successfully.');
+                showAlert('Client mis à jour avec succès.');
                 fetchClients();
                 setEditClientId('');
                 resetFormData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred while updating client.');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la mise à jour du client.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
 
@@ -212,21 +212,21 @@ function App() {
                         <span class="checkbox-label">Actifs seulement</span>
                     </label>
 
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer</button>
                 </div>
                 {showCreateForm && (
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
-                            <h2>Create New Client</h2>
+                            <h2>Créer un nouveau client</h2>
                             <form onSubmit={handleSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nom" />
                                 <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} placeholder="Prenom" />
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Adresse" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Numero" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Numéro" />
+                                <button className="create-button" type="submit">Sauvgarder</button>
+                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
                             </form>
                         </div>
                     </div>
@@ -237,10 +237,10 @@ function App() {
                             <thead>
                                 <tr>
                                     <th>Nom</th>
-                                    <th>Prenom</th>
+                                    <th>Prénom</th>
                                     <th>Adresse</th>
                                     <th>Description</th>
-                                    <th>Num Tel</th>
+                                    <th>Numéro</th>
                                     <th>Active</th> {/* Ajout de la colonne "Active" */}
                                     <th>Action</th>
                                 </tr>
@@ -279,7 +279,7 @@ function App() {
                             <span className="close-button" onClick={() => setSelectedClient(null)}>&times;</span>
                             <h2>Client Details</h2>
                             <p>Nom: {selectedClient.name}</p>
-                            <p>Prenom: {selectedClient.prenom}</p>
+                            <p>Prénom: {selectedClient.prenom}</p>
                             <p>Adresse: {selectedClient.address}</p>
                             <p>Description: {selectedClient.description}</p>
                             {selectedClient.phoneNumber.length >= 10 ? (
@@ -295,15 +295,15 @@ function App() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
-                            <h2>Edit Client</h2>
+                            <h2>Modifier le client</h2>
                             <form onSubmit={handleEditSubmit}>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} placeholder="Prenom" />
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nom" />
+                                <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} placeholder="Prénom" />
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone Number" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
+                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Numéro" />
+                                <button className="create-button" type="submit">Sauvgarder</button>
+                                <button className='delet-button' onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>
                     </div>

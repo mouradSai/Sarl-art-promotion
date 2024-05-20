@@ -34,7 +34,7 @@ function App() {
                 });
                 setProviders(response.data.data);
             } catch (error) {
-                console.error('Error fetching providers:', error);
+                console.error('Erreur lors de la récupération des Fournisseurs:', error);
             }
         };
 
@@ -47,7 +47,7 @@ function App() {
                 });
                 setProducts(response.data.data);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                console.error('Erreur lors de la récupération des produits :', error);
             }
         };
 
@@ -189,7 +189,7 @@ useEffect(() => {
             setCodeCommande(displayCount);
 
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Erreur lors de la récupération des données:', error);
         }
     };
 
@@ -262,7 +262,7 @@ useEffect(() => {
                         </table>
                         <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
                         <button className='print-button' onClick={handleFinalizeOrder}>Finaliser la Commande</button>
-                        <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+                        <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
 
                     </div>
                 )}
