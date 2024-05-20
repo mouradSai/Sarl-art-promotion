@@ -24,7 +24,6 @@ function App() {
     const fetchCommandes = async () => {
         try {
             const response = await axios.get('http://localhost:8080/commande_production_vente');
-            // Inverser l'ordre des commandes pour les afficher les plus récentes en premier
             const reversedCommandes = response.data.commandesProductionVente.reverse();
             setCommandes(reversedCommandes);
         } catch (error) {
@@ -32,7 +31,6 @@ function App() {
             showAlert('An error occurred while fetching commandes. Please try again later.', 'error');
         }
     };
-    
 
     const filterCommandes = () => {
         const lowercasedFilter = searchText.toLowerCase();
@@ -40,7 +38,7 @@ function App() {
             commande.code_commande.toLowerCase().includes(lowercasedFilter)
         );
         setFilteredCommandes(filteredData);
-        setCurrentPage(1); // Reset to the first page whenever the filter changes
+        setCurrentPage(1);
     };
 
     const showAlert = (message, type) => {
@@ -52,7 +50,7 @@ function App() {
             const response = await axios.delete(`http://localhost:8080/commande_production_vente/${id}`);
             if (response.status === 200) {
                 showAlert('Commande deleted successfully.', 'success');
-                fetchCommandes(); // Refetch all data to update the UI accordingly
+                fetchCommandes();
             } else {
                 showAlert(response.data.message || 'An error occurred while deleting the commande.', 'error');
             }
@@ -70,7 +68,49 @@ function App() {
         setCurrentPage(prevPage => prevPage + pageOffset);
     };
 
-    // Calculate the current commandes to be displayed based on pagination
+    const handleGeneratePDF = async () => {
+        if (!selectedCommande) {
+            showAlert('Please select a commande to generate a PDF.', 'error');
+            return;
+        }
+
+        const orderDetails = {
+            clientName: selectedCommande.client_name,
+            codeCommande: selectedCommande.code_commande,
+            date: new Date(selectedCommande.date_commande).toISOString().slice(0, 10),
+            observation_com: selectedCommande.observation,
+            commandes: selectedCommande.produits.map(prod => ({
+                productionCode: prod.productfinished.productionCode,
+                quantity: prod.quantity,
+                prixUnitaire: prod.prixUnitaire
+            }))
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/generatePdfproductionvente', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderDetails)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `bon-de-commande-${selectedCommande.code_commande}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Erreur lors de la génération du PDF :', error);
+            showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
+        }
+    };
+
     const indexOfLastCommande = currentPage * commandesPerPage;
     const indexOfFirstCommande = indexOfLastCommande - commandesPerPage;
     const currentCommandes = filteredCommandes.slice(indexOfFirstCommande, indexOfLastCommande);
@@ -122,9 +162,9 @@ function App() {
                             <h2>Commande Details</h2>
                             <p><strong>Code:</strong> {selectedCommande.code_commande}</p>
                             <p><strong>Date of Commande:</strong> {new Date(selectedCommande.date_commande).toISOString().slice(0, 10)}</p>
-                            <p><strong>Total Commande:</strong> {selectedCommande.totalCommande.toFixed(2)}DA</p>
+                            <p><strong>Total Commande:</strong> {selectedCommande.totalCommande.toFixed(2)} DA</p>
                             <p><strong>Observation:</strong> {selectedCommande.observation}</p>
-                            <p><strong>Versement:</strong> {selectedCommande.versement}DA</p>
+                            <p><strong>Versement:</strong> {selectedCommande.versement} DA</p>
                             <p><strong>Mode Paiement:</strong> {selectedCommande.modePaiement}</p>
                             <h3>Produits</h3>
                             <table>
@@ -140,13 +180,14 @@ function App() {
                                     {selectedCommande.produits.map((produit, index) => (
                                         <tr key={index}>
                                             <td>{produit.productfinished.productionCode}</td>
-                                            <td>{produit.quantity}m³</td>
-                                            <td>{produit.prixUnitaire}DA</td>
-                                            <td>{produit.totalLigne.toFixed(2)}DA</td>
+                                            <td>{produit.quantity} m³</td>
+                                            <td>{produit.prixUnitaire} DA</td>
+                                            <td>{(produit.quantity * produit.prixUnitaire).toFixed(2)} DA</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
+                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
                         </div>
                     </div>
                 )}
