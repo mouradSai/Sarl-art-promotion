@@ -204,6 +204,9 @@ function App() {
         const orderDetails = {
             clientName,
             codeCommande,
+            versement,
+            modePaiement,
+            codeCheque,
             date: new Date().toISOString().slice(0, 10),
             observation_com,
             commandes
@@ -373,6 +376,8 @@ function App() {
                         <div className="popup-buttons">
                             <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
                             <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+
                         </div>
                     </div>
                 )}
