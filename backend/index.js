@@ -21,6 +21,7 @@ const generatePdfcommande = require ("./generatePdf/generatePdfcommande");
 const generatePdfachat = require ("./generatePdf/generatePdfachat");
 const generatePdfvente = require ("./generatePdf/generatePdfvente");
 const generatePdfproductionvente = require ("./generatePdf/generatePdfproductionvente");
+const generatePdfBonProduction = require ("./generatePdf/generatePdfBonProduction");
 
 
 //production 
@@ -68,6 +69,8 @@ app.use ('/generatePdfcommande',generatePdfcommande);
 app.use ('/generatePdfachat',generatePdfachat);
 app.use ('/generatePdfvente',generatePdfvente);
 app.use ('/generatePdfproductionvente',generatePdfproductionvente);
+app.use ('/generatePdfBonProduction',generatePdfBonProduction);
+
 
 app.use('/credit_achat',credit_achat);
 app.use('/credit_vente',credit_vente);

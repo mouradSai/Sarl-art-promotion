@@ -21,44 +21,33 @@ function HistoriqueBon() {
         filterBonsProduction();
     }, [searchText, bonsProduction]);
 
-
     const fetchBonsProduction = async () => {
         try {
             const response = await axios.get('http://localhost:8080/bon_production');
             const bonsProductionWithFormulas = response.data.bonsProduction.map(bon => {
-                // Assuming you have the formula name available in 'formula' object
                 const formulaName = bon.formules.length > 0 ? bon.formules[0].formula.name : "";
-                return {...bon, formulaName };
+                return { ...bon, formulaName };
             });
-    
-            // Sort the bons production by date in descending order
+
             bonsProductionWithFormulas.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
             setBonsProduction(bonsProductionWithFormulas);
         } catch (error) {
             console.error('Error fetching bons production:', error);
             showAlert('An error occurred while fetching bons production. Please try again later.', 'error');
         }
     };
-    
-
 
     const filterBonsProduction = () => {
-        if (!bonsProduction) {
-            return; // Quitter la fonction si bonsProduction est undefined ou null
-        }
-    
+        if (!bonsProduction) return;
+
         const lowercasedFilter = searchText.toLowerCase();
         const filteredData = bonsProduction.filter(bonProduction =>
-            (bonProduction.client_name && bonProduction.client_name.toLowerCase().includes(lowercasedFilter)) ||
+            (bonProduction.client_id.name && bonProduction.client_id.name.toLowerCase().includes(lowercasedFilter)) ||
             (bonProduction.code_bon && bonProduction.code_bon.toLowerCase().includes(lowercasedFilter))
         );
         setFilteredBonsProduction(filteredData);
-        setCurrentPage(1); // Reset to the first page whenever the filter changes
+        setCurrentPage(1);
     };
-
-    
-    
 
     const showAlert = (message, type) => {
         setAlert({ message, type });
@@ -72,7 +61,48 @@ function HistoriqueBon() {
         setCurrentPage(prevPage => prevPage + pageOffset);
     };
 
-    // Calculate the current bons production to be displayed based on pagination
+    const handleGeneratePDF = async () => {
+        if (!selectedBonProduction) {
+            showAlert('Please select a bon de production to generate a PDF.', 'error');
+            return;
+        }
+
+        const bonDetails = {
+            codeBon: selectedBonProduction.code_bon,
+            formulaName: selectedBonProduction.formulaName,
+            clientName: selectedBonProduction.client_id.name,
+            date: new Date(selectedBonProduction.date).toISOString().slice(0, 10),
+            heure: selectedBonProduction.heure,
+            quantite: selectedBonProduction.quantite,
+            lieuLivraison: selectedBonProduction.lieu_livraison,
+            produits: selectedBonProduction.produits // Assurez-vous que les produits sont inclus ici
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/generatePdfBonProduction', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bonDetails)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `bon-de-production-${selectedBonProduction.code_bon}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Erreur lors de la génération du PDF :', error);
+            showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
+        }
+    };
+
     const indexOfLastBonProduction = currentPage * bonsProductionPerPage;
     const indexOfFirstBonProduction = indexOfLastBonProduction - bonsProductionPerPage;
     const currentBonsProduction = filteredBonsProduction.slice(indexOfFirstBonProduction, indexOfLastBonProduction);
@@ -103,21 +133,21 @@ function HistoriqueBon() {
                         </tr>
                     </thead>
                     <tbody>
-                    {currentBonsProduction.map((bonProduction) => (
-                        <tr key={bonProduction._id}>
-                            <td>{bonProduction.code_bon}</td>
-                            <td>{bonProduction.formulaName}</td>
-                            <td>{bonProduction.client_id.name}</td>
-                            <td>{new Date(bonProduction.date).toISOString().slice(0, 10)}</td>
-                            <td>{bonProduction.heure}</td>
-                            <td>{bonProduction.quantite}m³</td>
-                            <td>{bonProduction.lieu_livraison}</td>
-                            <td>
-                                <button className='view-button' onClick={() => handleView(bonProduction)}>Détails</button>
-                                {/* <button className='delete-button' onClick={() => handleDelete(bonProduction._id)}>Supprimer</button> */}
-                            </td>
-                        </tr>
-                    ))}
+                        {currentBonsProduction.map((bonProduction) => (
+                            <tr key={bonProduction._id}>
+                                <td>{bonProduction.code_bon}</td>
+                                <td>{bonProduction.formulaName}</td>
+                                <td>{bonProduction.client_id.name}</td>
+                                <td>{new Date(bonProduction.date).toISOString().slice(0, 10)}</td>
+                                <td>{bonProduction.heure}</td>
+                                <td>{bonProduction.quantite} m³</td>
+                                <td>{bonProduction.lieu_livraison}</td>
+                                <td>
+                                    <button className='view-button' onClick={() => handleView(bonProduction)}>Détails</button>
+                                    {/* <button className='delete-button' onClick={() => handleDelete(bonProduction._id)}>Supprimer</button> */}
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 <div className="pagination">
@@ -135,9 +165,9 @@ function HistoriqueBon() {
                             <p><strong>Client:</strong> {selectedBonProduction.client_id.name}</p>
                             <p><strong>Date:</strong> {new Date(selectedBonProduction.date).toISOString().slice(0, 10)}</p>
                             <p><strong>Heure:</strong> {selectedBonProduction.heure}</p>
-                            <p><strong>Quantité:</strong> {selectedBonProduction.quantite}</p>
+                            <p><strong>Quantité:</strong> {selectedBonProduction.quantite} m³</p>
                             <p><strong>Lieu de livraison:</strong> {selectedBonProduction.lieu_livraison}</p>
-                            {/* Ajoutez d'autres détails du bon de production ici si nécessaire */}
+                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
                         </div>
                     </div>
                 )}
