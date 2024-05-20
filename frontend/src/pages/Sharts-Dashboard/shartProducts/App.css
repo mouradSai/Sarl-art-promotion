@@ -21,6 +21,7 @@
 
 .visualizationContainer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     padding: 20px;
 }
@@ -28,7 +29,8 @@
 .table-shart {
     width: 40%;
     border-collapse: collapse;
-    margin-right: 20px;
+    margin-top: 40px;
+    margin-left: 30px;
 }
 
 .table-shart th, .table-shart td {
@@ -58,5 +60,6 @@
 }
 
 .chartContainer {
-    width: 500px; /* Set a fixed width for the chart */
+    width: 500px; 
+    padding-top: 60px;
 }

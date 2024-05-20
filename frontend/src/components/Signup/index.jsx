@@ -93,6 +93,16 @@ const Signup = () => {
 						<button type="submit" className={styles.green_btn}>
 							Inscription
 						</button>
+
+						<div className={styles.respotempo}>
+							<h1>Vous avez déjà un compte?</h1>
+							<Link to="/login">
+								<button type="button" className={styles.white_btn}>
+									Connexion
+								</button>
+							</Link>
+						</div>
+
 					</form>
 				</div>
 			</div>

@@ -206,10 +206,17 @@ nav {
 
   .content h1 {
     font-size: 4rem;
+    margin-left: 60px;
   }
 
   .destination__grid {
     grid-template-columns: repeat(2, 1fr);
+    padding-left: 10px;
+  }
+
+  .destination__card img {
+    top: 10px;
+    left: 10px;
   }
 }
 

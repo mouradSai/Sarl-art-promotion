@@ -48,12 +48,12 @@ function Header({ OpenSidebar }) {
 
       <Link to="/"> 
             <button className={"white_btn_logout"}>
-              <BsArrowBarLeft className='icon-head'/> Accueil
+              <BsArrowBarLeft className='icon-head logaac'/> Accueil
             </button>
       </Link>
 
       <div className='header-right'>
-        <button className={"white_btn"} onClick={handleCommandeClick}>
+        <button className={"white_btn_logout"} onClick={handleCommandeClick}>
           <span>Historique </span>
         </button>
 
@@ -74,6 +74,7 @@ function Header({ OpenSidebar }) {
             </button>
           </div>
         )}
+        
       </div>
 
     </header>
