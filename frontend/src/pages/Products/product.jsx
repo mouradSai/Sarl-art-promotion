@@ -41,8 +41,8 @@ function App() {
             const response = await axios.get('http://localhost:8080/products');
             setProducts(response.data.data.reverse());
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred while fetching products. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite lors de la récupération des produits. Veuillez réessayer plus tard.');
         }
     };
 
@@ -55,8 +55,8 @@ function App() {
             });
             setCategories(response.data.data);
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred while fetching categories. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite lors de la récupération des catégories. Veuillez réessayer plus tard.');
         }
     };
     
@@ -70,8 +70,8 @@ function App() {
             });
             setEntrepots(response.data.data);
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred while fetching entrepots. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite lors de la récupération des entrepôts. Veuillez réessayer plus tard.');
         }
     };
 
@@ -90,7 +90,7 @@ function App() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!productData.name || !productData.namecategory || !productData.nameentrepot || !productData.quantity || !productData.unit) {
-            showAlert('Please fill in all required fields.');
+            showAlert('Veuillez remplir tous les champs requis.');
             return;
         }
         try {
@@ -100,19 +100,19 @@ function App() {
                 entrepot: entrepots.find(ent => ent.name === productData.nameentrepot)?._id
             });
             if (response.status === 201) {
-                showAlert('Product added successfully.');
+                showAlert('Produit ajouté avec succès.');
                 fetchProducts();
                 resetProductData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred.');
+                showAlert(response.data.message || 'Une erreur sest produite.');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
             if (error.response) {
-                showAlert(error.response.data.message || 'An error occurred.');
+                showAlert(error.response.data.message || 'Une erreur s est produite.');
             } else {
-                showAlert('An error occurred. Please try again later.');
+                showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
             }
         }
     };
@@ -136,14 +136,14 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/products/${id}`, { IsActive: !isActive });
             if (response.status === 200) {
-                showAlert(`Product ${isActive ? 'deactivated' : 'activated'} successfully.`);
+                showAlert(`Produit ${isActive ? 'Désactiver' : 'Activer'} avec succées.`);
                 fetchProducts();
             } else {
-                showAlert(response.data.message || 'An error occurred while updating product status.');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la mise à jour de l état du produit.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
 
@@ -162,17 +162,17 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/products/${editProductId}`, productData);
             if (response.status && response.status === 200) {
-                showAlert('Product updated successfully.');
+                showAlert('Produit mis à jour avec succès.');
                 fetchProducts();
                 setEditProductId('');
                 resetProductData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred while updating product.');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la mise à jour du produit.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
     const resetProductData = () => {
@@ -220,7 +220,7 @@ function App() {
                 <HeaderProduct OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)}/>
                 <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
                 <div className="container">
-                    <h1 className="title-all">Products</h1>
+                    <h1 className="title-all">Stock de Produits</h1>
                     <div className="actions">
 
                         <div className='search-cont'>
@@ -243,36 +243,37 @@ function App() {
                              <span class="checkbox-label">Actifs seulement</span>
                         </label>
 
-                        <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+                        <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer</button>
                     </div>
                     {showCreateForm && (
                         <div className="popup">
                             <div className="popup-content">
                                 <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
-                                <h2>Create New Product</h2>
+                                <h2>Créer un nouveau produit</h2>
                                 <form onSubmit={handleSubmit}>
-                                    <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Name" />
+                                    <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Nom de produit" />
                                     <select name="namecategory" value={productData.namecategory} onChange={handleChange}>
-                                        <option value="">Select Category</option>
+                                        <option value="">Choisir une catégorie</option>
                                         {categories.map((category) => (
                                             <option key={category._id} value={category.name}>{category.name}</option>
                                         ))}
                                     </select>
                                     <select name="nameentrepot" value={productData.nameentrepot} onChange={handleChange}>
-                                        <option value="">Select Entrepot</option>
+                                        <option value="">Sélectionnez Entrepôt</option>
                                         {entrepots.map((entrepot) => (
                                             <option key={entrepot._id} value={entrepot.name}>{entrepot.name}</option>
                                         ))}
                                     </select>
-                                    <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantity" />
+                                    <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantité" />
                                     <select name="unit" value={productData.unit} onChange={handleChange}>
-                                    <option value="">Select Unit</option>
+                                    <option value="">Sélectionnez l'unité</option>
                                     {units.map((unit) => (
                                         <option key={unit} value={unit}>{unit}</option>
                                     ))}
-                                </select>                                    <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
-                                    <button className="create-button" type="submit">Save</button>
-                                    <button className='delete-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                                </select>                                    
+                                <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
+                                    <button className="create-button" type="submit">Sauvgarde</button>
+                                    <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
                                 </form>
                             </div>
                         </div>
@@ -282,11 +283,11 @@ function App() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Entrepot</th>
-                                    <th>Quantity</th>
-                                    <th>Unit</th>
+                                    <th>Nom</th>
+                                    <th>Catégorie</th>
+                                    <th>Entrepôt</th>
+                                    <th>Quantité</th>
+                                    <th>Unité</th>
                                     <th>Description</th>
                                     <th>Active</th>
                                     <th>Action</th>
@@ -298,14 +299,14 @@ function App() {
                                         <td>{product.name}</td>
                                         <td>{product.namecategory}</td>
                                         <td>{product.nameentrepot}</td>
-                                        <td>{product.quantity}</td>
+                                        <td>{product.quantity.toFixed(2)}</td>
                                         <td>{product.unit}</td>
                                         <td>{product.description}</td>
                                         <td>{product.IsActive ? 'Yes' : 'No'}</td>
                                         <td>
-                                            <button className='view-button' onClick={() => handleView(product)}>View</button>
-                                            <button className='edit-button' onClick={() => handleEdit(product)}>Edit</button>
-                                            <button className='delete-button' onClick={() => toggleActiveStatus(product._id, product.IsActive)}>{product.IsActive ? 'Disable' : 'Enable'}</button>
+                                            <button className='view-button' onClick={() => handleView(product)}>Voire</button>
+                                            <button className='edit-button' onClick={() => handleEdit(product)}>Modifier</button>
+                                            <button className='delete-button' onClick={() => toggleActiveStatus(product._id, product.IsActive)}>{product.IsActive ? 'Désactiver' : 'Activer'}</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -319,20 +320,20 @@ function App() {
                     </>
                 )}
                 {filterProducts(products, searchText).length === 0 && (
-                    <p>No products found.</p>
+                    <p>Aucun produit trouvé.</p>
                 )}
                 {selectedProduct && (
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedProduct(null)}>&times;</span>
-                            <h2>Product Details</h2>
-                            <p>Name: {selectedProduct.name}</p>
-                            <p>Category: {selectedProduct.namecategory}</p>
-                            <p>Entrepot: {selectedProduct.nameentrepot}</p>
-                            <p>Quantity: {selectedProduct.quantity}</p>
-                            <p>Unit: {selectedProduct.unit}</p>
+                            <h2>détails du produit</h2>
+                            <p>Nom: {selectedProduct.name}</p>
+                            <p>Catégorie: {selectedProduct.namecategory}</p>
+                            <p>Entrepôt: {selectedProduct.nameentrepot}</p>
+                            <p>Quantité: {selectedProduct.quantity}</p>
+                            <p>Unité: {selectedProduct.unit}</p>
                             <p>Description: {selectedProduct.description}</p>
-                            <button className='delete-button' onClick={() => setSelectedProduct(null)}>Cancel</button>
+                            <button className='delete-button' onClick={() => setSelectedProduct(null)}>Annuler</button>
                         </div>
                     </div>
                 )}
@@ -340,30 +341,31 @@ function App() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>&times;</span>
-                            <h2>Edit Product</h2>
+                            <h2>Modifier le produit</h2>
                             <form onSubmit={handleEditSubmit}>
-                                <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Name" />
+                                <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Nom" />
                                 <select name="namecategory" value={productData.namecategory} onChange={handleChange}>
-                                        <option value="">Select Category</option>
+                                        <option value="">Choisir une catégorie</option>
                                         {categories.map((category) => (
                                             <option key={category._id} value={category.name}>{category.name}</option>
                                         ))}
                                     </select>                               
                                     <select name="nameentrepot" value={productData.nameentrepot} onChange={handleChange}>
-                                        <option value="">Select Entrepot</option>
+                                        <option value="">Sélectionnez Entrepôt</option>
                                         {entrepots.map((entrepot) => (
                                             <option key={entrepot._id} value={entrepot.name}>{entrepot.name}</option>
                                         ))}
                                     </select>                                
-                                    <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantity" />
+                                    <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantité" />
                                     <select name="unit" value={productData.unit} onChange={handleChange}>
-                                    <option value="">Select Unit</option>
+                                    <option value="">Selectionnez Unité</option>
                                     {units.map((unit) => (
                                         <option key={unit} value={unit}>{unit}</option>
                                     ))}
-                                </select>                                    <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delete-button' onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>Cancel</button>
+                                </select>                                    
+                                <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
+                                <button className="create-button" type="submit">Sauvgarder</button>
+                                <button className='delete-button' onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>
                     </div>

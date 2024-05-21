@@ -82,7 +82,7 @@ const ProductStockVisualizer = () => {
                         {produits.map((produit, index) => (
                             <tr key={index} className='tableRow'>
                                 <td>{produit.name}</td>
-                                <td>{produit.quantity} {produit.unit} </td>
+                                <td>{produit.quantity.toFixed(2)} {produit.unit} </td>
                             </tr>
                         ))}
                     </tbody>

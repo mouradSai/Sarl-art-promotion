@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 router.post('/', async (req, res) => {
-    const { clientName, codeCommande, date, observation_com, commandes } = req.body;
+    const { clientName, codeCommande, date, versement,modePaiement,codeCheque, observation_com, commandes } = req.body;
    // Fonction pour calculer le total de la commande principale
    const calculateTotalCommandePrincipale = () => {
     let totalCommandePrincipale = 0;
@@ -736,6 +736,42 @@ router.post('/', async (req, res) => {
               
             </tr>
           </tbody>
+          <tbody>
+          <tr>
+            <td class="w-1/2 align-top">
+              <div class="text-sm text-neutral-600">
+                <p class="font-bold">versement</p>
+                <p>${versement}</p>
+               
+              </div>
+            </td>
+            
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td class="w-1/2 align-top">
+              <div class="text-sm text-neutral-600">
+                <p class="font-bold">Mode paiment</p>
+                <p>${modePaiement}</p>
+               
+              </div>
+            </td>
+            
+          </tr>
+        </tbody>
+        <tbody>
+        <tr>
+          <td class="w-1/2 align-top">
+            <div class="text-sm text-neutral-600">
+              <p class="font-bold">Code cheque</p>
+              <p>${codeCheque}</p>
+             
+            </div>
+          </td>
+          
+        </tr>
+      </tbody>
           <tbody>
             <tr>
               <td class="w-1/2 align-top">

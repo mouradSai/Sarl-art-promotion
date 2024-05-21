@@ -1,8 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import Header from '../../../components/Main/Header';
 import SidebarProduction from './SidebarProduction';
 import CustomAlert from '../../../components/costumeAlert/costumeAlert';
+
+const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) => {
+    const [search, setSearch] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const selectRef = useRef(null);
+
+    const filteredOptions = useMemo(() => {
+        return options.filter(option =>
+            option.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }, [search, options]);
+
+    const handleFocus = useCallback(() => {
+        setIsOpen(true);
+    }, []);
+
+    const handleBlur = useCallback((e) => {
+        if (selectRef.current && !selectRef.current.contains(e.relatedTarget)) {
+            setIsOpen(false);
+        }
+    }, []);
+
+    return (
+        <div className="searchable-select" ref={selectRef}>
+            <input
+                type="text"
+                placeholder={placeholder}
+                value={value ? options.find(option => option.name === value)?.name : search}
+                onChange={(e) => setSearch(e.target.value)}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                disabled={disabled}
+            />
+            {isOpen && (
+                <select
+                    value={value}
+                    onChange={(e) => {
+                        onChange(e);
+                        setIsOpen(false);
+                        setSearch('');
+                    }}
+                    size={Math.min(5, filteredOptions.length)}
+                    onBlur={handleBlur}
+                >
+                    <option value="">{placeholder}</option>
+                    {filteredOptions.map(option => (
+                        <option key={option.id} value={option.name}>
+                            {option.name}
+                        </option>
+                    ))}
+                </select>
+            )}
+        </div>
+    );
+};
 
 function App() {
     const [name, setName] = useState(''); // Nom de la formule
@@ -28,6 +83,7 @@ function App() {
                 setProductSuggestions(productResponse.data.data);
             } catch (error) {
                 console.error(error);
+                showAlert('Error fetching data', 'error');
             }
         }
         fetchData();
@@ -62,12 +118,12 @@ function App() {
         try {
             const response = await axios.post('http://localhost:8080/formules', { name, products: productsWithCorrectQuantity });
             setFormulas([...formulas, response.data]);
-            alert('Formula created successfully!');
+            showAlert('Formula created successfully!', 'success');
             setName('');
             setProducts([]);
         } catch (error) {
             console.error(error);
-            showAlert('Error creating formula');
+            showAlert('Error creating formula', 'error');
         }
     };
 
@@ -75,10 +131,10 @@ function App() {
         try {
             await axios.delete(`http://localhost:8080/formules/${id}`);
             setFormulas(formulas.filter(formula => formula._id !== id));
-            showAlert('Formula deleted successfully!');
+            showAlert('Formula deleted successfully!', 'success');
         } catch (error) {
             console.error(error);
-            showAlert('Error deleting formula');
+            showAlert('Error deleting formula', 'error');
         }
     };
 
@@ -92,6 +148,7 @@ function App() {
             })));
         } catch (error) {
             console.error(error);
+            showAlert('Error fetching formula details', 'error');
         }
     };
 
@@ -108,11 +165,11 @@ function App() {
             }));
             const updatedFormula = { ...selectedFormula, products: updatedProducts };
             await axios.put(`http://localhost:8080/formules/${selectedFormula._id}`, updatedFormula);
-            showAlert('Products updated successfully!');
+            showAlert('Products updated successfully!', 'success');
             await handleDetails(selectedFormula); // Refresh the selected formula details
         } catch (error) {
             console.error(error);
-            showAlert('Error updating products');
+            showAlert('Error updating products', 'error');
         }
     };
 
@@ -121,11 +178,11 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/formules/add-product/${selectedFormula._id}`, { product: productToAdd });
             await handleDetails(response.data); // Update the details view with new product list
-            showAlert('Product added successfully!');
+            showAlert('Product added successfully!', 'success');
             setNewProduct({ product: '', quantity: '' }); // Reset new product fields
         } catch (error) {
             console.error(error);
-            showAlert('Error adding product to formula');
+            showAlert('Error adding product to formula', 'error');
         }
     };
 
@@ -134,16 +191,18 @@ function App() {
             const updatedProducts = editableProducts.filter((_, i) => i !== index);
             const updatedFormula = { ...selectedFormula, products: updatedProducts.map(p => ({ product: p._id, quantity: p.quantity })) };
             await axios.put(`http://localhost:8080/formules/${selectedFormula._id}`, updatedFormula);
-            showAlert('Product deleted successfully!');
+            showAlert('Product deleted successfully!', 'success');
             await handleDetails(selectedFormula); // Refresh the selected formula details
         } catch (error) {
             console.error(error);
-            showAlert('Error deleting product');
+            showAlert('Error deleting product', 'error');
         }
     };
     const showAlert = (message, type) => {
         setAlert({ message, type });
-      };
+        setTimeout(() => setAlert(null), 5000);
+    };
+
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(prev => !prev)} />
@@ -155,16 +214,12 @@ function App() {
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
                     {products.map((product, index) => (
                         <div key={index}>
-                            <select
+                            <SearchableSelect
+                                options={productSuggestions}
                                 value={product.product}
                                 onChange={(e) => handleProductChange(index, 'product', e.target.value)}
-                                required
-                            >
-                                <option value="">Sélectionnez un produit</option>
-                                {productSuggestions.map(prod => (
-                                    <option key={prod.id} value={prod.name}>{prod.name}</option>
-                                ))}
-                            </select>
+                                placeholder="Sélectionnez un produit"
+                            />
                             <input
                                 type="text"
                                 value={product.quantity}
@@ -231,16 +286,12 @@ function App() {
                                 ))}
                                 <tr>
                                     <td>
-                                        <select
+                                        <SearchableSelect
+                                            options={productSuggestions}
                                             value={newProduct.product}
                                             onChange={(e) => handleNewProductChange('product', e.target.value)}
-                                            required
-                                        >
-                                            <option value="">Sélectionnez un produit</option>
-                                            {productSuggestions.map(prod => (
-                                                <option key={prod.id} value={prod.name}>{prod.name}</option>
-                                            ))}
-                                        </select>
+                                            placeholder="Sélectionnez un produit"
+                                        />
                                     </td>
                                     <td>
                                         <input
@@ -261,8 +312,7 @@ function App() {
                     </div>
                 </div>
             )}
-                    {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
-
+            {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
         </div>
     );
 }

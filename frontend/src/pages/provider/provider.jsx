@@ -107,7 +107,7 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/providers/${id}`, { IsActive: !isActive });
             if (response.status === 200) {
-                showAlert(`Fournisseur  ${isActive ? 'desactivé' : 'activé'} avec succès`);
+                showAlert(`Fournisseur  ${isActive ? 'Desactiver' : 'Activer'} avec succès`);
                 fetchProviders();
             } else {
                 showAlert(response.data.message || 'Une erreur sest produite lors de la mise à jour du statut du fournisseur');
@@ -222,13 +222,13 @@ function App() {
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
                             <h2>Créer un nouveau fournisseur</h2>
                             <form onSubmit={handleSubmit}>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nom" />
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Number" />
-                                <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                                <input type="text" name="number" value={formData.number} onChange={handleChange} maxLength={10} placeholder="Numéro" />
+                                <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Commentaire" />
+                                <button className="create-button" type="submit">Sauvgarder</button>
+                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
                             </form>
                         </div>
                     </div>
@@ -256,9 +256,9 @@ function App() {
                                         <td>{provider.number}</td>
                                         <td>{provider.IsActive ? 'Yes' : 'No'}</td> {/* Affichage de la propriété IsActive */}
                                         <td>
-                                            <button className='view-button' onClick={() => handleView(provider)}>View</button>
-                                            <button className='edit-button' onClick={() => handleEdit(provider)}>Edit</button>
-                                            <button className='delete-button' onClick={() => toggleActiveStatus(provider._id, provider.IsActive)}>{provider.IsActive ? 'Disable' : 'Enable'}</button>
+                                            <button className='view-button' onClick={() => handleView(provider)}>Voire</button>
+                                            <button className='edit-button' onClick={() => handleEdit(provider)}>Modifier</button>
+                                            <button className='delete-button' onClick={() => toggleActiveStatus(provider._id, provider.IsActive)}>{provider.IsActive ? 'Désactiver' : 'Activer'}</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -284,7 +284,7 @@ function App() {
                             <p>Adresse : {selectedProvider.address}</p>
                             <p>Description : {selectedProvider.description}</p>
                             <p>Numéro : {selectedProvider.number}</p>
-                            <button className='delete-button' onClick={() => setSelectedProvider(null)}>Cancel</button>
+                            <button className='delete-button' onClick={() => setSelectedProvider(null)}>Annuler</button>
                         </div>
                     </div>
                 )}
@@ -298,9 +298,9 @@ function App() {
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Adresse" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Numéro" />
-                                <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Comment" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delete-button' onClick={() => { setEditProviderId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
+                                <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Commentaire" />
+                                <button className="create-button" type="submit">Sauvgarder</button>
+                                <button className='delete-button' onClick={() => { setEditProviderId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>
                     </div>

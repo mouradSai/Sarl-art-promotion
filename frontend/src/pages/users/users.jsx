@@ -36,7 +36,7 @@ function Users() {
             const response = await axios.get('http://localhost:8080/api/users');
             setUsers(response.data);
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
         }
     };
 
@@ -46,10 +46,10 @@ function Users() {
             if (response.status === 200) {
                 fetchUsers();
             } else {
-                console.error('Error:', response.data.message || 'Une erreur s\'est produite lors de la suppression de l\'utilisateur');
+                console.error('Erreur:', response.data.message || 'Une erreur s\'est produite lors de la suppression de l\'utilisateur');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
         }
     };
 
@@ -60,10 +60,10 @@ function Users() {
                 fetchUsers();
                 setShowUserRolePopup(false); // Fermer le popup de modification de rôle après l'enregistrement
             } else {
-                console.error('Error:', response.data.message || 'Une erreur s\'est produite lors de la mise à jour du rôle de l\'utilisateur');
+                console.error('Erreur:', response.data.message || 'Une erreur s\'est produite lors de la mise à jour du rôle de l\'utilisateur');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
         }
     };
 
@@ -83,10 +83,10 @@ function Users() {
             if (response.status === 200) {
                 fetchUsers();
             } else {
-                console.error('Error:', response.data.message || 'Une erreur s\'est produite lors de la suppression de l\'utilisateur');
+                console.error('Erreur:', response.data.message || 'Une erreur s\'est produite lors de la suppression de l\'utilisateur');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
         }
         setDeleteUserId(null);
         setShowDeleteConfirmation(false);
@@ -110,7 +110,7 @@ function Users() {
                         <th>Nom</th>
                         <th>Email</th>
                         <th>Rôle</th>
-                        <th>Actions</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
