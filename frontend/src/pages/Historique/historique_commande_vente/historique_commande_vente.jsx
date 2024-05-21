@@ -82,6 +82,9 @@ function App() {
             clientName: selectedCommande.client_id ? selectedCommande.client_id.name : '',
             codeCommande: selectedCommande.code_commande,
             date: new Date(selectedCommande.date_commande).toISOString().slice(0, 10),
+            versement:selectedCommande.versement,
+            modePaiement:selectedCommande.modePaiement,
+            codeCheque:selectedCommande.code_cheque, 
             observation_com: selectedCommande.observation,
             commandes: selectedCommande.produits.map(prod => ({
                 product_name: prod.product ? prod.product.name : 'Nom du produit non disponible',
@@ -166,6 +169,9 @@ function App() {
                             <p><strong>Code Commande:</strong> {selectedCommande.code_commande}</p>
                             <p><strong>Date Commande:</strong> {new Date(selectedCommande.date_commande).toISOString().slice(0, 10)}</p>
                             <p><strong>Client:</strong> {selectedCommande.client_id ? selectedCommande.client_id.name : 'No client'}</p>
+                            <p><strong>Mode Paiment:</strong> {selectedCommande.modePaiement}</p>
+                            <p><strong>Versement:</strong> {selectedCommande.versement}</p>
+                            <p><strong>Code cheque:</strong> {selectedCommande.code_cheque}</p>
                             <p><strong>Observation:</strong> {selectedCommande.observation}</p>
                             <table>
                                 <thead>
