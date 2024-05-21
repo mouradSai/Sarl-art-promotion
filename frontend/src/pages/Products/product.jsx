@@ -299,7 +299,7 @@ function App() {
                                         <td>{product.name}</td>
                                         <td>{product.namecategory}</td>
                                         <td>{product.nameentrepot}</td>
-                                        <td>{product.quantity}</td>
+                                        <td>{product.quantity.toFixed(2)}</td>
                                         <td>{product.unit}</td>
                                         <td>{product.description}</td>
                                         <td>{product.IsActive ? 'Yes' : 'No'}</td>
