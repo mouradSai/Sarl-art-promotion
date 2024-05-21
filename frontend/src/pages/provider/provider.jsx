@@ -235,6 +235,7 @@ function App() {
                 )}
                 {filterProviders(providers, searchText).length > 0 && (
                     <>
+                    <div className='commtab'>
                         <table className="mfwork">
                             <thead>
                                 <tr>
@@ -263,6 +264,7 @@ function App() {
                                 ))}
                             </tbody>
                         </table>
+                        </div>
                         <div className="pagination">
                             <button className='next-prev-btn' disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Précédent</button>
                             <span>{currentPage}</span>

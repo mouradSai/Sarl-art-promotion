@@ -76,7 +76,6 @@ body {
 
 .sidebar {
   grid-area: sidebar;
-  /* Styles pour la sidebar */
 }
 
 .sidebar-link{
@@ -552,13 +551,15 @@ body {
   
     #sidebar {
       display: none;
+      height: 160vh;
+    
     }
   
     .menu-icon {
       display: inline;
 
     }
-  
+
     .sidebar-title > span {
       display: inline;
     }

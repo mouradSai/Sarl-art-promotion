@@ -301,6 +301,7 @@ useEffect(() => {
                         <p>Date :{date}</p>
                         <p>Observation :{observation_com}</p>
                         <h3>Produits ajoutés :</h3>
+
                         <table>
                             <thead className="table-header">
                                 <tr>
@@ -320,7 +321,8 @@ useEffect(() => {
                                     </tr>
                                 ))}
                             </tbody>
-                        </table>
+                          </table>
+                        
                         <div>
                             <h3>Total Commande Principale: {calculateTotalCommandePrincipale()} DA</h3>
                         </div>
@@ -366,7 +368,7 @@ useEffect(() => {
 
                 <div>
                     <h2>Produits ajoutés :</h2>
-                    <table>
+                 <table className='comtab'>
                         <thead>
                             <tr>
                                 <th>Produit</th>

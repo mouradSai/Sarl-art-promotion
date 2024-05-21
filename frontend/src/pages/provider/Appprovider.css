@@ -342,11 +342,6 @@ tr:hover {
 
 
 
-
-
-
-
-
 /* RESPONSIVE */
 @media (max-width: 1300px) {
 
@@ -367,26 +362,29 @@ table {
     font-size: 40px;
 
 }
+
   table {
     padding: 0; /* Remove any default padding */
     width: 10%;
     height: 70px; /* Hauteur automatique pour permettre l'ajustement */
-    margin-left:-40%;
+    margin-left:-45%;
   }
 
   th, td {
     font-size: 12px; /* Réduire la taille de la police */
-    padding: 0px; /* Réduire le rembourrage */
+    padding: 1px; /* Réduire le rembourrage */
     word-wrap: break-word; /* Ensure long words break to the next line */
   }
 
-
   h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
+    font-size: 23px;
+    margin-bottom: 60px;
     color: #007bff; /* Couleur de texte bleue */
   }
   
+
   /* Style pour les boutons */
   .actions {
     display: flex;
@@ -440,7 +438,6 @@ table {
   padding: 9px 18px;
 }
 
-  
 
 
 }

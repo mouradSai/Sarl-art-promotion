@@ -334,7 +334,7 @@ useEffect(() => {
                 )}
                 <div>
                     <h2>Produits ajoutés :</h2>
-                    <table>
+                    <table className='comtab'>
                         <thead>
                             <tr>
                                 <th>Produit</th>
