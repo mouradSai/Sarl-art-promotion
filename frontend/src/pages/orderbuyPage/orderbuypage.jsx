@@ -1,13 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import './App.css';
 import Sidebar from '../../components/Main/Sidebar';
 import Header from '../../components/Headers/HeaderCommande';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
+const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) => {
+    const [search, setSearch] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const selectRef = useRef(null);
+
+    const filteredOptions = useMemo(() => {
+        return options.filter(option =>
+            option.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }, [search, options]);
+
+    const handleFocus = useCallback(() => {
+        setIsOpen(true);
+    }, []);
+
+    const handleBlur = useCallback((e) => {
+        if (selectRef.current && !selectRef.current.contains(e.relatedTarget)) {
+            setIsOpen(false);
+        }
+    }, []);
+
+    return (
+        <div className="searchable-select" ref={selectRef}>
+            <input
+                type="text"
+                placeholder={placeholder}
+                value={value ? options.find(option => option.name === value)?.name : search}
+                onChange={(e) => setSearch(e.target.value)}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                disabled={disabled}
+            />
+            {isOpen && (
+                <select
+                    value={value}
+                    onChange={(e) => {
+                        onChange(e);
+                        setIsOpen(false);
+                        setSearch('');
+                    }}
+                    size={Math.min(5, filteredOptions.length)}
+                    onBlur={handleBlur}
+                >
+                    <option value="">{placeholder}</option>
+                    {filteredOptions.map(option => (
+                        <option key={option.id} value={option.name}>
+                            {option.name}
+                        </option>
+                    ))}
+                </select>
+            )}
+        </div>
+    );
+};
+
 function App() {
     const [commandesAchatCount, setCommandesAchatCount] = useState(0);
-
     const [productName, setProductName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [prixUnitaire, setPrixUnitaire] = useState('');
@@ -27,15 +81,11 @@ function App() {
     const [showFinalizePopup, setShowFinalizePopup] = useState(false);
     const [codeCheque, setCodeCheque] = useState('');
 
-
-
     useEffect(() => {
         const fetchProviders = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/providers', {
-                    params: {
-                        IsActive: true
-                    }
+                    params: { IsActive: true }
                 });
                 setProviders(response.data.data);
             } catch (error) {
@@ -46,9 +96,7 @@ function App() {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/products', {
-                    params: {
-                        IsActive: true
-                    }
+                    params: { IsActive: true }
                 });
                 setProducts(response.data.data);
             } catch (error) {
@@ -59,15 +107,7 @@ function App() {
         fetchProviders();
         fetchProducts();
     }, []);
-    const handleShowFinalizePopup = () => {
-        if (commandes.length === 0) {
-            showAlert('Veuillez ajouter des produits à la commande.');
-            return;
-        }
-        setShowPopup(false);
-        setShowFinalizePopup(true);
-    };
-    
+
     const handleAddProduct = () => {
         if (!productName || !quantity || !prixUnitaire || !providerName || !codeCommande) {
             showAlert('Veuillez remplir tous les champs du produit, du fournisseur, du prix unitaire et du code de commande.');
@@ -75,7 +115,6 @@ function App() {
         }
 
         const totalLigne = parseInt(quantity, 10) * parseFloat(prixUnitaire);
-
         const newProduct = {
             product_name: productName,
             quantity: parseInt(quantity, 10),
@@ -87,25 +126,30 @@ function App() {
         setProductName('');
         setQuantity('');
         setPrixUnitaire('');
-
         setIsProviderDisabled(true);
     };
 
-    const handleFinalizeOrder = async () => {
-          // Si versement est vide, le définir à 0
-          const finalVersement = versement === '' ? 0 : parseFloat(versement);
+    const handleShowFinalizePopup = () => {
+        if (commandes.length === 0) {
+            showAlert('Veuillez ajouter des produits à la commande.');
+            return;
+        }
+        setShowPopup(false);
+        setShowFinalizePopup(true);
+    };
 
-          if (finalVersement < 0) {
-              showAlert('Le versement ne peut pas être inférieur à zéro.');
-              return;
-          }
-          
+    const handleFinalizeOrder = async () => {
+        const finalVersement = versement === '' ? 0 : parseFloat(versement);
+        if (finalVersement < 0) {
+            showAlert('Le versement ne peut pas être inférieur à zéro.');
+            return;
+        }
         const totalCommande = calculateTotalCommandePrincipale();
         if (finalVersement > totalCommande) {
             showAlert('Le versement ne peut pas être supérieur au total de la commande.');
             return;
         }
-  
+
         try {
             const response = await axios.post('http://localhost:8080/commandes_achat', {
                 code_commande: codeCommande,
@@ -113,12 +157,11 @@ function App() {
                 date_commande: date,
                 observation: observation_com,
                 produits: commandes,
-                versement :finalVersement,
+                versement: finalVersement,
                 modePaiement,
-                code_cheque: codeCheque // Inclure la nouvelle propriété code_cheque
-
+                code_cheque: codeCheque 
             });
-    
+
             showAlert('Commande finalisée avec succès : ' + response.data.code_commande);
             setCommandes([]);
             setCodeCommande('');
@@ -133,7 +176,6 @@ function App() {
             showAlert('Erreur lors de la finalisation de la commande : ' + (error.response ? error.response.data.message : error.message));
         }
     };
-    
 
     const handleValidateOrder = () => {
         setShowPopup(true);
@@ -142,9 +184,11 @@ function App() {
 
     const showAlert = (message, type) => {
         setAlert({ message, type });
+        setTimeout(() => {
+            setAlert(null);
+        }, 5000);
     };
 
-    // Fonction pour calculer le total de la commande principale
     const calculateTotalCommandePrincipale = () => {
         let totalCommandePrincipale = 0;
         commandes.forEach(item => {
@@ -152,147 +196,123 @@ function App() {
         });
         return totalCommandePrincipale.toFixed(2);
     };
-    
-//generating pdfs 
 
-const handleGeneratePDF = async () => {
-    if (commandes.length === 0) {
-        showAlert('Veuillez ajouter des produits à la commande.');
-        return;
-    }
-    if (!codeCommande) {
-        showAlert('Veuillez entrer un code de commande.');
-        return;
-    }
-    if (!providerName) {
-        showAlert('Veuillez entrer le nom du fournisseur.');
-        return;
-    }
-
-    const orderDetails = {
-        providerName,
-        codeCommande,
-        date: new Date().toISOString().slice(0, 10),
-        observation_com,
-        versement,
-        modePaiement,
-        codeCheque,
-        commandes
-    };
-
-    try {
-        const response = await fetch('http://localhost:8080/generatePdfachat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderDetails)
-        });
-
-        if (!response.ok) {
-            throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
+    const handleGeneratePDF = async () => {
+        if (commandes.length === 0) {
+            showAlert('Veuillez ajouter des produits à la commande.');
+            return;
+        }
+        if (!codeCommande) {
+            showAlert('Veuillez entrer un code de commande.');
+            return;
+        }
+        if (!providerName) {
+            showAlert('Veuillez entrer le nom du fournisseur.');
+            return;
         }
 
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `bon-de-commande-${codeCommande}.pdf`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } catch (error) {
-        console.error('Erreur lors de la génération du PDF :', error);
-        showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
-    }
-};
+        const orderDetails = {
+            providerName,
+            codeCommande,
+            date: new Date().toISOString().slice(0, 10),
+            observation_com,
+            versement,
+            modePaiement,
+            codeCheque,
+            commandes
+        };
 
-       
-//suppression d'une ligne d'enregestrement tableau
-const handleDelete = (index) => {
-    // Crée un nouveau tableau en filtrant l'élément à l'index spécifié
-    const newCommandes = commandes.filter((item, i) => i !== index);
-    setCommandes(newCommandes);
-};
-
-const handleModePaiementChange = (e) => {
-    const selectedModePaiement = e.target.value;
-    setModePaiement(selectedModePaiement);
-
-    // Si le mode de paiement est "Chèque", récupérez automatiquement le total de la commande et mettez-le dans le champ versement
-    if (selectedModePaiement === 'chéque' || selectedModePaiement === 'espèce'  ) {
-        const totalCommande = calculateTotalCommandePrincipale();
-        setVersement(totalCommande);
-    } else {
-        // Réinitialisez le champ versement si le mode de paiement est différent de "Chèque"
-        setVersement(0);
-    }
-    
-};
-
-
-
-useEffect(() => {
-    const fetchCounts = async () => {
         try {
-            // Récupération de l'année actuelle
-            const currentYear = new Date().getFullYear();
-            
-            // Fetching commandes_achat count
-            const commandes_achatResponse = await fetch('http://localhost:8080/commandes_achat');
-            const commandes_achatData = await commandes_achatResponse.json();
-            
-            // Incrémentation de 1 et concaténation avec l'année actuelle
-            const incrementedCount = commandes_achatData.count + 1;
-            const displayCount = `BA${incrementedCount}${currentYear}`;
-            
-            // Mise à jour de l'état
-            setCommandesAchatCount(displayCount);
-            setCodeCommande(displayCount);
+            const response = await fetch('http://localhost:8080/generatePdfachat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderDetails)
+            });
 
+            if (!response.ok) {
+                throw new Error(`Erreur lors de la génération du PDF: ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `bon-de-commande-${codeCommande}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         } catch (error) {
-            console.error('Erreur lors de la récupération des données :', error);
+            console.error('Erreur lors de la génération du PDF :', error);
+            showAlert('Erreur lors de la génération du PDF. Veuillez réessayer plus tard.');
         }
     };
 
-    fetchCounts();
-}, []);
-                    
-    
+    const handleModePaiementChange = (e) => {
+        const selectedModePaiement = e.target.value;
+        setModePaiement(selectedModePaiement);
 
+        if (selectedModePaiement === 'chéque' || selectedModePaiement === 'espèce') {
+            const totalCommande = calculateTotalCommandePrincipale();
+            setVersement(totalCommande);
+        } else {
+            setVersement(0);
+        }
+    };
+
+    const handleDelete = (index) => {
+        const newCommandes = commandes.filter((item, i) => i !== index);
+        setCommandes(newCommandes);
+    };
+
+    useEffect(() => {
+        const fetchCounts = async () => {
+            try {
+                const currentYear = new Date().getFullYear();
+                const commandes_achatResponse = await fetch('http://localhost:8080/commandes_achat');
+                const commandes_achatData = await commandes_achatResponse.json();
+                const incrementedCount = commandes_achatData.count + 1;
+                const displayCount = `BA${incrementedCount}${currentYear}`;
+                setCommandesAchatCount(displayCount);
+                setCodeCommande(displayCount);
+            } catch (error) {
+                console.error('Erreur lors de la récupération des données :', error);
+            }
+        };
+
+        fetchCounts();
+    }, []);
 
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className='container'>
-                <h1 className="title-all">Commande d'achat </h1>
-
+                <h1 className="title-all">Commande d'achat</h1>
                 <div className="form-container">
-                <div className='bloc'> 
-                    <div className='bloc1'> 
-                        <select value={providerName} onChange={(e) => setProviderName(e.target.value)} disabled={isProviderDisabled}>
-                            <option value="">Sélectionnez un fournisseur</option>
-                            {providers.map(provider => (
-                                <option key={provider.id} value={provider.name}>{provider.name}</option>
-                            ))}
-                        </select>
-
-                        <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
-                        <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
+                    <div className='bloc'>
+                        <div className='bloc1'>
+                            <SearchableSelect
+                                options={providers}
+                                value={providerName}
+                                onChange={(e) => setProviderName(e.target.value)}
+                                placeholder="Sélectionnez un fournisseur"
+                                disabled={isProviderDisabled}
+                            />
+                            <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
+                            <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
+                        </div>
+                        <div className='bloc2'>
+                            <SearchableSelect
+                                options={products}
+                                value={productName}
+                                onChange={(e) => setProductName(e.target.value)}
+                                placeholder="Sélectionnez un produit"
+                            />
+                            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                            <input type="number" value={prixUnitaire} onChange={(e) => setPrixUnitaire(e.target.value)} placeholder="Prix Unitaire" />
+                        </div>
                     </div>
-                    <div className='bloc2'>
-                        <select value={productName} onChange={(e) => setProductName(e.target.value)}>
-                            <option value="">Sélectionnez un produit</option>
-                            {products.map(product => (
-                                <option key={product.id} value={product.name}>{product.name}</option>
-                            ))}
-                        </select>
-                        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
-                    
-                        <input type="number" value={prixUnitaire} onChange={(e) => setPrixUnitaire(e.target.value)} placeholder="Prix Unitaire" />
-                    </div>
-                    </div>
-
-                        <div className='bloc3'>
+                    <div className='bloc3'>
                         <button onClick={handleAddProduct}> + Ajouter Produit</button>
                     </div>
                 </div>
@@ -331,43 +351,38 @@ useEffect(() => {
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
                             <button className='next-button' onClick={handleShowFinalizePopup}>Suivant</button>
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
-
                         </div>
                     </div>
                 )}
-               
-{showFinalizePopup && (
-    <div className="popup">
-        <h2>Détails de Paiement</h2>
-        <div>
-            <label>Mode de Paiement:</label>
-            <select value={modePaiement} onChange={handleModePaiementChange}>
-                <option value="">Choisir un mode de paiement</option>
-                <option value="chéque">Chèque</option>
-                <option value="espèce">Espèce</option>
-                <option value="crédit">Crédit</option>
-        </select>
-
-        </div>
-        {modePaiement === 'chéque' && (
-    <div>
-        <label>Code Chèque:</label>
-        <input type="text" value={codeCheque} onChange={(e) => setCodeCheque(e.target.value)} placeholder="Code Chèque" />
-    </div>
-)}
-
-        <div>
-            <label>Versement:</label>
-            <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
-        </div>
-        <div className="popup-buttons">
-            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
-            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
-            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
-        </div>
-    </div>
-)}
-
+                {showFinalizePopup && (
+                    <div className="popup">
+                        <h2>Détails de Paiement</h2>
+                        <div>
+                            <label>Mode de Paiement:</label>
+                            <select value={modePaiement} onChange={handleModePaiementChange}>
+                                <option value="">Choisir un mode de paiement</option>
+                                <option value="chéque">Chèque</option>
+                                <option value="espèce">Espèce</option>
+                                <option value="crédit">Crédit</option>
+                            </select>
+                        </div>
+                        {modePaiement === 'chéque' && (
+                            <div>
+                                <label>Code Chèque:</label>
+                                <input type="text" value={codeCheque} onChange={(e) => setCodeCheque(e.target.value)} placeholder="Code Chèque" />
+                            </div>
+                        )}
+                        <div>
+                            <label>Versement:</label>
+                            <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
+                        </div>
+                        <div className="popup-buttons">
+                            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
+                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
+                            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                        </div>
+                    </div>
+                )}
                 <div>
                     <h2>Produits ajoutés :</h2>
                     <table>
@@ -378,7 +393,6 @@ useEffect(() => {
                                 <th>Prix Unitaire</th>
                                 <th>Total </th>
                                 <th>Action</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -389,13 +403,13 @@ useEffect(() => {
                                     <td>{item.prixUnitaire},00 DA</td>
                                     <td>{item.totalLigne} DA</td>
                                     <td>
-                            <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
+                                        <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    <button className='print-button'  onClick={handleValidateOrder}>Valider</button>
+                    <button className='print-button' onClick={handleValidateOrder}>Valider</button>
                 </div>
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>
@@ -404,4 +418,3 @@ useEffect(() => {
 }
 
 export default App;
-/*******the las version of order buyyy */

@@ -1,8 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import Sidebar from '../production_beton/SidebarProduction';
 import Header from '../../../components/Main/Header';
 import CustomAlert from '../../../components/costumeAlert/costumeAlert';
+
+const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) => {
+    const [search, setSearch] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const selectRef = useRef(null);
+
+    const filteredOptions = useMemo(() => {
+        return options.filter(option =>
+            option.name && option.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }, [search, options]);
+
+    const handleFocus = useCallback(() => {
+        setIsOpen(true);
+    }, []);
+
+    const handleBlur = useCallback((e) => {
+        if (selectRef.current && !selectRef.current.contains(e.relatedTarget)) {
+            setIsOpen(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (value) {
+            const selectedOption = options.find(option => option.name === value);
+            setSearch(selectedOption ? selectedOption.name : '');
+        }
+    }, [value, options]);
+
+    return (
+        <div className="searchable-select" ref={selectRef}>
+            <input
+                type="text"
+                placeholder={placeholder}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                disabled={disabled}
+            />
+            {isOpen && (
+                <select
+                    value={value}
+                    onChange={(e) => {
+                        onChange(e);
+                        setIsOpen(false);
+                        setSearch('');
+                    }}
+                    size={Math.min(5, filteredOptions.length)}
+                    onBlur={handleBlur}
+                >
+                    <option value="">{placeholder}</option>
+                    {filteredOptions.map(option => (
+                        <option key={option.id} value={option.name}>
+                            {option.name}
+                        </option>
+                    ))}
+                </select>
+            )}
+        </div>
+    );
+};
 
 function App() {
     const [productCode, setProductCode] = useState('');
@@ -24,38 +86,27 @@ function App() {
     const [showFinalizePopup, setShowFinalizePopup] = useState(false);
     const [codeCheque, setCodeCheque] = useState('');
 
-
     useEffect(() => {
         const fetchCounts = async () => {
-          try {
-            const currentYear = new Date().getFullYear();
-            
-            const response = await fetch('http://localhost:8080/commande_production_vente');
-            const data = await response.json();
-            
-            const incrementedCount = data.count + 1;
-            const displayCount = `BVP${incrementedCount}${currentYear}`;
-            
-           setCodeCommande(displayCount);
-    
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
+            try {
+                const currentYear = new Date().getFullYear();
+                const response = await fetch('http://localhost:8080/commande_production_vente');
+                const data = await response.json();
+                const incrementedCount = data.count + 1;
+                const displayCount = `BVP${incrementedCount}${currentYear}`;
+                setCodeCommande(displayCount);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
-    
+
         fetchCounts();
-      }, []);
-
-
+    }, []);
 
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/clients', {
-                    params: {
-                        IsActive: true
-                    }
-                });
+                const response = await axios.get('http://localhost:8080/clients', { params: { IsActive: true } });
                 setClients(response.data.data || []);
             } catch (error) {
                 console.error('Error fetching clients:', error);
@@ -64,15 +115,11 @@ function App() {
 
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/production_beton/finished-products', {
-                    params: {
-                        IsActive: true
-                    }
-                });
+                const response = await axios.get('http://localhost:8080/production_beton/finished-products', { params: { IsActive: true } });
                 const filteredProducts = response.data.filter(item => item.volumeProduced > 0);
                 setProducts(filteredProducts.map(item => ({
                     id: item._id,
-                    codeProduction: item.productionCode
+                    name: item.productionCode
                 })));
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -124,9 +171,7 @@ function App() {
             return;
         }
 
-        // Si versement est vide, le définir à 0
         const finalVersement = versement === '' ? 0 : parseFloat(versement);
-
         if (finalVersement < 0) {
             showAlert('Le versement ne peut pas être inférieur à zéro.');
             return;
@@ -172,6 +217,9 @@ function App() {
 
     const showAlert = (message, type) => {
         setAlert({ message, type });
+        setTimeout(() => {
+            setAlert(null);
+        }, 5000);
     };
 
     const handleDelete = (index) => {
@@ -258,22 +306,23 @@ function App() {
                 <div className="form-container">
                     <div className='bloc'>
                         <div className='bloc1'>
-                            <select value={clientName} onChange={(e) => setClientName(e.target.value)} disabled={isClientDisabled}>
-                                <option value="">Sélectionnez un client</option>
-                                {clients.map(client => (
-                                    <option key={client.id} value={client.name}>{client.name}</option>
-                                ))}
-                            </select>
+                            <SearchableSelect
+                                options={clients}
+                                value={clientName}
+                                onChange={(e) => setClientName(e.target.value)}
+                                placeholder="Sélectionnez un client"
+                                disabled={isClientDisabled}
+                            />
                             <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
                             <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
                         </div>
                         <div className='bloc2'>
-                            <select value={productCode} onChange={(e) => setProductCode(e.target.value)}>
-                                <option value="">Sélectionnez un produit</option>
-                                {products.map(product => (
-                                    <option key={product.id} value={product.codeProduction}>{product.codeProduction}</option>
-                                ))}
-                            </select>
+                            <SearchableSelect
+                                options={products}
+                                value={productCode}
+                                onChange={(e) => setProductCode(e.target.value)}
+                                placeholder="Sélectionnez un produit"
+                            />
                             <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
                             <input type="number" value={prixUnitaire} onChange={(e) => setPrixUnitaire(e.target.value)} placeholder="Prix Unitaire" />
                         </div>
@@ -317,7 +366,6 @@ function App() {
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
                             <button className='next-button' onClick={handleShowFinalizePopup}>Suivant</button>
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
-
                         </div>
                     </div>
                 )}
@@ -331,7 +379,6 @@ function App() {
                                 <th>Prix Unitaire</th>
                                 <th>Total Ligne</th>
                                 <th>Action</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -377,7 +424,6 @@ function App() {
                             <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
                             <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
-
                         </div>
                     </div>
                 )}
