@@ -225,7 +225,7 @@ function App() {
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nom" />
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <input type="text" name="number" value={formData.number} onChange={handleChange} placeholder="Numéro" />
+                                <input type="text" name="number" value={formData.number} onChange={handleChange} maxLength={10} placeholder="Numéro" />
                                 <input type="text" name="comment" value={formData.comment} onChange={handleChange} placeholder="Commentaire" />
                                 <button className="create-button" type="submit">Sauvgarder</button>
                                 <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>

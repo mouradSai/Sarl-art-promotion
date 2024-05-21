@@ -224,7 +224,7 @@ function App() {
                                 <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} placeholder="Prenom" />
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Adresse" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Numéro" />
+                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} maxLength={10} placeholder="Numéro" />
                                 <button className="create-button" type="submit">Sauvgarder</button>
                                 <button className='delet-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
                             </form>
