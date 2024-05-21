@@ -26,7 +26,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
               <img src={logowhite} alt='Logo' className='sidebar-logo' />
               </Link>
 
-              <div className="sidebar-name">Sarl Art Groupe</div>
+              <div className="sidebar-name">Sarl Art Promotion</div>
 
           </div>
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>

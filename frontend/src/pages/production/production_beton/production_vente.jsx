@@ -375,8 +375,8 @@ function App() {
                         </div>
                         <div className="popup-buttons">
                             <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
-                            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+                            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
 
                         </div>
                     </div>
