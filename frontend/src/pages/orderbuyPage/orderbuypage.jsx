@@ -174,6 +174,9 @@ const handleGeneratePDF = async () => {
         codeCommande,
         date: new Date().toISOString().slice(0, 10),
         observation_com,
+        versement,
+        modePaiement,
+        codeCheque,
         commandes
     };
 
@@ -359,6 +362,7 @@ useEffect(() => {
         </div>
         <div className="popup-buttons">
             <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
+            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
             <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
         </div>
     </div>
