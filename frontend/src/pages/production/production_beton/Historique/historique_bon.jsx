@@ -5,6 +5,7 @@ import Header from '../../../../components/Main/Header';
 import CustomAlert from '../../../../components/costumeAlert/costumeAlert';
 
 function HistoriqueBon() {
+    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [bonsProduction, setBonsProduction] = useState([]);
     const [filteredBonsProduction, setFilteredBonsProduction] = useState([]);
     const [selectedBonProduction, setSelectedBonProduction] = useState(null);
@@ -12,6 +13,11 @@ function HistoriqueBon() {
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const bonsProductionPerPage = 5;
+
+    const OpenSidebar = () => {
+        setOpenSidebarToggle(!openSidebarToggle);
+    }
+
 
     useEffect(() => {
         fetchBonsProduction();
@@ -108,9 +114,9 @@ function HistoriqueBon() {
     const currentBonsProduction = filteredBonsProduction.slice(indexOfFirstBonProduction, indexOfLastBonProduction);
 
     return (
-        <div className="grid-container">
-            <Header />
-            <Sidebar />
+        <div className="grid-container">    
+             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className="container">
                 <h1 className="title-all">Historique des Bons</h1>
                 <input
