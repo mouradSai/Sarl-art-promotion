@@ -41,10 +41,12 @@
 
 .stats-container {
     padding: 20px;
+    flex-wrap: wrap;
 }
 
 .stats-cards {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;  /* Distributes space evenly between items */
     gap: 20px;  /* Adds space between the cards */
     margin-bottom: 20px;  /* Optional: adds space below the stats-cards */
