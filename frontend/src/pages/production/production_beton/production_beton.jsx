@@ -158,7 +158,6 @@ function App() {
           <div className="production-form-3">
             <div className="button-group">
               <button className="button" onClick={calculerQuantites}>Calculer les Quantités</button>
-              <button className="print-button" onClick={handleSubmit}>Enregistrer la Production</button>
               {/* <button className="button-calc" onClick={recalculateVolumeBasedOnQuantities}>Recalculer Volume</button> */}
             </div>
           </div>
@@ -172,6 +171,7 @@ function App() {
             ))}
           </div>
         </div>
+        <button className="print-button" onClick={handleSubmit}>Enregistrer la Production</button>
         {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
       </div>
     </div>

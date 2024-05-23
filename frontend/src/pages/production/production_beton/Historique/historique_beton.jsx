@@ -5,6 +5,7 @@ import Header from '../../../../components/Main/Header';
 import CustomAlert from '../../../../components/costumeAlert/costumeAlert';
 
 function App() {
+    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [productions, setProductions] = useState([]);
     const [filteredProductions, setFilteredProductions] = useState([]);
     const [selectedProduction, setSelectedProduction] = useState(null);
@@ -12,6 +13,10 @@ function App() {
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const productionsPerPage = 5;
+
+    const OpenSidebar = () => {
+        setOpenSidebarToggle(!openSidebarToggle);
+    }
 
     useEffect(() => {
         fetchProductions();
@@ -78,8 +83,8 @@ function App() {
 
     return (
         <div className="grid-container">
-            <Header />
-            <Sidebar />
+                <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+                <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} /> 
             <div className="container">
                 <h1 className="title-all">Historique des Productions</h1>
                 <input

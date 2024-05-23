@@ -18,7 +18,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
   // Vérifier si l'utilisateur a le rôle d'administrateur
   const isSuperadmin = userRole === 'superadmin' || userRole === 'admin'  ;
   return (
-    <aside id="sidebarProd" className={openSidebarToggle ? "sidebar-responsive" : ""}>
+    <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
           <div className='sidebar-brand'>
 

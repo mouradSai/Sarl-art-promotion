@@ -5,6 +5,7 @@ import Header from '../../../../components/Main/Header';
 import CustomAlert from '../../../../components/costumeAlert/costumeAlert';
 
 function App() {
+    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [commandes, setCommandes] = useState([]);
     const [clients, setClients] = useState([]);
     const [filteredCommandes, setFilteredCommandes] = useState([]);
@@ -13,6 +14,11 @@ function App() {
     const [searchText, setSearchText] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const commandesPerPage = 5;
+
+    const OpenSidebar = () => {
+        setOpenSidebarToggle(!openSidebarToggle);
+    };
+
 
     useEffect(() => {
         fetchCommandes();
@@ -138,8 +144,8 @@ function App() {
 
     return (
         <div className="grid-container">
-            <Header />
-            <Sidebar />
+            <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className="container">
                 <h1 className="title-all">Historique des Commandes de Vente</h1>
                 <input
