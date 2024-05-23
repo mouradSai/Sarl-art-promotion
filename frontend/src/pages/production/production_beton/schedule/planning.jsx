@@ -2,12 +2,33 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import 'moment/locale/fr'; // Import French locale
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Sidebar from '../SidebarProduction';
 import Header from '../../../../components/Main/Header';
 import './ProductionPlanning.css';
 
+moment.locale('fr'); // Set French as the default locale
 const localizer = momentLocalizer(moment);
+
+const messages = {
+    date: 'Date',
+    time: 'Heure',
+    event: 'Événement',
+    allDay: 'Toute la journée',
+    week: 'Semaine',
+    work_week: 'Semaine de travail',
+    day: 'Jour',
+    month: 'Mois',
+    previous: 'Précédent',
+    next: 'Suivant',
+    yesterday: 'Hier',
+    tomorrow: 'Demain',
+    today: "Aujourd'hui",
+    agenda: 'Agenda',
+    noEventsInRange: "Aucun événement dans cette période.",
+    showMore: total => `+ ${total} plus`,
+};
 
 const ProductionPlanning = () => {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -22,17 +43,35 @@ const ProductionPlanning = () => {
 
     useEffect(() => {
         fetchProductionOrders();
-    }, []);
+        const intervalId = setInterval(() => {
+            checkAndUpdateOrders();
+        }, 60000); // Check every minute
+
+        return () => clearInterval(intervalId);
+    }, [productionOrders]);
 
     const fetchProductionOrders = async () => {
         try {
             const response = await axios.get('http://localhost:8080/bon_production/');
-            const activeOrders = response.data.bonsProduction.filter(order => order.status !== 'Terminé');
-            setProductionOrders(activeOrders);
-            setupCalendarEvents(activeOrders);
+            setProductionOrders(response.data.bonsProduction);
+            setupCalendarEvents(response.data.bonsProduction);
         } catch (error) {
             console.error('Erreur lors de la récupération des bons de production:', error);
         }
+    };
+
+    const checkAndUpdateOrders = async () => {
+        const updatedOrders = await Promise.all(productionOrders.map(async (order) => {
+            const start = parseHeure(order.date, order.heure);
+            const end = moment(start).add(5, 'hours');
+            if (moment().isAfter(end) && order.status !== 'Terminé' && order.status !== 'Annulé') {
+                await axios.put(`http://localhost:8080/bon_production/${order._id}/status`, { status: 'Terminé' });
+                return { ...order, status: 'Terminé' };
+            }
+            return order;
+        }));
+        setProductionOrders(updatedOrders);
+        setupCalendarEvents(updatedOrders);
     };
 
     const parseHeure = (date, heure) => {
@@ -84,8 +123,9 @@ const ProductionPlanning = () => {
         if (selectedEvent) {
             const orderId = selectedEvent.id;
             await axios.put(`http://localhost:8080/bon_production/${orderId}/status`, { status: newStatus });
-            const updatedOrders = productionOrders.map(order => order._id === orderId ? { ...order, status: newStatus } : order)
-                .filter(order => order.status !== 'Terminé');
+            const updatedOrders = productionOrders.map(order => 
+                order._id === orderId ? { ...order, status: newStatus } : order
+            );
             setProductionOrders(updatedOrders);
             setupCalendarEvents(updatedOrders);
             setShowModal(false);
@@ -107,9 +147,10 @@ const ProductionPlanning = () => {
                             events={events}
                             startAccessor="start"
                             endAccessor="end"
-                            style={{ height: '500px' , width:1000 }}
+                            style={{ height: '500px', width: '1200px' }}
                             selectable
                             onSelectEvent={handleSelectEvent}
+                            messages={messages}
                             eventPropGetter={(event) => {
                                 const backgroundColor = event.backgroundColor;
                                 return { style: { backgroundColor, color: 'white', border: 'none', padding: '5px', fontSize: '0.9em' } };
