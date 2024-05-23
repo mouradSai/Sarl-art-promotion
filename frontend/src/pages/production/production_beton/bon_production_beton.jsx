@@ -222,7 +222,14 @@ function BonProductionForm() {
                                 <div>
                                     <div>
                                         <label>Heure:</label>
-                                        <input type="text" value={heure} onChange={(e) => setHeure(e.target.value)} />
+                                        <select value={heure} onChange={(e) => setHeure(e.target.value)}>
+                                            <option value="">Sélectionnez une heure</option>
+                                            {Array.from({ length: 24 }, (_, i) => (
+                                                <option key={i} value={`${i.toString().padStart(2, '0')}:00`}>
+                                                    {i.toString().padStart(2, '0')}:00
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                     <label>Lieu de livraison:</label>
                                     <input type="text" value={lieuLivraison} onChange={(e) => setLieuLivraison(e.target.value)} />

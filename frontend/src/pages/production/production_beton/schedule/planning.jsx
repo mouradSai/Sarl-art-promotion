@@ -70,7 +70,7 @@ const ProductionPlanning = () => {
     };
 
     const parseHeure = (date, heure) => {
-        const [hour, minute] = heure.split('h').map(Number);
+        const [hour, minute] = heure.split(':').map(Number);
         return moment(date).set({ hour, minute: minute || 0 }).toDate();
     };
 
@@ -143,6 +143,8 @@ const ProductionPlanning = () => {
                             startAccessor="start"
                             endAccessor="end"
                             style={{ height: '500px', width: '1200px' }}
+                            step={60} // Change the step to 60 minutes for Day and Week views
+                            timeslots={1} // Change the number of timeslots per hour to 1 for Day and Week views
                             selectable
                             onSelectEvent={handleSelectEvent}
                             messages={messages}
