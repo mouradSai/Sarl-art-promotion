@@ -99,3 +99,53 @@
   background-color: #ccc; /* Couleur de fond grise au survol */
   color: #666; /* Couleur du texte grise au survol */
 }
+
+.searchable-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.searchable-select-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.searchable-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ced4da;
+  border-top: none;
+  background: white;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.styled-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.styled-date {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+}

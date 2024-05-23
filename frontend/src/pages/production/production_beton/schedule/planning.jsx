@@ -58,7 +58,7 @@ const ProductionPlanning = () => {
     const checkAndUpdateOrders = async () => {
         const updatedOrders = await Promise.all(productionOrders.map(async (order) => {
             const start = parseHeure(order.date, order.heure);
-            const end = moment(start).add(5, 'hours');
+            const end = moment(start).add(2, 'hours');
             if (moment().isAfter(end) && order.status !== 'Terminé' && order.status !== 'Annulé') {
                 await axios.put(`http://localhost:8080/bon_production/${order._id}/status`, { status: 'Terminé' });
                 return { ...order, status: 'Terminé' };
@@ -77,7 +77,7 @@ const ProductionPlanning = () => {
     const setupCalendarEvents = (orders) => {
         const events = orders.map(order => {
             const start = parseHeure(order.date, order.heure);
-            const end = moment(start).add(5, 'hours').toDate(); // Assuming 5 hours duration
+            const end = moment(start).add(2, 'hours').toDate(); // Assuming 5 hours duration
             return {
                 id: order._id,
                 title: `${order.code_bon} - ${order.client_id.name}`,
