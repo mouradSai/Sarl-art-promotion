@@ -9,6 +9,12 @@ router.post('/', async (req, res) => {
     try {
         const { code_bon, client_name, formules, quantite, lieu_livraison, heure, date, observation } = req.body;
 
+        // Vérifier si un bon de production avec le même code existe déjà
+        const existingBonProduction = await BonProduction.findOne({ code_bon });
+        if (existingBonProduction) {
+            return res.status(400).json({ message: 'Un bon de production avec ce code existe déjà.' });
+        }
+
         // Trouver l'ID du client à partir de son nom
         const client = await Client.findOne({ name: client_name });
         if (!client) {
@@ -47,7 +53,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const bonsProduction = await BonProduction.find()
-              .populate({
+            .populate({
                 path: 'client_id',
                 select: 'name',
                 model: 'Client'
@@ -72,45 +78,44 @@ router.get('/', async (req, res) => {
     }
 });
 
-
 router.get('/:id', async (req, res) => {
     try {
-      const bonProduction = await BonProduction.findById(req.params.id)
-        .populate({
-          path: 'client_id',
-          select: 'name',
-          model: 'Client'
-        })
-        .populate({
-          path: 'formules.formula',
-          select: 'name',
-          model: 'Formula'
-        });
-  
-      if (!bonProduction) {
-        return res.status(404).json({ message: 'Bon de production non trouvé' });
-      }
-  
-      res.status(200).json(bonProduction);
-    } catch (error) {
-      console.error('Erreur lors de la récupération du bon de production par ID:', error);
-      res.status(500).json({ message: 'Erreur lors de la récupération du bon de production par ID', error: error.message });
-    }
-  });
+        const bonProduction = await BonProduction.findById(req.params.id)
+            .populate({
+                path: 'client_id',
+                select: 'name',
+                model: 'Client'
+            })
+            .populate({
+                path: 'formules.formula',
+                select: 'name',
+                model: 'Formula'
+            });
 
+        if (!bonProduction) {
+            return res.status(404).json({ message: 'Bon de production non trouvé' });
+        }
+
+        res.status(200).json(bonProduction);
+    } catch (error) {
+        console.error('Erreur lors de la récupération du bon de production par ID:', error);
+        res.status(500).json({ message: 'Erreur lors de la récupération du bon de production par ID', error: error.message });
+    }
+});
 
 router.put('/:id', async (req, res) => {
-  try {
-      const updatedBonProduction = await BonProduction.findByIdAndUpdate(req.params.id, req.body, { new: true });
-      if (!updatedBonProduction) {
-          return res.status(404).json({ message: 'Bon de production non trouvé' });
-      }
-      res.status(200).json(updatedBonProduction);
-  } catch (error) {
-      console.error('Erreur lors de la mise à jour du bon de production:', error);
-      res.status(500).json({ message: 'Erreur lors de la mise à jour du bon de production', error: error.message });
-  }
+    try {
+        const updatedBonProduction = await BonProduction.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedBonProduction) {
+            return res.status(404).json({ message: 'Bon de production non trouvé' });
+        }
+        res.status(200).json(updatedBonProduction);
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour du bon de production:', error);
+        res.status(500).json({ message: 'Erreur lors de la mise à jour du bon de production', error: error.message });
+    }
 });
+
 // Mettre à jour le statut d'un bon de production
 router.put('/:id/status', async (req, res) => {
     try {
@@ -127,16 +132,16 @@ router.put('/:id/status', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  try {
-      const deletedBonProduction = await BonProduction.findByIdAndDelete(req.params.id);
-      if (!deletedBonProduction) {
-          return res.status(404).json({ message: 'Bon de production non trouvé' });
-      }
-      res.status(200).json({ message: 'Bon de production supprimé avec succès' });
-  } catch (error) {
-      console.error('Erreur lors de la suppression du bon de production:', error);
-      res.status(500).json({ message: 'Erreur lors de la suppression du bon de production', error: error.message });
-  }
+    try {
+        const deletedBonProduction = await BonProduction.findByIdAndDelete(req.params.id);
+        if (!deletedBonProduction) {
+            return res.status(404).json({ message: 'Bon de production non trouvé' });
+        }
+        res.status(200).json({ message: 'Bon de production supprimé avec succès' });
+    } catch (error) {
+        console.error('Erreur lors de la suppression du bon de production:', error);
+        res.status(500).json({ message: 'Erreur lors de la suppression du bon de production', error: error.message });
+    }
 });
 
 module.exports = router;
