@@ -213,6 +213,7 @@ body {
       on small screens
     */
     z-index: 12 !important;
+    height: 100%;
   }
   
   /* End Sidebar  */

@@ -217,6 +217,8 @@ function App() {
                 </div>
 
                 {showCreateForm && (
+                    <>
+                    <div className="overlay"></div>
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
@@ -232,6 +234,7 @@ function App() {
                             </form>
                         </div>
                     </div>
+                    </> 
                 )}
                 {filterProviders(providers, searchText).length > 0 && (
                     <>
@@ -276,6 +279,8 @@ function App() {
                     <p>Aucun fournisseur trouvé</p>
                 )}
                 {selectedProvider && (
+                    <>
+                    <div className="overlay"></div>
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedProvider(null)}>&times;</span>
@@ -287,8 +292,11 @@ function App() {
                             <button className='delete-button' onClick={() => setSelectedProvider(null)}>Annuler</button>
                         </div>
                     </div>
+                    </>
                 )}
                 {editProviderId && (
+                    <>
+                    <div className="overlay"></div>
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => { setEditProviderId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
@@ -304,6 +312,7 @@ function App() {
                             </form>
                         </div>
                     </div>
+                    </>
                 )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

@@ -233,7 +233,7 @@ function BonProductionForm() {
                     <button className={`add-button ${bonProductionAdded ? 'gray-button' : ''}`} onClick={handleAddBonProduction} disabled={bonProductionAdded}>Ajouter Bon de Production</button>
                     {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                     <h2>Bons de Production</h2>
-                    <table>
+                    <table >
                         <thead>
                             <tr>
                                 <th>Code</th>

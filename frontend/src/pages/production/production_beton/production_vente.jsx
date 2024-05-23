@@ -332,6 +332,8 @@ function App() {
                     </div>
                 </div>
                 {showPopup && (
+                    <>
+                    <div className="overlay"></div>                    
                     <div className="popup">
                         <h2>Informations de Commande</h2>
                         <p>Client: {clientName}</p>
@@ -339,7 +341,7 @@ function App() {
                         <p>Date :{date}</p>
                         <p>Observation :{observation_com}</p>
                         <h3>Produits ajoutés :</h3>
-                        <table>
+                        <table className='commtab'>
                             <thead className="table-header">
                                 <tr>
                                     <th>Code Production</th>
@@ -368,10 +370,11 @@ function App() {
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
                         </div>
                     </div>
+                    </> 
                 )}
                 <div>
                     <h2>Produits ajoutés :</h2>
-                    <table>
+                    <table className='comtab'>
                         <thead>
                             <tr>
                                 <th>Code Production</th>
@@ -399,6 +402,8 @@ function App() {
                 </div>
 
                 {showFinalizePopup && (
+                    <>
+                    <div className="overlay"></div>                 
                     <div className="popup">
                         <h2>Détails de Paiement</h2>
                         <div>
@@ -425,6 +430,7 @@ function App() {
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
                         </div>
                     </div>
+                    </> 
                 )}
 
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AppCostomer.css'; // Correction de la typo dans le nom du fichier CSS
 import Sidebar from '../../components/Main/Sidebar';
 import Header from '../../components/Main/Header';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
@@ -215,7 +214,9 @@ function App() {
                     <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer</button>
                 </div>
                 {showCreateForm && (
-                    <div className="popup">
+                    <>
+                    <div className="overlay"></div>
+                    <div className="popup2">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
                             <h2>Créer un nouveau client</h2>
@@ -230,6 +231,7 @@ function App() {
                             </form>
                         </div>
                     </div>
+                    </>
                 )}
                 {filterClients(clients, searchText).length > 0 && (
                     <>
@@ -274,7 +276,9 @@ function App() {
                     <p>Aucun client trouver.</p>
                 )}
                 {selectedClient && (
-                    <div className="popup">
+                    <>
+                    <div className="overlay"></div>
+                    <div className="popup2">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedClient(null)}>&times;</span>
                             <h2>Client Details</h2>
@@ -290,9 +294,12 @@ function App() {
                             <button className='delet-button' onClick={() => setSelectedClient(null)}>Cancel</button>
                         </div>
                     </div>
+                    </>
                 )}
                 {editClientId && (
-                    <div className="popup">
+                     <>
+                    <div className="overlay"></div>
+                    <div className="popup2">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
                             <h2>Modifier le client</h2>
@@ -307,6 +314,7 @@ function App() {
                             </form>
                         </div>
                     </div>
+                    </>
                 )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

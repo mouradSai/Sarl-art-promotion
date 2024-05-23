@@ -144,6 +144,8 @@ function App() {
                     <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCredits.length / creditsPerPage)}>Suivant</button>
                 </div>
                 {selectedCredit && (
+                     <>
+                     <div className="overlay"></div>                     
                     <div className="popup">
                         {/* Popup content to display credit details */}
                         <span className="close-button" onClick={() => setSelectedCredit(null)}>&times;</span>
@@ -162,6 +164,7 @@ function App() {
                         />
                         <button onClick={() => handleAddPayment(selectedCredit._id, paymentAmount)}>Ajouter </button>
                     </div>
+                    </>
                 )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

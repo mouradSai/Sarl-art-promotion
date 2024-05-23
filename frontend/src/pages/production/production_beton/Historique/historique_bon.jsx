@@ -162,6 +162,8 @@ function HistoriqueBon() {
                     <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredBonsProduction.length / bonsProductionPerPage)}>Suivant</button>
                 </div>
                 {selectedBonProduction && (
+                    <>
+                    <div className="overlay"></div>                        
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedBonProduction(null)}>&times;</span>
@@ -176,6 +178,7 @@ function HistoriqueBon() {
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
                         </div>
                     </div>
+                    </>  
                 )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

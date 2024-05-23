@@ -186,6 +186,8 @@ function App() {
                     <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCommandes.length / commandesPerPage)}>Next</button>
                 </div>
                 {selectedCommande && (
+                    <>
+                    <div className="overlay"></div>                        
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedCommande(null)}>&times;</span>
@@ -221,6 +223,7 @@ function App() {
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
                         </div>
                     </div>
+                    </>   
                 )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

@@ -234,7 +234,7 @@ function App() {
                 </form>
 
                 <h2>Formula List</h2>
-                <table>
+                <table className='comtab2'>
                     <thead>
                         <tr>
                             <th>Nom formule</th>
@@ -255,6 +255,8 @@ function App() {
                 </table>
             </div>
             {selectedFormula && (
+                <>
+                <div className="overlay"></div>                   
                 <div className="popup">
                     <div className="popup-content">
                         <h2>{selectedFormula.name} Details</h2>
@@ -283,6 +285,7 @@ function App() {
                                             <button className='delete-button' onClick={() => handleDeleteProduct(index)}>Delete</button>
                                         </td>
                                     </tr>
+                                    
                                 ))}
                                 <tr>
                                     <td>
@@ -311,6 +314,7 @@ function App() {
                         <button className='delete-button' onClick={handleClosePopup}>Close</button>
                     </div>
                 </div>
+                </> 
             )}
             {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
         </div>

@@ -317,6 +317,8 @@ function App() {
                     </div>
                 </div>
                 {showPopup && (
+                    <>
+                    <div className="overlay"></div>   
                     <div className="popup">
                         <h2>Informations de Commande</h2>
                         <p>Fournisseur: {providerName}</p>
@@ -355,8 +357,11 @@ function App() {
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
                         </div>
                     </div>
+                    </>
                 )}
                 {showFinalizePopup && (
+                    <>
+                    <div className="overlay"></div>                      
                     <div className="popup">
                         <h2>Détails de Paiement</h2>
                         <div>
@@ -384,6 +389,7 @@ function App() {
                             <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
                         </div>
                     </div>
+                    </>
                 )}
                 <div>
                     <h2>Produits ajoutés :</h2>

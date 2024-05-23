@@ -246,6 +246,8 @@ function App() {
                         <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer</button>
                     </div>
                     {showCreateForm && (
+                    <>
+                    <div className="overlay"></div>                         
                         <div className="popup">
                             <div className="popup-content">
                                 <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
@@ -277,6 +279,7 @@ function App() {
                                 </form>
                             </div>
                         </div>
+                        </>
                     )}
                 {filterProducts(products, searchText).length > 0 && (
                     <>
@@ -323,6 +326,8 @@ function App() {
                     <p>Aucun produit trouvé.</p>
                 )}
                 {selectedProduct && (
+                     <>
+                     <div className="overlay"></div>                    
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedProduct(null)}>&times;</span>
@@ -336,8 +341,11 @@ function App() {
                             <button className='delete-button' onClick={() => setSelectedProduct(null)}>Annuler</button>
                         </div>
                     </div>
+                    </>
                 )}
                 {editProductId && (
+                     <>
+                     <div className="overlay"></div>                      
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>&times;</span>
@@ -369,6 +377,7 @@ function App() {
                             </form>
                         </div>
                     </div>
+                    </>
                 )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>
