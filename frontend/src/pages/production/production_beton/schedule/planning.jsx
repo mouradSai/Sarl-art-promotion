@@ -43,12 +43,7 @@ const ProductionPlanning = () => {
 
     useEffect(() => {
         fetchProductionOrders();
-        const intervalId = setInterval(() => {
-            checkAndUpdateOrders();
-        }, 60000); // Check every minute
-
-        return () => clearInterval(intervalId);
-    }, [productionOrders]);
+    }, []);
 
     const fetchProductionOrders = async () => {
         try {
