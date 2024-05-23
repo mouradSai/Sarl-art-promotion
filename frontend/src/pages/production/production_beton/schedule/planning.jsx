@@ -3,14 +3,14 @@ import axios from 'axios';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Modal, Button, Form } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Sidebar from '../SidebarProduction';
 import Header from '../../../../components/Main/Header';
+import './ProductionPlanning.css';
+
 const localizer = momentLocalizer(moment);
 
 const ProductionPlanning = () => {
-    const [openSidebarToggle, setOpenSidebarToggle] = React.useState(false);
+    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const OpenSidebar = () => {
         setOpenSidebarToggle(!openSidebarToggle);
     };
@@ -94,59 +94,65 @@ const ProductionPlanning = () => {
 
     return (
         <div className="grid-container">
-        <Header OpenSidebar={OpenSidebar}/>
-        <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
-        <div className="container">
-        <div style={{ padding: '20px' }}>
-            <div style={{ marginBottom: '20px' }}>
-            <h1 className="title-all">Planning de Production</h1>
+            <Header OpenSidebar={OpenSidebar} />
+            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
+            <div className="container">
+                <div style={{ padding: '20px' }}>
+                    <div style={{ marginBottom: '20px' }}>
+                        <h1 className="title-all">Planning de Production</h1>
+                    </div>
+                    <div>
+                        <Calendar
+                            localizer={localizer}
+                            events={events}
+                            startAccessor="start"
+                            endAccessor="end"
+                            style={{ height: '500px' , width:1000 }}
+                            selectable
+                            onSelectEvent={handleSelectEvent}
+                            eventPropGetter={(event) => {
+                                const backgroundColor = event.backgroundColor;
+                                return { style: { backgroundColor, color: 'white', border: 'none', padding: '5px', fontSize: '0.9em' } };
+                            }}
+                        />
+                    </div>
+
+                    {showModal && (
+                        <div className="custom-modal-overlay">
+                            <div className="custom-modal">
+                                <div className="custom-modal-header">
+                                    <span className="custom-modal-title">Modifier le statut</span>
+                                    <button className="custom-modal-close" onClick={() => setShowModal(false)}>
+                                        &times;
+                                    </button>
+                                </div>
+                                <div className="custom-modal-body">
+                                    <label htmlFor="formStatus">Statut</label>
+                                    <select
+                                        id="formStatus"
+                                        value={newStatus}
+                                        onChange={handleStatusChange}
+                                        className="custom-modal-select"
+                                    >
+                                        <option value="En cours">En cours</option>
+                                        <option value="Terminé">Terminé</option>
+                                        <option value="Annulé">Annulé</option>
+                                    </select>
+                                </div>
+                                <div className="custom-modal-footer">
+                                    <button onClick={() => setShowModal(false)} className="custom-modal-button custom-modal-button-secondary">
+                                        Annuler
+                                    </button>
+                                    <button onClick={handleUpdateStatus} className="custom-modal-button custom-modal-button-primary">
+                                        Mettre à jour
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
-            <div>
-                <Calendar
-                    localizer={localizer}
-                    events={events}
-                    startAccessor="start"
-                    endAccessor="end"
-                    style={{ height: '500px' }}
-                    selectable
-                    onSelectEvent={handleSelectEvent}
-                    eventPropGetter={(event) => {
-                        const backgroundColor = event.backgroundColor;
-                        return { style: { backgroundColor, color: 'white', border: 'none', padding: '5px', fontSize: '0.9em' } };
-                    }}
-                />
-            </div>
-
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
-                <Modal.Header closeButton style={{ backgroundColor: '#f7f7f7' }}>
-                    <Modal.Title style={{ color: '#333' }}>Modifier le statut</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group controlId="formStatus">
-                            <Form.Label>Statut</Form.Label>
-                            <Form.Control as="select" value={newStatus} onChange={handleStatusChange}>
-                                <option value="En cours">En cours</option>
-                                <option value="Terminé">Terminé</option>
-                                <option value="Annulé">Annulé</option>
-                            </Form.Control>
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button variant="secondary" onClick={() => setShowModal(false)} style={{ backgroundColor: '#6c757d', borderColor: '#6c757d' }}>
-                        Annuler
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdateStatus} style={{ backgroundColor: '#007bff', borderColor: '#007bff' }}>
-                        Mettre à jour
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </div>
-        </div>
-
-        </div>
-
     );
 };
 
