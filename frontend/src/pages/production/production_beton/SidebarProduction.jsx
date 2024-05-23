@@ -45,6 +45,11 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
             <TbBuildingFactory  className='icon'/> Production
         </li>
       </Link>
+      <Link to="/planning" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <TbBuildingFactory  className='icon'/> planning
+        </li>
+      </Link>
       
       {isSuperadmin && (
       <Link to="/production_vente" className="sidebar-link"> 

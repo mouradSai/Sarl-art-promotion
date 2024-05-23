@@ -20,7 +20,8 @@ const bonProductionSchema = new mongoose.Schema({
     quantite: { type: Number, required: true },  // Quantité totale pour la production
     lieu_livraison: { type: String, required: true },  // Lieu de livraison
     heure: { type: String, required: true }, // Heure de production
-    date: { type: Date, default: Date.now } // Date de production
+    date: { type: Date, default: Date.now }, // Date de production
+    status: { type: String, default: 'En cours' } // Statut de production
 });
 
 const BonProduction = mongoose.model('BonProduction', bonProductionSchema);

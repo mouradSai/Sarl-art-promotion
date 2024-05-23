@@ -1,7 +1,9 @@
 /* Form Styles */
 .production-grid {
   display: flex;
-  flex-direction: column;  /* Stack form elements vertically */
+  flex-direction: column;
+  width: 800px;  /* Stack form elements vertically */
+  margin:0 20%;
 }
 
 .form-group {

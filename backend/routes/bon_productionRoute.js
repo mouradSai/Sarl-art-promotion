@@ -111,6 +111,20 @@ router.put('/:id', async (req, res) => {
       res.status(500).json({ message: 'Erreur lors de la mise à jour du bon de production', error: error.message });
   }
 });
+// Mettre à jour le statut d'un bon de production
+router.put('/:id/status', async (req, res) => {
+    try {
+        const { status } = req.body;
+        const updatedBonProduction = await BonProduction.findByIdAndUpdate(req.params.id, { status }, { new: true });
+        if (!updatedBonProduction) {
+            return res.status(404).json({ message: 'Bon de production non trouvé' });
+        }
+        res.status(200).json(updatedBonProduction);
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour du statut du bon de production:', error);
+        res.status(500).json({ message: 'Erreur lors de la mise à jour du statut du bon de production', error: error.message });
+    }
+});
 
 router.delete('/:id', async (req, res) => {
   try {
