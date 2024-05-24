@@ -74,11 +74,12 @@
     text-decoration: none; /* Supprimer le soulignement */
 }
 .dashboard-item p {
-    font-size: 20px;
+    font-size: 100px;
     font-weight: 500;
     color: #ffffff; /* Blanc */
     position: absolute;
-    top: 50%;
+    width: 70%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0; /* Cacher le texte par défaut */

@@ -194,7 +194,6 @@ function App() {
                 <div className="actions">
                     
                     <div className='search-cont'>
-                    <BsSearch className='search-icon'/>
                         <input className='search-bar'
                         type="text"
                         placeholder="Chercher un fournisseur"

@@ -57,6 +57,7 @@ h2 {
   background-color: #1835c5; /* Bleu par défaut */
   color: #fff; /* Texte blanc */
   padding: 12px 24px;
+  margin-bottom: 10px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
