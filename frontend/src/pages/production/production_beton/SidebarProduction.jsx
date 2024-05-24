@@ -42,16 +42,17 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
         </li>
       </Link>)}
 
-      <Link to="/production_beton" className="sidebar-link"> 
-      <li className='sidebar-list-item'>
-            <TbBuildingFactory  className='icon'/> Production
-        </li>
-      </Link>
       <Link to="/planning" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <RiCalendarScheduleLine  className='icon'/> Planning
         </li>
       </Link>
+      <Link to="/production_beton" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <TbBuildingFactory  className='icon'/> Production
+        </li>
+      </Link>
+     
       
       {isSuperadmin && (
       <Link to="/production_vente" className="sidebar-link"> 
