@@ -259,36 +259,38 @@ function App() {
                 <div className="overlay"></div>                   
                 <div className="popup">
                     <div className="popup-content">
+                    <span className="close-button" onClick={handleClosePopup}>&times;</span>
                         <h2>{selectedFormula.name} Details</h2>
-                        <table>
+                        <table className='comtab3'>
                             <thead>
-                                <tr>
-                                    <th className='titlesHis'>Nom</th>
-                                    <th className='titlesHis'>Quantité</th>
-                                    <th className='titlesHis'>Action</th>
+                                <tr className='trf'>
+                                    <th className='titlesHis thf'>Nom</th>
+                                    <th className='titlesHis thf'>Quantité</th>
+                                    <th className='titlesHis thf'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {editableProducts.map((product, index) => (
-                                    <tr key={index}>
-                                        <td>{product.name}</td>
-                                        <td>
+                                    <tr className='trf' key={index}>
+                                        <td className='tdf'>{product.name}</td>
+                                        <td className='tdf'>
                                             <input
+                                                className='inputf'
                                                 type="text"
                                                 value={product.quantity}
                                                 onChange={(e) => handleEditableProductChange(index, 'quantity', e.target.value)}
                                                 required
                                             />
                                         </td>
-                                        <td>
+                                        <td className='tdf'>
                                             <button className='view-button' onClick={() => handleUpdateProduct(index)}>Update</button>
                                             <button className='delete-button' onClick={() => handleDeleteProduct(index)}>Delete</button>
                                         </td>
                                     </tr>
                                     
                                 ))}
-                                <tr>
-                                    <td>
+                                <tr className='trf'>
+                                    <td className='trf'>
                                         <SearchableSelect
                                             options={productSuggestions}
                                             value={newProduct.product}
@@ -296,8 +298,9 @@ function App() {
                                             placeholder="Sélectionnez un produit"
                                         />
                                     </td>
-                                    <td>
+                                    <td className='tdf'>
                                         <input
+                                            className='inputf'
                                             type="text"
                                             value={newProduct.quantity}
                                             onChange={(e) => handleNewProductChange('quantity', e.target.value)}
@@ -305,7 +308,7 @@ function App() {
                                             required
                                         />
                                     </td>
-                                    <td>
+                                    <td className='tdf'>
                                         <button className='print-button' onClick={handleAddProductToFormula}>Add Product</button>
                                     </td>
                                 </tr>

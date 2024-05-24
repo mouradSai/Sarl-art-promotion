@@ -106,9 +106,7 @@ h2 {
   }
 }
 
-
-
- .popup , .popup2 {
+.popup3 {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -125,7 +123,24 @@ h2 {
   z-index: 1000; /* Ensure the popup is above the overlay */
 }
 
-.popup.fade-out, .popup2.fade-out {
+ .popup , .popup2 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(255, 255, 255); /* Semi-transparent background */
+  padding: 9px; /* Increased padding for better spacing */
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Intense shadow */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to enhance glass effect */
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* Apply fade-in animation */
+  min-width: 500px; /* Minimum width */
+  min-height: 500px; /* Minimum height */
+  z-index: 1000; /* Ensure the popup is above the overlay */
+}
+
+.popup.fade-out, .popup2.fade-out, .popup3.fade-out {
   animation: fadeOut 0.5s forwards; /* Apply fade-out animation */
 }
 
@@ -145,8 +160,9 @@ h2 {
 }
 
 .popup table {
-  margin-left: 0;
+  margin-left: 0px
 }
+
 
 /* Style pour les formulaires */
 form {
@@ -188,6 +204,8 @@ table {
   border-radius: 10px; /* Apply border-radius to top-left and top-right corners */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.377); /* Add shadow to the table borders */
 }
+
+
 
 
 td {
@@ -392,6 +410,8 @@ table {
 }
 }
 
+
+
 /* Medium <= 992px */ 
 @media (max-width: 992px) {
 
@@ -464,7 +484,7 @@ table {
 .view-button,
 .delete-button,
 .edit-button {
-  padding: 9px 18px;
+  padding: 7px 14px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -480,11 +500,29 @@ table {
 }
 
 .popup , .popup2 {
- 
   min-width: 300px; /* Minimum width */
   min-height: 500px; /* Minimum height */
 
 }
+
+.popup table .tdf {
+  font-size: 11px;
+  padding: 0px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
+}
+
+.popup table .thf {
+  font-size: 12px;
+  padding: 0px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
+}
+
+.popup table .inputf {
+  width:100%;
+  padding: 2px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
+  text-align: center;
+}
+
+
+
 
 
 
