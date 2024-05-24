@@ -154,7 +154,7 @@ function App() {
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
-                <table className="table">
+                <table className='tabrespo'>
                     <thead>
                         <tr>
                           
@@ -200,7 +200,7 @@ function App() {
                             <p><strong>Versement:</strong> {selectedCommande.versement} DA</p>
                             <p><strong>Mode Paiement:</strong> {selectedCommande.modePaiement}</p>
                             <h3>Produits</h3>
-                            <table>
+                            <table >
                                 <thead>
                                     <tr>
                                         <th className='titlesHis'>Product</th>

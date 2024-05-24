@@ -239,7 +239,7 @@ function App() {
                 {filterProviders(providers, searchText).length > 0 && (
                     <>
                     <div className='commtab'>
-                        <table className="mfwork">
+                        <table className="tabrespo">
                             <thead>
                                 <tr>
                                     <th>Nom</th>

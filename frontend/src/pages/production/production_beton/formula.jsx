@@ -234,10 +234,10 @@ function App() {
                 </form>
 
                 <h2>Formula List</h2>
-                <table className='comtab2'>
+                <table className='tabrespo two'>
                     <thead>
-                        <tr>
-                            <th>Nom formule</th>
+                        <tr className='thfpad'>
+                            <th className='thfpad'>Nom formule</th>
                             <th>Action</th>
                         </tr>
                     </thead>

@@ -101,7 +101,7 @@ function App() {
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
-                <table className="table">
+                <table className='tabrespo'>
                     <thead>
                         <tr>
                             <th>Code Commande</th>

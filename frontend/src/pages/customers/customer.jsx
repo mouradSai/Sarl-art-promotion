@@ -235,7 +235,7 @@ function App() {
                 )}
                 {filterClients(clients, searchText).length > 0 && (
                     <>
-                        <table>
+                        <table className='tabrespo'>
                             <thead>
                                 <tr>
                                     <th>Nom</th>
