@@ -77,10 +77,10 @@ const ProductionPlanning = () => {
     const setupCalendarEvents = (orders) => {
         const events = orders.map(order => {
             const start = parseHeure(order.date, order.heure);
-            const end = moment(start).add(2, 'hours').toDate(); // Assuming 5 hours duration
+            const end = moment(start).add(2, 'hours').toDate(); // Assuming 2 hours duration
             return {
                 id: order._id,
-                title: `${order.code_bon} - ${order.client_id.name}`,
+                title: `${order.code_bon} - ${order.client_id.name} - ${order.lieu_livraison}  `,
                 start,
                 end,
                 resource: order.client_id._id,

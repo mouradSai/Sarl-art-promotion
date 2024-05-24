@@ -49,7 +49,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       </Link>
       <Link to="/planning" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <RiCalendarScheduleLine  className='icon'/> planning
+            <RiCalendarScheduleLine  className='icon'/> Planning
         </li>
       </Link>
       
