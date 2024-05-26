@@ -108,6 +108,13 @@ function App() {
         fetchProducts();
     }, []);
 
+    useEffect(() => {
+        const selectedProduct = products.find(product => product.name === productName);
+        if (selectedProduct) {
+            setPrixUnitaire(selectedProduct.prixUnitaire);
+        }
+    }, [productName, products]);
+
     const handleAddProduct = () => {
         if (!productName || !quantity || !prixUnitaire || !providerName || !codeCommande) {
             showAlert('Veuillez remplir tous les champs du produit, du fournisseur, du prix unitaire et du code de commande.');

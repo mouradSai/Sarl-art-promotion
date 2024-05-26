@@ -36,15 +36,16 @@ function App() {
         fetchEntrepots();
     }, []);
 
-  const fetchProducts = async () => {
-    try {
-        const response = await axios.get('http://localhost:8080/products');
-        setProducts(response.data.data.reverse());
-    } catch (error) {
-        console.error('Erreur:', error);
-        showAlert('Une erreur s est produite lors de la récupération des produits. Veuillez réessayer plus tard.');
-    }
-};
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/products');
+            setProducts(response.data.data.reverse());
+        } catch (error) {
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite lors de la récupération des produits. Veuillez réessayer plus tard.');
+        }
+    };
+
     const fetchCategories = async () => {
         try {
             const response = await axios.get('http://localhost:8080/categories', {
@@ -59,7 +60,6 @@ function App() {
         }
     };
     
-
     const fetchEntrepots = async () => {
         try {
             const response = await axios.get('http://localhost:8080/entrepots',{
@@ -116,21 +116,6 @@ function App() {
         }
     };
 
- /*   const handleDelete = async (id) => {
-        try {
-            const response = await axios.delete(`http://localhost:8080/products/${id}`);
-            if (response.status === 200) {
-                showAlert('Product deleted successfully.');
-                fetchProducts();
-            } else {
-                showAlert(response.data.message || 'An error occurred while deleting product.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
-        }
-    };
-*/
     const toggleActiveStatus = async (id, isActive) => {
         try {
             const response = await axios.put(`http://localhost:8080/products/${id}`, { IsActive: !isActive });
@@ -174,6 +159,7 @@ function App() {
             showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
+
     const resetProductData = () => {
         setProductData({
             name: '',
@@ -185,7 +171,6 @@ function App() {
             IsActive: true
         });
     };
-
 
     const filterProducts = (products, searchText) => {
         let filteredProducts = products.filter(product => {
@@ -214,103 +199,99 @@ function App() {
     };
 
     return (
-       
-            <div className="grid-container">
-                <HeaderProduct OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)}/>
-                <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
-                <div className="container">
-                    <h1 className="title-all">Stock de Produits</h1>
-                    <div className="actions">
-
-                        <div className='search-cont'>
-                         <h1 className='search-icon'/>
-                            <input className='search-bar'
+        <div className="grid-container">
+            <HeaderProduct OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)}/>
+            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+            <div className="container">
+                <h1 className="title-all">Stock de Produits</h1>
+                <div className="actions">
+                    <div className='search-cont'>
+                        <h1 className='search-icon'/>
+                        <input className='search-bar'
                             type="text"
                             placeholder="Chercher un produit"
                             value={searchText}
                             onChange={handleSearchChange}
-                            />
-                        </div>
-
-                        <label>
-                            <input
-                                type="checkbox"
-                                class="checkbox-custom"
-                                checked={showActiveOnly}
-                                onChange={handleFilterChange}
-                            />
-                             <span class="checkbox-label">Actifs seulement</span>
-                        </label>
-
-                        <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer</button>
+                        />
                     </div>
-                    {showCreateForm && (
-                        <div className="popup">
-                            <div className="popup-content">
-                                <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
-                                <h2>Créer un nouveau produit</h2>
-                                <form onSubmit={handleSubmit}>
-                                    <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Nom de produit" />
-                                    <select name="namecategory" value={productData.namecategory} onChange={handleChange}>
-                                        <option value="">Choisir une catégorie</option>
-                                        {categories.map((category) => (
-                                            <option key={category._id} value={category.name}>{category.name}</option>
-                                        ))}
-                                    </select>
-                                    <select name="nameentrepot" value={productData.nameentrepot} onChange={handleChange}>
-                                        <option value="">Sélectionnez Entrepôt</option>
-                                        {entrepots.map((entrepot) => (
-                                            <option key={entrepot._id} value={entrepot.name}>{entrepot.name}</option>
-                                        ))}
-                                    </select>
-                                    <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantité" />
-                                    <select name="unit" value={productData.unit} onChange={handleChange}>
+                    <label>
+                        <input
+                            type="checkbox"
+                            className="checkbox-custom"
+                            checked={showActiveOnly}
+                            onChange={handleFilterChange}
+                        />
+                        <span className="checkbox-label">Actifs seulement</span>
+                    </label>
+                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer</button>
+                </div>
+                {showCreateForm && (
+                    <div className="popup">
+                        <div className="popup-content">
+                            <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
+                            <h2>Créer un nouveau produit</h2>
+                            <form onSubmit={handleSubmit}>
+                                <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Nom de produit" />
+                                <select name="namecategory" value={productData.namecategory} onChange={handleChange}>
+                                    <option value="">Choisir une catégorie</option>
+                                    {categories.map((category) => (
+                                        <option key={category._id} value={category.name}>{category.name}</option>
+                                    ))}
+                                </select>
+                                <select name="nameentrepot" value={productData.nameentrepot} onChange={handleChange}>
+                                    <option value="">Sélectionnez Entrepôt</option>
+                                    {entrepots.map((entrepot) => (
+                                        <option key={entrepot._id} value={entrepot.name}>{entrepot.name}</option>
+                                    ))}
+                                </select>
+                                <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantité" />
+                                <select name="unit" value={productData.unit} onChange={handleChange}>
                                     <option value="">Sélectionnez l'unité</option>
                                     {units.map((unit) => (
                                         <option key={unit} value={unit}>{unit}</option>
                                     ))}
-                                </select>                                    
+                                </select>
                                 <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
-                                    <button className="create-button" type="submit">Sauvgarde</button>
-                                    <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
-                                </form>
-                            </div>
+                                <button className="create-button" type="submit">Sauvegarder</button>
+                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
+                            </form>
                         </div>
-                    )}
+                    </div>
+                )}
                 {filterProducts(products, searchText).length > 0 && (
                     <>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Catégorie</th>
-                            <th>Entrepôt</th>
-                            <th>Quantité</th>
-                            <th>Unité</th>
-                            <th>Prix Unitaire</th>  {/* Ajout de la colonne Prix Unitaire */}
-                            <th>Active</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.map(product => (
-                            <tr key={product._id}>
-                                <td>{product.name}</td>
-                                <td>{product.namecategory}</td>
-                                <td>{product.nameentrepot}</td>
-                                <td>{product.quantity.toFixed(2)}</td>
-                                <td>{product.unit}</td>
-                                <td>{product.prixUnitaire.toFixed(2)}DA</td>  {/* Affichage du Prix Unitaire */}
-                                <td>{product.IsActive ? 'Yes' : 'No'}</td>
-                                <td>
-                                    <button className='view-button' onClick={() => handleView(product)}>Voir</button>
-                                    <button className='edit-button' onClick={() => handleEdit(product)}>Modifier</button>
-                                    <button className='delete-button' onClick={() => toggleActiveStatus(product._id, product.IsActive)}>{product.IsActive ? 'Désactiver' : 'Activer'}</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Catégorie</th>
+                                    <th>Entrepôt</th>
+                                    <th>Quantité</th>
+                                    <th>Unité</th>
+                                    <th>Prix Unitaire</th>  {/* Ajout de la colonne Prix Unitaire */}
+                                    <th>Active</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filterProducts(products, searchText).map(product => (
+                                    <tr key={product._id}>
+                                        <td>{product.name}</td>
+                                        <td>{product.namecategory}</td>
+                                        <td>{product.nameentrepot}</td>
+                                        <td>{product.quantity.toFixed(2)}</td>
+                                        <td>{product.unit}</td>
+                                        <td>{product.prixUnitaire.toFixed(2)}DA</td>  {/* Affichage du Prix Unitaire */}
+                                        <td>{product.IsActive ? 'Yes' : 'No'}</td>
+                                        <td>
+                                            <button className='view-button' onClick={() => handleView(product)}>Voir</button>
+                                            <button className='edit-button' onClick={() => handleEdit(product)}>Modifier</button>
+                                            <button className='delete-button' onClick={() => toggleActiveStatus(product._id, product.IsActive)}>{product.IsActive ? 'Désactiver' : 'Activer'}</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                         <div className="pagination">
                             <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Précédent</button>
                             <span>{currentPage}</span>
@@ -325,7 +306,7 @@ function App() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedProduct(null)}>&times;</span>
-                            <h2>détails du produit</h2>
+                            <h2>Détails du produit</h2>
                             <p>Nom: {selectedProduct.name}</p>
                             <p>Catégorie: {selectedProduct.namecategory}</p>
                             <p>Entrepôt: {selectedProduct.nameentrepot}</p>
@@ -344,26 +325,26 @@ function App() {
                             <form onSubmit={handleEditSubmit}>
                                 <input type="text" name="name" value={productData.name} onChange={handleChange} placeholder="Nom" />
                                 <select name="namecategory" value={productData.namecategory} onChange={handleChange}>
-                                        <option value="">Choisir une catégorie</option>
-                                        {categories.map((category) => (
-                                            <option key={category._id} value={category.name}>{category.name}</option>
-                                        ))}
-                                    </select>                               
-                                    <select name="nameentrepot" value={productData.nameentrepot} onChange={handleChange}>
-                                        <option value="">Sélectionnez Entrepôt</option>
-                                        {entrepots.map((entrepot) => (
-                                            <option key={entrepot._id} value={entrepot.name}>{entrepot.name}</option>
-                                        ))}
-                                    </select>                                
-                                    <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantité" />
-                                    <select name="unit" value={productData.unit} onChange={handleChange}>
-                                    <option value="">Selectionnez Unité</option>
+                                    <option value="">Choisir une catégorie</option>
+                                    {categories.map((category) => (
+                                        <option key={category._id} value={category.name}>{category.name}</option>
+                                    ))}
+                                </select>                               
+                                <select name="nameentrepot" value={productData.nameentrepot} onChange={handleChange}>
+                                    <option value="">Sélectionnez Entrepôt</option>
+                                    {entrepots.map((entrepot) => (
+                                        <option key={entrepot._id} value={entrepot.name}>{entrepot.name}</option>
+                                    ))}
+                                </select>                                
+                                <input type="text" name="quantity" value={productData.quantity} onChange={handleChange} placeholder="Quantité" />
+                                <select name="unit" value={productData.unit} onChange={handleChange}>
+                                    <option value="">Sélectionnez l'unité</option>
                                     {units.map((unit) => (
                                         <option key={unit} value={unit}>{unit}</option>
                                     ))}
                                 </select>                                    
                                 <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
-                                <button className="create-button" type="submit">Sauvgarder</button>
+                                <button className="create-button" type="submit">Sauvegarder</button>
                                 <button className='delete-button' onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>
@@ -376,4 +357,3 @@ function App() {
 }
 
 export default App;
-/*cdefbdfdhdfelv!eveve*//*cdndndvdvnekjnvkenvkde toucher pas jai galerer a la faire wlah dffnrfrfnornrer/** */
