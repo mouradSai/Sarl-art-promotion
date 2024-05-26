@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import {BsFillArchiveFill, BsPersonCircle, MdSpaceDashboard,BsCardList, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { TbBuildingFactory } from "react-icons/tb";
+import { RiCalendarScheduleLine } from "react-icons/ri";
+
 import { TbZoomMoney } from "react-icons/tb";
 import { BsReceiptCutoff } from "react-icons/bs";
 
@@ -40,11 +42,17 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
         </li>
       </Link>)}
 
+      <Link to="/planning" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <RiCalendarScheduleLine  className='icon'/> Planning
+        </li>
+      </Link>
       <Link to="/production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <TbBuildingFactory  className='icon'/> Production
         </li>
       </Link>
+     
       
       {isSuperadmin && (
       <Link to="/production_vente" className="sidebar-link"> 

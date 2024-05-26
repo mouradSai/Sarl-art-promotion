@@ -81,6 +81,7 @@ function HistoriqueBon() {
             heure: selectedBonProduction.heure,
             quantite: selectedBonProduction.quantite,
             lieuLivraison: selectedBonProduction.lieu_livraison,
+            status: selectedBonProduction.status,
             produits: selectedBonProduction.produits // Assurez-vous que les produits sont inclus ici
         };
 
@@ -135,6 +136,7 @@ function HistoriqueBon() {
                             <th>Heure</th>
                             <th>Quantité</th>
                             <th>Lieu de livraison</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -148,6 +150,8 @@ function HistoriqueBon() {
                                 <td>{bonProduction.heure}</td>
                                 <td>{bonProduction.quantite} m³</td>
                                 <td>{bonProduction.lieu_livraison}</td>
+                                <td>{bonProduction.status}</td>
+
                                 <td>
                                     <button className='view-button' onClick={() => handleView(bonProduction)}>Détails</button>
                                     {/* <button className='delete-button' onClick={() => handleDelete(bonProduction._id)}>Supprimer</button> */}
@@ -173,8 +177,9 @@ function HistoriqueBon() {
                             <p><strong>Client:</strong> {selectedBonProduction.client_id.name}</p>
                             <p><strong>Date:</strong> {new Date(selectedBonProduction.date).toISOString().slice(0, 10)}</p>
                             <p><strong>Heure:</strong> {selectedBonProduction.heure}</p>
-                            <p><strong>Quantité:</strong> {selectedBonProduction.quantite} m³</p>
+                            <p><strong>Volume:</strong> {selectedBonProduction.quantite} m³</p>
                             <p><strong>Lieu de livraison:</strong> {selectedBonProduction.lieu_livraison}</p>
+                            <p><strong>status:</strong> {selectedBonProduction.status}</p>
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
                         </div>
                     </div>

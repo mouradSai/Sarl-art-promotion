@@ -3,7 +3,7 @@ import axios from 'axios';
 import Sidebar from '../production_beton/SidebarProduction';
 import Header from '../../../components/Main/Header';
 import CustomAlert from '../../../components/costumeAlert/costumeAlert';
-
+import './App.css';
 const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) => {
     const [search, setSearch] = useState('');
     const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +42,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) =
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 disabled={disabled}
+                className="searchable-select-input"
             />
             {isOpen && (
                 <select
@@ -53,6 +54,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) =
                     }}
                     size={Math.min(5, filteredOptions.length)}
                     onBlur={handleBlur}
+                    className="searchable-select-dropdown"
                 >
                     <option value="">{placeholder}</option>
                     {filteredOptions.map(option => (
@@ -217,12 +219,19 @@ function BonProductionForm() {
                             <div className='bloc2'>
                                 <div className='datebon'>
                                     <label>Date:</label>
-                                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="styled-date" />
                                 </div>
                                 <div>
                                     <div>
                                         <label>Heure:</label>
-                                        <input type="text" value={heure} onChange={(e) => setHeure(e.target.value)} />
+                                        <select value={heure} onChange={(e) => setHeure(e.target.value)} className="styled-select">
+                                            <option value="">Sélectionnez une heure</option>
+                                            {Array.from({ length: 24 }, (_, i) => (
+                                                <option key={i} value={`${i.toString().padStart(2, '0')}:00`}>
+                                                    {i.toString().padStart(2, '0')}:00
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                     <label>Lieu de livraison:</label>
                                     <input type="text" value={lieuLivraison} onChange={(e) => setLieuLivraison(e.target.value)} />
