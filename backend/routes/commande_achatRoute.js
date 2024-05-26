@@ -7,22 +7,29 @@ const Product = require('../models/product'); // Import correct du modèle Produ
 
 router.post('/', async (req, res) => {
     try {
-        const { code_commande, provider_name, date_commande, observation, produits, versement, modePaiement,code_cheque } = req.body;
+        const { code_commande, provider_name, date_commande, observation, produits, versement, modePaiement, code_cheque } = req.body;
 
-        // Trouver l'ID du fournisseur à partir de son nom
         const provider = await Provider.findOne({ name: provider_name });
         if (!provider) {
             return res.status(404).json({ message: 'Fournisseur non trouvé' });
         }
 
-        // Convertir les noms de produits en IDs et calculer les totaux
         const productDetails = await Promise.all(produits.map(async ({ product_name, quantity, prixUnitaire }) => {
             const product = await Product.findOne({ name: product_name });
             if (!product) {
                 throw new Error(`Produit ${product_name} non trouvé`);
             }
+
             const updatedQuantity = product.quantity + quantity;
-            await Product.findByIdAndUpdate(product._id, { $set: { quantity: updatedQuantity } });
+            let updatedPrixUnitaire;
+
+            if (product.prixUnitaire === 0) {
+                updatedPrixUnitaire = prixUnitaire;
+            } else {
+                updatedPrixUnitaire = (product.prixUnitaire + prixUnitaire) / 2;
+            }
+
+            await Product.findByIdAndUpdate(product._id, { $set: { quantity: updatedQuantity, prixUnitaire: updatedPrixUnitaire } });
 
             const totalLigne = quantity * prixUnitaire;
             return { product: product._id, quantity, prixUnitaire, totalLigne };
@@ -37,8 +44,8 @@ router.post('/', async (req, res) => {
             observation,
             produits: productDetails,
             totalCommande,
-            versement, // Add versement to the document
-            modePaiement,// Add modePaiement to the document
+            versement,
+            modePaiement,
             code_cheque
         });
 

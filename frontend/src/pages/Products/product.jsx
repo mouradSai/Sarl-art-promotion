@@ -36,16 +36,15 @@ function App() {
         fetchEntrepots();
     }, []);
 
-    const fetchProducts = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/products');
-            setProducts(response.data.data.reverse());
-        } catch (error) {
-            console.error('Erreur:', error);
-            showAlert('Une erreur s est produite lors de la récupération des produits. Veuillez réessayer plus tard.');
-        }
-    };
-
+  const fetchProducts = async () => {
+    try {
+        const response = await axios.get('http://localhost:8080/products');
+        setProducts(response.data.data.reverse());
+    } catch (error) {
+        console.error('Erreur:', error);
+        showAlert('Une erreur s est produite lors de la récupération des produits. Veuillez réessayer plus tard.');
+    }
+};
     const fetchCategories = async () => {
         try {
             const response = await axios.get('http://localhost:8080/categories', {
@@ -280,38 +279,38 @@ function App() {
                     )}
                 {filterProducts(products, searchText).length > 0 && (
                     <>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Catégorie</th>
-                                    <th>Entrepôt</th>
-                                    <th>Quantité</th>
-                                    <th>Unité</th>
-                                    <th>Description</th>
-                                    <th>Active</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filterProducts(products, searchText).map(product => (
-                                    <tr key={product._id}>
-                                        <td>{product.name}</td>
-                                        <td>{product.namecategory}</td>
-                                        <td>{product.nameentrepot}</td>
-                                        <td>{product.quantity.toFixed(2)}</td>
-                                        <td>{product.unit}</td>
-                                        <td>{product.description}</td>
-                                        <td>{product.IsActive ? 'Yes' : 'No'}</td>
-                                        <td>
-                                            <button className='view-button' onClick={() => handleView(product)}>Voire</button>
-                                            <button className='edit-button' onClick={() => handleEdit(product)}>Modifier</button>
-                                            <button className='delete-button' onClick={() => toggleActiveStatus(product._id, product.IsActive)}>{product.IsActive ? 'Désactiver' : 'Activer'}</button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Catégorie</th>
+                            <th>Entrepôt</th>
+                            <th>Quantité</th>
+                            <th>Unité</th>
+                            <th>Prix Unitaire</th>  {/* Ajout de la colonne Prix Unitaire */}
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products.map(product => (
+                            <tr key={product._id}>
+                                <td>{product.name}</td>
+                                <td>{product.namecategory}</td>
+                                <td>{product.nameentrepot}</td>
+                                <td>{product.quantity.toFixed(2)}</td>
+                                <td>{product.unit}</td>
+                                <td>{product.prixUnitaire.toFixed(2)}DA</td>  {/* Affichage du Prix Unitaire */}
+                                <td>{product.IsActive ? 'Yes' : 'No'}</td>
+                                <td>
+                                    <button className='view-button' onClick={() => handleView(product)}>Voir</button>
+                                    <button className='edit-button' onClick={() => handleEdit(product)}>Modifier</button>
+                                    <button className='delete-button' onClick={() => toggleActiveStatus(product._id, product.IsActive)}>{product.IsActive ? 'Désactiver' : 'Activer'}</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
                         <div className="pagination">
                             <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Précédent</button>
                             <span>{currentPage}</span>
