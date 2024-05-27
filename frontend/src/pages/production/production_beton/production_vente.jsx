@@ -47,7 +47,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) =
                 <select
                     value={value}
                     onChange={(e) => {
-                        onChange(e);
+                        onChange(e.target.value);
                         setIsOpen(false);
                         setSearch('');
                     }}
@@ -119,7 +119,8 @@ function App() {
                 const filteredProducts = response.data.filter(item => item.volumeProduced > 0);
                 setProducts(filteredProducts.map(item => ({
                     id: item._id,
-                    name: item.productionCode
+                    name: item.productionCode,
+                    prixUnitaire: item.prixUnitaire // Assurez-vous que le prix unitaire est inclus dans la réponse de l'API
                 })));
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -130,6 +131,16 @@ function App() {
         fetchClients();
         fetchProducts();
     }, []);
+
+    const handleProductChange = async (productName) => {
+        setProductCode(productName);
+        const selectedProduct = products.find(product => product.name === productName);
+        if (selectedProduct) {
+            setPrixUnitaire(selectedProduct.prixUnitaire);
+        } else {
+            setPrixUnitaire('');
+        }
+    };
 
     const handleAddProduct = () => {
         if (!productCode || !quantity || !prixUnitaire || !clientName || !codeCommande) {
@@ -309,7 +320,7 @@ function App() {
                             <SearchableSelect
                                 options={clients}
                                 value={clientName}
-                                onChange={(e) => setClientName(e.target.value)}
+                                onChange={setClientName}
                                 placeholder="Sélectionnez un client"
                                 disabled={isClientDisabled}
                             />
@@ -320,7 +331,7 @@ function App() {
                             <SearchableSelect
                                 options={products}
                                 value={productCode}
-                                onChange={(e) => setProductCode(e.target.value)}
+                                onChange={handleProductChange}
                                 placeholder="Sélectionnez un produit"
                             />
                             <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
@@ -397,7 +408,7 @@ function App() {
                     </table>
                     <button className='print-button' onClick={handleValidateOrder}>Valider</button>
                 </div>
-
+               
                 {showFinalizePopup && (
                     <div className="popup">
                         <h2>Détails de Paiement</h2>
@@ -423,6 +434,8 @@ function App() {
                         <div className="popup-buttons">
                             <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+                            <button className='finalize-button' onClick={handleFinalizeOrder}>Finaliser la commande</button>
+
                         </div>
                     </div>
                 )}

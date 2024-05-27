@@ -13,6 +13,10 @@ const productFinishedSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    prixUnitaire: { // Ajout du prix unitaire moyen
+        type: Number,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now
