@@ -347,7 +347,8 @@ function App() {
                                     {units.map((unit) => (
                                         <option key={unit} value={unit}>{unit}</option>
                                     ))}
-                                </select>                                    
+                                </select>
+                                <input type="text" name="prixUnitaire" value={productData.prixUnitaire} onChange={handleChange} placeholder="Prix Unitaire" />
                                 <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
                                 <button className="create-button" type="submit">Sauvegarder</button>
                                 <button className='delete-button' onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>Annuler</button>

@@ -16,8 +16,7 @@ function App() {
 
     const OpenSidebar = () => {
         setOpenSidebarToggle(!openSidebarToggle);
-    }
-
+    };
 
     useEffect(() => {
         fetchProductions();
@@ -83,10 +82,10 @@ function App() {
 
     return (
         <div className="grid-container">
-             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
-             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+            <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
+            <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
             <div className="container">
-                <h1 className="title-all">Stock finie</h1>
+                <h1 className="title-all">Stock fini</h1>
                 <input
                     type="text"
                     placeholder="Search by code or formula..."
@@ -100,6 +99,7 @@ function App() {
                             <th>Formula</th>
                             <th>Date Production</th>
                             <th>Volume Produced</th>
+                            <th>Prix Unitaire</th> {/* Ajout de la colonne Prix Unitaire */}
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -110,6 +110,7 @@ function App() {
                                 <td>{production.formulaName}</td>
                                 <td>{new Date(production.date).toISOString().slice(0, 10)}</td>
                                 <td>{production.volumeProduced}m³</td>
+                                <td>{production.prixUnitaire.toFixed(2)} DA</td> {/* Affichage du Prix Unitaire */}
                                 <td>
                                     <button className='view-button' onClick={() => handleView(production)}>Details</button>
                                     <button className='delete-button' onClick={() => handleDelete(production._id)}>Delete</button>
@@ -134,6 +135,7 @@ function App() {
                             <p><strong>Date of Production:</strong> {new Date(selectedProduction.date).toISOString().slice(0, 10)}</p>
                             <p><strong>Formula Name:</strong> {selectedProduction.formulaName}</p>
                             <p><strong>Volume Produced:</strong> {selectedProduction.volumeProduced}m³</p>
+                            <p><strong>Prix Unitaire:</strong> {selectedProduction.prixUnitaire.toFixed(2)} DA</p> {/* Affichage du Prix Unitaire */}
                         </div>
                     </div>
                     </> 

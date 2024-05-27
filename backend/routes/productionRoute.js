@@ -33,13 +33,22 @@ router.post('/', async (req, res) => {
             }
         }
 
+        // Calculate the average unit price of the materials used
+        const totalUnitPrice = await Promise.all(materialsUsed.map(async material => {
+            const product = await Product.findById(material.product);
+            return product.prixUnitaire * material.quantity;
+        }));
+        const totalQuantity = materialsUsed.reduce((sum, material) => sum + material.quantity, 0);
+        const averageUnitPrice = totalUnitPrice.reduce((sum, price) => sum + price, 0) / totalQuantity;
+
         // Create the production if all materials are available in sufficient quantities
         const production = new Production({
             codeProduction,
             formula: formulaId,
             volumeDesired,
             materialsUsed,
-            observations
+            observations,
+            prixUnitaire: averageUnitPrice // Stocking the calculated average unit price
         });
         await production.save();
 
@@ -54,7 +63,8 @@ router.post('/', async (req, res) => {
         const productFinished = new ProductFinished({
             productionCode: codeProduction,
             volumeProduced: volumeDesired,
-            formulaName: formula.name // Assuming the formula has a 'name' field
+            formulaName: formula.name, // Assuming the formula has a 'name' field
+            prixUnitaire: averageUnitPrice // Adding the average unit price to finished product
         });
         await productFinished.save();
 
@@ -64,6 +74,7 @@ router.post('/', async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
+
 // Endpoint pour obtenir tous les produits finis
 router.get('/finished-products', async (req, res) => {
     try {
@@ -74,6 +85,7 @@ router.get('/finished-products', async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
+
 // Endpoint pour supprimer un produit fini par son ID
 router.delete('/finished-products/:id', async (req, res) => {
     try {
@@ -88,6 +100,7 @@ router.delete('/finished-products/:id', async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
+
 // Endpoint pour obtenir toutes les productions
 router.get('/', async (req, res) => {
     try {
@@ -101,6 +114,7 @@ router.get('/', async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
+
 // Endpoint pour obtenir une production spécifique par ID
 router.get('/:id', async (req, res) => {
     try {
@@ -115,6 +129,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
+
 // Endpoint pour supprimer une production par ID
 router.delete('/:id', async (req, res) => {
     try {
