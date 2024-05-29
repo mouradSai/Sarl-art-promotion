@@ -124,7 +124,46 @@ h2 {
   z-index: 1000; /* Ensure the popup is above the overlay */
 }
 
- .popup , .popup2 {
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Intense shadow */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+  width: auto;
+  height: auto;
+  max-height: 800px;
+  min-width: 500px;
+  z-index: 1000;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.popup-content {
+  max-height: 100%; /* Ensure the content does not exceed the popup height */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popup2 {
   position: fixed;
   top: 50%;
   left: 50%;
