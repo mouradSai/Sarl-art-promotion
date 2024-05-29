@@ -334,7 +334,7 @@ function App() {
                                 onChange={handleProductChange}
                                 placeholder="Sélectionnez un produit"
                             />
-                            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Volume" />
                             <input type="number" value={prixUnitaire} onChange={(e) => setPrixUnitaire(e.target.value)} placeholder="Prix Unitaire" />
                         </div>
                     </div>
@@ -356,7 +356,7 @@ function App() {
                             <thead className="table-header">
                                 <tr>
                                     <th>Code Production</th>
-                                    <th>Quantité</th>
+                                    <th>Volume</th>
                                     <th>Prix Unitaire</th>
                                     <th>Total Ligne</th>
                                 </tr>
@@ -389,7 +389,7 @@ function App() {
                         <thead>
                             <tr>
                                 <th>Code Production</th>
-                                <th>Quantité</th>
+                                <th>Volume</th>
                                 <th>Prix Unitaire</th>
                                 <th>Total Ligne</th>
                                 <th>Action</th>
