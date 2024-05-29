@@ -212,8 +212,8 @@ function BonProductionForm() {
                                     <input placeholder="Code de bon" type="text" value={codeBon} onChange={(e) => setCodeBon(e.target.value)} />
                                 </div>
                                 <div>
-                                    <label>Quantité:</label>
-                                    <input placeholder="Quantité" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+                                    <label>Volume:</label>
+                                    <input placeholder="Volume" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
                                 </div>
                             </div>
                             <div className='bloc2'>
@@ -248,7 +248,7 @@ function BonProductionForm() {
                                 <th>Code</th>
                                 <th>Client</th>
                                 <th>Formule</th>
-                                <th>Quantité</th>
+                                <th>Volume</th>
                                 <th>Date</th>
                                 <th>Heure</th>
                                 <th>Lieu de livraison</th>
