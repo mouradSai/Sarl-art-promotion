@@ -38,8 +38,8 @@ function HistoriqueBon() {
             bonsProductionWithFormulas.sort((a, b) => new Date(b.date) - new Date(a.date));
             setBonsProduction(bonsProductionWithFormulas);
         } catch (error) {
-            console.error('Error fetching bons production:', error);
-            showAlert('An error occurred while fetching bons production. Please try again later.', 'error');
+            console.error('Erreur lors de la récupération de la production de bons :', error);
+            showAlert('Une erreur s est produite lors de la récupération de la production de bons. Veuillez réessayer plus tard.', 'error');
         }
     };
 
@@ -69,7 +69,7 @@ function HistoriqueBon() {
 
     const handleGeneratePDF = async () => {
         if (!selectedBonProduction) {
-            showAlert('Please select a bon de production to generate a PDF.', 'error');
+            showAlert('Veuillez sélectionner un bon de production pour générer un PDF.', 'error');
             return;
         }
 
@@ -134,10 +134,10 @@ function HistoriqueBon() {
                             <th>Client</th>
                             <th>Date</th>
                             <th>Heure</th>
-                            <th>Quantité</th>
+                            <th>Volume</th>
                             <th>Lieu de livraison</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>Statut</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -179,7 +179,7 @@ function HistoriqueBon() {
                             <p><strong>Heure:</strong> {selectedBonProduction.heure}</p>
                             <p><strong>Volume:</strong> {selectedBonProduction.quantite} m³</p>
                             <p><strong>Lieu de livraison:</strong> {selectedBonProduction.lieu_livraison}</p>
-                            <p><strong>status:</strong> {selectedBonProduction.status}</p>
+                            <p><strong>statut:</strong> {selectedBonProduction.status}</p>
                             <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
                         </div>
                     </div>

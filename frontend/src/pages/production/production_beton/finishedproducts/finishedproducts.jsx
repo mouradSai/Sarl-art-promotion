@@ -33,8 +33,8 @@ function App() {
             // Inverse l'ordre des productions pour afficher les plus récentes en premier
             setProductions(filteredData.reverse());
         } catch (error) {
-            console.error('Error fetching productions:', error);
-            showAlert('An error occurred while fetching productions. Please try again later.', 'error');
+            console.error('Erreur lors de la récupération des productions :', error);
+            showAlert('Une erreur s est produite lors de la récupération des productions. Veuillez réessayer plus tard.', 'error');
         }
     };
 
@@ -56,14 +56,14 @@ function App() {
         try {
             const response = await axios.delete(`http://localhost:8080/production_beton/finished-products/${id}`);
             if (response.status === 200) {
-                showAlert('Production deleted successfully.', 'success');
+                showAlert('Production supprimée avec succès.', 'success');
                 fetchProductions(); // Refetch all data to update the UI accordingly
             } else {
-                showAlert(response.data.message || 'An error occurred while deleting the production.', 'error');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la suppression de la production.', 'error');
             }
         } catch (error) {
             console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.', 'error');
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.', 'error');
         }
     };
 
@@ -88,7 +88,7 @@ function App() {
                 <h1 className="title-all">Stock fini</h1>
                 <input
                     type="text"
-                    placeholder="Search by code or formula..."
+                    placeholder="Recherche par code ou formule..."
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
@@ -96,11 +96,11 @@ function App() {
                     <thead>
                         <tr>
                             <th>Code Production</th>
-                            <th>Formula</th>
+                            <th>Formule</th>
                             <th>Date Production</th>
-                            <th>Volume Produced</th>
+                            <th>Volume produit</th>
                             <th>Prix Unitaire</th> {/* Ajout de la colonne Prix Unitaire */}
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,17 +112,17 @@ function App() {
                                 <td>{production.volumeProduced}m³</td>
                                 <td>{production.prixUnitaire.toFixed(2)} DA</td> {/* Affichage du Prix Unitaire */}
                                 <td>
-                                    <button className='view-button' onClick={() => handleView(production)}>Details</button>
-                                    <button className='delete-button' onClick={() => handleDelete(production._id)}>Delete</button>
+                                    <button className='view-button' onClick={() => handleView(production)}>Détails</button>
+                                    <button className='delete-button' onClick={() => handleDelete(production._id)}>Supprimer</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
                 <div className="pagination">
-                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Previous</button>
+                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Précédent</button>
                     <span>Page {currentPage} of {Math.ceil(filteredProductions.length / productionsPerPage)}</span>
-                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredProductions.length / productionsPerPage)}>Next</button>
+                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredProductions.length / productionsPerPage)}>Suivant</button>
                 </div>
                 {selectedProduction && (
                     <>
@@ -130,11 +130,11 @@ function App() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedProduction(null)}>&times;</span>
-                            <h2>Production Details</h2>
+                            <h2>Détails de Produit fini</h2>
                             <p><strong>Code:</strong> {selectedProduction.productionCode}</p>
-                            <p><strong>Date of Production:</strong> {new Date(selectedProduction.date).toISOString().slice(0, 10)}</p>
-                            <p><strong>Formula Name:</strong> {selectedProduction.formulaName}</p>
-                            <p><strong>Volume Produced:</strong> {selectedProduction.volumeProduced}m³</p>
+                            <p><strong>Date de production:</strong> {new Date(selectedProduction.date).toISOString().slice(0, 10)}</p>
+                            <p><strong>Formule:</strong> {selectedProduction.formulaName}</p>
+                            <p><strong>Volume produit:</strong> {selectedProduction.volumeProduced}m³</p>
                             <p><strong>Prix Unitaire:</strong> {selectedProduction.prixUnitaire.toFixed(2)} DA</p> {/* Affichage du Prix Unitaire */}
                         </div>
                     </div>

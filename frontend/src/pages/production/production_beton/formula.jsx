@@ -233,7 +233,7 @@ function App() {
                     <button className='print-button' type="submit">créer Formule</button>
                 </form>
 
-                <h2>Formula List</h2>
+                <h2>Liste des Formules </h2>
                 <table className='tabrespo two'>
                     <thead>
                         <tr className='thfpad'>
@@ -246,8 +246,8 @@ function App() {
                             <tr key={formula._id}>
                                 <td>{formula.name}</td>
                                 <td>
-                                    <button className='edit-button' onClick={() => handleDetails(formula)}>Details</button>
-                                    <button className='delete-button' onClick={() => handleDelete(formula._id)}>Delete</button>
+                                    <button className='edit-button' onClick={() => handleDetails(formula)}>Consulter</button>
+                                    <button className='delete-button' onClick={() => handleDelete(formula._id)}>Supprimer</button>
                                 </td>
                             </tr>
                         ))}
@@ -283,8 +283,8 @@ function App() {
                                             />
                                         </td>
                                         <td className='tdf'>
-                                            <button className='view-button' onClick={() => handleUpdateProduct(index)}>Update</button>
-                                            <button className='delete-button' onClick={() => handleDeleteProduct(index)}>Delete</button>
+                                            <button className='view-button' onClick={() => handleUpdateProduct(index)}>Appliquer</button>
+                                            <button className='delete-button' onClick={() => handleDeleteProduct(index)}>Supprimer</button>
                                         </td>
                                     </tr>
                                     
@@ -309,12 +309,12 @@ function App() {
                                         />
                                     </td>
                                     <td className='tdf'>
-                                        <button className='print-button' onClick={handleAddProductToFormula}>Add Product</button>
+                                        <button className='print-button' onClick={handleAddProductToFormula}>Ajouter Matiére</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <button className='delete-button' onClick={handleClosePopup}>Close</button>
+                        <button className='delete-button' onClick={handleClosePopup}>Fermer</button>
                     </div>
                 </div>
                 </> 

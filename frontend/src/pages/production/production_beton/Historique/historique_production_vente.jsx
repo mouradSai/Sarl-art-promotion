@@ -35,8 +35,8 @@ function App() {
             const reversedCommandes = response.data.commandesProductionVente.reverse();
             setCommandes(reversedCommandes);
         } catch (error) {
-            console.error('Error fetching commandes:', error);
-            showAlert('An error occurred while fetching commandes. Please try again later.', 'error');
+            console.error('Erreur lors de la récupération des commandes:', error);
+            showAlert('Une erreur s est produite lors de la récupération des commandes. Veuillez réessayer plus tard.', 'error');
         }
     };
 
@@ -47,7 +47,7 @@ function App() {
             });
             setClients(response.data.data || []);
         } catch (error) {
-            console.error('Error fetching clients:', error);
+            console.error('Erreur lors de la récupération des clients:', error);
         }
     };
 
@@ -73,14 +73,14 @@ function App() {
         try {
             const response = await axios.delete(`http://localhost:8080/commande_production_vente/${id}`);
             if (response.status === 200) {
-                showAlert('Commande deleted successfully.', 'success');
+                showAlert('Commande supprimée avec succès.', 'success');
                 fetchCommandes();
             } else {
-                showAlert(response.data.message || 'An error occurred while deleting the commande.', 'error');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la suppression de la commande.', 'error');
             }
         } catch (error) {
             console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.', 'error');
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.', 'error');
         }
     };
 
@@ -94,7 +94,7 @@ function App() {
 
     const handleGeneratePDF = async () => {
         if (!selectedCommande) {
-            showAlert('Please select a commande to generate a PDF.', 'error');
+            showAlert('Veuillez sélectionner une commande pour générer un PDF.', 'error');
             return;
         }
 
@@ -150,7 +150,7 @@ function App() {
                 <h1 className="title-all">Historique des Commandes de Vente</h1>
                 <input
                     type="text"
-                    placeholder="Search by code..."
+                    placeholder="Recherche par code..."
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
@@ -162,7 +162,7 @@ function App() {
                             <th>Client</th>
                             <th>Date Commande</th>
                             <th>Total Commande</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -173,17 +173,17 @@ function App() {
                                 <td>{new Date(commande.date_commande).toISOString().slice(0, 10)}</td>
                                 <td>{commande.totalCommande.toFixed(2)}</td>
                                 <td>
-                                    <button className='view-button' onClick={() => handleView(commande)}>Details</button>
-                                    <button className='delete-button' onClick={() => handleDelete(commande._id)}>Delete</button>
+                                    <button className='view-button' onClick={() => handleView(commande)}>Détails</button>
+                                    <button className='delete-button' onClick={() => handleDelete(commande._id)}>Supprimer</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
                 <div className="pagination">
-                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Previous</button>
+                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Précédent</button>
                     <span>Page {currentPage} of {Math.ceil(filteredCommandes.length / commandesPerPage)}</span>
-                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCommandes.length / commandesPerPage)}>Next</button>
+                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCommandes.length / commandesPerPage)}>Suivant</button>
                 </div>
                 {selectedCommande && (
                     <>
@@ -191,10 +191,10 @@ function App() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedCommande(null)}>&times;</span>
-                            <h2>Commande Details</h2>
+                            <h2>Détails des commandes</h2>
                             <p><strong>Client:</strong> {selectedCommande.client_id.name}</p>
                             <p><strong>Code:</strong> {selectedCommande.code_commande}</p>
-                            <p><strong>Date of Commande:</strong> {new Date(selectedCommande.date_commande).toISOString().slice(0, 10)}</p>
+                            <p><strong>Date de commande:</strong> {new Date(selectedCommande.date_commande).toISOString().slice(0, 10)}</p>
                             <p><strong>Total Commande:</strong> {selectedCommande.totalCommande.toFixed(2)} DA</p>
                             <p><strong>Observation:</strong> {selectedCommande.observation}</p>
                             <p><strong>Versement:</strong> {selectedCommande.versement} DA</p>
@@ -203,10 +203,10 @@ function App() {
                             <table >
                                 <thead>
                                     <tr>
-                                        <th className='titlesHis'>Product</th>
-                                        <th className='titlesHis'>Quantity</th>
-                                        <th className='titlesHis'>Unit Price</th>
-                                        <th className='titlesHis'>Total Line</th>
+                                        <th className='titlesHis'>Produit</th>
+                                        <th className='titlesHis'>Volume</th>
+                                        <th className='titlesHis'>Prix Unitaire</th>
+                                        <th className='titlesHis'>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>

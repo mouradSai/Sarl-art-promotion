@@ -58,8 +58,8 @@ function App() {
     
             setCredits(filteredData.reverse());
         } catch (error) {
-            console.error('Error fetching production credits:', error);
-            showAlert('An error occurred while fetching production credits. Please try again later.', 'error');
+            console.error('Erreur lors de la récupération des crédits de production :', error);
+            showAlert('Une erreur s est produite lors de la récupération des crédits de production. Veuillez réessayer plus tard.', 'error');
         }
     };
     
@@ -88,8 +88,8 @@ function App() {
             // If payment is successful, refetch credits to update the data
             fetchCredits();
         } catch (error) {
-            console.error('Error adding payment:', error);
-            showAlert('Failed to add payment. Please try again.', 'error');
+            console.error('Erreur lors de l ajout du paiement :', error);
+            showAlert('Échec de l ajout du paiement. Veuillez réessayer.', 'error');
         }
     };
     
@@ -101,7 +101,7 @@ function App() {
                 <h1 className="title-all">Crédits des ventes de production</h1>
                 <input
                     type="text"
-                    placeholder="Search credits..."
+                    placeholder="Rechercher des crédits..."
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
@@ -137,9 +137,9 @@ function App() {
                     </tbody>
                 </table>
                 <div className="pagination">
-                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Previous</button>
+                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Précédent</button>
                     <span>Page {currentPage} of {Math.ceil(filteredCredits.length / creditsPerPage)}</span>
-                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCredits.length / creditsPerPage)}>Next</button>
+                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCredits.length / creditsPerPage)}>Suivant</button>
                 </div>
                 {selectedCredit && (
                     <>

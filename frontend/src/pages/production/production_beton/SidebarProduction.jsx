@@ -38,7 +38,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       {isSuperadmin && (
       <Link to="/Dashboard_production" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsFillGrid1X2Fill  className='icon'/> Dashboard
+            <BsFillGrid1X2Fill  className='icon'/> Tableau de bord
         </li>
       </Link>)}
 
@@ -73,7 +73,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       </Link>
       <Link to="/Stock_finie" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsBox2Fill  className='icon'/> Stock finie
+            <BsBox2Fill  className='icon'/> Stock fini
         </li>
       </Link>
       {isSuperadmin && (
