@@ -212,7 +212,7 @@ function App() {
                         <span class="checkbox-label">Actifs seulement</span>
                     </label>
 
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button> 
+                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer</button> 
                 </div>
 
                 {showCreateForm && (

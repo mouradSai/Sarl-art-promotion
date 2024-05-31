@@ -216,7 +216,7 @@ function App() {
                 {showCreateForm && (
                     <>
                     <div className="overlay"></div>
-                    <div className="popup2">
+                    <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
                             <h2>Créer un nouveau client</h2>
@@ -278,7 +278,7 @@ function App() {
                 {selectedClient && (
                     <>
                     <div className="overlay"></div>
-                    <div className="popup2">
+                    <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedClient(null)}>&times;</span>
                             <h2>Client Details</h2>
@@ -291,7 +291,7 @@ function App() {
                             ) : (
                                 <p>Numéro de téléphone invalide</p>
                             )}
-                            <button className='delet-button' onClick={() => setSelectedClient(null)}>Cancel</button>
+                            <button className='delet-button' onClick={() => setSelectedClient(null)}>Annuler</button>
                         </div>
                     </div>
                     </>
@@ -299,7 +299,7 @@ function App() {
                 {editClientId && (
                      <>
                     <div className="overlay"></div>
-                    <div className="popup2">
+                    <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
                             <h2>Modifier le client</h2>

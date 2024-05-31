@@ -260,7 +260,7 @@ function App() {
                 <div className="popup">
                     <div className="popup-content">
                     <span className="close-button" onClick={handleClosePopup}>&times;</span>
-                        <h2>{selectedFormula.name} Details</h2>
+                        <h2>{selectedFormula.name} Détails</h2>
                         <table className='comtab3'>
                             <thead>
                                 <tr className='trf'>
