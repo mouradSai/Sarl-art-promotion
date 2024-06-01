@@ -295,9 +295,7 @@ tr:hover {
   justify-content: center; /* Alignement des boutons de pagination au centre */
   margin-top: 20px;
 }
-
 .pagination button {
-  
   font-size: 18px;
   background-color: #007bff; /* Bleu */
   font-weight: 600;
@@ -314,12 +312,10 @@ tr:hover {
 .pagination button:hover {
   background-color: #0056b3; /* Bleu plus foncé au survol */
 }
-
 .pagination button:disabled {
   background-color: #ddd; /* Gris pour les boutons désactivés */
   cursor: not-allowed; /* Curseur non disponible pour les boutons désactivés */
 }
-
 .pagination span{
   font-family: 'Libre Franklin', sans-serif;
   font-size: 20px;
@@ -329,8 +325,6 @@ tr:hover {
     margin-top: 7px;
 
 }
-
-
 /* Conteneur principal */
 .container {
   max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
@@ -341,15 +335,17 @@ tr:hover {
 .search-cont {
   display: flex;
   align-items: center;
-  border-radius: 20px; /* Bordures arrondies */
+  border-radius: 20px; 
   padding: 8px;
   padding-right: 300px;
 }
 
- .actions .search-icon {
-  margin-right: 8px; /* Marge à droite de l'icône */
+
+.actions .search-icon {
+  margin-right: 8px; 
   size: 40px;
 }
+
 
 .search-cont .search-bar {
   width: 100%;
@@ -381,17 +377,12 @@ tr:hover {
 }
 
 .checkbox-custom {
-
-  /* Hide the default checkbox */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  /* Define custom dimensions */
   width: 20px;
   height: 20px;
-  /* Add a border */
   border: 2px solid #666;
-  /* Add some padding */
   padding: 2px;
   /* Add some margin */
   margin-right: 10px;
@@ -412,11 +403,11 @@ tr:hover {
 
 /* Style the checkmark inside the checkbox */
 .checkbox-custom:checked::before {
-  content: '\2713'; /* Unicode checkmark character */
+  content: '\2713'; 
   display: block;
   width: 100%;
   height: 100%;
-  color: #fff; /* Color of the checkmark */
+  color: #fff; 
   text-align: center;
   line-height: 20px; /* Center the checkmark vertically */
   font-size: 14px; /* Size of the checkmark */
