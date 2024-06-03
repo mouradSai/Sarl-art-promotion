@@ -17,12 +17,7 @@
   margin-bottom: 5px;
 }
 
-.input-small, select, .textarea {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: none; /* Prevent resizing of text areas */
-}
+
 
 /* Button Group with Center Alignment */
 .button-group {
@@ -121,46 +116,7 @@
   color: #666; /* Couleur du texte grise au survol */
 }
 
-.searchable-select {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
 
-.searchable-select-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.searchable-select-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  max-height: 150px;
-  overflow-y: auto;
-  border: 1px solid #ced4da;
-  border-top: none;
-  background: white;
-  z-index: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.styled-select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  box-sizing: border-box;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-align: center;
-  font-size: 1rem;
-}
 
 .styled-date {
   width: 100%;
@@ -190,7 +146,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 90%;
-  max-width: 800px;
+  max-width: 900px;
   max-height: 90%;
   overflow-y: auto;
   position: fixed;
@@ -249,6 +205,7 @@
 
 .tdf {
   padding: 8px;
+  width:auto;
 }
 
 .trf {

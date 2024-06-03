@@ -309,7 +309,7 @@ function App() {
                                         />
                                     </td>
                                     <td className='tdf'>
-                                        <button className='Print-button' onClick={handleAddProductToFormula}>Ajouter Matiére</button>
+                                        <button className='print-button' onClick={handleAddProductToFormula}>Ajouter Matiére</button>
                                     </td>
                                 </tr>
                             </tbody>
