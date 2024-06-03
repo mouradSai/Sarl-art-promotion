@@ -360,8 +360,9 @@ function App() {
                         </div>
                         <div className="popup-buttons">
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
-                            <button className='next-button' onClick={handleShowFinalizePopup}>Suivant</button>
-                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
+                            <button className='print-button ' onClick={handleGeneratePDF}>Télécharger le PDF</button>
+                            <button className='view-button' onClick={handleShowFinalizePopup}>Suivant</button>
+
                         </div>
                     </div>
                     </>
@@ -391,9 +392,9 @@ function App() {
                             <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
                         </div>
                         <div className="popup-buttons">
-                            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
-                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
-                            <button onClick={handleFinalizeOrder}>Finaliser la Commande</button>
+                            <button className='delete-button' onClick={() => setShowFinalizePopup(false)}>Retour</button>
+                            <button className='print-button' onClick={handleGeneratePDF}>Télécharger le PDF</button>
+                            <button className='view-button' onClick={handleFinalizeOrder}>Finaliser la Commande</button>
                         </div>
                     </div>
                     </>
@@ -424,7 +425,7 @@ function App() {
                             ))}
                         </tbody>
                     </table>
-                    <button className='print-button' onClick={handleValidateOrder}>Valider</button>
+                    <button className='view-button' onClick={handleValidateOrder}>Valider</button>
                 </div>
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>
