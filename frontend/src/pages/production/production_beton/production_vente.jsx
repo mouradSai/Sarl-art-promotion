@@ -377,8 +377,9 @@ function App() {
                         </div>
                         <div className="popup-buttons">
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
-                            <button className='next-button' onClick={handleShowFinalizePopup}>Suivant</button>
-                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+                            <button className='view-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+                            <button className='print-button' onClick={handleShowFinalizePopup}>Suivant</button>
+
                         </div>
                     </div>
                     </> 
@@ -437,9 +438,9 @@ function App() {
                             <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
                         </div>
                         <div className="popup-buttons">
-                            <button onClick={() => setShowFinalizePopup(false)}>Retour</button>
-                            <button className='pdf-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
-                            <button className='finalize-button' onClick={handleFinalizeOrder}>Finaliser la commande</button>
+                            <button className='delete-button' onClick={() => setShowFinalizePopup(false)}>Retour</button>
+                            <button className='print-button' onClick={handleGeneratePDF}>Télécharger PDF</button>
+                            <button className='view-button' onClick={handleFinalizeOrder}>Finaliser la commande</button>
 
                         </div>
                     </div>
