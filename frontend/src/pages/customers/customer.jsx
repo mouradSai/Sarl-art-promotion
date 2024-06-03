@@ -226,8 +226,8 @@ function App() {
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Adresse" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} maxLength={10} placeholder="Numéro" />
-                                <button className="create-button" type="submit">Sauvgarder</button>
-                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
+                                <button className="print-button" type="submit">Sauvgarder</button>
+                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
                             </form>
                         </div>
                     </div>
@@ -291,7 +291,7 @@ function App() {
                             ) : (
                                 <p>Numéro de téléphone invalide</p>
                             )}
-                            <button className='delet-button' onClick={() => setSelectedClient(null)}>Annuler</button>
+                            <button className='delete-button' onClick={() => setSelectedClient(null)}>Annuler</button>
                         </div>
                     </div>
                     </>
@@ -309,8 +309,8 @@ function App() {
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
                                 <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Numéro" />
-                                <button className="create-button" type="submit">Sauvgarder</button>
-                                <button className='delet-button' onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
+                                <button className="print-button" type="submit">Sauvgarder</button>
+                                <button className='delete-button' onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>
                     </div>

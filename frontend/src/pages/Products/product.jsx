@@ -223,7 +223,7 @@ function App() {
                         />
                         <span className="checkbox-label">Actifs seulement</span>
                     </label>
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer</button>
+                    <button className="print-button" onClick={() => setShowCreateForm(true)}>Créer</button>
                 </div>
                 {showCreateForm && (
                     <div className="popup">
@@ -252,7 +252,7 @@ function App() {
                                     ))}
                                 </select>
                                 <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
-                                <button className="create-button" type="submit">Sauvegarder</button>
+                                <button className="print-button" type="submit">Sauvegarder</button>
                                 <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
                             </form>
                         </div>
@@ -350,7 +350,7 @@ function App() {
                                 </select>
                                 <input type="text" name="prixUnitaire" value={productData.prixUnitaire} placeholder="Prix Unitaire" />
                                 <input type="text" name="description" value={productData.description} onChange={handleChange} placeholder="Description" />
-                                <button className="create-button" type="submit">Sauvegarder</button>
+                                <button className="print-button" type="submit">Sauvegarder</button>
                                 <button className='delete-button' onClick={() => { setEditProductId(''); resetProductData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>

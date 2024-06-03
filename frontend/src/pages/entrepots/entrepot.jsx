@@ -187,7 +187,7 @@ function App() {
                         <span class="checkbox-label">Actifs seulement</span>
                     </label>
 
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+                    <button className="print-button" onClick={() => setShowCreateForm(true)}>Create</button>
                 </div>
                 {showCreateForm && (
                      <>
@@ -198,8 +198,8 @@ function App() {
                             <h2>Create New Entrepot</h2>
                             <form onSubmit={handleSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                                <button className="print-button" type="submit">Sauvgrader</button>
+                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
                             </form>
                         </div>
                     </div>
@@ -250,7 +250,7 @@ function App() {
                             <h2>Entrepot Details</h2>
                             <p>Name: {selectedEntrepot.name}</p>
                             <p>Active: {selectedEntrepot.IsActive ? 'Yes' : 'No'}</p>
-                            <button className='delet-button' onClick={() => setSelectedEntrepot(null)}>Cancel</button>
+                            <button className='delete-button' onClick={() => setSelectedEntrepot(null)}>Annuler</button>
                         </div>
                     </div>
                     </>
@@ -264,8 +264,8 @@ function App() {
                             <h2>Edit Entrepot</h2>
                             <form onSubmit={handleEditSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => { setEditEntrepotId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
+                                <button className="print-button" type="submit">Sauvgarder</button>
+                                <button className='delete-button' onClick={() => { setEditEntrepotId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>
                     </div>

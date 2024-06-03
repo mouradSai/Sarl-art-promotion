@@ -190,7 +190,7 @@ function App() {
                         <span class="checkbox-label">Actifs seulement</span>
                     </label>
 
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer </button>
+                    <button className="print-button" onClick={() => setShowCreateForm(true)}>Créer </button>
                 </div>
                 {showCreateForm && (
                      <>
@@ -202,8 +202,8 @@ function App() {
                             <form onSubmit={handleSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <button className="create-button" type="submit">Sauvegarder</button>
-                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
+                                <button className="print-button" type="submit">Sauvegarder</button>
+                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
                             </form>
                         </div>
                     </div>
@@ -257,7 +257,7 @@ function App() {
                             <p>Nom: {selectedCategory.name}</p>
                             <p>Description: {selectedCategory.description}</p>
                             <p>Active: {selectedCategory.IsActive ? 'Yes' : 'No'}</p>
-                            <button className='delet-button' onClick={() => setSelectedCategory(null)}>Annuler</button>
+                            <button className='delete-button' onClick={() => setSelectedCategory(null)}>Annuler</button>
                         </div>
                     </div>
                  </>
@@ -272,8 +272,8 @@ function App() {
                             <form onSubmit={handleEditSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <button className="create-button" type="submit">sauvegarder</button>
-                                <button className='delet-button' onClick={() => { setEditCategoryId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
+                                <button className="print-button" type="submit">sauvegarder</button>
+                                <button className='delete-button' onClick={() => { setEditCategoryId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>
                     </div>
