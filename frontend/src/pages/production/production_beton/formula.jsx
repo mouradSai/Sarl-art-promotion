@@ -229,7 +229,7 @@ function App() {
                             />
                         </div>
                     ))}
-                    <button type="button" className='view-button' onClick={handleAddProduct}> + Ajouter Matière </button>
+                    <button type="button" className='edit-button' onClick={handleAddProduct}> + Ajouter Matière </button>
                     <button className='print-button' type="submit">créer Formule</button>
                 </form>
 
@@ -309,7 +309,7 @@ function App() {
                                         />
                                     </td>
                                     <td className='tdf'>
-                                        <button className='print-button' onClick={handleAddProductToFormula}>Ajouter Matiére</button>
+                                        <button className='Print-button' onClick={handleAddProductToFormula}>Ajouter Matiére</button>
                                     </td>
                                 </tr>
                             </tbody>
