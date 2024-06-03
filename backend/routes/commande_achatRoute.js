@@ -3,8 +3,6 @@ const router = express.Router();
 const CommandeAchat = require('../models/commande_achat');
 const Provider = require('../models/provider'); // Import correct du modèle Provider
 const Product = require('../models/product'); // Import correct du modèle Product
-
-
 router.post('/', async (req, res) => {
     try {
         const { code_commande, provider_name, date_commande, observation, produits, versement, modePaiement, code_cheque } = req.body;
@@ -26,7 +24,8 @@ router.post('/', async (req, res) => {
             if (product.prixUnitaire === 0) {
                 updatedPrixUnitaire = prixUnitaire;
             } else {
-                updatedPrixUnitaire = (product.prixUnitaire + prixUnitaire) / 2;
+                // Calcul de la moyenne pondérée selon les quantités et les prix unitaires
+                updatedPrixUnitaire = ((product.prixUnitaire * product.quantity) + (prixUnitaire * quantity)) / updatedQuantity;
             }
 
             await Product.findByIdAndUpdate(product._id, { $set: { quantity: updatedQuantity, prixUnitaire: updatedPrixUnitaire } });
@@ -52,10 +51,11 @@ router.post('/', async (req, res) => {
         const savedCommandeAchat = await newCommandeAchat.save();
         res.status(201).json(savedCommandeAchat);
     } catch (error) {
-        console.error('Erreur lors de la création de la commande d achat:', error);
+        console.error('Erreur lors de la création de la commande dachat:', error);
         res.status(500).json({ message: 'Erreur lors de la création de la commande', error: error.message });
     }
 });
+
 
 // Route pour récupérer toutes les commandes d'achat
 router.get('/', async (req, res) => {
