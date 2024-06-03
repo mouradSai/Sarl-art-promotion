@@ -257,11 +257,11 @@ function App() {
             {selectedFormula && (
                 <>
                 <div className="overlay"></div>                   
-                <div className="popup">
-                    <div className="popup-content">
+                <div className="popupformule">
+                    <div className="formule-content">
                     <span className="close-button" onClick={handleClosePopup}>&times;</span>
                         <h2>{selectedFormula.name} Détails</h2>
-                        <table className='comtab3'>
+                        <table className='table-formula '>
                             <thead>
                                 <tr className='trf'>
                                     <th className='titlesHis thf'>Nom</th>
