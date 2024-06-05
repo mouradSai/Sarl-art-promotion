@@ -348,7 +348,7 @@ function App() {
                                     <tr key={index}>
                                         <td>{item.product_name}</td>
                                         <td>{item.quantity}</td>
-                                        <td>{item.prixUnitaire}.00 DA</td>
+                                        <td>{item.prixUnitaire.toFixed(2)} DA</td>
                                         <td>{item.totalLigne} DA</td>
                                     </tr>
                                 ))}
@@ -415,8 +415,8 @@ function App() {
                                 <tr key={index}>
                                     <td>{item.product_name}</td>
                                     <td>{item.quantity}</td>
-                                    <td>{item.prixUnitaire},00 DA</td>
-                                    <td>{item.totalLigne} DA</td>
+                                    <td>{item.prixUnitaire.toFixed(2)}DA</td>
+                                    <td>{item.totalLigne}DA</td>
                                     <td>
                                         <button className='delete-button' onClick={() => handleDelete(index)}>Supprimer</button>
                                     </td>

@@ -313,6 +313,7 @@ function App() {
                             <p>Catégorie: {selectedProduct.namecategory}</p>
                             <p>Entrepôt: {selectedProduct.nameentrepot}</p>
                             <p>Quantité: {selectedProduct.quantity}</p>
+                            <p>Prix unitaire : {selectedProduct.prixUnitaire.toFixed(2)}</p>
                             <p>Unité: {selectedProduct.unit}</p>
                             <p>Description: {selectedProduct.description}</p>
                             <button className='delete-button' onClick={() => setSelectedProduct(null)}>Annuler</button>
