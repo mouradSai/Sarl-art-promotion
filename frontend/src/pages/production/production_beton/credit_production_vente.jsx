@@ -130,7 +130,7 @@ function App() {
                                 <td>{credit.resteAPayer.toFixed(2)} DA</td>
                                 <td>{credit.vente.modePaiement}</td>
                                 <td>
-                                    <button className='add-payment-button' onClick={() => setSelectedCredit(credit)}>Ajouter Paiement</button>
+                                    <button className='aprint-button' onClick={() => setSelectedCredit(credit)}>Ajouter Paiement</button>
                                 </td>
                             </tr>
                         ))}

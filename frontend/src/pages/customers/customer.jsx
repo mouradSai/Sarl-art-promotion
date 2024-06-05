@@ -211,7 +211,7 @@ function App() {
                         <span class="checkbox-label">Actifs seulement</span>
                     </label>
 
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Créer</button>
+                    <button className="print-button" onClick={() => setShowCreateForm(true)}>Créer</button>
                 </div>
                 {showCreateForm && (
                     <>
