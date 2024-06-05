@@ -21,17 +21,21 @@ router.post('/', async (req, res) => {
             const updatedQuantity = product.quantity + quantity;
             let updatedPrixUnitaire;
 
+            // Arrondir prixUnitaire à deux décimales
+            const roundedPrixUnitaire = parseFloat(prixUnitaire.toFixed(2));
+
             if (product.prixUnitaire === 0) {
-                updatedPrixUnitaire = prixUnitaire;
+                updatedPrixUnitaire = roundedPrixUnitaire;
             } else {
                 // Calcul de la moyenne pondérée selon les quantités et les prix unitaires
-                updatedPrixUnitaire = ((product.prixUnitaire * product.quantity) + (prixUnitaire * quantity)) / updatedQuantity;
+                updatedPrixUnitaire = ((product.prixUnitaire * product.quantity) + (roundedPrixUnitaire * quantity)) / updatedQuantity;
+                updatedPrixUnitaire = parseFloat(updatedPrixUnitaire.toFixed(2)); // Arrondir le résultat à deux décimales
             }
 
             await Product.findByIdAndUpdate(product._id, { $set: { quantity: updatedQuantity, prixUnitaire: updatedPrixUnitaire } });
 
-            const totalLigne = quantity * prixUnitaire;
-            return { product: product._id, quantity, prixUnitaire, totalLigne };
+            const totalLigne = quantity * roundedPrixUnitaire;
+            return { product: product._id, quantity, prixUnitaire: roundedPrixUnitaire, totalLigne: parseFloat(totalLigne.toFixed(2)) };
         }));
 
         const totalCommande = productDetails.reduce((acc, item) => acc + item.totalLigne, 0);
@@ -42,7 +46,7 @@ router.post('/', async (req, res) => {
             date_commande: date_commande || new Date(),
             observation,
             produits: productDetails,
-            totalCommande,
+            totalCommande: parseFloat(totalCommande.toFixed(2)),
             versement,
             modePaiement,
             code_cheque
@@ -55,7 +59,6 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Erreur lors de la création de la commande', error: error.message });
     }
 });
-
 
 // Route pour récupérer toutes les commandes d'achat
 router.get('/', async (req, res) => {
