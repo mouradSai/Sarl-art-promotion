@@ -49,7 +49,7 @@ const Home = () => {
                     <h4>Gestion de production</h4>
                   </div>
                 </a>
-                <a href="/camions" class="destination__card">
+                <a href="/dashboard_livraison" class="destination__card">
                 <img src="${livraison}" alt="destination" />
                 <div class="card__content">
                   <h4>Livraison </h4>

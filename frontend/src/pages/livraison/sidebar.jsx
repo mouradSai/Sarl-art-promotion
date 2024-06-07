@@ -39,7 +39,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         
     
 
-      <Link to="/livraison" className="sidebar-link"> 
+      <Link to="/dashboard_livraison" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <BsFillGrid1X2Fill className='icon'/> Tableau de Bord
         </li>

@@ -77,7 +77,18 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
+router.get('/stats', async (req, res) => {
+    try {
+        const total = await Livraison.countDocuments();
+        const enCours = await Livraison.countDocuments({ etat_livraison: 'En cours' });
+        const complete = await Livraison.countDocuments({ etat_livraison: 'Complétée' });
+        const enRetard = await Livraison.countDocuments({ etat_livraison: 'En retard' });
 
+        res.json({ total, enCours, complete, enRetard });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 // Route pour obtenir une livraison spécifique par ID
 router.get('/:id', async (req, res) => {
     try {
@@ -118,6 +129,21 @@ router.delete('/:id', async (req, res) => {
             return res.status(404).send({ message: 'Livraison non trouvée' });
         }
         return res.status(200).send({ message: 'Livraison supprimée avec succès' });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send({ message: error.message });
+    }
+});
+// Route pour mettre à jour l'état de la livraison
+router.put('/:id/etat', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { etat_livraison } = req.body;
+        const result = await Livraison.findByIdAndUpdate(id, { etat_livraison }, { new: true });
+        if (!result) {
+            return res.status(404).send({ message: 'Livraison non trouvée' });
+        }
+        return res.status(200).send({ message: 'État de la livraison mis à jour avec succès', data: result });
     } catch (error) {
         console.error(error.message);
         res.status(500).send({ message: error.message });

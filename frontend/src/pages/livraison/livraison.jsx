@@ -228,7 +228,12 @@ function App() {
                                 onChange={(e) => setClientName(e.target.value)}
                                 placeholder="Sélectionnez un client"
                             />
-                            <input type="text" value={deliveryStatus} onChange={(e) => setDeliveryStatus(e.target.value)} placeholder="État de Livraison" />
+                            <select value={deliveryStatus} onChange={(e) => setDeliveryStatus(e.target.value)}>
+                                <option value="">Sélectionnez l'état de livraison</option>
+                                <option value="En cours">En cours</option>
+                                <option value="Retard">Retard</option>
+                                <option value="Complétée">Complétée</option>
+                            </select>
                         </div>
                         <div className='bloc2'>
                             <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />

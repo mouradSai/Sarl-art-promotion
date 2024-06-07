@@ -56,6 +56,7 @@ import Camion from "./pages/livraison/camion";
 import Chauffeur from "./pages/livraison/chauffeur";
 import Livraison from "./pages/livraison/livraison";
 import Historique_livraison from "./pages/livraison/historique_livraison";
+import Dashboard_livraison from "./pages/livraison/dashboard_livraison/dashboard";
 //protection de routes 
 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
@@ -407,7 +408,7 @@ function App() {
 
 {/**-livraison */}
 <Route path="/camions" element={
-                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ?  (
+                    localStorage.getItem("token")      ?  (
                         <ProtectedRoute>
                             <Camion/>
                         </ProtectedRoute>
@@ -417,7 +418,7 @@ function App() {
                 }
             />  
             <Route path="/chauffeurs" element={
-                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ?  (
+                    localStorage.getItem("token")      ?  (
                         <ProtectedRoute>
                             <Chauffeur/>
                         </ProtectedRoute>
@@ -427,7 +428,7 @@ function App() {
                 }
             />  
               <Route path="/Livraison" element={
-                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ?  (
+                    localStorage.getItem("token")    ?  (
                         <ProtectedRoute>
                             <Livraison/>
                         </ProtectedRoute>
@@ -446,6 +447,16 @@ function App() {
                     )
                 }
             />  
+              <Route path="/dashboard_livraison" element={
+                    localStorage.getItem("token")    ?  (
+                        <ProtectedRoute>
+                            <Dashboard_livraison/>
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />
 
 
 		<Route path="/signup" element={<Signup />} />
