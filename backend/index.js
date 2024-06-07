@@ -30,6 +30,11 @@ const production_Route = require("./routes/productionRoute");
 const commande_productionventeRoute = require("./routes/commande_productionventeRoute");
 const credit_production_venteRoute = require("./routes/credit_production_venteRoute");
 
+
+//livraison
+const camionRoute = require ("./routes/camionRoute");
+const chauffeurRoute = require ("./routes/chauffeurRoute");
+const livraisonRoute = require ("./routes/livraisonRoute");
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -76,6 +81,11 @@ app.use('/Formules', FormulaRoute);
 app.use('/production_beton', production_Route);
 app.use('/commande_production_vente', commande_productionventeRoute);
 
+
+//livraison
+app.use('/camions',camionRoute);
+app.use('/chauffeur',chauffeurRoute);
+app.use('/livraison',livraisonRoute);
 // Start cron jobs
 cronJobs();
 

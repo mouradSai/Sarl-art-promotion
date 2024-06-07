@@ -50,6 +50,12 @@ import Historique_credit_vente from "./pages/production/production_beton/Histori
 import Dashboard_production from "./pages/production/production_beton/Dashboard_production/Dashboard_production";
 import ProductionPlanning from "./pages/production/production_beton/schedule/planning";
 
+
+//livraison
+import Camion from "./pages/livraison/camion";
+import Chauffeur from "./pages/livraison/chauffeur";
+import Livraison from "./pages/livraison/livraison";
+import Historique_livraison from "./pages/livraison/historique_livraison";
 //protection de routes 
 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
@@ -392,6 +398,48 @@ function App() {
                     localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ?  (
                         <ProtectedRoute>
                             <Historique_credit_vente />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+
+{/**-livraison */}
+<Route path="/camions" element={
+                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ?  (
+                        <ProtectedRoute>
+                            <Camion/>
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+            <Route path="/chauffeurs" element={
+                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ?  (
+                        <ProtectedRoute>
+                            <Chauffeur/>
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+              <Route path="/Livraison" element={
+                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"  ?  (
+                        <ProtectedRoute>
+                            <Livraison/>
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+              <Route path="/historique_livraison" element={
+                    localStorage.getItem("token")    ?  (
+                        <ProtectedRoute>
+                            <Historique_livraison/>
                         </ProtectedRoute>
                     ) : (
                         <Navigate replace to="/login" />
