@@ -59,7 +59,7 @@ const DeliveryDashboard = () => {
                 return 'status-en-cours';
             case 'Complétée':
                 return 'status-completee';
-            case 'En retard':
+            case 'Retard':
                 return 'status-retard';
             default:
                 return '';
