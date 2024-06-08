@@ -13,6 +13,8 @@
     text-align: center;
     margin-bottom: 2rem;
     width: 100%;
+    color :rgb(194, 21, 21);
+    font-weight:800;
 }
 
 .delivery-table-container {
@@ -41,7 +43,7 @@
 }
 
 .delivery-table th {
-    background-color: #4CAF50;
+    background-color: green;
     color: white;
 }
 
@@ -50,7 +52,7 @@
 }
 
 .delivery-table tr.status-completee {
-    background-color: green;
+    background-color: #4CAF50;
     color: white;
 }
 

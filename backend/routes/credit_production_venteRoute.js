@@ -118,13 +118,14 @@ router.get('/stats', async (req, res) => {
         });
 
         res.status(200).json({
-            totalCommandeSum,
-            totalVersementSum,
-            totalResteAPayerSum
+            totalCommandeSum: totalCommandeSum.toFixed(2),
+            totalVersementSum: totalVersementSum.toFixed(2),
+            totalResteAPayerSum: totalResteAPayerSum.toFixed(2)
         });
     } catch (error) {
         console.error('Error retrieving production sale order stats:', error);
         res.status(500).json({ message: 'Error retrieving production sale order stats', error: error.message });
     }
 });
+
 module.exports = router;

@@ -9,7 +9,7 @@ const StatsCard = ({ title, value, icon }) => {
             </div>
             <div className="stats-card-content">
                 <h4>{title}</h4>
-                <p>{value} ,00 DA</p>
+                <p>{value} DA</p>
             </div>
         </div>
     );

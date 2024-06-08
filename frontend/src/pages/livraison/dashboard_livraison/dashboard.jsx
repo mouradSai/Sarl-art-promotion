@@ -86,7 +86,6 @@ const DeliveryDashboard = () => {
             <div className="delivery-dashboard">
                 <h1 className="delivery-header">Tableau de Bord des Livraisons</h1>
                 <div className="delivery-table-container">
-                    <h2>Liste des Livraisons</h2>
                     <table className="delivery-table">
                         <thead>
                             <tr>

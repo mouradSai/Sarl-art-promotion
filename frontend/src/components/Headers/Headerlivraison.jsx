@@ -25,7 +25,7 @@ function Header({ OpenSidebar }) {
   };
   const handleCommandeClick = () => {
     // Rediriger vers la page Catégorie
-    window.location.href = '/';
+    window.location.href = '/historique_livraison';
   };
 
   const toggleDropdown = () => {
