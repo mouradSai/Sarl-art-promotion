@@ -410,7 +410,7 @@ function App() {
                             ))}
                         </tbody>
                     </table>
-                    <button className='print-button' onClick={handleValidateOrder}>Valider</button>
+                    <button className='view-button' onClick={handleValidateOrder}>Valider</button>
                 </div>
                
                 {showFinalizePopup && (
