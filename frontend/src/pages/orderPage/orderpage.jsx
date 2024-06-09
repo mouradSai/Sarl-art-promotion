@@ -48,7 +48,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) =
                 <select
                     value={value}
                     onChange={(e) => {
-                        onChange(e);
+                        onChange(e.target.value);
                         setIsOpen(false);
                         setSearch('');
                     }}
@@ -246,24 +246,39 @@ function App() {
                 <div className="form-container">
                     <div className='bloc'>
                         <div className='bloc1'>
-                            <SearchableSelect
-                                options={providers}
-                                value={providerName}
-                                onChange={(e) => setProviderName(e.target.value)}
-                                placeholder="Sélectionnez un fournisseur"
-                                disabled={isProviderDisabled}
-                            />
-                            <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
-                            <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
+                            <label>
+                                Fournisseur:
+                                <SearchableSelect
+                                    options={providers}
+                                    value={providerName}
+                                    onChange={setProviderName}
+                                    placeholder="Sélectionnez un fournisseur"
+                                    disabled={isProviderDisabled}
+                                />
+                            </label>
+                            <label>
+                                Code Commande:
+                                <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
+                            </label>
+                            <label>
+                                Observation:
+                                <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
+                            </label>
                         </div>
                         <div className='bloc2'>
-                            <SearchableSelect
-                                options={products}
-                                value={productName}
-                                onChange={(e) => setProductName(e.target.value)}
-                                placeholder="Sélectionnez un produit"
-                            />
-                            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                            <label>
+                                Produit:
+                                <SearchableSelect
+                                    options={products}
+                                    value={productName}
+                                    onChange={setProductName}
+                                    placeholder="Sélectionnez un produit"
+                                />
+                            </label>
+                            <label>
+                                Quantité:
+                                <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                            </label>
                         </div>
                     </div>
                     <div className='bloc3'>
