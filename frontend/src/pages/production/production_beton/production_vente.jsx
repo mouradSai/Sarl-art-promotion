@@ -317,25 +317,43 @@ function App() {
                 <div className="form-container">
                     <div className='bloc'>
                         <div className='bloc1'>
-                            <SearchableSelect
-                                options={clients}
-                                value={clientName}
-                                onChange={setClientName}
-                                placeholder="Sélectionnez un client"
-                                disabled={isClientDisabled}
-                            />
-                            <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
-                            <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
+                            <label>
+                                Client:
+                                <SearchableSelect
+                                    options={clients}
+                                    value={clientName}
+                                    onChange={setClientName}
+                                    placeholder="Sélectionnez un client"
+                                    disabled={isClientDisabled}
+                                />
+                            </label>
+                            <label>
+                                Code Commande:
+                                <input type="text" value={codeCommande} onChange={(e) => setCodeCommande(e.target.value)} placeholder="Code Commande" />
+                            </label>
+                            <label>
+                                Observation:
+                                <input type="text" value={observation_com} onChange={(e) => setObservationCom(e.target.value)} placeholder="Observation" />
+                            </label>
                         </div>
                         <div className='bloc2'>
-                            <SearchableSelect
-                                options={products}
-                                value={productCode}
-                                onChange={handleProductChange}
-                                placeholder="Sélectionnez un produit"
-                            />
-                            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Volume" />
-                            <input type="number" value={prixUnitaire} onChange={(e) => setPrixUnitaire(e.target.value)} placeholder="Prix Unitaire" />
+                            <label>
+                                Produit:
+                                <SearchableSelect
+                                    options={products}
+                                    value={productCode}
+                                    onChange={handleProductChange}
+                                    placeholder="Sélectionnez un produit"
+                                />
+                            </label>
+                            <label>
+                                Volume:
+                                <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Volume" />
+                            </label>
+                            <label>
+                                Prix Unitaire:
+                                <input type="number" value={prixUnitaire} onChange={(e) => setPrixUnitaire(e.target.value)} placeholder="Prix Unitaire" />
+                            </label>
                         </div>
                     </div>
                     <div className='bloc3'>
@@ -419,23 +437,26 @@ function App() {
                     <div className="popup">
                         <h2>Détails de Paiement</h2>
                         <div>
-                            <label>Mode de Paiement:</label>
+                            <label>Mode de Paiement:
                             <select value={modePaiement} onChange={handleModePaiementChange}>
                                 <option value="">Choisir un mode de paiement</option>
                                 <option value="chéque">Chèque</option>
                                 <option value="espèce">Espèce</option>
                                 <option value="crédit">Crédit</option>
                             </select>
+                            </label>
                         </div>
                         {modePaiement === 'chéque' && (
                             <div>
-                                <label>Code Chèque:</label>
+                                <label>Code Chèque:
                                 <input type="text" value={codeCheque} onChange={(e) => setCodeCheque(e.target.value)} placeholder="Code Chèque" />
+                                </label>
                             </div>
                         )}
                         <div>
-                            <label>Versement (facultatif):</label>
+                            <label>Versement (facultatif):
                             <input type="number" value={versement} onChange={(e) => setVersement(e.target.value)} placeholder="Entrer un montant" />
+                            </label>
                         </div>
                         <div className="popup-buttons">
                             <button className='delete-button' onClick={() => setShowFinalizePopup(false)}>Retour</button>
