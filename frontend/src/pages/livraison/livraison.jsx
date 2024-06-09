@@ -265,7 +265,7 @@ function App() {
                         <div className='bloc2'>
                                 <div className='datebon'>
                                     <label>Date : 
-                                <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="Date de Livraison" />  </label>
+                                <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="Date de Livraison" className="styled-date" />  </label>
                                 </div>
 
                             <label>Volume: <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Volume" /></label>
