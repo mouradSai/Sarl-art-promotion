@@ -130,10 +130,8 @@ function App() {
                             <p><strong>Détails de la Vente:</strong></p>
                             {selectedDelivery.vente_id && selectedDelivery.vente_id.produits.map((produit, index) => (
                                 <div key={index}>
-                                    <p><strong>Produit:</strong> {produit.productfinished}</p>
                                     <p><strong>Quantité:</strong> {produit.quantity}</p>
-                                    <p><strong>Prix Unitaire:</strong> {produit.prixUnitaire}</p>
-                                    <p><strong>Total Ligne:</strong> {produit.totalLigne}</p>
+                                   
                                 </div>
                             ))}
                         </div>
