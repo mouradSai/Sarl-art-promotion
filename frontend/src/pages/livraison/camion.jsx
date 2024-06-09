@@ -8,9 +8,11 @@ import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import 
 function App() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [camions, setCamions] = useState([]);
+    const [chauffeurs, setChauffeurs] = useState([]); // Initialiser comme un tableau vide
     const [formData, setFormData] = useState({
         numero_plaque: '',
-        capacite: ''
+        capacite: '',
+        chauffeur_nom: '' // Ajouter le champ chauffeur_nom
     });
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [editCamionId, setEditCamionId] = useState('');
@@ -24,6 +26,7 @@ function App() {
 
     useEffect(() => {
         fetchCamions();
+        fetchChauffeurs(); // Ajouter l'appel à fetchChauffeurs
     }, []);
 
     const fetchCamions = async () => {
@@ -33,6 +36,22 @@ function App() {
         } catch (error) {
             console.error('Error:', error);
             showAlert('Une erreur s\'est produite lors de la récupération des camions. Veuillez réessayer plus tard');
+        }
+    };
+
+    const fetchChauffeurs = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/chauffeur'); // URL pour récupérer les chauffeurs
+            console.log('Chauffeurs response:', response.data); // Débogage
+            if (Array.isArray(response.data.data)) {
+                setChauffeurs(response.data.data);
+            } else {
+                console.error('Les données des chauffeurs ne sont pas un tableau:', response.data);
+                setChauffeurs([]);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert('Une erreur s\'est produite lors de la récupération des chauffeurs. Veuillez réessayer plus tard');
         }
     };
 
@@ -53,7 +72,7 @@ function App() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!formData.numero_plaque || !formData.capacite) {
+        if (!formData.numero_plaque || !formData.capacite || !formData.chauffeur_nom) {
             showAlert('Veuillez remplir tous les champs requis');
             return;
         }
@@ -94,7 +113,11 @@ function App() {
 
     const handleEdit = (camion) => {
         setEditCamionId(camion._id);
-        setFormData({ numero_plaque: camion.numero_plaque, capacite: camion.capacite });
+        setFormData({ 
+            numero_plaque: camion.numero_plaque, 
+            capacite: camion.capacite,
+            chauffeur_nom: camion.chauffeur ? camion.chauffeur.nom : '' // Ajouter le nom du chauffeur au formulaire de modification
+        });
         setShowCreateForm(true);
     };
 
@@ -124,7 +147,8 @@ function App() {
     const resetFormData = () => {
         setFormData({
             numero_plaque: '',
-            capacite: ''
+            capacite: '',
+            chauffeur_nom: '' // Réinitialiser le nom du chauffeur
         });
     };
 
@@ -147,7 +171,8 @@ function App() {
         let filteredCamions = camions.filter(camion => {
             return (
                 camion.numero_plaque.toLowerCase().includes(searchText.toLowerCase()) ||
-                camion.capacite.toString().includes(searchText.toLowerCase())
+                camion.capacite.toString().includes(searchText.toLowerCase()) ||
+                (camion.chauffeur && camion.chauffeur.nom.toLowerCase().includes(searchText.toLowerCase()))
             );
         });
 
@@ -199,16 +224,23 @@ function App() {
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
-                            <h2>Créer un nouveau camion</h2>
-                            <form onSubmit={handleSubmit}>
+                            <h2>{editCamionId ? 'Modifier le camion' : 'Créer un nouveau camion'}</h2>
+                            <form onSubmit={editCamionId ? handleEditSubmit : handleSubmit}>
                                 <input type="text" name="numero_plaque" value={formData.numero_plaque} onChange={handleChange} placeholder="Numéro de plaque" />
                                 <input type="text" name="capacite" value={formData.capacite} onChange={handleChange} placeholder="Capacité" />
+                                <select name="chauffeur_nom" value={formData.chauffeur_nom} onChange={handleChange}>
+                                    <option value="">Sélectionner un chauffeur</option>
+                                    {chauffeurs.map((chauffeur) => (
+                                        <option key={chauffeur._id} value={chauffeur.nom}>{chauffeur.nom}</option>
+                                    ))}
+                                </select>
                                 <button className="print-button" type="submit">Sauvegarder</button>
                                 <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
                             </form>
                         </div>
                     </div>
                 )}
+
                 {filterCamions(camions, searchText).length > 0 && (
                     <>
                         <table className="tabrespo">
@@ -216,6 +248,7 @@ function App() {
                                 <tr>
                                     <th>Numéro de plaque</th>
                                     <th>Capacité</th>
+                                    <th>Chauffeur</th> {/* Ajouter une colonne pour le chauffeur */}
                                     <th>Active</th>
                                     <th>Action</th>
                                 </tr>
@@ -225,6 +258,7 @@ function App() {
                                     <tr key={camion._id}>
                                         <td>{camion.numero_plaque}</td>
                                         <td>{camion.capacite}</td>
+                                        <td>{camion.chauffeur ? camion.chauffeur.nom : 'N/A'}</td> {/* Afficher le nom du chauffeur */}
                                         <td>{camion.isActive ? 'Yes' : 'No'}</td>
                                         <td>
                                             <button className='view-button' onClick={() => handleView(camion)}>Voir</button>
@@ -252,21 +286,8 @@ function App() {
                             <h2>Détails du camion</h2>
                             <p>Numéro de plaque : {selectedCamion.numero_plaque}</p>
                             <p>Capacité : {selectedCamion.capacite}</p>
+                            <p>Chauffeur : {selectedCamion.chauffeur ? selectedCamion.chauffeur.nom : 'N/A'}</p> {/* Afficher le nom du chauffeur */}
                             <button className='delete-button' onClick={() => setSelectedCamion(null)}>Annuler</button>
-                        </div>
-                    </div>
-                )}
-                {editCamionId && (
-                    <div className="popup">
-                        <div className="popup-content">
-                            <span className="close-button" onClick={() => { setEditCamionId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
-                            <h2>Modifier le camion</h2>
-                            <form onSubmit={handleEditSubmit}>
-                                <input type="text" name="numero_plaque" value={formData.numero_plaque} onChange={handleChange} placeholder="Numéro de plaque" />
-                                <input type="text" name="capacite" value={formData.capacite} onChange={handleChange} placeholder="Capacité" />
-                                <button className="print-button" type="submit">Sauvegarder</button>
-                                <button className='delete-button' onClick={() => { setEditCamionId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
-                            </form>
                         </div>
                     </div>
                 )}

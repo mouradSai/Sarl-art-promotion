@@ -4,7 +4,7 @@ import Sidebar from './sidebar';
 import Header from '../../components/Headers/Headerlivraison';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
-const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) => {
+const SearchableSelect = ({ options, value, onChange, placeholder, disabled, onSelect }) => {
     const [search, setSearch] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const selectRef = useRef(null);
@@ -26,6 +26,16 @@ const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) =
         }
     }, []);
 
+    const handleSelectChange = (e) => {
+        onChange(e);
+        setIsOpen(false);
+        setSearch('');
+        const selectedOption = options.find(option => option.name === e.target.value || option.numero_plaque === e.target.value || option.nom === e.target.value);
+        if (onSelect && selectedOption) {
+            onSelect(selectedOption);
+        }
+    };
+
     return (
         <div className="searchable-select" ref={selectRef}>
             <input
@@ -40,11 +50,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, disabled }) =
             {isOpen && (
                 <select
                     value={value}
-                    onChange={(e) => {
-                        onChange(e);
-                        setIsOpen(false);
-                        setSearch('');
-                    }}
+                    onChange={handleSelectChange}
                     size={Math.min(5, filteredOptions.length)}
                     onBlur={handleBlur}
                 >
@@ -206,6 +212,11 @@ function App() {
         setDeliveries(newDeliveries);
     };
 
+    const handleTruckSelect = (selectedTruck) => {
+        setTruckCode(selectedTruck.numero_plaque);
+        setDriverName(selectedTruck.chauffeur ? selectedTruck.chauffeur.nom : '');
+    };
+
     return (
         <div className="grid-container">
             <Header OpenSidebar={() => setOpenSidebarToggle(!openSidebarToggle)} />
@@ -214,13 +225,11 @@ function App() {
                 <h1 className="title-all">Gestion des Livraisons</h1>
                 <div className="form-container">
                     <div className='bloc'>
-                        
                         <div className='bloc1'>
-                        <input type="text" value={deliveryCode} placeholder="Code Livraison" disabled /> {/* Ajouter le champ Code Livraison */}
-
+                            <input type="text" value={deliveryCode} placeholder="Code Livraison" disabled /> {/* Ajouter le champ Code Livraison */}
                             <div className='datebon'>
-                                    <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="Date de Livraison" />
-                                </div>
+                                <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="Date de Livraison" />
+                            </div>
                             <input type="text" value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} placeholder="Adresse de Livraison" />
                             <SearchableSelect
                                 options={clients}
@@ -241,6 +250,7 @@ function App() {
                                 options={trucks}
                                 value={truckCode}
                                 onChange={(e) => setTruckCode(e.target.value)}
+                                onSelect={handleTruckSelect} // Ajouter cette ligne pour gérer la sélection de camion
                                 placeholder="Sélectionnez un camion"
                             />
                             <SearchableSelect
@@ -261,11 +271,10 @@ function App() {
                     <div className="popup">
                         <h2>Informations de Livraison</h2>
                         <h3>Livraisons ajoutées :</h3>
-
                         <table>
                             <thead className="table-header">
                                 <tr>
-                                <th>Code Livraison</th> {/* Ajouter l'entête Code Livraison */}
+                                    <th>Code Livraison</th> {/* Ajouter l'entête Code Livraison */}
                                     <th>Date</th>
                                     <th>Adresse</th>
                                     <th>Client</th>
@@ -289,12 +298,10 @@ function App() {
                                     </tr>
                                 ))}
                             </tbody>
-                          </table>
-                        
+                        </table>
                         <div className="popup-buttons">
                             <button className='delete-button' onClick={() => setShowPopup(false)}>Fermer</button>
                             <button className='view-button' onClick={handleShowFinalizePopup}>Suivant</button>
-
                         </div>
                     </div>
                     </>
@@ -316,8 +323,7 @@ function App() {
                     <table className='comtab'>
                         <thead>
                             <tr>
-                            <th>Code Livraison</th> {/* Ajouter l'entête Code Livraison */}
-
+                                <th>Code Livraison</th> {/* Ajouter l'entête Code Livraison */}
                                 <th>Date</th>
                                 <th>Adresse</th>
                                 <th>Client</th>
@@ -331,7 +337,7 @@ function App() {
                         <tbody>
                             {deliveries.map((item, index) => (
                                 <tr key={index}> 
-                                     <td>{item.codeLivraison}</td> {/* Afficher le Code Livraison */}
+                                    <td>{item.codeLivraison}</td> {/* Afficher le Code Livraison */}
                                     <td>{item.date_livraison}</td>
                                     <td>{item.adresse_livraison}</td>
                                     <td>{item.client_name}</td>
