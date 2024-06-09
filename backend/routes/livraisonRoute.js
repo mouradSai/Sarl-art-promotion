@@ -3,17 +3,18 @@ const Client = require("../models/client");
 const Camion = require("../models/camion");
 const Chauffeur = require("../models/chauffeur");
 const Livraison = require("../models/livraison");
+const CommandeProductionVente = require("../models/commande_production_vente"); // Importer le modèle CommandeProductionVente
 
 const router = express.Router();
 
 // Route pour créer une nouvelle livraison
 router.post('/', async (req, res) => {
     try {
-        const { date_livraison, adresse_livraison, client_name, etat_livraison, quantite, camion_code, chauffeur_name } = req.body;
+        const { date_livraison, adresse_livraison, client_name, etat_livraison, quantite, camion_code, chauffeur_name, vente_code } = req.body;
 
-        if (!date_livraison || !adresse_livraison || !client_name || !etat_livraison || !quantite || !camion_code || !chauffeur_name) {
+        if (!date_livraison || !adresse_livraison || !client_name || !etat_livraison || !quantite || !camion_code || !chauffeur_name || !vente_code) {
             return res.status(400).send({
-                message: 'Veuillez fournir tous les champs requis : date_livraison, adresse_livraison, client_name, etat_livraison, quantite, camion_code, chauffeur_name',
+                message: 'Veuillez fournir tous les champs requis : date_livraison, adresse_livraison, client_name, etat_livraison, quantite, camion_code, chauffeur_name, vente_code',
             });
         }
 
@@ -36,6 +37,12 @@ router.post('/', async (req, res) => {
             return res.status(400).send({ message: 'Chauffeur non trouvé' });
         }
 
+        const vente = await CommandeProductionVente.findOne({ code_commande: vente_code });
+        if (!vente) {
+            console.error('Vente non trouvée:', vente_code);
+            return res.status(400).send({ message: 'Vente non trouvée' });
+        }
+
         // Génération du code livraison
         const currentYear = new Date().getFullYear();
         const livraisonCount = await Livraison.countDocuments();
@@ -49,7 +56,8 @@ router.post('/', async (req, res) => {
             quantite,
             camion_id: camion._id,
             chauffeur_id: chauffeur._id,
-            codeLivraison
+            codeLivraison,
+            vente_id: vente._id  // Associer la vente à la livraison
         });
 
         const livraison = await newLivraison.save();
@@ -64,7 +72,12 @@ router.post('/', async (req, res) => {
 // Route pour obtenir toutes les livraisons
 router.get('/', async (req, res) => {
     try {
-        const livraisons = await Livraison.find().populate('client_id').populate('camion_id').populate('chauffeur_id');
+        const livraisons = await Livraison.find()
+            .populate('client_id')
+            .populate('camion_id')
+            .populate('chauffeur_id')
+            .populate('vente_id'); // Peupler avec les détails de la vente
+
         const count = await Livraison.countDocuments();
         return res.status(200).json({
             count,

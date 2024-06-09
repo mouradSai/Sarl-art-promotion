@@ -90,6 +90,8 @@ const DeliveryDashboard = () => {
                         <thead>
                             <tr>
                                 <th>Code Livraison</th>
+                                <th>Code vente</th>
+
                                 <th>Date Livraison</th>
                                 <th>Adresse Livraison</th>
                                 <th>Client</th>
@@ -104,6 +106,7 @@ const DeliveryDashboard = () => {
                             {deliveries.map((delivery) => (
                                 <tr key={delivery._id} className={getRowClass(delivery.etat_livraison)}>
                                     <td>{delivery.codeLivraison}</td>
+                                    <td>{delivery.vente_id ? delivery.vente_id.code_commande : 'N/A'}</td> {/* Afficher le Code Vente */}
                                     <td>{new Date(delivery.date_livraison).toISOString().slice(0, 10)}</td>
                                     <td>{delivery.adresse_livraison}</td>
                                     <td>{delivery.client_id.name}</td>

@@ -8,7 +8,8 @@ const livraisonSchema = new mongoose.Schema({
   quantite: { type: Number, required: true },
   camion_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Camion', required: true },
   chauffeur_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Chauffeur', required: true },
-  codeLivraison: { type: String, required: true }
+  codeLivraison: { type: String, required: true },
+  vente_id: { type: mongoose.Schema.Types.ObjectId, ref: 'CommandeProductionVente', required: false }  // Ajout de la clé étrangère vers la vente
 });
 
 const Livraison = mongoose.model('Livraison', livraisonSchema);

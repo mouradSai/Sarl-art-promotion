@@ -4,14 +4,15 @@ import Sidebar from './sidebar';
 import Header from '../../components/Headers/Headerlivraison';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
 
-const SearchableSelect = ({ options, value, onChange, placeholder, disabled, onSelect }) => {
+const SearchableSelect = ({ options = [], value, onChange, placeholder, disabled, onSelect }) => {
     const [search, setSearch] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const selectRef = useRef(null);
 
     const filteredOptions = useMemo(() => {
+        if (!Array.isArray(options)) return [];
         return options.filter(option => {
-            const optionValue = option.name || option.numero_plaque || option.nom;
+            const optionValue = option.name || option.numero_plaque || option.nom || option.code_commande;
             return optionValue && optionValue.toLowerCase().includes(search.toLowerCase());
         });
     }, [search, options]);
@@ -30,7 +31,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, disabled, onS
         onChange(e);
         setIsOpen(false);
         setSearch('');
-        const selectedOption = options.find(option => option.name === e.target.value || option.numero_plaque === e.target.value || option.nom === e.target.value);
+        const selectedOption = options.find(option => option.name === e.target.value || option.numero_plaque === e.target.value || option.nom === e.target.value || option.code_commande === e.target.value);
         if (onSelect && selectedOption) {
             onSelect(selectedOption);
         }
@@ -41,7 +42,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, disabled, onS
             <input
                 type="text"
                 placeholder={placeholder}
-                value={value ? options.find(option => (option.name === value || option.numero_plaque === value || option.nom === value))?.name || options.find(option => option.numero_plaque === value)?.numero_plaque || options.find(option => option.nom === value)?.nom : search}
+                value={value ? options.find(option => (option.name === value || option.numero_plaque === value || option.nom === value || option.code_commande === value))?.name || options.find(option => option.numero_plaque === value)?.numero_plaque || options.find(option => option.nom === value)?.nom || options.find(option => option.code_commande === value)?.code_commande : search}
                 onChange={(e) => setSearch(e.target.value)}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
@@ -56,8 +57,8 @@ const SearchableSelect = ({ options, value, onChange, placeholder, disabled, onS
                 >
                     <option value="">{placeholder}</option>
                     {filteredOptions.map(option => (
-                        <option key={option._id} value={option.name || option.numero_plaque || option.nom}>
-                            {option.name || option.numero_plaque || option.nom}
+                        <option key={option._id} value={option.name || option.numero_plaque || option.nom || option.code_commande}>
+                            {option.name || option.numero_plaque || option.nom || option.code_commande}
                         </option>
                     ))}
                 </select>
@@ -79,6 +80,8 @@ function App() {
     const [clients, setClients] = useState([]);
     const [trucks, setTrucks] = useState([]);
     const [drivers, setDrivers] = useState([]);
+    const [sales, setSales] = useState([]); // Ajouter l'état pour les ventes
+    const [selectedSale, setSelectedSale] = useState(''); // Ajouter l'état pour la vente sélectionnée
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const [alert, setAlert] = useState(null);
     const [showFinalizePopup, setShowFinalizePopup] = useState(false);
@@ -89,8 +92,8 @@ function App() {
         const fetchDeliveryCode = async () => {
             try {
                 const currentYear = new Date().getFullYear();
-                const livraisonResponse = await fetch('http://localhost:8080/livraison');
-                const livraisonData = await livraisonResponse.json();
+                const livraisonResponse = await axios.get('http://localhost:8080/livraison');
+                const livraisonData = livraisonResponse.data;
                 const incrementedCount = livraisonData.count + 1;
                 const displayCode = `BL${incrementedCount}${currentYear}`;
                 setDeliveryCode(displayCode);
@@ -106,7 +109,7 @@ function App() {
         const fetchClients = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/clients', { params: { IsActive: true } });
-                setClients(response.data.data);
+                setClients(Array.isArray(response.data.data) ? response.data.data : []);
             } catch (error) {
                 console.error('Error fetching clients:', error);
             }
@@ -115,7 +118,7 @@ function App() {
         const fetchTrucks = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/camions');
-                const activeTrucks = response.data.data.filter(truck => truck.isActive);
+                const activeTrucks = Array.isArray(response.data.data) ? response.data.data.filter(truck => truck.isActive) : [];
                 setTrucks(activeTrucks);
             } catch (error) {
                 console.error('Error fetching trucks:', error);
@@ -125,20 +128,31 @@ function App() {
         const fetchDrivers = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/chauffeur');
-                const activeDrivers = response.data.data.filter(driver => driver.isActive);
+                const activeDrivers = Array.isArray(response.data.data) ? response.data.data.filter(driver => driver.isActive) : [];
                 setDrivers(activeDrivers);
             } catch (error) {
                 console.error('Error fetching drivers:', error);
             }
         };
 
+        const fetchSales = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/commande_production_vente');
+                setSales(Array.isArray(response.data.commandesProductionVente) ? response.data.commandesProductionVente : []);
+            } catch (error) {
+                console.error('Error fetching sales:', error);
+            }
+        };
+
+      
         fetchClients();
         fetchTrucks();
         fetchDrivers();
+        fetchSales(); // Récupérer les ventes
     }, []);
 
     const handleAddDelivery = () => {
-        if (!deliveryDate || !deliveryAddress || !clientName || !deliveryStatus || !quantity || !truckCode || !driverName) {
+        if (!deliveryDate || !deliveryAddress || !clientName || !deliveryStatus || !quantity || !truckCode || !driverName || !selectedSale) {
             showAlert('Veuillez remplir tous les champs nécessaires.');
             return;
         }
@@ -151,7 +165,8 @@ function App() {
             quantite: parseInt(quantity, 10),
             camion_code: truckCode,
             chauffeur_name: driverName,
-            codeLivraison: deliveryCode // Ajouter le code livraison
+            codeLivraison: deliveryCode, // Ajouter le code livraison
+            vente_code: selectedSale // Ajouter le code de commande de vente
         };
 
         setDeliveries([...deliveries, newDelivery]);
@@ -163,6 +178,7 @@ function App() {
         setTruckCode('');
         setDriverName('');
         setDeliveryCode(''); // Réinitialiser le code livraison après ajout
+        setSelectedSale(''); // Réinitialiser la vente sélectionnée
     };
 
     const handleShowFinalizePopup = () => {
@@ -184,7 +200,8 @@ function App() {
                 quantite: deliveries[0].quantite,
                 camion_code: deliveries[0].camion_code,
                 chauffeur_name: deliveries[0].chauffeur_name,
-                codeLivraison: deliveries[0].codeLivraison // Envoyer le code livraison au backend
+                codeLivraison: deliveries[0].codeLivraison, // Envoyer le code livraison au backend
+                vente_code: deliveries[0].vente_code // Envoyer le code de commande de vente au backend
             });
 
             showAlert('Livraison finalisée avec succès');
@@ -226,10 +243,14 @@ function App() {
                 <div className="form-container">
                     <div className='bloc'>
                         <div className='bloc1'>
+                       
                             <input type="text" value={deliveryCode} placeholder="Code Livraison" disabled /> {/* Ajouter le champ Code Livraison */}
-                            <div className='datebon'>
-                                <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="Date de Livraison" />
-                            </div>
+                            <SearchableSelect
+                                options={sales} // Utiliser les ventes pour le champ de sélection
+                                value={selectedSale}
+                                onChange={(e) => setSelectedSale(e.target.value)}
+                                placeholder="Sélectionnez une vente"
+                            />
                             <input type="text" value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} placeholder="Adresse de Livraison" />
                             <SearchableSelect
                                 options={clients}
@@ -245,7 +266,10 @@ function App() {
                             </select>
                         </div>
                         <div className='bloc2'>
-                            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantité" />
+                        <div className='datebon'>
+                                <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="Date de Livraison" />
+                            </div>
+                            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Volume" />
                             <SearchableSelect
                                 options={trucks}
                                 value={truckCode}
@@ -259,6 +283,7 @@ function App() {
                                 onChange={(e) => setDriverName(e.target.value)}
                                 placeholder="Sélectionnez un chauffeur"
                             />
+                           
                         </div>
                     </div>
                     <div className='bloc3'>
@@ -282,6 +307,7 @@ function App() {
                                     <th>Quantité</th>
                                     <th>Camion</th>
                                     <th>Chauffeur</th>
+                                    <th>Vente</th> {/* Ajouter l'entête Vente */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -295,6 +321,7 @@ function App() {
                                         <td>{item.quantite}</td>
                                         <td>{item.camion_code}</td>
                                         <td>{item.chauffeur_name}</td>
+                                        <td>{item.vente_code}</td> {/* Afficher la Vente */}
                                     </tr>
                                 ))}
                             </tbody>
@@ -324,6 +351,7 @@ function App() {
                         <thead>
                             <tr>
                                 <th>Code Livraison</th> {/* Ajouter l'entête Code Livraison */}
+                                <th>Vente</th> {/* Ajouter l'entête Vente */}
                                 <th>Date</th>
                                 <th>Adresse</th>
                                 <th>Client</th>
@@ -338,6 +366,7 @@ function App() {
                             {deliveries.map((item, index) => (
                                 <tr key={index}> 
                                     <td>{item.codeLivraison}</td> {/* Afficher le Code Livraison */}
+                                    <td>{item.vente_code}</td> {/* Afficher la Vente */}
                                     <td>{item.date_livraison}</td>
                                     <td>{item.adresse_livraison}</td>
                                     <td>{item.client_name}</td>

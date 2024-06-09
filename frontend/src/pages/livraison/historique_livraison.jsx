@@ -75,7 +75,8 @@ function App() {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Code Livraison</th> {/* Ajouter l'entête Code Livraison */}
+                            <th>Code Livraison</th>
+                            <th>Code Vente</th> {/* Ajouter l'entête Code Vente */}
                             <th>Date Livraison</th>
                             <th>Adresse Livraison</th>
                             <th>Client</th>
@@ -89,7 +90,8 @@ function App() {
                     <tbody>
                         {currentDeliveries.map((delivery) => (
                             <tr key={delivery._id}>
-                                <td>{delivery.codeLivraison}</td> {/* Afficher le Code Livraison */}
+                                <td>{delivery.codeLivraison}</td>
+                                <td>{delivery.vente_id ? delivery.vente_id.code_commande : 'N/A'}</td> {/* Afficher le Code Vente */}
                                 <td>{new Date(delivery.date_livraison).toISOString().slice(0, 10)}</td>
                                 <td>{delivery.adresse_livraison}</td>
                                 <td>{delivery.client_id.name}</td>
@@ -116,7 +118,8 @@ function App() {
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedDelivery(null)}>&times;</span>
                             <h2>Détails de la Livraison</h2>
-                            <p><strong>Code Livraison:</strong> {selectedDelivery.codeLivraison}</p> {/* Ajouter le Code Livraison */}
+                            <p><strong>Code Livraison:</strong> {selectedDelivery.codeLivraison}</p>
+                            <p><strong>Code Vente:</strong> {selectedDelivery.vente_id ? selectedDelivery.vente_id.code_commande : 'N/A'}</p> {/* Ajouter le Code Vente */}
                             <p><strong>Date Livraison:</strong> {new Date(selectedDelivery.date_livraison).toISOString().slice(0, 10)}</p>
                             <p><strong>Adresse Livraison:</strong> {selectedDelivery.adresse_livraison}</p>
                             <p><strong>Client:</strong> {selectedDelivery.client_id.name}</p>
@@ -124,6 +127,15 @@ function App() {
                             <p><strong>Quantité:</strong> {selectedDelivery.quantite}</p>
                             <p><strong>Camion:</strong> {selectedDelivery.camion_id.numero_plaque}</p>
                             <p><strong>Chauffeur:</strong> {selectedDelivery.chauffeur_id.nom}</p>
+                            <p><strong>Détails de la Vente:</strong></p>
+                            {selectedDelivery.vente_id && selectedDelivery.vente_id.produits.map((produit, index) => (
+                                <div key={index}>
+                                    <p><strong>Produit:</strong> {produit.productfinished}</p>
+                                    <p><strong>Quantité:</strong> {produit.quantity}</p>
+                                    <p><strong>Prix Unitaire:</strong> {produit.prixUnitaire}</p>
+                                    <p><strong>Total Ligne:</strong> {produit.totalLigne}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     </>
