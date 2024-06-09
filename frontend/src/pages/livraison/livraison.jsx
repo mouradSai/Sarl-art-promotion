@@ -144,7 +144,6 @@ function App() {
             }
         };
 
-      
         fetchClients();
         fetchTrucks();
         fetchDrivers();
@@ -243,47 +242,58 @@ function App() {
                 <div className="form-container">
                     <div className='bloc'>
                         <div className='bloc1'>
-                       
-                            <input type="text" value={deliveryCode} placeholder="Code Livraison" disabled /> {/* Ajouter le champ Code Livraison */}
-                            <SearchableSelect
-                                options={sales} // Utiliser les ventes pour le champ de sélection
-                                value={selectedSale}
-                                onChange={(e) => setSelectedSale(e.target.value)}
-                                placeholder="Sélectionnez une vente"
-                            />
-                            <input type="text" value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} placeholder="Adresse de Livraison" />
-                            <SearchableSelect
-                                options={clients}
-                                value={clientName}
-                                onChange={(e) => setClientName(e.target.value)}
-                                placeholder="Sélectionnez un client"
-                            />
-                            <select value={deliveryStatus} onChange={(e) => setDeliveryStatus(e.target.value)}>
-                                <option value="">Sélectionnez l'état de livraison</option>
-                                <option value="En cours">En cours</option>
-                                <option value="Retard">Retard</option>
-                                <option value="Complétée">Complétée</option>
-                            </select>
+                            <label>Code Livraison: <input type="text" value={deliveryCode} placeholder="Code Livraison" disabled /></label>
+                            <label>Vente: 
+                                <SearchableSelect
+                                    options={sales}
+                                    value={selectedSale}
+                                    onChange={(e) => setSelectedSale(e.target.value)}
+                                    placeholder="Sélectionnez une vente"
+                                />
+                            </label>
+                            <label>Adresse de Livraison: <input type="text" value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} placeholder="Adresse de Livraison" /></label>
+                            <label>Client: 
+                                <SearchableSelect
+                                    options={clients}
+                                    value={clientName}
+                                    onChange={(e) => setClientName(e.target.value)}
+                                    placeholder="Sélectionnez un client"
+                                />
+                            </label>
+                          
                         </div>
                         <div className='bloc2'>
-                        <div className='datebon'>
-                                <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="Date de Livraison" />
-                            </div>
-                            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Volume" />
-                            <SearchableSelect
-                                options={trucks}
-                                value={truckCode}
-                                onChange={(e) => setTruckCode(e.target.value)}
-                                onSelect={handleTruckSelect} // Ajouter cette ligne pour gérer la sélection de camion
-                                placeholder="Sélectionnez un camion"
-                            />
-                            <SearchableSelect
-                                options={drivers}
-                                value={driverName}
-                                onChange={(e) => setDriverName(e.target.value)}
-                                placeholder="Sélectionnez un chauffeur"
-                            />
-                           
+                                <div className='datebon'>
+                                    <label>Date : 
+                                <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} placeholder="Date de Livraison" />  </label>
+                                </div>
+
+                            <label>Volume: <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Volume" /></label>
+                            <label>Camion: 
+                                <SearchableSelect
+                                    options={trucks}
+                                    value={truckCode}
+                                    onChange={(e) => setTruckCode(e.target.value)}
+                                    onSelect={handleTruckSelect}
+                                    placeholder="Sélectionnez un camion"
+                                />
+                            </label>
+                            <label>Chauffeur: 
+                                <SearchableSelect
+                                    options={drivers}
+                                    value={driverName}
+                                    onChange={(e) => setDriverName(e.target.value)}
+                                    placeholder="Sélectionnez un chauffeur"
+                                />
+                            </label>
+                            <label>État de Livraison: 
+                                <select value={deliveryStatus} onChange={(e) => setDeliveryStatus(e.target.value)}>
+                                    <option value="">Sélectionnez l'état de livraison</option>
+                                    <option value="En cours">En cours</option>
+                                    <option value="Retard">Retard</option>
+                                    <option value="Complétée">Complétée</option>
+                                </select>
+                            </label>
                         </div>
                     </div>
                     <div className='bloc3'>
@@ -299,7 +309,7 @@ function App() {
                         <table>
                             <thead className="table-header">
                                 <tr>
-                                    <th>Code Livraison</th> {/* Ajouter l'entête Code Livraison */}
+                                    <th>Code Livraison</th>
                                     <th>Date</th>
                                     <th>Adresse</th>
                                     <th>Client</th>
@@ -307,13 +317,13 @@ function App() {
                                     <th>Quantité</th>
                                     <th>Camion</th>
                                     <th>Chauffeur</th>
-                                    <th>Vente</th> {/* Ajouter l'entête Vente */}
+                                    <th>Vente</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {deliveries.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{item.codeLivraison}</td> {/* Afficher le Code Livraison */}
+                                        <td>{item.codeLivraison}</td>
                                         <td>{item.date_livraison}</td>
                                         <td>{item.adresse_livraison}</td>
                                         <td>{item.client_name}</td>
@@ -321,7 +331,7 @@ function App() {
                                         <td>{item.quantite}</td>
                                         <td>{item.camion_code}</td>
                                         <td>{item.chauffeur_name}</td>
-                                        <td>{item.vente_code}</td> {/* Afficher la Vente */}
+                                        <td>{item.vente_code}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -350,8 +360,8 @@ function App() {
                     <table className='comtab'>
                         <thead>
                             <tr>
-                                <th>Code Livraison</th> {/* Ajouter l'entête Code Livraison */}
-                                <th>Vente</th> {/* Ajouter l'entête Vente */}
+                                <th>Code Livraison</th>
+                                <th>Vente</th>
                                 <th>Date</th>
                                 <th>Adresse</th>
                                 <th>Client</th>
@@ -365,8 +375,8 @@ function App() {
                         <tbody>
                             {deliveries.map((item, index) => (
                                 <tr key={index}> 
-                                    <td>{item.codeLivraison}</td> {/* Afficher le Code Livraison */}
-                                    <td>{item.vente_code}</td> {/* Afficher la Vente */}
+                                    <td>{item.codeLivraison}</td>
+                                    <td>{item.vente_code}</td>
                                     <td>{item.date_livraison}</td>
                                     <td>{item.adresse_livraison}</td>
                                     <td>{item.client_name}</td>
