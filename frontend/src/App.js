@@ -408,7 +408,7 @@ function App() {
 
 {/**-livraison */}
 <Route path="/camions" element={
-                    localStorage.getItem("token")      ?  (
+                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"   ?  (
                         <ProtectedRoute>
                             <Camion/>
                         </ProtectedRoute>
@@ -418,7 +418,7 @@ function App() {
                 }
             />  
             <Route path="/chauffeurs" element={
-                    localStorage.getItem("token")      ?  (
+                    localStorage.getItem("token")     && localStorage.getItem("role") === "superadmin" ||localStorage.getItem("role") === "admin"   ?  (
                         <ProtectedRoute>
                             <Chauffeur/>
                         </ProtectedRoute>

@@ -51,17 +51,19 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         </li>
         </Link>
 
-      
+       {isSuperadmin && (
+
       <Link to="/camions" className="sidebar-link">
         <li className='sidebar-list-item'>
             < TbTruckDelivery className='icon'/>camion 
         </li>
-        </Link>
+        </Link>)}
+        {isSuperadmin && (
         <Link to="/chauffeurs" className="sidebar-link">
         <li className='sidebar-list-item'>
             < RxPerson className='icon'/>Chauffeur 
         </li>
-        </Link>
+        </Link>)}
         <Link to="/historique_livraison" className="sidebar-link">
         <li className='sidebar-list-item'>
             < BsFileBarGraphFill className='icon'/>Historique 
