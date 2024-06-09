@@ -31,8 +31,8 @@ function App() {
             const response = await axios.get('http://localhost:8080/credit_production_vente');
             setCredits(response.data.reverse()); // Store all fetched credits directly without filtering
         } catch (error) {
-            console.error('Error fetching production credits:', error);
-            showAlert('An error occurred while fetching production credits. Please try again later.', 'error');
+            console.error('Erreur lors de la récupération des crédits de production :', error);
+            showAlert('Une erreur s est produite lors de la récupération des crédits de production. Veuillez réessayer plus tard.', 'error');
         }
     };
     
@@ -73,8 +73,8 @@ function App() {
             // If payment is successful, refetch credits to update the data
             fetchCredits();
         } catch (error) {
-            console.error('Error adding payment:', error);
-            showAlert('Failed to add payment. Please try again.', 'error');
+            console.error('Erreur lors de l ajout du paiement :', error);
+            showAlert('Échec de l ajout du paiement. Veuillez réessayer.', 'error');
         }
     };
     
@@ -84,8 +84,8 @@ function App() {
             showAlert(response.data.message, 'success');
             fetchCredits(); // Refetch the credits to update the list after deletion
         } catch (error) {
-            console.error('Error deleting credit:', error);
-            showAlert('Failed to delete credit. Please try again.', 'error');
+            console.error('Erreur lors de la suppression du crédit:', error);
+            showAlert('Échec de la suppression du crédit. Veuillez réessayer.', 'error');
         }
     };
     
@@ -97,23 +97,23 @@ function App() {
                 <h1 className="title-all">Historique des crédits de ventes de production</h1>
                 <input
                     type="text"
-                    placeholder="Search credits..."
+                    placeholder="Rechercher des crédits..."
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                 />
-                <table className="table">
+                <table className='tabrespo'>
                     <thead>
                         <tr>
                             <th>Code Commande</th>
                             <th>Client</th>
                             <th>Date commande</th>
                             <th>Total Commande</th>
-                            <th>Versement Initial</th>
+                            <th>Versement</th>
                             <th>Reste à Payer</th>
                             <th>Mode de Paiement</th>
                             <th>N° cheque</th>
 
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -129,16 +129,16 @@ function App() {
                                 <td>{credit.vente.code_cheque || 'N/A'}</td>
 
                                 <td>
-                                    <button className='delete-button' onClick={() => handleDeleteCredit(credit.vente.code_commande)}>Delete</button>
+                                    <button className='delete-button' onClick={() => handleDeleteCredit(credit.vente.code_commande)}>Supprimer</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
                 <div className="pagination">
-                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Previous</button>
+                    <button onClick={() => handlePageChange(-1)} disabled={currentPage === 1}>Précédent</button>
                     <span>Page {currentPage} of {Math.ceil(filteredCredits.length / creditsPerPage)}</span>
-                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCredits.length / creditsPerPage)}>Next</button>
+                    <button onClick={() => handlePageChange(1)} disabled={currentPage === Math.ceil(filteredCredits.length / creditsPerPage)}>Suivant</button>
                 </div>
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

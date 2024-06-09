@@ -26,7 +26,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
               <img src={logowhite} alt='Logo' className='sidebar-logo' />
               </Link>
 
-              <div className="sidebar-name">Sarl Art Groupe</div>
+              <div className="sidebar-name">Sarl Art Promotion</div>
 
           </div>
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>
@@ -38,7 +38,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
 
       <Link to="/stock" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsFillGrid1X2Fill className='icon'/> Dashboard
+            <BsFillGrid1X2Fill className='icon'/> Tableau de Bord
         </li>
       </Link>
       

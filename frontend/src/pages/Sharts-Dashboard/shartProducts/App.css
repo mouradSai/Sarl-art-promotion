@@ -5,6 +5,17 @@
     color: #333;
 
 }
+.chart-container h2{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 35px;
+    color: rgb(30, 127, 245); /* Couleur de texte sombre */
+    text-align: center;
+}
 .appContainer h2{
     display: flex;
     justify-content: center;
@@ -16,11 +27,11 @@
     background-color: #b01212;
     color: white; /* Couleur de texte sombre */
     text-align: center;
-   
 }
 
 .visualizationContainer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     padding: 20px;
 }
@@ -28,7 +39,8 @@
 .table-shart {
     width: 40%;
     border-collapse: collapse;
-    margin-right: 20px;
+    margin-top: 40px;
+    margin-left: 30px;
 }
 
 .table-shart th, .table-shart td {
@@ -58,5 +70,7 @@
 }
 
 .chartContainer {
-    width: 500px; /* Set a fixed width for the chart */
+    width: 500px; 
+    padding-top: 60px;
 }
+

@@ -75,8 +75,7 @@ const SalesLineChart = () => {
                 <select
                     id="unit-select"
                     value={unit}
-                    onChange={(e) => setUnit(e.target.value)}
-                >
+                    onChange={(e) => setUnit(e.target.value)} >
                     <option value="day">Jour</option>
                     <option value="month">Mois</option>
                     <option value="year">Année</option>

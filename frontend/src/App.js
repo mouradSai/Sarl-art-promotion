@@ -48,6 +48,15 @@ import Historique_production from "./pages/production/production_beton/Historiqu
 import Credit_production_vente from "./pages/production/production_beton/credit_production_vente";
 import Historique_credit_vente from "./pages/production/production_beton/Historique/historique_credit_vente";
 import Dashboard_production from "./pages/production/production_beton/Dashboard_production/Dashboard_production";
+import ProductionPlanning from "./pages/production/production_beton/schedule/planning";
+
+
+//livraison
+import Camion from "./pages/livraison/camion";
+import Chauffeur from "./pages/livraison/chauffeur";
+import Livraison from "./pages/livraison/livraison";
+import Historique_livraison from "./pages/livraison/historique_livraison";
+import Dashboard_livraison from "./pages/livraison/dashboard_livraison/dashboard";
 //protection de routes 
 
 import ProtectedRoute from "./components/protection/ProtectedRoute";
@@ -283,6 +292,17 @@ function App() {
                     )
                 }
             />  
+              {/* Routes sans protection */}
+		<Route path="/planning" element={
+                    localStorage.getItem("token")    ? (
+                        <ProtectedRoute>
+                            <ProductionPlanning />
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
             
                 {/* Routes sans protection */}
 		<Route path="/historique_production_vente" element={
@@ -385,6 +405,58 @@ function App() {
                     )
                 }
             />  
+
+{/**-livraison */}
+<Route path="/camions" element={
+                    localStorage.getItem("token")      ?  (
+                        <ProtectedRoute>
+                            <Camion/>
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+            <Route path="/chauffeurs" element={
+                    localStorage.getItem("token")      ?  (
+                        <ProtectedRoute>
+                            <Chauffeur/>
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+              <Route path="/Livraison" element={
+                    localStorage.getItem("token")    ?  (
+                        <ProtectedRoute>
+                            <Livraison/>
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+              <Route path="/historique_livraison" element={
+                    localStorage.getItem("token")    ?  (
+                        <ProtectedRoute>
+                            <Historique_livraison/>
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />  
+              <Route path="/dashboard_livraison" element={
+                    localStorage.getItem("token")    ?  (
+                        <ProtectedRoute>
+                            <Dashboard_livraison/>
+                        </ProtectedRoute>
+                    ) : (
+                        <Navigate replace to="/login" />
+                    )
+                }
+            />
 
 
 		<Route path="/signup" element={<Signup />} />

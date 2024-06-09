@@ -34,6 +34,10 @@ const productionSchema = new mongoose.Schema({
     }],
     observations: {
         type: String
+    },
+    prixUnitaire: { // Ajout du prix unitaire moyen
+        type: Number,
+        required: true
     }
 });
 

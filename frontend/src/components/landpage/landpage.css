@@ -29,7 +29,7 @@
 .containerr {
   max-width: var(--max-width);
   min-height: 100vh;
-  margin: auto;
+  margin:0;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -62,7 +62,7 @@ nav {
 
 .destination__containerr {
   position: relative;
-  padding: 5rem 0 5rem 5rem;
+  padding: 5rem 0 5rem 3rem;
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -112,7 +112,7 @@ nav {
 
  .destination__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 3rem;
   padding-left: 80px;
 }
@@ -206,10 +206,17 @@ nav {
 
   .content h1 {
     font-size: 4rem;
+    margin-left: 60px;
   }
 
   .destination__grid {
     grid-template-columns: repeat(2, 1fr);
+    padding-left: 10px;
+  }
+
+  .destination__card img {
+    top: 10px;
+    left: 10px;
   }
 }
 

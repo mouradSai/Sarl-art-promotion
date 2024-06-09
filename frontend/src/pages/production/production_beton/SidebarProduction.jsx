@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import {BsFillArchiveFill, BsPersonCircle, MdSpaceDashboard,BsCardList, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { TbBuildingFactory } from "react-icons/tb";
+import { RiCalendarScheduleLine } from "react-icons/ri";
+
 import { TbZoomMoney } from "react-icons/tb";
 import { BsReceiptCutoff } from "react-icons/bs";
 
@@ -18,7 +20,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
   // Vérifier si l'utilisateur a le rôle d'administrateur
   const isSuperadmin = userRole === 'superadmin' || userRole === 'admin'  ;
   return (
-    <aside id="sidebarProd" className={openSidebarToggle ? "sidebar-responsive" : ""}>
+    <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
           <div className='sidebar-brand'>
 
@@ -26,7 +28,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
               <img src={logowhite} alt='Logo' className='sidebar-logo' />
               </Link>
 
-              <div className="sidebar-name">Sarl Art Groupe</div>
+              <div className="sidebar-name">Sarl Art Promotion</div>
 
           </div>
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>
@@ -36,15 +38,21 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       {isSuperadmin && (
       <Link to="/Dashboard_production" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsFillGrid1X2Fill  className='icon'/> Dashboard
+            <BsFillGrid1X2Fill  className='icon'/> Tableau de bord
         </li>
       </Link>)}
 
+      <Link to="/planning" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <RiCalendarScheduleLine  className='icon'/> Planning
+        </li>
+      </Link>
       <Link to="/production_beton" className="sidebar-link"> 
       <li className='sidebar-list-item'>
             <TbBuildingFactory  className='icon'/> Production
         </li>
       </Link>
+     
       
       {isSuperadmin && (
       <Link to="/production_vente" className="sidebar-link"> 
@@ -65,7 +73,7 @@ function SidebarProduction({ openSidebarToggle, OpenSidebar }) {
       </Link>
       <Link to="/Stock_finie" className="sidebar-link"> 
       <li className='sidebar-list-item'>
-            <BsBox2Fill  className='icon'/> Stock finie
+            <BsBox2Fill  className='icon'/> Stock fini
         </li>
       </Link>
       {isSuperadmin && (

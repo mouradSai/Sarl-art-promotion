@@ -36,7 +36,7 @@ function Users() {
             const response = await axios.get('http://localhost:8080/api/users');
             setUsers(response.data);
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
         }
     };
 
@@ -46,10 +46,10 @@ function Users() {
             if (response.status === 200) {
                 fetchUsers();
             } else {
-                console.error('Error:', response.data.message || 'Une erreur s\'est produite lors de la suppression de l\'utilisateur');
+                console.error('Erreur:', response.data.message || 'Une erreur s\'est produite lors de la suppression de l\'utilisateur');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
         }
     };
 
@@ -60,10 +60,10 @@ function Users() {
                 fetchUsers();
                 setShowUserRolePopup(false); // Fermer le popup de modification de rôle après l'enregistrement
             } else {
-                console.error('Error:', response.data.message || 'Une erreur s\'est produite lors de la mise à jour du rôle de l\'utilisateur');
+                console.error('Erreur:', response.data.message || 'Une erreur s\'est produite lors de la mise à jour du rôle de l\'utilisateur');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
         }
     };
 
@@ -83,10 +83,10 @@ function Users() {
             if (response.status === 200) {
                 fetchUsers();
             } else {
-                console.error('Error:', response.data.message || 'Une erreur s\'est produite lors de la suppression de l\'utilisateur');
+                console.error('Erreur:', response.data.message || 'Une erreur s\'est produite lors de la suppression de l\'utilisateur');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
         }
         setDeleteUserId(null);
         setShowDeleteConfirmation(false);
@@ -110,7 +110,7 @@ function Users() {
                         <th>Nom</th>
                         <th>Email</th>
                         <th>Rôle</th>
-                        <th>Actions</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,6 +132,8 @@ function Users() {
 
             {/* Pop-up pour afficher les détails de l'utilisateur */}
             {showViewPopup && selectedUser && (
+                <>
+                <div className="overlay"></div>                
                 <div className="popup">
                     <div className="popup-content">
                         <span className="close-button" onClick={() => setShowViewPopup(false)}>&times;</span>
@@ -142,14 +144,17 @@ function Users() {
                         <p>Rôle : {selectedUser.role}</p>
                     </div>
                 </div>
+                </>
             )}
 
             {/* Pop-up pour modifier le rôle */}
             {showUserRolePopup && selectedUser && (
+                 <>
+                 <div className="overlay"></div>                 
                 <div className="popup">
                     <div className="popup-content">
                         <span className="close-button" onClick={() => setShowUserRolePopup(false)}>&times;</span>
-                        <h2>Modifier le rôle de {selectedUser.firstName} {selectedUser.lastName}</h2>
+                        <h2>Modifier le rôle de <br/> {selectedUser.firstName} {selectedUser.lastName}</h2>
                         <select value={newUserRole} onChange={(e) => setNewUserRole(e.target.value)}>
                             <option value="superadmin">SuperAdmin</option>
                             <option value="admin">Admin</option>
@@ -158,10 +163,13 @@ function Users() {
                         <button onClick={() => updateUserRole(selectedUser._id)}>Enregistrer</button>
                     </div>
                 </div>
+                </>
             )}
 
             {/* Pop-up de confirmation de suppression */}
             {showDeleteConfirmation && (
+                 <>
+                 <div className="overlay"></div>                   
                 <div className="popup">
                     <div className="popup-content">
                         <span className="close-button" onClick={cancelDeleteUser}>&times;</span>
@@ -171,6 +179,7 @@ function Users() {
                         <button onClick={cancelDeleteUser}>Annuler</button>
                     </div>
                 </div>
+                </>
             )}
         </div>
      </div>
