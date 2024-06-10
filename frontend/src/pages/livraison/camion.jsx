@@ -227,7 +227,7 @@ function App() {
                             <h2>{editCamionId ? 'Modifier le camion' : 'Créer un nouveau camion'}</h2>
                             <form onSubmit={editCamionId ? handleEditSubmit : handleSubmit}>
                                 <input type="text" name="numero_plaque" value={formData.numero_plaque} onChange={handleChange} placeholder="Numéro de plaque" />
-                                <input type="text" name="capacite" value={formData.capacite} onChange={handleChange} placeholder="Capacité" />
+                                <input type="text" name="capacite" value={formData.capacite} onChange={handleChange} placeholder="Capacité en m³" />
                                 <select name="chauffeur_nom" value={formData.chauffeur_nom} onChange={handleChange}>
                                     <option value="">Sélectionner un chauffeur</option>
                                     {chauffeurs.map((chauffeur) => (
@@ -257,7 +257,7 @@ function App() {
                                 {filterCamions(camions, searchText).map(camion => (
                                     <tr key={camion._id}>
                                         <td>{camion.numero_plaque}</td>
-                                        <td>{camion.capacite}</td>
+                                        <td>{camion.capacite} m³</td>
                                         <td>{camion.chauffeur ? camion.chauffeur.nom : 'N/A'}</td> {/* Afficher le nom du chauffeur */}
                                         <td>{camion.isActive ? 'Yes' : 'No'}</td>
                                         <td>
@@ -285,7 +285,7 @@ function App() {
                             <span className="close-button" onClick={() => setSelectedCamion(null)}>&times;</span>
                             <h2>Détails du camion</h2>
                             <p>Numéro de plaque : {selectedCamion.numero_plaque}</p>
-                            <p>Capacité : {selectedCamion.capacite}</p>
+                            <p>Capacité : {selectedCamion.capacite}m³</p>
                             <p>Chauffeur : {selectedCamion.chauffeur ? selectedCamion.chauffeur.nom : 'N/A'}</p> {/* Afficher le nom du chauffeur */}
                             <button className='delete-button' onClick={() => setSelectedCamion(null)}>Annuler</button>
                         </div>

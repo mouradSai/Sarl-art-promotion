@@ -74,7 +74,7 @@ const DeliveryDashboard = () => {
                 data: [stats.total, stats.enCours, stats.complete, stats.enRetard],
                 backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(255, 99, 132, 0.2)'],
                 borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
-                borderWidth: 1,
+                borderWidth: 2,
             },
         ],
     };
@@ -91,12 +91,11 @@ const DeliveryDashboard = () => {
                             <tr>
                                 <th>Code Livraison</th>
                                 <th>Code vente</th>
-
                                 <th>Date Livraison</th>
                                 <th>Adresse Livraison</th>
                                 <th>Client</th>
                                 <th>État</th>
-                                <th>Quantité</th>
+                                <th>Volume</th>
                                 <th>Camion</th>
                                 <th>Chauffeur</th>
                                 <th>Action</th>
@@ -111,7 +110,7 @@ const DeliveryDashboard = () => {
                                     <td>{delivery.adresse_livraison}</td>
                                     <td>{delivery.client_id.name}</td>
                                     <td>{delivery.etat_livraison}</td>
-                                    <td>{delivery.quantite}</td>
+                                    <td>{delivery.quantite}m³</td>
                                     <td>{delivery.camion_id.numero_plaque}</td>
                                     <td>{delivery.chauffeur_id.nom}</td>
                                     <td>
@@ -127,7 +126,14 @@ const DeliveryDashboard = () => {
                     </table>
                 </div>
                 <div className="delivery-stats-container">
-                    <Bar data={data} />
+                    <Bar 
+                        data={data} 
+                        options={{ 
+                            maintainAspectRatio: false, 
+                            responsive: true 
+                        }} 
+                        height={300} // Ajustez la hauteur ici
+                    />
                 </div>
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1250px;
     margin: 0 auto;
     box-sizing: border-box;
 }
@@ -13,8 +13,8 @@
     text-align: center;
     margin-bottom: 2rem;
     width: 100%;
-    color :rgb(194, 21, 21);
-    font-weight:800;
+    color: #B61217; /* Rouge intense */
+    font-weight: 800;
 }
 
 .delivery-table-container {
@@ -28,6 +28,7 @@
     display: flex;
     justify-content: center;
     margin-top: 2rem;
+    height: 300px; /* Ajustez la hauteur ici selon vos besoins */
 }
 
 .delivery-table {
@@ -43,21 +44,22 @@
 }
 
 .delivery-table th {
-    background-color: green;
+    background-color: #B61217; /* Rouge intense */
     color: white;
 }
 
 .delivery-table tr.status-en-cours {
-    background-color: yellow;
+    background-color: #e8ff19b8; /* Orange */
+    color: black;
 }
 
 .delivery-table tr.status-completee {
-    background-color: #4CAF50;
+    background-color: #4caf4fc9; /* Vert */
     color: white;
 }
 
 .delivery-table tr.status-retard {
-    background-color: red;
+    background-color: #c5151bb3; /* Rouge */
     color: white;
 }
 
