@@ -67,13 +67,23 @@ const DeliveryDashboard = () => {
     };
 
     const data = {
-        labels: ['Total', 'En cours', 'Complétée', 'En retard'],
+        labels: ['Total', 'En cours', 'Complétée', 'Retard'],
         datasets: [
             {
                 label: 'Livraisons',
                 data: [stats.total, stats.enCours, stats.complete, stats.enRetard],
-                backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)', 
+                    'rgba(241, 196, 15, 0.8)', /* Couleur en cours */
+                    'rgba(46, 204, 113, 0.8)', /* Couleur complétée */
+                    'rgba(231, 76, 60, 0.8)' /* Couleur retard */
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)', 
+                    'rgba(243, 156, 18, 1)', /* Bordure en cours */
+                    'rgba(39, 174, 96, 1)', /* Bordure complétée */
+                    'rgba(192, 57, 43, 1)' /* Bordure retard */
+                ],
                 borderWidth: 2,
             },
         ],
