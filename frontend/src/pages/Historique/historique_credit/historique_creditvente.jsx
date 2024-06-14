@@ -125,7 +125,7 @@ function App() {
                                     <td>{credit.commande.code_cheque || 'N/A'}</td>
 
                                     <td>
-                                        <button className='delete-button' onClick={() => handleDeleteCredit(credit.commande.code_commande)}>Delete</button>
+                                        <button className='delete-button' onClick={() => handleDeleteCredit(credit.commande.code_commande)}>Supprimer</button>
                                     </td>
                                 </tr>
                             ))}
