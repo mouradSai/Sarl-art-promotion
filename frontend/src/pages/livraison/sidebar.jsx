@@ -18,7 +18,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
   const userRole = localStorage.getItem('role'); // Récupérer le rôle de l'utilisateur depuis le localStorage
 
   // Vérifier si l'utilisateur a le rôle d'administrateur
-  const isSuperadmin = userRole === 'superadmin'  ;
+  const isSuperadmin = userRole === 'superadmin' ||  userRole === 'admin' ;
   //const isUser = userRole === 'superadmin' || userRole === 'admin';
   return (
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
