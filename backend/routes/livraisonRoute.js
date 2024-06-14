@@ -95,7 +95,7 @@ router.get('/stats', async (req, res) => {
         const total = await Livraison.countDocuments();
         const enCours = await Livraison.countDocuments({ etat_livraison: 'En cours' });
         const complete = await Livraison.countDocuments({ etat_livraison: 'Complétée' });
-        const enRetard = await Livraison.countDocuments({ etat_livraison: 'En retard' });
+        const enRetard = await Livraison.countDocuments({ etat_livraison: 'Retard' });
 
         res.json({ total, enCours, complete, enRetard });
     } catch (error) {

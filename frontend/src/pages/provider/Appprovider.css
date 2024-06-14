@@ -3,6 +3,9 @@
 /* Conteneur principal */
 .container {
   max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
+  align-items: center;
+display: flex;
+flex-direction: column;
   margin: 0 auto; /* Centrage horizontal */
 }
 
@@ -439,8 +442,13 @@ tr:hover {
 
 table {
   padding: 0; /* Remove any default padding */
-  width: 90%;
+  width: 100%;
+  margin: 5px;
 }
+.container {
+  max-width: 80%; /* Utilisation d'une largeur maximale en pixels */
+}
+
 }
 
 
@@ -459,7 +467,7 @@ table {
 
   table {
     padding: 0; /* Remove any default padding */
-    width: 10%;
+    width: 100%;
     height: 70px; /* Hauteur automatique pour permettre l'ajustement */
     margin-left:-45%;
   }
@@ -493,9 +501,7 @@ table {
     margin-left: 5px;
   }
   
-  .actions .create-button {
-    margin-left: 0px;
-  }
+ 
   
   .actions input[type="text"] {
     font-size: 12px;

@@ -48,13 +48,21 @@ app.get('/', (req, res) => {
 // database connection
 connection();
 
-// middlewares
+// Define allowed origins
+const allowedOrigins = ['http://localhost:3000', 'http://192.168.1.8:3000'];
+
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: function (origin, callback) {
+        // Check if the incoming request's origin is in the allowedOrigins array
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type'],
 }));
-
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
