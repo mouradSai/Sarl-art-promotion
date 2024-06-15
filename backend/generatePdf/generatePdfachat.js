@@ -246,7 +246,7 @@ router.post('/', async (req, res) => {
             </tbody>
           </table>
           <div class="text-right">
-          <p class="font-bold text-neutral-600">Versement: ${versement}</p>
+          <p class="font-bold text-neutral-600">Versement: ${versement} DA</p>
        
             <p class="font-bold">Net total: ${calculateTotalCommandePrincipale()} DA</p>
           </div>
