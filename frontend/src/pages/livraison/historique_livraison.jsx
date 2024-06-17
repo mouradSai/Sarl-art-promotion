@@ -124,7 +124,7 @@ function App() {
                             <p><strong>Adresse Livraison:</strong> {selectedDelivery.adresse_livraison}</p>
                             <p><strong>Client:</strong> {selectedDelivery.client_id.name}</p>
                             <p><strong>État Livraison:</strong> {selectedDelivery.etat_livraison}</p>
-                            <p><strong>Quantité:</strong> {selectedDelivery.quantite}</p>
+                            <p><strong>Volume:</strong> {selectedDelivery.quantite}</p>
                             <p><strong>Camion:</strong> {selectedDelivery.camion_id.numero_plaque}</p>
                             <p><strong>Chauffeur:</strong> {selectedDelivery.chauffeur_id.nom}</p>
                             <p><strong>Détails de la Vente:</strong></p>
