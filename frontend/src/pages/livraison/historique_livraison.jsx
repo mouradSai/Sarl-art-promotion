@@ -81,7 +81,7 @@ function App() {
                             <th>Adresse Livraison</th>
                             <th>Client</th>
                             <th>État</th>
-                            <th>Quantité</th>
+                            <th>Volume</th>
                             <th>Camion</th>
                             <th>Chauffeur</th>
                             <th>Action</th>
