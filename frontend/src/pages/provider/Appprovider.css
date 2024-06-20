@@ -3,6 +3,9 @@
 /* Conteneur principal */
 .container {
   max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
+  align-items: center;
+display: flex;
+flex-direction: column;
   margin: 0 auto; /* Centrage horizontal */
 }
 
@@ -20,9 +23,12 @@
 }
 
 h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #007bff; /* Couleur de texte bleue */
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 35px;
+  font-weight: 900;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  color: #454545; /* Couleur de texte bleue */
 }
 
 /* Style pour les boutons */
@@ -40,44 +46,41 @@ h2 {
   margin-left: 10px;
 }
 
-
-.actions .create-button {
-  margin-left: 10px; /* Marge à gauche pour l'espace entre l'input et le bouton */
-}
-
 .actions input[type="text"] {
 
-  width: 200px; /* Largeur de l'input de recherche */
-  margin-right: 60%; /* Marge à droite pour l'espace entre l'input et le bouton */
-
+  width: 300px; /* Largeur de l'input de recherche */
 }
 
 
-.create-button,
-.view-button,
-.delete-button,
-.edit-button {
-  background-color: #1835c5; /* Bleu par défaut */
-  color: #fff; /* Texte blanc */
-  padding: 12px 24px;
+
+.view-button,.edit-button , .delete-button, .print-button {
+  padding: 8px 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  margin-right: 10px; /* Ajout d'un espace entre les boutons */
-  transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
+  margin-right: 5px;
+  margin-top: 5px;
 }
-
+.edit-button{
+  background-color: #ea9618;
+  color: white;
+}
 .view-button {
-  background-color: #ff7411; /* Orange */
+  background-color: #4CAF50;
+  color: white;
 }
 
 .delete-button {
-  background-color: #d42424; /* Rouge */
+  background-color: #f44336;
+  color: white;
 }
 
-.edit-button {
-  background-color: #35b014; /* Vert */
+.print-button {
+  background-color: #008CBA;
+  color: white;
 }
+
+
 
 /* Style pour les boutons "Delete" et "Cancel" de la popup */
 .popup button.delet-button,
@@ -98,19 +101,113 @@ h2 {
 }
 
 
-/* Style pour les popups */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.popup3 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(255, 255, 255); /* Semi-transparent background */
+  padding: 20px; /* Increased padding for better spacing */
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Intense shadow */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to enhance glass effect */
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* Apply fade-in animation */
+  min-width: 500px; /* Minimum width */
+  min-height: 500px; /* Minimum height */
+  z-index: 1000; /* Ensure the popup is above the overlay */
+}
+
 .popup {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #f9f9f9;
-  padding: 30px;
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Ombre légère */
-  opacity: 1;
-  transition: opacity 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Intense shadow */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+  width: auto;
+  height: auto;
+  max-height: 800px;
+  min-width: 500px;
+  z-index: 1000;
+  overflow-y: auto; /* Enable vertical scrolling */
 }
+
+.popup-content {
+  max-height: 100%; /* Ensure the content does not exceed the popup height */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popup2 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(255, 255, 255); /* Semi-transparent background */
+  padding: 9px; /* Increased padding for better spacing */
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Intense shadow */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border to enhance glass effect */
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* Apply fade-in animation */
+  min-width: 500px; /* Minimum width */
+  min-height: 500px; /* Minimum height */
+  z-index: 1000; /* Ensure the popup is above the overlay */
+}
+
+.popup.fade-out, .popup2.fade-out, .popup3.fade-out {
+  animation: fadeOut 0.5s forwards; /* Apply fade-out animation */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+  z-index: 999; /* Ensure the overlay is on top of other elements */
+}
+
+.popup-content p {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.popup table {
+  margin-left: 0px
+}
+
 
 /* Style pour les formulaires */
 form {
@@ -152,6 +249,8 @@ table {
   border-radius: 10px; /* Apply border-radius to top-left and top-right corners */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.377); /* Add shadow to the table borders */
 }
+
+
 
 
 td {
@@ -201,28 +300,36 @@ tr:hover {
   justify-content: center; /* Alignement des boutons de pagination au centre */
   margin-top: 20px;
 }
-
 .pagination button {
+  font-size: 18px;
   background-color: #007bff; /* Bleu */
+  font-weight: 600;
   color: #fff; /* Texte blanc */
-  padding: 8px 16px;
+  padding: 10px 18px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   margin: 0 4px; /* Espacement entre les boutons de pagination */
   transition: background-color 0.3s ease; /* Transition fluide pour le changement de couleur de fond */
+  margin-bottom: 40px;
 }
 
 .pagination button:hover {
   background-color: #0056b3; /* Bleu plus foncé au survol */
 }
-
 .pagination button:disabled {
   background-color: #ddd; /* Gris pour les boutons désactivés */
   cursor: not-allowed; /* Curseur non disponible pour les boutons désactivés */
 }
+.pagination span{
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 20px;
+    font-weight: 500;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 7px;
 
-
+}
 /* Conteneur principal */
 .container {
   max-width: 1200px; /* Utilisation d'une largeur maximale en pixels */
@@ -233,15 +340,17 @@ tr:hover {
 .search-cont {
   display: flex;
   align-items: center;
-  border-radius: 20px; /* Bordures arrondies */
+  border-radius: 20px; 
   padding: 8px;
   padding-right: 300px;
 }
 
- .actions .search-icon {
-  margin-right: 8px; /* Marge à droite de l'icône */
+
+.actions .search-icon {
+  margin-right: 8px; 
   size: 40px;
 }
+
 
 .search-cont .search-bar {
   width: 100%;
@@ -251,37 +360,37 @@ tr:hover {
   outline: none;
   font-size: 16px;
   padding: 10px;
-  border-radius: 20px; /* Bordures arrondies */
+  border-radius: 20px; 
+  transition: border-color 0.5s ease-in-out; 
 }
 
 .search-cont .search-bar::placeholder {
-  color: #75758B;
+  color:#666;
 }
 
 .search-cont .search-bar:focus {
-  border: 2px solid #007bff;
+  border: 2px solid #B61217;
 }
 
+.search-cont .search-bar:not(:focus) {
+  border: 2px solid #585858;
+}
 
-
-
-
-
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
 
 .checkbox-custom {
-  /* Hide the default checkbox */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  /* Define custom dimensions */
   width: 20px;
   height: 20px;
-  /* Add a border */
   border: 2px solid #666;
-  /* Add some padding */
   padding: 2px;
   /* Add some margin */
-  margin-right: 5px;
+  margin-right: 10px;
   /* Make it round */
   border-radius: 4px;
   /* Set checkbox background color */
@@ -299,11 +408,11 @@ tr:hover {
 
 /* Style the checkmark inside the checkbox */
 .checkbox-custom:checked::before {
-  content: '\2713'; /* Unicode checkmark character */
+  content: '\2713'; 
   display: block;
   width: 100%;
   height: 100%;
-  color: #fff; /* Color of the checkmark */
+  color: #fff; 
   text-align: center;
   line-height: 20px; /* Center the checkmark vertically */
   font-size: 14px; /* Size of the checkmark */
@@ -314,9 +423,174 @@ tr:hover {
   /* Add some margin */
   font-family: 'Libre Franklin', sans-serif;
   margin-left: 5px;
+  padding-right: 14px;
   /* Set font size */
   font-size: 16px;
   /* Set font color */
   color: #333;
-  margin-right: 40px;
 }
+
+
+
+
+
+
+
+
+/* RESPONSIVE */
+@media (max-width: 1300px) {
+
+table {
+  padding: 0; /* Remove any default padding */
+  width: 100%;
+  margin: 5px;
+}
+.container {
+  max-width: 80%; /* Utilisation d'une largeur maximale en pixels */
+}
+
+}
+
+
+
+/* Medium <= 992px */ 
+@media (max-width: 992px) {
+
+  .container {
+    max-width: 200px; /* Utilisation d'une largeur maximale en pixels */
+  }
+
+  .title-all {
+    font-size: 40px;
+
+}
+
+
+  th, td {
+    font-size: 12px; /* Réduire la taille de la police */
+    padding: 1px; /* Réduire le rembourrage */
+    word-wrap: break-word; /* Ensure long words break to the next line */
+  }
+
+  h2 {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
+    font-size: 23px;
+    margin-bottom: 60px;
+    color: #007bff; /* Couleur de texte bleue */
+  }
+  
+
+  /* Style pour les boutons */
+  .actions {
+    display: flex;
+    justify-content: center; 
+    align-items: center;/* Alignement des boutons au centre */
+    margin-bottom: 40px;
+    top: 5px; /* Position verticale fixe par rapport au haut de la page */
+    left: 5px;
+  }
+  
+  .actions .create-button {
+    margin-left: 5px;
+  }
+  
+ 
+  
+  .actions input[type="text"] {
+    font-size: 12px;
+    width: 150px; 
+  }
+
+  .search-cont {
+    padding-right: 5px;
+  }
+  .search-icon{
+    display: none;
+  }
+
+  .checkbox-label {
+    font-size: 12px;
+  }
+
+
+.next-prev-btn{
+  font-size: 12px;
+  padding: 9px 18px;
+}
+
+.popup , .popup2 {
+  min-width: 300px; /* Minimum width */
+  min-height: 500px; /* Minimum height */
+
+}
+
+.popup table .tdf {
+  font-size: 11px;
+  padding: 0px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
+}
+
+.popup table .thf {
+  font-size: 12px;
+  padding: 0px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
+}
+
+.popup table .inputf {
+  width:100%;
+  padding: 2px; /* Moins de rembourrage pour diminuer la hauteur de la cellule */
+  text-align: center;
+}
+
+.thfpad{
+  padding-right: 10px;
+  padding: 5px;
+}
+
+
+.tabrespo{
+  padding-top: 30px; 
+  width: 10%;
+  height: 80%; 
+}
+.two{
+  padding-top: 100px; 
+  margin-bottom: 20px;
+  height: 70%; 
+}
+
+.tabrespo thead{
+  display: none;
+  margin-bottom: 10px; 
+}
+
+.tabrespo, .tabrespo tbody, .tabrespo tr, .tabrespo td{
+  display: block;
+  width: 400px;
+  
+  
+}
+
+.commtab{
+  height: 100%;
+}
+
+
+
+
+
+
+}
+
+
+/* Small <= 768px */
+@media screen and (max-width: 768px) {
+
+
+}
+
+/* Extra Small <= 576px */
+@media screen and (max-width: 576px) {
+
+
+}
+

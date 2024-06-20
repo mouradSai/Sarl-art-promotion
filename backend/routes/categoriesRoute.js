@@ -2,18 +2,30 @@ const express = require("express");
 const Categorie = require ("../models/categorie"); // Import du modèle de catégorie
 
 const router = express.Router();
-
 // Route pour créer une nouvelle catégorie
 router.post('/', async (request, response) => {
     try {
-        const newCategorie = request.body;
-        const categorie = await Categorie.create(newCategorie);
-        return response.status(201).send(categorie);
+        // Check if category with the same name already exists
+        const existingCategorie = await Categorie.findOne({ name: request.body.name });
+        if (existingCategorie) {
+            return response.status(409).send({ message: "Une catégorie avec le même nom existe déjà." });
+        } else {
+            // If no existing category found, create a new one
+            const newCategorie = {
+                name: request.body.name,
+                description: request.body.description  // Assuming categories might also have a description field
+            };
+
+            const categorie = await Categorie.create(newCategorie);
+            return response.status(201).send(categorie);
+        }
     } catch (error) {
         console.error(error.message);
         response.status(500).send({ message: "Erreur lors de la création de la catégorie." });
     }
 });
+
+
 // Route pour obtenir toutes les catégories de la base de données avec possibilité de filtrage par IsActive
 router.get('/', async (request, response) => {
     try {

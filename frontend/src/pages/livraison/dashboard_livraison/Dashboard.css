@@ -1,0 +1,75 @@
+.delivery-dashboard {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.delivery-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+    color: #B61217; /* Rouge intense */
+    font-weight: 800;
+}
+
+.delivery-table-container {
+    width: 100%;
+    margin-bottom: 2rem;
+    box-sizing: border-box;
+}
+
+.delivery-stats-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    height: 300px; /* Ajustez la hauteur ici selon vos besoins */
+}
+
+.delivery-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-sizing: border-box;
+}
+
+.delivery-table th, .delivery-table td {
+    border: 1px solid white; /* Bordures blanches */
+    padding: 8px;
+    text-align: left;
+}
+
+.delivery-table th {
+    background: linear-gradient(to bottom, #B61217, #e74c3c); /* Dégradé rouge vertical */
+    color: white;
+}
+
+.delivery-table th:first-child {
+    background-color: #B61217; /* Rouge intense unique */
+}
+
+.delivery-table tr.status-en-cours {
+    background: linear-gradient(to bottom, #f1c40f, #f39c12); /* Dégradé jaune/orange vertical */
+    color: black;
+}
+
+.delivery-table tr.status-completee {
+    background: linear-gradient(to bottom, #2ecc71, #27ae60); /* Dégradé vert vertical */
+    color: white;
+}
+
+.delivery-table tr.status-retard {
+    background: linear-gradient(to bottom, #e74c3c, #c0392b); /* Dégradé rouge vertical */
+    color: white;
+}
+
+.select-delivery-status {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 4px;
+    cursor: pointer;
+}

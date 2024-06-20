@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
 });
 userSchema.methods.generateAuthToken = function () {
     // Inclure le rôle de l'utilisateur dans le jeton
-    const token = jwt.sign({ _id: this._id, role: this.role }, process.env.JWTPRIVATEKEY, {
+    const token = jwt.sign({ _id: this._id, role: this.role, firstName : this.firstName }, process.env.JWTPRIVATEKEY, {
         expiresIn: "7d",
     });
     return token;

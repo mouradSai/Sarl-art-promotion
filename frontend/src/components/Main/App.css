@@ -76,7 +76,6 @@ body {
 
 .sidebar {
   grid-area: sidebar;
-  /* Styles pour la sidebar */
 }
 
 .sidebar-link{
@@ -120,10 +119,20 @@ body {
     grid-area: sidebar;
     height: 100%;
     background-color: #b61217;
+    overflow-y: hidden;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+  }
+
+  #sidebarProd {
+    grid-area: sidebar;
+    height: 100%;
+    background-color: #b61217;
     overflow-y: auto;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
   }
+
 
 
   .sidebar-logo {
@@ -204,6 +213,7 @@ body {
       on small screens
     */
     z-index: 12 !important;
+    height: 100%;
   }
   
   /* End Sidebar  */
@@ -265,6 +275,15 @@ body {
   }
   .card:nth-child(7) {
     background-color: #2978df;
+  }
+  .card:nth-child(8) {
+    background-color: #69df29;
+  }
+  .card:nth-child(9) {
+    background-color: #000000;
+  }
+   .card:nth-child(10) {
+    background-color: #da0000;
   }
   
   .card-inner {
@@ -336,10 +355,189 @@ body {
     margin-right: 10px;
   }
   
-  
+
+.main-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    flex: 1 1 calc(25% - 20px); /* Ajuste les cartes pour qu'elles prennent 25% de la largeur */
+    box-sizing: border-box;
+}
+
+.card-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card_icon {
+    font-size: 2em;
+}
+
+/* Barre deroulante du profil et le profil */
+
+.profile-dropdown {
+  position: relative;
+  padding: 9px 12px; /* Ajustez le rembourrage selon vos préférences */
+  color: #ffffff;
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 600;
+  font-size: 18px; /* Ajustez la taille de la police selon vos préférences */
+  background-color: #bf0909; /* Couleur de fond */
+  cursor: pointer; /* Curseur de souris */
+  border-radius: 10px;
+}
+
+.profile-dropdown:hover {
+  background-color: #740505; /* Darker shade of the original background color */
+}
+
+/* Style pour l'icône et le nom de l'utilisateur */
+.profile-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.leftione {
+  margin-left: 5px;
+  text-transform:capitalize;
+
+}
+.lefti {
+  margin-left: 20px;
+  margin-right: 10px;
+  text-transform:capitalize;
+}
+
+/* Style pour le dropdown lorsqu'il est ouvert */
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+/* Style pour les éléments du dropdown */
+.dropdown-content button {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  text-align: left;
+  border: none;
+  background-color: #ffffff;
+  cursor: pointer;
+  color: #bf0909; 
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 600;
+  font-size: 18px; /* Ajustez la taille de la police selon vos préférences */
+/* Coins arrondis */
+}
+
+.dropdown-content button:hover {
+  color: #bf0909; 
+  background-color: #ffffff;
+}
+
+/* Style pour l'icône du bouton de déconnexion */
+.dropdown-content .icon-head {
+  margin-bottom: 2.5px;
+}
+
+
+.toggle-button-container {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.toggle-button-container-left {
+  position: absolute;
+  top: 70%;
+  left: 10;
+  transform: translateY(-50%);
+}
+
+.toggle-button-container-right {
+  position: absolute;
+  top: 70%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.toggle-button {
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 600;
+  font-size: 70px;
+  border-radius: 50%; /* Pour rendre le bouton rond */
+  background-color: #bc0707; 
+  color: #ffffff;
+  width: 60px; /* Taille du bouton */
+  height: 60px; /* Taille du bouton */
+  border: none; /* Supprime la bordure */
+  cursor: pointer; /* Change le curseur au survol */
+  display: flex; /* Pour centrer le contenu */
+  align-items: center; /* Pour centrer le contenu verticalement */
+  justify-content: center; /* Pour centrer le contenu horizontalement */
+}
+
+.toggle-button:hover {
+  font-size: 32px; /* Increase font size on hover */
+  color: #ffffff; 
+  background-color: #740505;
+}
+
+
+.chart-container {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto ; /* Centrer le graphique */
+  padding-bottom: 60px;
+}
+
+.container-pie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
   /* End Main  */
   
+  @media (max-width: 1300px) {
+
+  .sidebar-logo {
+    width: 80px; 
+  }
+
+  .sidebar-list-item {
+    font-family: 'Libre Franklin', sans-serif;
+    padding: 10px 15px 15px 15px;
+    font-size: 12px;
+    font-weight: 600;
+  }
   
+}
   /* Medium <= 992px */
     
   @media screen and (max-width: 992px) {
@@ -353,17 +551,50 @@ body {
   
     #sidebar {
       display: none;
+      height: 160vh;
+    
     }
   
     .menu-icon {
       display: inline;
 
     }
-  
+
     .sidebar-title > span {
       display: inline;
     }
+
+    .logaac {
+      display: none;  /* Masquer l'icône */
+    }
+
+    .white_btn_logout {
+      font-size: 13px;  /* Réduire la taille de la police */
+      padding: 6px 12px;  /* Réduire le rembourrage */
+      border-radius: 20px;  /* Réduire le rayon de la bordure */
+      margin: 0 3px;  /* Réduire la marge */
+    }
+
+    .profile-dropdown {
+      padding: 3px 6px; /* Ajustez le rembourrage selon vos préférences */
+      font-size: 11px; /* Ajustez la taille de la police selon vos préférences */
+      border-radius: 20px;
+    }
+
+    .dropdown-content button {
+      display: block;
+      width: 100%;
+      font-size: 11px; 
+      border-radius: 20px;
+      padding: 6px 10px;
+      text-align: left;
+    }
+
+
+
+
   }
+
   /* Small <= 768px */
     
   @media screen and (max-width: 768px) {
@@ -378,6 +609,11 @@ body {
       margin-top: 30px;
     }
   }
+
+
+
+
+
   
   /* Extra Small <= 576px */
   

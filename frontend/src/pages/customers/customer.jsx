@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AppCostomer.css'; // Correction de la typo dans le nom du fichier CSS
 import Sidebar from '../../components/Main/Sidebar';
 import Header from '../../components/Main/Header';
 import CustomAlert from '../../components/costumeAlert/costumeAlert'; // Import du composant CustomAlert
@@ -42,10 +41,10 @@ function App() {
     const fetchClients = async () => {
         try {
             const response = await axios.get('http://localhost:8080/clients');
-            setClients(response.data.data);
+            setClients(response.data.data.reverse());
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred while fetching clients. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite lors de la récupération des clients. Veuillez réessayer plus tard.');
         }
     };
     
@@ -64,25 +63,25 @@ function App() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!formData.name || !formData.prenom || !formData.address || !formData.phoneNumber) {
-            showAlert('Please fill in all required fields.');
+            showAlert('Veuillez remplir tous les champs requis.');
             return;
         }
         try {
             const response = await axios.post('http://localhost:8080/clients', formData);
             if (response.status === 201) {
-                showAlert('Client added successfully.');
+                showAlert('Client ajouté avec succès.');
                 fetchClients();
                 resetFormData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred.');
+                showAlert(response.data.message || 'Une erreur s est produite.');
             }
         } catch (error) {
             console.error('Error:', error);
             if (error.response) {
-                showAlert(error.response.data.message || 'An error occurred.');
+                showAlert(error.response.data.message || 'Une erreur s est produite.');
             } else {
-                showAlert('An error occurred. Please try again later.');
+                showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
             }
         }
     };
@@ -91,14 +90,14 @@ function App() {
         try {
             const response = await axios.delete(`http://localhost:8080/clients/${id}`);
             if (response.status === 200) {
-                showAlert('Client deleted successfully.');
+                showAlert('Client supprimé avec succès.');
                 fetchClients();
             } else {
-                showAlert(response.data.message || 'An error occurred while deleting client.');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la suppression du client.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
 
@@ -106,14 +105,14 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/clients/${id}`, { IsActive: !isActive });
             if (response.status === 200) {
-                showAlert(`Client ${isActive ? 'deactivated' : 'activated'} successfully.`);
+                showAlert(`Client ${isActive ? 'Désactiver' : 'Activer'} avec succès.`);
                 fetchClients();
             } else {
-                showAlert(response.data.message || 'An error occurred while updating client status.');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la mise à jour du statut du client.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
 
@@ -132,17 +131,17 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/clients/${editClientId}`, formData);
             if (response.status && response.status === 200) {
-                showAlert('Client updated successfully.');
+                showAlert('Client mis à jour avec succès.');
                 fetchClients();
                 setEditClientId('');
                 resetFormData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred while updating client.');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la mise à jour du client.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
 
@@ -191,49 +190,59 @@ function App() {
             <div className="container">
                 <h1 className="title-all">Clients</h1>
                 <div className="actions">
-                    <input
+
+                <div className='search-cont'>
+                    <h1 className='search-icon'/>
+                        <input className='search-bar'
                         type="text"
-                        placeholder="Search customers..."
+                        placeholder="Chercher un client"
                         value={searchText}
                         onChange={handleSearchChange}
-                    />
+                        />
+                    </div>
+
                     <label>
                         <input
                             type="checkbox"
+                            class="checkbox-custom"
                             checked={showActiveOnly}
                             onChange={handleFilterChange}
                         />
-                        Show Active Only
+                        <span class="checkbox-label">Actifs seulement</span>
                     </label>
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+
+                    <button className="print-button" onClick={() => setShowCreateForm(true)}>Créer</button>
                 </div>
                 {showCreateForm && (
+                    <>
+                    <div className="overlay"></div>
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
-                            <h2>Create New Client</h2>
+                            <h2>Créer un nouveau client</h2>
                             <form onSubmit={handleSubmit}>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nom" />
                                 <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} placeholder="Prenom" />
-                                <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+                                <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Adresse" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone Number" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} maxLength={10} placeholder="Numéro" />
+                                <button className="print-button" type="submit">Sauvgarder</button>
+                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Annuler</button>
                             </form>
                         </div>
                     </div>
+                    </>
                 )}
                 {filterClients(clients, searchText).length > 0 && (
                     <>
-                        <table>
+                        <table className='tabrespo'>
                             <thead>
                                 <tr>
-                                    <th>NOM</th>
-                                    <th>Prenom</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
                                     <th>Adresse</th>
                                     <th>Description</th>
-                                    <th>Num Tel</th>
+                                    <th>Numéro</th>
                                     <th>Active</th> {/* Ajout de la colonne "Active" */}
                                     <th>Action</th>
                                 </tr>
@@ -248,54 +257,64 @@ function App() {
                                         <td>{client.phoneNumber}</td>
                                         <td>{client.IsActive ? 'Yes' : 'No'}</td> {/* Affichage de la propriété IsActive */}
                                         <td>
-                                            <button className='view-button' onClick={() => handleView(client)}>View</button>
-                                            <button className='edit-button' onClick={() => handleEdit(client)}>Edit</button>
-                                            <button className='delete-button' onClick={() => toggleActiveStatus(client._id, client.IsActive)}>{client.IsActive ? 'Disable' : 'Enable'}</button>
+                                            <button className='view-button' onClick={() => handleView(client)}>Détails</button>
+                                            <button className='edit-button' onClick={() => handleEdit(client)}>Modifier</button>
+                                            <button className='delete-button' onClick={() => toggleActiveStatus(client._id, client.IsActive)}>{client.IsActive ? 'Désactiver' : 'Activer'}</button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                         <div className="pagination">
-                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
+                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Précédent</button>
                             <span>{currentPage}</span>
-                            <button disabled={currentPage === Math.ceil(clients.length / clientsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                            <button disabled={currentPage === Math.ceil(clients.length / clientsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant</button>
                         </div>
                     </>
                 )}
                 {filterClients(clients, searchText).length === 0 && (
-                    <p>No clients found.</p>
+                    <p>Aucun client trouver.</p>
                 )}
                 {selectedClient && (
+                    <>
+                    <div className="overlay"></div>
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedClient(null)}>&times;</span>
                             <h2>Client Details</h2>
-                            <p>Name: {selectedClient.name}</p>
-                            <p>Prenom: {selectedClient.prenom}</p>
-                            <p>Address: {selectedClient.address}</p>
+                            <p>Nom: {selectedClient.name}</p>
+                            <p>Prénom: {selectedClient.prenom}</p>
+                            <p>Adresse: {selectedClient.address}</p>
                             <p>Description: {selectedClient.description}</p>
-                            <p>Phone Number: {selectedClient.phoneNumber}</p>
-                            <button className='delet-button' onClick={() => setSelectedClient(null)}>Cancel</button>
+                            {selectedClient.phoneNumber.length >= 10 ? (
+                                <p>Numéro: {selectedClient.phoneNumber}</p>
+                            ) : (
+                                <p>Numéro de téléphone invalide</p>
+                            )}
+                            <button className='delete-button' onClick={() => setSelectedClient(null)}>Annuler</button>
                         </div>
                     </div>
+                    </>
                 )}
                 {editClientId && (
+                     <>
+                    <div className="overlay"></div>
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
-                            <h2>Edit Client</h2>
+                            <h2>Modifier le client</h2>
                             <form onSubmit={handleEditSubmit}>
-                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} placeholder="Prenom" />
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Nom" />
+                                <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} placeholder="Prénom" />
                                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
                                 <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Phone Number" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
+                                <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Numéro" />
+                                <button className="print-button" type="submit">Sauvgarder</button>
+                                <button className='delete-button' onClick={() => { setEditClientId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>
                     </div>
+                    </>
                 )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

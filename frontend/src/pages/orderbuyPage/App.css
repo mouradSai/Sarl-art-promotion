@@ -27,6 +27,7 @@
 .bloc{
     display: flex;
     justify-content: space-around;
+    width: 100%;
 }
 .bloc1,
 .bloc2,
@@ -83,19 +84,8 @@ button:hover {
     border-radius: 4px;
 }
 
-/* Popup Styles */
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    border-radius: 8px;
-    background: #f0f0f0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    max-width: 80%;
-}
+
+
 
 .popup-buttons {
     margin-top: 20px;
@@ -118,7 +108,7 @@ button:hover {
 .popup th, .popup td {
     border: 1px solid #ccc;
     padding: 8px;
-    text-align: left;
+    text-align: center;
 }
 
 .popup th {
@@ -127,4 +117,68 @@ button:hover {
 
 .popup tr:nth-child(even) {
     background-color: #f2f2f2;
+}
+
+
+
+
+
+/* Medium <= 992px */ 
+@media (max-width: 992px) {
+
+
+.form-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap; /* Permet aux éléments de s'enrouler s'ils dépassent */
+    justify-content: center; /* Répartit les éléments horizontalement */
+    max-width: 300px;
+}
+.bloc{
+    display: grid;
+    justify-content: space-around;
+}
+
+.bloc1{
+    margin-bottom: 40px;
+}
+
+.bloc3{
+    margin-right: 120px;
+}
+
+select,
+input[type="text"],
+input[type="number"] {
+
+    width: 190px ; 
+    margin-bottom: 8px;
+}
+
+button {
+    padding: 10px 10px;
+    font-size: 15px;
+}
+
+.comtab{
+    margin-left:-30px;
+}
+
+.comtab th{
+    padding: 5px; 
+
+}
+
+.comtab2{
+    margin-left:20px;
+}
+
+
+.comtab2 th{
+    padding: 5px; 
+
+}
+
 }

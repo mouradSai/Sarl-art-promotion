@@ -29,7 +29,7 @@
 .containerr {
   max-width: var(--max-width);
   min-height: 100vh;
-  margin: auto;
+  margin:0;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -62,7 +62,7 @@ nav {
 
 .destination__containerr {
   position: relative;
-  padding: 5rem 0 5rem 5rem;
+  padding: 5rem 0 5rem 3rem;
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -112,15 +112,15 @@ nav {
 
  .destination__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 3rem;
   padding-left: 80px;
 }
 
 .destination__card {
   position: relative; /* Add this to make positioning children relative to the card */
-  height: 400px;
-  width: 280px;
+  height: 420px;
+  width: 300px;
   background-color: rgb(255, 255, 255);
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 2);
   border-radius: 10px;
@@ -137,7 +137,6 @@ nav {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.068), rgba(255, 255, 255, 0.795)); /* Stronger fade with blacker bottom */
   z-index: 1; 
 }
 
@@ -150,9 +149,10 @@ nav {
   top: 0;
   left: 0;
   width: 280px;
-  height: 100%;
+  height: 95%;
   border-radius: 10px;
   z-index: 0; /* Ensure the image is above the gradient */
+  filter: brightness(55%); /* Assombrir l'image de 10% */
 }
 
 
@@ -168,7 +168,7 @@ nav {
   font-family: 'Libre Franklin', sans-serif;
   font-size: 2rem;
   font-weight: 900;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -206,10 +206,17 @@ nav {
 
   .content h1 {
     font-size: 4rem;
+    margin-left: 60px;
   }
 
   .destination__grid {
     grid-template-columns: repeat(2, 1fr);
+    padding-left: 10px;
+  }
+
+  .destination__card img {
+    top: 10px;
+    left: 10px;
   }
 }
 

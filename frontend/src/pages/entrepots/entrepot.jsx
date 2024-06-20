@@ -38,10 +38,10 @@ function App() {
     const fetchEntrepots = async () => {
         try {
             const response = await axios.get('http://localhost:8080/entrepots');
-            setEntrepots(response.data.data);
+            setEntrepots(response.data.data.reverse());
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred while fetching entrepots. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite lors de la récupération des entrepôts. Veuillez réessayer plus tard.');
         }
     };
 
@@ -60,25 +60,25 @@ function App() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!formData.name) {
-            showAlert('Please enter an entrepot name.');
+            showAlert('Veuillez saisir un nom d entrepôt.');
             return;
         }
         try {
             const response = await axios.post('http://localhost:8080/entrepots', formData);
             if (response.status === 201) {
-                showAlert('Entrepot added successfully.');
+                showAlert('Entrepot ajouté avec succès.');
                 fetchEntrepots();
                 resetFormData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred.');
+                showAlert(response.data.message || 'Une erreur s est produite.');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur:', error);
             if (error.response) {
-                showAlert(error.response.data.message || 'An error occurred.');
+                showAlert(error.response.data.message || 'Une erreur s est produite.');
             } else {
-                showAlert('An error occurred. Please try again later.');
+                showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
             }
         }
     };
@@ -88,14 +88,14 @@ function App() {
             const newStatus = !isActive;
             const response = await axios.put(`http://localhost:8080/entrepots/${id}`, { IsActive: newStatus });
             if (response.status === 200) {
-                showAlert(`Entrepot ${newStatus ? 'enabled' : 'disabled'} successfully.`);
+                showAlert(`Entrepot ${newStatus ? 'Activer' : 'Désactiver'} avec succées.`);
                 fetchEntrepots();
             } else {
-                showAlert(response.data.message || 'An error occurred while updating entrepot status.');
+                showAlert(response.data.message || 'Une erreur sest produite lors de la mise à jour du statut de l entrepôt.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
 
@@ -114,17 +114,17 @@ function App() {
         try {
             const response = await axios.put(`http://localhost:8080/entrepots/${editEntrepotId}`, formData);
             if (response.status && response.status === 200) {
-                showAlert('Entrepot updated successfully.');
+                showAlert('Entrepot mis à jour avec succès.');
                 fetchEntrepots();
                 setEditEntrepotId('');
                 resetFormData();
                 setShowCreateForm(false);
             } else {
-                showAlert(response.data.message || 'An error occurred while updating entrepot.');
+                showAlert(response.data.message || 'Une erreur s est produite lors de la mise à jour de l entrepôt.');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showAlert('An error occurred. Please try again later.');
+            console.error('Erreur:', error);
+            showAlert('Une erreur s est produite. Veuillez réessayer plus tard.');
         }
     };
 
@@ -166,34 +166,44 @@ function App() {
             <div className="container">
                 <h1 className="title-all">Entrepots</h1>
                 <div className="actions">
-                    <input
+
+                <div className='search-cont'>
+                    <h1 className='search-icon'/>
+                        <input className='search-bar'
                         type="text"
-                        placeholder="Search entrepots..."
+                        placeholder="Chercher un entrepots"
                         value={searchText}
                         onChange={handleSearchChange}
-                    />
+                        />
+                    </div>
+
                     <label>
-                        Show only active
                         <input
                             type="checkbox"
+                            class="checkbox-custom"
                             checked={showOnlyActive}
                             onChange={handleShowOnlyActiveChange}
                         />
+                        <span class="checkbox-label">Actifs seulement</span>
                     </label>
-                    <button className="create-button" onClick={() => setShowCreateForm(true)}>Create</button>
+
+                    <button className="print-button" onClick={() => setShowCreateForm(true)}>Create</button>
                 </div>
                 {showCreateForm && (
+                     <>
+                     <div className="overlay"></div>                     
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setShowCreateForm(false)}>&times;</span>
                             <h2>Create New Entrepot</h2>
                             <form onSubmit={handleSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
+                                <button className="print-button" type="submit">Sauvgrader</button>
+                                <button className='delete-button' onClick={() => setShowCreateForm(false)}>Cancel</button>
                             </form>
                         </div>
                     </div>
+                    </>
                 )}
                 {filterEntrepots(entrepots, searchText).length > 0 && (
                     <>
@@ -211,10 +221,10 @@ function App() {
                                         <td>{entrepot.name}</td>
                                         <td>{entrepot.IsActive ? 'Yes' : 'No'}</td>
                                         <td>
-                                            <button className='view-button' onClick={() => handleView(entrepot)}>View</button>
-                                            <button className='edit-button' onClick={() => handleEdit(entrepot)}>Edit</button>
+                                            <button className='view-button' onClick={() => handleView(entrepot)}>Voir</button>
+                                            <button className='edit-button' onClick={() => handleEdit(entrepot)}>Modifier</button>
                                             <button className='action-button delete-button' onClick={() => handleDelete(entrepot._id, entrepot.IsActive)}>
-                                                {entrepot.IsActive ? 'Disable' : 'Enable'}
+                                                {entrepot.IsActive ? 'Désactiver' : 'Activer'}
                                             </button>
                                         </td>
                                     </tr>
@@ -222,9 +232,9 @@ function App() {
                             </tbody>
                         </table>
                         <div className="pagination">
-                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>&lt; Prev</button>
+                            <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Précédent</button>
                             <span>{currentPage}</span>
-                            <button disabled={currentPage === Math.ceil(entrepots.length / entrepotsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Next &gt;</button>
+                            <button disabled={currentPage === Math.ceil(entrepots.length / entrepotsPerPage)} onClick={() => setCurrentPage(currentPage + 1)}>Suivant</button>
                         </div>
                     </>
                 )}
@@ -232,28 +242,34 @@ function App() {
                     <p>No entrepots found.</p>
                 )}
                 {selectedEntrepot && (
+                     <>
+                    <div className="overlay"></div>                     
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => setSelectedEntrepot(null)}>&times;</span>
                             <h2>Entrepot Details</h2>
                             <p>Name: {selectedEntrepot.name}</p>
                             <p>Active: {selectedEntrepot.IsActive ? 'Yes' : 'No'}</p>
-                            <button className='delet-button' onClick={() => setSelectedEntrepot(null)}>Cancel</button>
+                            <button className='delete-button' onClick={() => setSelectedEntrepot(null)}>Annuler</button>
                         </div>
                     </div>
+                    </>
                 )}
                 {editEntrepotId && (
+                     <>
+                     <div className="overlay"></div>                     
                     <div className="popup">
                         <div className="popup-content">
                             <span className="close-button" onClick={() => { setEditEntrepotId(''); resetFormData(); setShowCreateForm(false); }}>&times;</span>
                             <h2>Edit Entrepot</h2>
                             <form onSubmit={handleEditSubmit}>
                                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
-                                <button className="create-button" type="submit">Save</button>
-                                <button className='delet-button' onClick={() => { setEditEntrepotId(''); resetFormData(); setShowCreateForm(false); }}>Cancel</button>
+                                <button className="print-button" type="submit">Sauvgarder</button>
+                                <button className='delete-button' onClick={() => { setEditEntrepotId(''); resetFormData(); setShowCreateForm(false); }}>Annuler</button>
                             </form>
                         </div>
                     </div>
+                    </>
                 )}
                 {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
             </div>

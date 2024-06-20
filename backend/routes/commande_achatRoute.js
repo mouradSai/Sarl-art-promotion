@@ -3,31 +3,39 @@ const router = express.Router();
 const CommandeAchat = require('../models/commande_achat');
 const Provider = require('../models/provider'); // Import correct du modèle Provider
 const Product = require('../models/product'); // Import correct du modèle Product
-
-
-
-// Route pour créer une commande d'achat
 router.post('/', async (req, res) => {
     try {
-        const { code_commande, provider_name, date_commande, observation, produits } = req.body;
+        const { code_commande, provider_name, date_commande, observation, produits, versement, modePaiement, code_cheque } = req.body;
 
-        // Trouver l'ID du fournisseur à partir de son nom
         const provider = await Provider.findOne({ name: provider_name });
         if (!provider) {
             return res.status(404).json({ message: 'Fournisseur non trouvé' });
         }
 
-        // Convertir les noms de produits en IDs, calculer les totaux et mettre à jour les quantités de stock
         const productDetails = await Promise.all(produits.map(async ({ product_name, quantity, prixUnitaire }) => {
             const product = await Product.findOne({ name: product_name });
             if (!product) {
                 throw new Error(`Produit ${product_name} non trouvé`);
             }
-            const updatedQuantity = product.quantity + quantity;
-            await Product.findByIdAndUpdate(product._id, { $set: { quantity: updatedQuantity } });
 
-            const totalLigne = quantity * prixUnitaire;
-            return { product: product._id, quantity, prixUnitaire, totalLigne };
+            const updatedQuantity = product.quantity + quantity;
+            let updatedPrixUnitaire;
+
+            // Arrondir prixUnitaire à deux décimales
+            const roundedPrixUnitaire = parseFloat(prixUnitaire.toFixed(2));
+
+            if (product.prixUnitaire === 0) {
+                updatedPrixUnitaire = roundedPrixUnitaire;
+            } else {
+                // Calcul de la moyenne pondérée selon les quantités et les prix unitaires
+                updatedPrixUnitaire = ((product.prixUnitaire * product.quantity) + (roundedPrixUnitaire * quantity)) / updatedQuantity;
+                updatedPrixUnitaire = parseFloat(updatedPrixUnitaire.toFixed(2)); // Arrondir le résultat à deux décimales
+            }
+
+            await Product.findByIdAndUpdate(product._id, { $set: { quantity: updatedQuantity, prixUnitaire: updatedPrixUnitaire } });
+
+            const totalLigne = quantity * roundedPrixUnitaire;
+            return { product: product._id, quantity, prixUnitaire: roundedPrixUnitaire, totalLigne: parseFloat(totalLigne.toFixed(2)) };
         }));
 
         const totalCommande = productDetails.reduce((acc, item) => acc + item.totalLigne, 0);
@@ -38,18 +46,20 @@ router.post('/', async (req, res) => {
             date_commande: date_commande || new Date(),
             observation,
             produits: productDetails,
-            totalCommande
+            totalCommande: parseFloat(totalCommande.toFixed(2)),
+            versement,
+            modePaiement,
+            code_cheque
         });
 
         const savedCommandeAchat = await newCommandeAchat.save();
         res.status(201).json(savedCommandeAchat);
     } catch (error) {
-        console.error('Erreur lors de la création de la commande d achat:', error);
+        console.error('Erreur lors de la création de la commande dachat:', error);
         res.status(500).json({ message: 'Erreur lors de la création de la commande', error: error.message });
     }
 });
 
-module.exports = router;
 // Route pour récupérer toutes les commandes d'achat
 router.get('/', async (req, res) => {
     try {
@@ -78,6 +88,7 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Erreur lors de la récupération des commandes d achat', error: error.message });
     }
 });
+
 router.put('/:id', async (req, res) => {
     try {
         const { produits, ...otherData } = req.body;

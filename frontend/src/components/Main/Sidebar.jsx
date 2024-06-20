@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 // Importation des icones react
 import {BsFillArchiveFill, BsPersonCircle, MdSpaceDashboard,BsCardList, BsPersonFill, BsFillGrid1X2Fill, BsFillGrid3X3GapFill,BsFileBarGraphFill,BsCashStack, BsBox2Fill, BsPeopleFill, BsListCheck, BsMenuButtonWideFill, BsFillGearFill} from 'react-icons/bs';
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { TbZoomMoney } from "react-icons/tb";
 
 
 
@@ -19,27 +20,34 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
   return (
     <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
       <div className='sidebar-title'>
-        <div className='sidebar-brand'>
-        <img src={logowhite} alt='Logo' className='sidebar-logo' />
-          <div className="sidebar-name">Sarl Art Groupe</div>
-        </div>
+          <div className='sidebar-brand'>
+
+              <Link to="/">
+              <img src={logowhite} alt='Logo' className='sidebar-logo' />
+              </Link>
+
+              <div className="sidebar-name">Sarl Art Promotion</div>
+
+          </div>
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>
       </div>
       <ul className='sidebar-list'>
 
         
+    
+
+      <Link to="/stock" className="sidebar-link"> 
+      <li className='sidebar-list-item'>
+            <BsFillGrid1X2Fill className='icon'/> Tableau de Bord
+        </li>
+      </Link>
+      
       {isSuperadmin && (
       <Link to="/users" className="sidebar-link"> 
       <li className='sidebar-list-item'>
           <BsPersonCircle className='icon'/> Utilisateurs
         </li>
       </Link>)}
-
-      <Link to="/stock" className="sidebar-link"> 
-      <li className='sidebar-list-item'>
-            <BsFillGrid1X2Fill className='icon'/> Dashbord
-        </li>
-      </Link>
 
       <Link to="/orderpage" className="sidebar-link">
         <li className='sidebar-list-item'>
@@ -59,18 +67,6 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
         </li>
         </Link>
 
-     {/*<Link to="/buy" className="sidebar-link"> 
-        <li className='sidebar-list-item'>
-            <BsCashStack className='icon'/> Achats
-        </li>
-       </Link>
-
-      <Link to="/sell" className="sidebar-link"> 
-        <li className='sidebar-list-item'>
-            <FaMoneyBillTransfer className='icon'/> Ventes
-        </li>
-        </Link>*/}
-
         <Link to="/provider" className="sidebar-link">
         <li className='sidebar-list-item'>
             <BsPersonFill className='icon'/> Fournisseurs
@@ -88,7 +84,12 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <BsBox2Fill className='icon'/> Produits
         </li>
         </Link>
-       
+        <Link to="/credit" className="sidebar-link">
+        <li className='sidebar-list-item'>
+            <TbZoomMoney  className='icon'/> Crédits
+        </li>
+        </Link>
+
         <Link to="/historique" className="sidebar-link">
         <li className='sidebar-list-item'>
             <BsFileBarGraphFill  className='icon'/> Historiques

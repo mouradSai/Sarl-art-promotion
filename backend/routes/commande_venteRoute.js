@@ -7,7 +7,7 @@ const Product = require('../models/product'); // Import correct du modèle Produ
 // Route pour créer une commande de vente
 router.post('/', async (req, res) => {
     try {
-        const { code_commande, client_name, date_commande, observation, produits } = req.body;
+        const { code_commande, client_name, date_commande, observation, produits ,versement, modePaiement, code_cheque } = req.body;
 
         // Trouver l'ID du client à partir de son nom
         const client = await Client.findOne({ name: client_name });
@@ -15,21 +15,26 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'Client non trouvé' });
         }
 
-        // Convertir les noms de produits en IDs, calculer les totaux et mettre à jour les quantités de stock
-        const productDetails = await Promise.all(produits.map(async ({ product_name, quantity, prixUnitaire }) => {
+        // Convertir les noms de produits en IDs et vérifier la disponibilité
+        const productDetails = [];
+        for (const { product_name, quantity, prixUnitaire } of produits) {
             const product = await Product.findOne({ name: product_name });
             if (!product) {
-                throw new Error(`Produit ${product_name} non trouvé`);
+                return res.status(404).json({ message: `Produit ${product_name} non trouvé` });
             }
-            const updatedQuantity = product.quantity - quantity; // Quantité déduite pour une vente
-            if (updatedQuantity < 0) {
-                throw new Error(`Quantité insuffisante pour ${product_name}`);
+            if (quantity > product.quantity) {
+                return res.status(400).json({
+                    message: `Quantité entrée de ${product_name} est supérieure à celle disponible en stock qui est : ${product.quantity}`,
+                    quantiteDisponible: product.quantity
+                });
             }
+
+            const updatedQuantity = product.quantity - quantity;
             await Product.findByIdAndUpdate(product._id, { $set: { quantity: updatedQuantity } });
 
             const totalLigne = quantity * prixUnitaire;
-            return { product: product._id, quantity, prixUnitaire, totalLigne };
-        }));
+            productDetails.push({ product: product._id, quantity, prixUnitaire, totalLigne });
+        }
 
         const totalCommande = productDetails.reduce((acc, item) => acc + item.totalLigne, 0);
 
@@ -39,7 +44,10 @@ router.post('/', async (req, res) => {
             date_commande: date_commande || new Date(),
             observation,
             produits: productDetails,
-            totalCommande
+            totalCommande,
+            versement, // Add versement to the document
+            modePaiement, // Add modePaiement to the document
+            code_cheque // Add code_cheque to the document
         });
 
         const savedCommandeVente = await newCommandeVente.save();

@@ -34,6 +34,7 @@
 }
 
 .form_container h1 {
+	font-weight: 800;
 	font-size: 40px;
 	margin-top: 0;
 }
@@ -44,9 +45,10 @@
 	width: 370px;
 	padding: 15px;
 	border-radius: 10px;
-	background-color: #edf5f3;
+	background-color: #edf5f4;
 	margin: 5px 0;
-	font-size: 14px;
+	font-size: 18px;
+	font-weight: 500;
 }
 
 .error_msg {
@@ -72,6 +74,7 @@
 }
 
 .right h1 {
+	
 	margin-top: 0;
 	margin-left: 20px;
 	color: white;
@@ -90,6 +93,11 @@
 	font-weight: bold;
 	font-size: 14px;
 	cursor: pointer;
+	color: #1D2634
+}
+
+.white_btn:hover{
+	color: white;
 }
 
 .red_btn {
@@ -101,4 +109,78 @@
 .logo {
     width: 100px; /* Définissez la largeur souhaitée pour le logo */
     margin-bottom: 20px; /* Ajoutez un espacement en bas du logo */
+}
+
+@media screen and (max-width: 992px) {
+
+	.login_container {
+		background-color: #f5f5f5;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.login_form_container {
+		width: 390px;
+		height: 600px;
+		display: flex;
+		border-radius: 10px;
+		box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
+			0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+	}	
+
+	.form_container h1 {
+		font-weight: 800;
+		font-size: 25px;
+	}
+
+	.input {
+		outline: none;
+		border: none;
+		width: 300px;
+		padding: 15px;
+		border-radius: 10px;
+		background-color: #edf5f4;
+		margin: 5px 0;
+		font-size: 18px;
+		font-weight: 500;
+	}
+
+	.logo {
+		width: 100px; /* Définissez la largeur souhaitée pour le logo */
+		margin-top: 80px; /* Ajoutez un espacement en bas du logo */
+	}
+
+	.right {
+		flex: 1;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: #ffffff;
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
+
+	.right h1 {
+		padding-top: 100px;
+		color: #1D2634;
+		font-size: 20px;
+	}
+
+	.login_container {
+		width: 100%;
+		min-height: 100vh;
+		background-color: #f5f5f5;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.login_form_container {
+		display: table-row;
+		border-radius: 10px;
+		box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
+			0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+	}
+
+
 }

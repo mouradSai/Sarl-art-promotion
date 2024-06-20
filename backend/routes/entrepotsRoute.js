@@ -6,7 +6,19 @@ const router = express.Router();
 // Route pour créer un nouvel entrepôt
 router.post('/', async (req, res) => {
     try {
-        const newEntrepot = req.body;
+        // Check if an entrepôt with the same name already exists
+        const existingEntrepot = await Entrepot.findOne({ name: req.body.name });
+        if (existingEntrepot) {
+            return res.status(409).send({ message: "Un entrepôt avec le même nom existe déjà." });
+        }
+
+        // If no existing entrepôt found, create a new one
+        const newEntrepot = {
+            name: req.body.name,
+            location: req.body.location,  // Assuming entrepôts might also have a location field
+            manager: req.body.manager    // Assuming there might be a manager field
+        };
+
         const entrepot = await Entrepot.create(newEntrepot);
         res.status(201).send(entrepot);
     } catch (error) {
@@ -14,6 +26,7 @@ router.post('/', async (req, res) => {
         res.status(500).send({ message: "Erreur lors de la création de l'entrepôt." });
     }
 });
+
 // Route pour obtenir tous les entrepôts de la base de données avec possibilité de filtrage par IsActive
 router.get('/', async (req, res) => {
     try {

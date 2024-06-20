@@ -1,13 +1,14 @@
 import React from 'react';
 import beton from './assets/beton.jpeg';
 import stock from './assets/stock.png';
+import livraison from './assets/livraison.jpg';
 import logo from './assets/logo-white.png';
 
 import "./landpage.css";
 
 const Home = () => {
   const userRole = localStorage.getItem('role'); // Récupérer le rôle de l'utilisateur depuis le localStorage
-
+  
   // Vérifier si l'utilisateur a le rôle de super administrateur
   const isSuperadmin = userRole === 'superadmin' || userRole === 'admin';
 
@@ -42,12 +43,18 @@ const Home = () => {
                     </div>
                   </a>
                 ` : ''}
-                <a href="/production_beton" class="destination__card">
+                <a href="/Planning" class="destination__card">
                   <img src="${beton}" alt="destination" />
                   <div class="card__content">
                     <h4>Gestion de production</h4>
                   </div>
                 </a>
+                <a href="/dashboard_livraison" class="destination__card">
+                <img src="${livraison}" alt="destination" />
+                <div class="card__content">
+                  <h4>Livraison </h4>
+                </div>
+              </a>
               </div>
             </div>
           </div>
