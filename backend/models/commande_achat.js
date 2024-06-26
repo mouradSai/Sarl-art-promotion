@@ -35,6 +35,7 @@ const commandeAchatSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    
     date_commande: { type: Date, default: Date.now },
     versement: { type: Number, required: false },  // Versement non requis pour la commande
     modePaiement: {

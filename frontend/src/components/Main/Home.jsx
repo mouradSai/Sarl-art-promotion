@@ -143,7 +143,7 @@ function Home() {
                     <div className='card'>
                         <Link to="/historique_commande_achat" className="sidebar-link"> 
                             <div className='card-inner'>
-                                <h3>Commandes d'achat</h3>
+                                <h3>Achats</h3>
                                 <BsCashStack className='card_icon'/>
                             </div>
                             <h1>{commandesAchatCount}</h1>
@@ -152,7 +152,7 @@ function Home() {
                     <div className='card'>
                         <Link to="/historique_commande_vente" className="sidebar-link"> 
                             <div className='card-inner'>
-                                <h3>Commandes de vente</h3>
+                                <h3>Ventes</h3>
                                 <BsCashStack className='card_icon'/>
                             </div>
                             <h1>{commandesVenteCount}</h1>
